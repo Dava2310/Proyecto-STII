@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
+    <SyntheticProperty name="generateSize" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jScrollPane1" alignment="0" pref="504" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jScrollPane1" min="-2" pref="394" max="-2" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="TasaPreciosT">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="3" rowCount="23">
+                <Column editable="true" title="&lt;html&gt;En Raices de Yuca % Materia Seca&lt;html&gt;" type="java.lang.Object">
+                  <Data value="0%"/>
+                  <Data value="21%"/>
+                  <Data value="22%"/>
+                  <Data value="23%"/>
+                  <Data value="24%"/>
+                  <Data value="25%"/>
+                  <Data value="26%"/>
+                  <Data value="27%"/>
+                  <Data value="28%"/>
+                  <Data value="29%"/>
+                  <Data value="30%"/>
+                  <Data value="31%"/>
+                  <Data value="32%"/>
+                  <Data value="33%"/>
+                  <Data value="34%"/>
+                  <Data value="35%"/>
+                  <Data value="36%"/>
+                  <Data value="37%"/>
+                  <Data value="38%"/>
+                  <Data value="39%"/>
+                  <Data value="40%"/>
+                  <Data value="41%"/>
+                  <Data value="42%"/>
+                </Column>
+                <Column editable="true" title="&lt;html&gt;En Planta BSF/TM&lt;html&gt;" type="java.lang.Object">
+                  <Data value="0,00"/>
+                  <Data value="38,40"/>
+                  <Data value="41,60"/>
+                  <Data value="44,80"/>
+                  <Data value="48,00"/>
+                  <Data value="51,20"/>
+                  <Data value="54,40"/>
+                  <Data value="57,60"/>
+                  <Data value="60,80"/>
+                  <Data value="64,00"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                  <Data value="67,20"/>
+                </Column>
+                <Column editable="true" title="&lt;html&gt;En el corte BSF/TM&lt;html&gt;" type="java.lang.Object">
+                  <Data value="0,00"/>
+                  <Data value="23,40"/>
+                  <Data value="26,60"/>
+                  <Data value="29,80"/>
+                  <Data value="33,00"/>
+                  <Data value="36,20"/>
+                  <Data value="39,40"/>
+                  <Data value="42,60"/>
+                  <Data value="45,80"/>
+                  <Data value="49,00"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                  <Data value="52,20"/>
+                </Column>
+              </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="false" resizingAllowed="false"/>
+            </Property>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
+          </AccessibilityProperties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

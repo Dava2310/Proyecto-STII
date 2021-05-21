@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
+    <SyntheticProperty name="generateSize" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
+  </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
+  </Events>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="PanelIdentificacion" max="32767" attributes="0"/>
+          <Component id="PanelBancario" max="32767" attributes="0"/>
+          <Component id="PanelObservaciones" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="PanelIdentificacion" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="PanelBancario" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="PanelObservaciones" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="PanelIdentificacion">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="FotoIdentificacion" min="-2" pref="120" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="TlfL" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="TlfCB" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="Tlftxt" min="-2" pref="178" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="MailL" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="Mailtxt" min="-2" pref="254" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="CodigoL" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="Codigotxt" min="-2" pref="165" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                  <Component id="IdentificacionL" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="IdentificacionCB" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="Identificaciontxt" min="-2" pref="151" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="RazonSocialL" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="DireccionL" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="Direcciontxt" pref="518" max="32767" attributes="0"/>
+                                      <Component id="RazonSocialtxt" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="IdentificacionProveedor" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="IdentificacionProveedor" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="FotoIdentificacion" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="CodigoL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="Codigotxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="IdentificacionL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="IdentificacionCB" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="Identificaciontxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="RazonSocialL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="RazonSocialtxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="DireccionL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="Direcciontxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="TlfL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="TlfCB" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="Tlftxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="MailL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="Mailtxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="IdentificacionProveedor">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Identificaci&#xf3;n del Proveedor"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="FotoIdentificacion">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagenes/Imagen1.png"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="CodigoL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="C&#xf3;digo (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="Codigotxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CodigotxtActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="IdentificacionL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Identificaci&#xf3;n (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="IdentificacionCB">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="5">
+                <StringItem index="0" value="V"/>
+                <StringItem index="1" value="E"/>
+                <StringItem index="2" value="P"/>
+                <StringItem index="3" value="J"/>
+                <StringItem index="4" value="G"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JTextField" name="Identificaciontxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="RazonSocialL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Raz&#xf3;n Social (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="RazonSocialtxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RazonSocialtxtActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="DireccionL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Direcci&#xf3;n"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="Direcciontxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="TlfL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Tel&#xe9;fono"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="TlfCB">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="5">
+                <StringItem index="0" value="0412"/>
+                <StringItem index="1" value="0414"/>
+                <StringItem index="2" value="0416"/>
+                <StringItem index="3" value="0424"/>
+                <StringItem index="4" value="0426"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TlfCBActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JTextField" name="Tlftxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="MailL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="E-mail"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="Mailtxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="PanelBancario">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Component id="LogoInformacionBancaria" min="-2" pref="145" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="NameBnfL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="NameBnftxt" min="-2" pref="414" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="BancoL" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="BancoCB" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="IDL" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="IDCB" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="IDtxt" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="MailBnfL" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="MailBNFtxt" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="NumCuentaL" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="NumCuentatxt" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="TCuentaL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="TCuentaCB" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="MODL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="MODCB" min="-2" pref="119" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="MonedaL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="MonedaCB" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="NameAutL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="NameAuttxt" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="IDAutL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="IDAuttxt" min="-2" pref="205" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="0" pref="38" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="InformacionBancariaL" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="InformacionBancariaL" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="LogoInformacionBancaria" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="NameBnfL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="NameBnftxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="IDCB" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="IDtxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="MailBnfL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="MailBNFtxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="IDL" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="BancoL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="NumCuentaL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="NumCuentatxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="BancoCB" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="TCuentaL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="MODL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="MonedaL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="MODCB" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="MonedaCB" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="TCuentaCB" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="NameAutL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="NameAuttxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="IDAutL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="IDAuttxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="NameBnfL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Nombre del beneficiario (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="IDL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Identificaci&#xf3;n (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="IDCB">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="5">
+                <StringItem index="0" value="V"/>
+                <StringItem index="1" value="E"/>
+                <StringItem index="2" value="P"/>
+                <StringItem index="3" value="J"/>
+                <StringItem index="4" value="G"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JTextField" name="NameBnftxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="MailBnfL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="E-mail del beneficiario"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="MailBNFtxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="BancoL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Banco (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="NumCuentaL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="N&#xba; de Cuenta (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="NumCuentatxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="TCuentaL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Tipo de cuenta (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="IDtxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="MonedaL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Moneda"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="MODL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="MOD (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="InformacionBancariaL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Informaci&#xf3;n Bancaria"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="LogoInformacionBancaria">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagenes/Imagen2.jpg"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="NameAutL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Nombre del Autorizado (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="NameAuttxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="IDAutL">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Identificaci&#xf3;n del Autorizado (*)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="IDAuttxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="BancoCB">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="11" style="0"/>
+            </Property>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="25">
+                <StringItem index="0" value="MERCANTIL BANCO UNIVERSAL"/>
+                <StringItem index="1" value="BANCO DE VENEZUELA S.A BANCO UNIVERSAL"/>
+                <StringItem index="2" value="VENEZOLANO DE CREDITO S.A BANCO UNIVERSAL"/>
+                <StringItem index="3" value="BANCO PROVINCIAL S.A BANCO UNIVERSAL"/>
+                <StringItem index="4" value="BANCO DEL CARIBE S.A C.A"/>
+                <StringItem index="5" value="BANCO EXTERIOR S.A"/>
+                <StringItem index="6" value="BANCO OCCIDENTAL DE DESCUENTO S.A C.A"/>
+                <StringItem index="7" value="BANCO CARONI C.A BANCO UNIVERSAL"/>
+                <StringItem index="8" value="BANESCO BANCO UNIVERSAL"/>
+                <StringItem index="9" value="BANCO SOFITASA"/>
+                <StringItem index="10" value="BANCO PLAZA"/>
+                <StringItem index="11" value="BANCO DE COMERCIO EXTERIOR"/>
+                <StringItem index="12" value="FONDO COMUN C.A BANCO UNIVERSAL"/>
+                <StringItem index="13" value="100% BANCO, BANCO UNIVERSAL C.A"/>
+                <StringItem index="14" value="DEL SUR BANCO UNIVERSAL, C.A"/>
+                <StringItem index="15" value="BANCO DEL TESORO "/>
+                <StringItem index="16" value="BANCO AGRICOLA DE VENEZUELA C.A"/>
+                <StringItem index="17" value="BANCRECER S.A BANCO MICROFINANCIERO"/>
+                <StringItem index="18" value="MIBANCO BANCO DE DESARROLLO"/>
+                <StringItem index="19" value="BANCO ACTIVO C.A"/>
+                <StringItem index="20" value="BANCA AMIGA BANCO MICROFINANCIERO"/>
+                <StringItem index="21" value="BANCO BICENTENARIO BANCO UNIVERSAL C.A"/>
+                <StringItem index="22" value="BANCO DE LA FUERZA ARMADA NACIONAL BOLIVARIANA"/>
+                <StringItem index="23" value="BANCO NACIONAL DE CREDITO "/>
+                <StringItem index="24" value=" "/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="MODCB">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="Cuenta Propia"/>
+                <StringItem index="1" value="Cuenta Nueva"/>
+                <StringItem index="2" value="Cuenta Autorizada"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="MonedaCB">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="2">
+                <StringItem index="0" value="BS"/>
+                <StringItem index="1" value="$"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="TCuentaCB">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Cuenta Ahorros"/>
+                <StringItem index="1" value="Cuenta Corriente"/>
+                <StringItem index="2" value="Cuenta Maxima"/>
+                <StringItem index="3" value="Cuenta Moneda Extranjera"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="PanelObservaciones">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="CancelarBT" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="BuscarBT" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="NuevoBT" min="-2" pref="98" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="BuscarBT" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                              <Component id="NuevoBT" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="CancelarBT" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="NuevoBT">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Nuevo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NuevoBTActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="BuscarBT">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Buscar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BuscarBTActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="CancelarBT">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="CANCELAR"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CancelarBTActionPerformed"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

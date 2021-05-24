@@ -8,9 +8,11 @@ public class proveedor {
     conectate con;
     
     public proveedor(){
+        //CONEXION CON LA BASE DE DATOS
         con = new conectate();
     }
     
+    //ESTA FUNCION NOS PERMITE CREAR UN NUEVO PROVEEDOR EN LA BASE DE DATOS
     public void NuevoProveedor(String codigo, String identificacion, String razon_social, String direccion, String telefono, String email, String name_beneficiario, String id_beneficiario,
             String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String moneda, String nombre_autorizado, String id_autorizado){
         
@@ -120,6 +122,7 @@ public class proveedor {
     public void updateProveedorCodigo(String codigo, String identificacion, String razon_social, String direccion, String telefono, String email, String name_beneficiario, String id_beneficiario,
             String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String moneda, String nombre_autorizado, String id_autorizado){
         
+        //SE REALIZA LA QUERY EN SQL PARA ACTUALIZAR LOS DATOS DEL PROVEEDOR
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
             " set Razon_Social = ? , " + 

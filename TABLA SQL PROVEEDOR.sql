@@ -30,6 +30,9 @@ DROP TABLE proveedor; 		-- ELIMINAR LA TABLA PROVEEDOR
 INSERT INTO proveedor VALUES('00029517648','29517648','Daniel','Trinitarias','04167902535','dv@gmail.com','Daniel Vetencourt',
 							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS',null,null);
 
+INSERT INTO proveedor VALUES('00027578138','27578138','Jennifer','Floresta','04167902535','dv@gmail.com','Daniel Vetencourt',
+							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','', 'Inactivo');
+DELETE FROM proveedor where Estado_Actividad = 'Inactivo';
 
 -- CREACION DE LA TABLA ANTICIPO
 create table anticipos(

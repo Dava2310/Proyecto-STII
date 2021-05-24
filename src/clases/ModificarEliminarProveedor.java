@@ -59,6 +59,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         Tlftxt = new javax.swing.JTextField();
         MailL = new javax.swing.JLabel();
         Mailtxt = new javax.swing.JTextField();
+        ActividadL = new javax.swing.JLabel();
+        ActividadCB = new javax.swing.JComboBox<>();
         PanelBancario = new javax.swing.JPanel();
         NameBnfL = new javax.swing.JLabel();
         NameBnftxt = new javax.swing.JTextField();
@@ -88,6 +90,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         Actualizar = new javax.swing.JButton();
         BuscarBT = new javax.swing.JButton();
         EliminarBT = new javax.swing.JButton();
+        HabilitarCambiosBT = new javax.swing.JButton();
         HabilitarBT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -159,12 +162,22 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         Mailtxt.setEditable(false);
         Mailtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
+        ActividadL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ActividadL.setText("Estado de Actividad");
+
+        ActividadCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        ActividadCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+        ActividadCB.setEnabled(false);
+
         javax.swing.GroupLayout PanelDeIdentificacionLayout = new javax.swing.GroupLayout(PanelDeIdentificacion);
         PanelDeIdentificacion.setLayout(PanelDeIdentificacionLayout);
         PanelDeIdentificacionLayout.setHorizontalGroup(
             PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(IdentificacionProveedor))
                     .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
                         .addComponent(FotoIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -178,7 +191,19 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(MailL)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Mailtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Mailtxt))
+                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(RazonSocialL)
+                                    .addComponent(DireccionL))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(RazonSocialtxt)
+                                    .addComponent(Direcciontxt)))
+                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                .addComponent(ActividadL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
                                 .addComponent(CodigoL)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -188,19 +213,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(IdentificacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
-                                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(RazonSocialL)
-                                    .addComponent(DireccionL))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Direcciontxt, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-                                    .addComponent(RazonSocialtxt)))))
-                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(IdentificacionProveedor)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         PanelDeIdentificacionLayout.setVerticalGroup(
             PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +248,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                             .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MailL)
                             .addComponent(Mailtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ActividadL)
+                    .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         NameBnfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -322,7 +340,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     .addGroup(PanelBancarioLayout.createSequentialGroup()
                         .addComponent(NameBnfL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(NameBnftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(NameBnftxt))
                     .addGroup(PanelBancarioLayout.createSequentialGroup()
                         .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(PanelBancarioLayout.createSequentialGroup()
@@ -340,7 +358,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                             .addGroup(PanelBancarioLayout.createSequentialGroup()
                                 .addComponent(MailBnfL)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(MailBNFtxt))
+                                .addComponent(MailBNFtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
                             .addGroup(PanelBancarioLayout.createSequentialGroup()
                                 .addComponent(NumCuentaL)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -348,14 +366,14 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     .addGroup(PanelBancarioLayout.createSequentialGroup()
                         .addComponent(TCuentaL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TCuentaCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(TCuentaCB, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(MODL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(MonedaL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(MonedaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelBancarioLayout.createSequentialGroup()
                         .addComponent(NameAutL)
@@ -365,7 +383,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         .addComponent(IDAutL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 44, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
             .addGroup(PanelBancarioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(InformacionBancariaL)
@@ -439,15 +457,23 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         });
 
         EliminarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        EliminarBT.setText("Eliminar");
+        EliminarBT.setText("Inhabilitar");
         EliminarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EliminarBTActionPerformed(evt);
             }
         });
 
+        HabilitarCambiosBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        HabilitarCambiosBT.setText("Habilitar Edicion");
+        HabilitarCambiosBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HabilitarCambiosBTActionPerformed(evt);
+            }
+        });
+
         HabilitarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        HabilitarBT.setText("Habilitar Edicion");
+        HabilitarBT.setText("Habilitar");
         HabilitarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 HabilitarBTActionPerformed(evt);
@@ -459,32 +485,34 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         PanelObservacionesLayout.setHorizontalGroup(
             PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelObservacionesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(HabilitarBT)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
                 .addComponent(BuscarBT)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(EliminarBT)
-                .addGap(7, 7, 7)
+                .addComponent(HabilitarCambiosBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Actualizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(EliminarBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(HabilitarBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         PanelObservacionesLayout.setVerticalGroup(
             PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelObservacionesLayout.createSequentialGroup()
+            .addGroup(PanelObservacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(HabilitarBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(PanelObservacionesLayout.createSequentialGroup()
+                .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelObservacionesLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(BuscarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(EliminarBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Actualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                            .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BuscarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HabilitarCambiosBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(EliminarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(HabilitarBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -500,10 +528,10 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(PanelDeIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanelBancario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelObservaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(PanelObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -663,6 +691,12 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         //-------------------------------------------------------------------------------
         NameAuttxt.setText(data[14].toString());
         IDAuttxt.setText(data[15].toString());
+        String actividad = data[16].toString();
+        if (actividad.equals("Activo")) {
+            ActividadCB.setSelectedIndex(0);
+        } else if (actividad.equals("Inactivo")) {
+            ActividadCB.setSelectedIndex(1);
+        }
     }
 
     String[] botones_confirmacionEliminar = {"SI, SI DESEO ELIMINAR", "NO, NO DESEO ELIMINAR"};
@@ -673,19 +707,26 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
 
     private void EliminarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarBTActionPerformed
         //1-VERIFICAR QUE NO ESTEN HABILITADOS EL MODO DE MODIFICAR (DE ESTARLO, MANDAR UN MENSAJE DE NEGACION DE ACCION) ADEMAS DE VERIFICAR QUE HAYA UN PROVEEDOR BUSCADO
-        //2-PRIMERO DEBE PREGUNTAR SI EN VERDAD DESEA ELIMINAR
+        //1.2-VERIFICAR QUE EL ESTADO DEL PROVEEDOR DE POR SI ESTE ACTIVO
+        //2-PRIMERO DEBE PREGUNTAR SI EN VERDAD DESEA HABILITAR
         //3-SI LA PERSONA ACEPTA SE ELIMINA
         //4-UNA VEZ HECHA LA ELIMINACION, SE LIMPIAN TODOS LOS DATOS Y SE DESHABILITAN LOS CAMPOS
         //5-SE HACE LA PREGUNTA DE QUE SI QUIERE VOLVER A REALIZAR ESTA ACCION
         //6-SI DICE QUE SI, SE CREA UN OBJETO DE TIPOCONSULTA PROVEEDOR
         //7-SE ELIMINA ESTA CLASE
 
-        if (edicion == false && !(Codigotxt.getText().equals("")) && !(Identificaciontxt.getText().equals("")) && !(RazonSocialtxt.getText().equals(""))) {
+        String estado = ActividadCB.getSelectedItem().toString();
+        boolean inhabilitar = false;
+        if (estado.equals("Activo")) {
+            inhabilitar = true;
+        }
+
+        if (edicion == false && !(Codigotxt.getText().equals("")) && !(Identificaciontxt.getText().equals("")) && !(RazonSocialtxt.getText().equals("")) && inhabilitar) {
             //ENTRANDO AQUI, SIGNIFICA QUE: LOS CAMPOS DE CODIGO, IDENTIFICACION Y RAZONSOCIAL ESTAN COMPLETOS
             //COMO AL PRINCIPIO, UNICAMENTE SE VALIDA UNO DE LOS 3 CAMPOS, PUES AUTOMATICAMENTE QUIERE DECIR, QUE YA SE BUSCO UN PROVEEDOR
 
             //SE PREGUNTA SI SE DESEA ELIMINAR
-            int index = JOptionPane.showOptionDialog(null, "¿DESEA ELIMINAR ESTE PROVEEDOR?", "CONFIRMACION DE ELIMINAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionEliminar, botones_confirmacionEliminar[0]);
+            int index = JOptionPane.showOptionDialog(null, "¿DESEA INHABILITAR ESTE PROVEEDOR?", "CONFIRMACION DE CAMBIO DE ESTADO", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionEliminar, botones_confirmacionEliminar[0]);
             //EL INDEX = 0 REPRESENTA QUE SI DESEA ELIMINAR
             //EL INDEX = 1 REPRESENTA QUE NO DESEA ELIMINAR
             if (index == 0) {
@@ -693,12 +734,12 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 String codigo = Codigotxt.getText();
                 if (codigo.equals(this.ultimo_buscado)) {
                     p.deleteProveedor(codigo);
-                    JOptionPane.showMessageDialog(null, "SE HA ELIMINADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "SE HA INHABILITADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
                     //AHORA SE LIMPIAN TODOS LOS DATOS Y SE DESHABILITAN LOS CAMPOS
                     limpiar();
                     deshabilitarCampos();
                     //SE REALIZA LA PREGUNTA DE QUE SI QUIERE VOLVER A REALIZAR TODA LA ACCION NUEVAMENTE
-                    int index2 = JOptionPane.showOptionDialog(null, "¿DESEA VOLVER A ELIMINAR OTRO PROVEEDOR CON OTRO TIPO DE BUSQUEDA?", "CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionAccion, botones_confirmacionAccion[0]);
+                    int index2 = JOptionPane.showOptionDialog(null, "¿DESEA VOLVER A INHABILITAR OTRO PROVEEDOR CON OTRO TIPO DE BUSQUEDA?", "CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionAccion, botones_confirmacionAccion[0]);
                     //EL INDEX2 = 0 REPRESENTA QUE DESEA CAMBIAR DE TIPO DE BUSQUEDA
                     //EL INDEX2 = 1 REPRESENTA QUE NO DESEA CAMBIAR DE TIPO DE BUSQUEDA
                     if (index2 == 0) {
@@ -709,20 +750,21 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         this.dispose();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "NO CAMBIE EL CODIGO DEL PROVEEDOR DESPUES DE LA BUSQUEDA SI DESEA ELIMINAR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "NO CAMBIE EL CODIGO DEL PROVEEDOR DESPUES DE LA BUSQUEDA SI DESEA INHABILITAR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
         } else {
             if (edicion == true) {
-                JOptionPane.showMessageDialog(null, "DESHABILITE EL MODO DE MODIFICAR, PARA PROCEDER CON LA ELIMINACION ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "DESHABILITE EL MODO DE MODIFICAR, PARA PROCEDER CON EL CAMBIO DE ESTADO", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else if (edicion == false && (Codigotxt.getText().equals("") || Identificaciontxt.getText().equals("") || RazonSocialtxt.getText().equals(""))) {
-                JOptionPane.showMessageDialog(null, "USTED NO TIENE UNA BUSQUEDA COMPLETA DE PROVEEDOR PARA ELIMINAR", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "USTED NO TIENE UNA BUSQUEDA COMPLETA DE PROVEEDOR PARA INHABILITAR", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "EL PROVEEDOR BUSCADO YA ESTA INHABILITADO", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-
         }
     }//GEN-LAST:event_EliminarBTActionPerformed
 
-    private void HabilitarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarBTActionPerformed
+    private void HabilitarCambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarCambiosBTActionPerformed
         //DEBEMOS HABILITAR O DESHABILITAR LOS CAMPOS
         if (edicion == false) {
 
@@ -743,7 +785,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             edicion = false;
             deshabilitarCampos();
         }
-    }//GEN-LAST:event_HabilitarBTActionPerformed
+    }//GEN-LAST:event_HabilitarCambiosBTActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         if (modo_busqueda == 0) {
@@ -771,6 +813,60 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             IDAuttxt.setEditable(false);
         }
     }//GEN-LAST:event_MODCBActionPerformed
+
+    String[] botones_confirmacionHabilitar = {"SI, SI DESEO HABILITAR", "NO, NO DESEO HABILITAR"};
+    String[] botones_confirmacionHabilitarAccion = {"ACEPTAR", "CANCELAR"};
+
+    //BOTON PARA HABILITAR EL ESTADO DEL PROVEEDOR
+    private void HabilitarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarBTActionPerformed
+        String estado = ActividadCB.getSelectedItem().toString();
+        boolean habilitar = false;
+        if (estado.equals("Inactivo")) {
+            habilitar = true;
+        }
+
+        if (habilitar && edicion == false && !(Codigotxt.getText().equals("")) && !(Identificaciontxt.getText().equals("")) && !(RazonSocialtxt.getText().equals(""))) {
+            //ENTRANDO AQUI, SIGNIFICA QUE: LOS CAMPOS DE CODIGO, IDENTIFICACION Y RAZONSOCIAL ESTAN COMPLETOS
+            //COMO AL PRINCIPIO, UNICAMENTE SE VALIDA UNO DE LOS 3 CAMPOS, PUES AUTOMATICAMENTE QUIERE DECIR, QUE YA SE BUSCO UN PROVEEDOR
+
+            //SE PREGUNTA SI SE DESEA HABILITAR EL PROVEEDOR
+            int index = JOptionPane.showOptionDialog(null, "¿DESEA HABILITAR ESTE PROVEEDOR?", "CONFIRMACION DE CAMBIO DE ESTADO", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionHabilitar, botones_confirmacionHabilitar[0]);
+            //EL INDEX = 0 REPRESENTA QUE SI DESEA HABILITAR
+            //EL INDEX = 1 REPRESENTA QUE NO DESEA HABILITAR
+            if (index == 0) {
+                //DESEA HABILITAR
+                String codigo = Codigotxt.getText();
+                if (codigo.equals(this.ultimo_buscado)) {
+                    p.habilitarProveedor(codigo);
+                    JOptionPane.showMessageDialog(null, "SE HA HABILITADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
+                    //AHORA SE LIMPIAN TODOS LOS DATOS Y SE DESHABILITAN LOS CAMPOS
+                    limpiar();
+                    deshabilitarCampos();
+                    //SE REALIZA LA PREGUNTA DE QUE SI QUIERE VOLVER A REALIZAR TODA LA ACCION NUEVAMENTE
+                    int index2 = JOptionPane.showOptionDialog(null, "¿DESEA VOLVER A HABILITAR OTRO PROVEEDOR CON OTRO TIPO DE BUSQUEDA?", "CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionAccion, botones_confirmacionAccion[0]);
+                    //EL INDEX2 = 0 REPRESENTA QUE DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                    //EL INDEX2 = 1 REPRESENTA QUE NO DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                    if (index2 == 0) {
+                        //DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                        TCP = new TipoConsultaProveedor();
+                        TCP.modo = 2;
+                        TCP.setVisible(true);
+                        this.dispose();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "NO CAMBIE EL CODIGO DEL PROVEEDOR DESPUES DE LA BUSQUEDA SI DESEA HABILITAR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+        } else {
+            if (edicion == true) {
+                JOptionPane.showMessageDialog(null, "DESHABILITE EL MODO DE MODIFICAR, PARA PROCEDER CON EL CAMBIO DE ESTADO", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else if (edicion == false && (Codigotxt.getText().equals("") || Identificaciontxt.getText().equals("") || RazonSocialtxt.getText().equals(""))) {
+                JOptionPane.showMessageDialog(null, "USTED NO TIENE UNA BUSQUEDA COMPLETA DE PROVEEDOR PARA INHABILITAR", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "EL PROVEEDOR BUSCADO YA ESTA HABILITADO", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_HabilitarBTActionPerformed
 
     public void habilitarCampos() {
         RazonSocialtxt.setEditable(true);
@@ -879,6 +975,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ActividadCB;
+    private javax.swing.JLabel ActividadL;
     private javax.swing.JButton Actualizar;
     private javax.swing.JComboBox<String> BancoCB;
     private javax.swing.JLabel BancoL;
@@ -891,6 +989,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JButton EliminarBT;
     private javax.swing.JLabel FotoIdentificacion;
     private javax.swing.JButton HabilitarBT;
+    private javax.swing.JButton HabilitarCambiosBT;
     private javax.swing.JLabel IDAutL;
     private javax.swing.JTextField IDAuttxt;
     private javax.swing.JComboBox<String> IDCB;

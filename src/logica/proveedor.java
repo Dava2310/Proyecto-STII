@@ -234,7 +234,7 @@ public class proveedor {
                 if(actividad.equals("Activo")){
                     encontrado = true;
                 } else {
-                    encontrado = false;
+                    JOptionPane.showMessageDialog(null, "ESTE PROVEEDOR NO SE ENCUENTRA ACTIVO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             } else{
                 JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);

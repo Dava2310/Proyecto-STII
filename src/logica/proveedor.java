@@ -221,6 +221,32 @@ public class proveedor {
         return encontrado;
     }
     
+    public boolean buscarProveedorActivo(String identificacion){
+        boolean encontrado = false;
+        PreparedStatement pstm;
+        try{
+            pstm = con.getConnection().prepareStatement("SELECT Estado_Actividad FROM proveedor where Identificacion = ?");
+            pstm.setString(1,identificacion);
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                //HAY QUE BUSCAR SU ESTADO ACTIVIDAD
+                String actividad = res.getString("Estado_Actividad");
+                if(actividad.equals("Activo")){
+                    encontrado = true;
+                } else {
+                    encontrado = false;
+                }
+            } else{
+                JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                encontrado = false;
+            }
+            res.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return encontrado;
+    }
+    
     //FUNCION PARA BUSCAR A UN PROVEEDOR SEGUN SU CODIGO
     //MANDA UN MENSAJE DE ERROR SI NO LO ENCUENTRA
     //FUNCIONA TANTO PARA LA PANTALLA DE BUSQUEDA, COMO MODIFICAR Y ELIMINAR

@@ -161,7 +161,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
             //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN TRUE
             //DE ESTA MANERA EL ANTICIPO TRABAJA CON UN CODIGO DE PROVEEDOR VALIDO
             //PARA DAR PASO A LA CREACION DE UN NUEVO ANTICIPO
-            if(p.buscarIdentificacion2(identificacion_completa)){
+            if(p.buscarProveedorActivo(identificacion_completa)){
                 CA = new CrearAnticipo();
                 CA.identificacion = this.identificacion;
                 CA.identificacion_completa = identificacion_completa;

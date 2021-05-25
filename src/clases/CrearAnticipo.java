@@ -7,6 +7,8 @@ package clases;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.anticipos;
@@ -140,7 +142,13 @@ public class CrearAnticipo extends javax.swing.JFrame {
         FechaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         FechaL.setText("Fecha");
 
+        Fechatxt.setEditable(false);
         Fechatxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        Fechatxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FechatxtActionPerformed(evt);
+            }
+        });
 
         AprobacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         AprobacionL.setText("Aprobado por");
@@ -169,9 +177,13 @@ public class CrearAnticipo extends javax.swing.JFrame {
             }
         });
 
-        MotivoCB.setEditable(true);
         MotivoCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         MotivoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Materia Prima", "Adicional", "Peaje", "Otros" }));
+        MotivoCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MotivoCBActionPerformed(evt);
+            }
+        });
 
         DescuentoODPCB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         DescuentoODPCB.setText("Descontar en ODP");
@@ -403,8 +415,27 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
     }//GEN-LAST:event_formWindowClosing
+
+    private void FechatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechatxtActionPerformed
+        // TODO add your handling code here:
+        Fechatxt.setText(fechaActual());
+    }//GEN-LAST:event_FechatxtActionPerformed
+
+    private void MotivoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MotivoCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MotivoCBActionPerformed
     
+    //SE CREA UNA FUNCION QUE PERMITA OBTENER LA FECHA ACTUAL DEL SISTEMA
+    public static String fechaActual(){
+        //SE CREA UN OBJETO TIPO DATE
+        Date fecha = new Date();
+        //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
+        //ADEMAS PERMITE CONVERTIR DE DATE A STRING
+        SimpleDateFormat formatoFecha=new SimpleDateFormat("DD/MM/YYY");
+        
+        return formatoFecha.format(fecha);
     
+    }
     public void cerrar(){
         try{
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

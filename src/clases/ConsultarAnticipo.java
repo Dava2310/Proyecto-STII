@@ -153,6 +153,11 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
         MotivoAnticipoCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         MotivoAnticipoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Materia Prima", "Adicional", "Peaje", "Otros" }));
         MotivoAnticipoCB.setEnabled(false);
+        MotivoAnticipoCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MotivoAnticipoCBActionPerformed(evt);
+            }
+        });
 
         AprobacionL1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         AprobacionL1.setText("Descontar en ODP");
@@ -355,6 +360,10 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
         NroAnticipotxt.setBackground(Color.BLACK);
         NroAnticipotxt.setForeground(Color.WHITE);
     }//GEN-LAST:event_formWindowOpened
+
+    private void MotivoAnticipoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MotivoAnticipoCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MotivoAnticipoCBActionPerformed
 
     /**
      * @param args the command line arguments

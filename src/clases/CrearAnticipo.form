@@ -348,10 +348,14 @@
     </Component>
     <Component class="javax.swing.JTextField" name="Fechatxt">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="11" style="1"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FechatxtActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="AprobacionL">
       <Properties>
@@ -413,14 +417,21 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="MotivoCB">
       <Properties>
-        <Property name="editable" type="boolean" value="true"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="11" style="1"/>
         </Property>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Materia Prima&quot;, &quot;Adicional&quot;, &quot;Peaje&quot;, &quot;Otros&quot; })" type="code"/>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="Materia Prima"/>
+            <StringItem index="1" value="Adicional"/>
+            <StringItem index="2" value="Peaje"/>
+            <StringItem index="3" value="Otros"/>
+          </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MotivoCBActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

@@ -391,6 +391,12 @@ public class CrearAnticipo extends javax.swing.JFrame {
 
             //DESHABILITAR EL BOTON DE CREACION:
             CrearBT.setEnabled(false);
+            //DESHABILITAR CADA CAMPO DE LA INTERFAZ
+            MontoBStxt.setEnabled(false);
+            MontoDStxt.setEnabled(false);
+            Aprobaciontxt.setEnabled(false);
+            Observaciontxt.setEnabled(false);
+            MotivoCB.setEnabled(false);
 
             //COLOCAMOS EL CODIGO DEL ANTICIPO CREADO EN EL TXT
             String num_anticipo = a.codigo_RecienCreado();

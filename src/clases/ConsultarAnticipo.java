@@ -1,6 +1,7 @@
 package clases;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import logica.anticipos;
 import logica.proveedor;
 import sun.reflect.misc.ReflectUtil;
@@ -321,6 +322,8 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
                 }
                 //UNA VEZ COLOCADOS TODOS LOS DATOS DEL PROVEEDOR, SE LLAMA A LA FUNCION DE ESCRIBIR LOS DATOS DEL ANTICIPO
                 escribirDatosAnticipo(dataAnticipo);
+            } else if (!encontrado){
+                JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN ANTICIPO CON ESTE CODIGO", "BUSQUEDA DE ANTICIPO", JOptionPane.ERROR);
             }
         }
     }//GEN-LAST:event_BuscarBTActionPerformed

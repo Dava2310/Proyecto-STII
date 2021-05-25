@@ -109,7 +109,7 @@ public class anticipos {
             }
         }catch(SQLException e){
             System.out.println(e);
-            System.out.println("Aqui fue el error");
+            //System.out.println("Aqui fue el error");
         }
         return num_anticipo;
     }
@@ -161,7 +161,7 @@ public class anticipos {
             if(res.next()){
                 encontrado = true;
             } else {
-                JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN ANTICIPO CON ESTE CODIGO", "BUSQUEDA DE ANTICIPO", JOptionPane.ERROR);
+                encontrado = false;
             }
             res.close();
             pstm.close();

@@ -2,11 +2,14 @@ package clases;
 
 import javax.swing.JOptionPane;
 import logica.proveedor;
+import logica.transacciones;
 
 public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
 
     TransaccionesCrear TC;
     proveedor p = new proveedor();
+    transacciones t = new transacciones();
+
     public IdentificacionProveedorTransacciones() {
         initComponents();
     }
@@ -138,12 +141,34 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_IDProveedortxtActionPerformed
 
     private void EnterBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterBTActionPerformed
-        if(NroBoletotxt.getText().isEmpty() || IDProveedortxt.getText().isEmpty()){
+        if (NroBoletotxt.getText().isEmpty() || IDProveedortxt.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DEL BOLETO Y LA IDENTIFICACION DEL PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
-        } else{
-            TC = new TransaccionesCrear();
-            TC.setVisible(true);
-            this.dispose();
+        } else {
+            //DESPUES DE HABER COMPROBADO QUE NINGUNO DE LOS CAMPOS ESTAN VACIOS, PROCEDEMOS A HACER DISTINTAS VALIDACIONES
+            //1- Validar que el num de transaccion no se encuentra en el sistema
+            //2- Validad que el proveedor si se encuentra en el sistema
+
+            boolean transaccionEncontrada = t.buscarTransaccion(NroBoletotxt.getText());
+            //Recolectar los datos en una identificacion completa
+            int tipoIdentificacion = tipoIDProveedorCB.getSelectedIndex();
+            String t_identificacion = tipoIDProveedorCB.getSelectedItem().toString();
+            String identificacion_completa = t_identificacion + IDProveedortxt.getText();
+            boolean proveedorActivoEncontrado = p.buscarProveedorActivo(identificacion_completa);
+
+            /*
+                AHORA QUE YA SABEMOS SI TENEMOS UN PROVEEDOR ACTIVO EN EL SISTEMA, 
+                Y QUE SI EXISTE O NO UNA TRANSACCION EN EL SISTEMA,
+                PROCEDEMOS A VERIFICAR
+             */
+            if (transaccionEncontrada == false && proveedorActivoEncontrado == true) {
+                TC = new TransaccionesCrear();
+                TC.setVisible(true);
+                this.dispose();
+            } else if (transaccionEncontrada) {
+                JOptionPane.showMessageDialog(null, "Esta transaccion o boleto ya existe en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else if (proveedorActivoEncontrado == false){
+                JOptionPane.showMessageDialog(null, "El proveedor asignado no esta activo en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_EnterBTActionPerformed
 

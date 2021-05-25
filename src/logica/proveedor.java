@@ -186,8 +186,7 @@ public class proveedor {
             pstm = con.getConnection().prepareStatement("SELECT * FROM proveedor where Identificacion = ?");
             pstm.setString(1,identificacion);
             ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                JOptionPane.showMessageDialog(null, "YA EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+            if(res.next()){ 
                 encontrado = true;
             }
             res.close();
@@ -211,7 +210,6 @@ public class proveedor {
             if(res.next()){
                 encontrado = true;
             } else {
-                JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 encontrado = false;
             }
             res.close();
@@ -233,11 +231,8 @@ public class proveedor {
                 String actividad = res.getString("Estado_Actividad");
                 if(actividad.equals("Activo")){
                     encontrado = true;
-                } else {
-                    JOptionPane.showMessageDialog(null, "ESTE PROVEEDOR NO SE ENCUENTRA ACTIVO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             } else{
-                JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 encontrado = false;
             }
             res.close();
@@ -260,7 +255,7 @@ public class proveedor {
             if(res.next()){
                 encontrado = true;
             } else{
-                JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                encontrado = false;
             }
             res.close();
         }catch(SQLException e){
@@ -280,8 +275,8 @@ public class proveedor {
             ResultSet res = pstm.executeQuery();
             if(res.next()){
                 encontrado = true;
-            } else {
-                JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+            } else {  
+                encontrado = false;
             }
             res.close();
         }catch(SQLException e){
@@ -501,5 +496,18 @@ public class proveedor {
             index = 23;
         }
         return index;
+    }
+    
+    public boolean comprobacionIdentificacion(String identificacion){
+        boolean valido = true;
+        for(int i = 0, cantidad_caracteres = identificacion.length(); i < cantidad_caracteres && valido; i++){
+                //En cada iteracion preguntamos si es un digito numero
+                //En el momento que no lo sea, el ciclo terminara y no dejara pasar a los demas procedimientos
+                char caracter = identificacion.charAt(i);
+                if(!Character.isDigit(caracter)){
+                    valido = false;
+                }
+            }
+        return valido;
     }
 }

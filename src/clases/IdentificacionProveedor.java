@@ -154,15 +154,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION VALIDA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
         } else {
             //PROCEDEMOS A HACER UNA VERIFICACION DE QUE SEA UNA CEDULA DE PUROS DIGITOS
-            boolean digitos = true;
-            for(int i = 0, cantidad_caracteres = identificacion.length(); i < cantidad_caracteres && digitos; i++){
-                //En cada iteracion preguntamos si es un digito numero
-                //En el momento que no lo sea, el ciclo terminara y no dejara pasar a los demas procedimientos
-                char caracter = identificacion.charAt(i);
-                if(!Character.isDigit(caracter)){
-                    digitos = false;
-                }
-            }
+            boolean digitos = p.comprobacionIdentificacion(identificacion);
             if (modo == 1 && digitos) {
                 //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN FALSE
                 //SIGNIFICANDO QUE NO HAY NADIE REGISTRADO POR AHORA CON ESA IDENTIFICACION
@@ -173,6 +165,8 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                     CP.tipoIdentificacion = this.tipoIdentificacion;
                     CP.setVisible(true);
                     procedio = true;
+                } else if(p.buscarIdentificacion(identificacion_completa)){
+                    JOptionPane.showMessageDialog(null, "YA EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             } else if (modo == 2 && digitos) {
                 //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN TRUE
@@ -185,6 +179,10 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                     CA.tipo_identificacion = this.tipoIdentificacion;
                     CA.setVisible(true);
                     procedio = true;
+                } else if (!p.buscarProveedorActivo(identificacion_completa) && p.buscarIdentificacion(identificacion)){
+                    JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO ESTA ACTIVO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                } else if (!p.buscarIdentificacion(identificacion_completa)){
+                    JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO SE ENCUENTRA REGISTRADO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
             if (procedio) {

@@ -513,6 +513,8 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     //-----------------------------------------------------------------------------
                     RazonSocialtxt.setText(data[2].toString());
                     escribirDatos(data);
+                } else if (!encontrado){
+                    JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
         //Busqueda por identificacion
@@ -529,6 +531,8 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     Codigotxt.setText(data[0].toString());
                     RazonSocialtxt.setText(data[2].toString());
                     escribirDatos(data);
+                } else if (encontrado == false){
+                    JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             } 
         //Busqueda por razon_social
@@ -551,6 +555,8 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
                     //----------------------------------------------------------------------------------
                     escribirDatos(data);
+                } else if(!encontrado){
+                    JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
         }

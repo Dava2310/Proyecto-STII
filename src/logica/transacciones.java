@@ -108,4 +108,24 @@ public class transacciones {
         }
         return data;
     }
+    
+    //FUNCION PARA BUSCAR UNA TRANSACCION CON EL DATO DE Num_Transaccion EN LA BASE DE DATOS
+    //RETORNA UN TRUE SI ENCONTRO, RETORNA UN FALSE SI NO ENCONTRO
+    //FUNCIONA PARA QUE PODAMOS AGREGAR UNA NUEVA TRANSACCION CON UN CODIGO DISTINTO
+    public boolean buscarTransaccion(String Num_Transaccion){
+        boolean encontrado = false;
+        PreparedStatement pstm;
+        try{
+            pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where Num_Transaccion = ?");
+            pstm.setString(1, Num_Transaccion);
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                encontrado = true;
+            } 
+            res.close();
+        }catch(SQLException e){
+            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return encontrado;
+    }
 }

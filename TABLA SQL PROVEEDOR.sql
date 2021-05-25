@@ -27,13 +27,13 @@ create table proveedor(
 SELECT * from proveedor;	-- MOSTRAR TODOS LOS DATOS DE LA TABLA PROVEEDOR
 DROP TABLE proveedor; 		-- ELIMINAR LA TABLA PROVEEDOR
 -- EJEMPLO DE CREACION DE UN PROVEEDOR
-INSERT INTO proveedor VALUES('00029517648','29517648','Daniel','Trinitarias','04167902535','dv@gmail.com','Daniel Vetencourt',
+INSERT INTO proveedor VALUES('00029517648','V29517648','Daniel','Trinitarias','04167902535','dv@gmail.com','Daniel Vetencourt',
 							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','');
 
-INSERT INTO proveedor VALUES('00027578138','27578138','Jennifer','Floresta','04167902535','dv@gmail.com','Daniel Vetencourt',
+INSERT INTO proveedor VALUES('00027578138','V27578138','Jennifer','Floresta','04167902535','dv@gmail.com','Daniel Vetencourt',
 							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','', 'Inactivo');
 DELETE FROM proveedor where Estado_Actividad = 'Inactivo';
-
+UPDATE proveedor set Identificacion = 'V27578138' where Razon_Social = 'Jennifer';
 -- CREACION DE LA TABLA ANTICIPO
 create table anticipos(
 	Num_Anticipo int NOT NULL auto_increment, 
@@ -57,6 +57,7 @@ DROP TABLE anticipos;		-- ELIMINAR LA TABLA ANTICIPOS
 -- EJEMPLO DE CREACION DE UN ANTICIPO
 INSERT INTO anticipos(Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP) values('F','B','C','D','E','F','G');
 
+-- CREACION DE LA TABLA TRANSACCIONES
 create table transacciones(
 	Num_Transaccion varchar(10) not null,
     Fecha varchar(10) not null,
@@ -81,6 +82,9 @@ create table transacciones(
     primary key(Num_Transaccion)
 );
 
+-- COMANDOS PARA LA TABLA TRANSACCIONES
+
+SELECT * from transacciones;
 
 
 

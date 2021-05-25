@@ -1,11 +1,12 @@
 package clases;
 
 import javax.swing.JOptionPane;
+import logica.proveedor;
 
 public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
 
     TransaccionesCrear TC;
-    
+    proveedor p = new proveedor();
     public IdentificacionProveedorTransacciones() {
         initComponents();
     }

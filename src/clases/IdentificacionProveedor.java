@@ -1,6 +1,8 @@
 package clases;
+
 import logica.conectate;
 import java.sql.*;
+import javax.swing.JOptionPane;
 import logica.proveedor;
 
 public class IdentificacionProveedor extends javax.swing.JFrame {
@@ -9,14 +11,14 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     conectate con;
-    
+
     CreacionProveedor CP;
     int modo = 0;
     CrearAnticipo CA;
     String identificacion;
     int tipoIdentificacion;
     proveedor p;
-    
+
     public IdentificacionProveedor() {
         initComponents();
         con = new conectate();
@@ -145,34 +147,53 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
         String t_identificacion = TipoCedula.getSelectedItem().toString();
         identificacion = Cedulatxt.getText();
         String identificacion_completa = t_identificacion + identificacion;
-        //Hacer la busqueda de la CEDULA en la base de datos
-        if (modo == 1){
-            //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN FALSE
-            //SIGNIFICANDO QUE NO HAY NADIE REGISTRADO POR AHORA CON ESA IDENTIFICACION
-            //PARA DAR PASO A LA CREACION DE UN NUEVO PROVEEDOR SIN QUE SE REPITA LA CEDULA
-            if(!(p.buscarIdentificacion(identificacion_completa))){
-                CP = new CreacionProveedor();
-                CP.identificacion = this.identificacion;   
-                CP.tipoIdentificacion = this.tipoIdentificacion;
-                CP.setVisible(true);
-                procedio = true;
+
+        //SE TIENE QUE PRIMERO VERIFICAR QUE HAYA INGRESADO EL USUARIO UNA CEDULA
+        //EN EL CASO DE QUE HAYA INGRESADO UNA CEDULA, SE VERIFICA QUE SEA DE LA CANTIDAD DE DIGITOS NECESARIOS (7 u 8)
+        if (identificacion.equals("") || identificacion.length() < 7 || identificacion.length() > 8) {
+            JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION VALIDA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            //PROCEDEMOS A HACER UNA VERIFICACION DE QUE SEA UNA CEDULA DE PUROS DIGITOS
+            boolean digitos = true;
+            for(int i = 0, cantidad_caracteres = identificacion.length(); i < cantidad_caracteres && digitos; i++){
+                //En cada iteracion preguntamos si es un digito numero
+                //En el momento que no lo sea, el ciclo terminara y no dejara pasar a los demas procedimientos
+                char caracter = identificacion.charAt(i);
+                if(!Character.isDigit(caracter)){
+                    digitos = false;
+                }
             }
-        } else if (modo == 2) {
-            //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN TRUE
-            //DE ESTA MANERA EL ANTICIPO TRABAJA CON UN CODIGO DE PROVEEDOR VALIDO
-            //PARA DAR PASO A LA CREACION DE UN NUEVO ANTICIPO
-            if(p.buscarProveedorActivo(identificacion_completa)){
-                CA = new CrearAnticipo();
-                CA.identificacion = this.identificacion;
-                CA.identificacion_completa = identificacion_completa;
-                CA.tipo_identificacion = this.tipoIdentificacion;
-                CA.setVisible(true);
-                procedio = true;
+            if (modo == 1 && digitos) {
+                //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN FALSE
+                //SIGNIFICANDO QUE NO HAY NADIE REGISTRADO POR AHORA CON ESA IDENTIFICACION
+                //PARA DAR PASO A LA CREACION DE UN NUEVO PROVEEDOR SIN QUE SE REPITA LA CEDULA
+                if (!(p.buscarIdentificacion(identificacion_completa))) {
+                    CP = new CreacionProveedor();
+                    CP.identificacion = this.identificacion;
+                    CP.tipoIdentificacion = this.tipoIdentificacion;
+                    CP.setVisible(true);
+                    procedio = true;
+                }
+            } else if (modo == 2 && digitos) {
+                //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN TRUE
+                //DE ESTA MANERA EL ANTICIPO TRABAJA CON UN CODIGO DE PROVEEDOR VALIDO
+                //PARA DAR PASO A LA CREACION DE UN NUEVO ANTICIPO
+                if (p.buscarProveedorActivo(identificacion_completa)) {
+                    CA = new CrearAnticipo();
+                    CA.identificacion = this.identificacion;
+                    CA.identificacion_completa = identificacion_completa;
+                    CA.tipo_identificacion = this.tipoIdentificacion;
+                    CA.setVisible(true);
+                    procedio = true;
+                }
+            }
+            if (procedio) {
+                this.dispose();
+            } else if (!digitos) {
+                JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DE LA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             }
         }
-        if(procedio){
-            this.dispose();
-        }
+
     }//GEN-LAST:event_BotonEnterActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

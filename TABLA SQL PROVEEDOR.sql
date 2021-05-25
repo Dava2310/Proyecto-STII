@@ -28,7 +28,7 @@ SELECT * from proveedor;	-- MOSTRAR TODOS LOS DATOS DE LA TABLA PROVEEDOR
 DROP TABLE proveedor; 		-- ELIMINAR LA TABLA PROVEEDOR
 -- EJEMPLO DE CREACION DE UN PROVEEDOR
 INSERT INTO proveedor VALUES('00029517648','29517648','Daniel','Trinitarias','04167902535','dv@gmail.com','Daniel Vetencourt',
-							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS',null,null);
+							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','');
 
 INSERT INTO proveedor VALUES('00027578138','27578138','Jennifer','Floresta','04167902535','dv@gmail.com','Daniel Vetencourt',
 							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','', 'Inactivo');
@@ -42,7 +42,7 @@ create table anticipos(
     Monto_BS varchar(20) NOT NULL,
     Monto_DS varchar(20) NOT NULL,
     Aprobacion varchar(40),
-    Observaciones varchar(150),
+    Observaciones varchar(150), -- LAS OBSERVACIONES SON INFORMACION ADICIONAL
     DescontarODP varchar(2),
     Codigo_Proveedor varchar(15),
     Recien_Creado varchar(2) DEFAULT 'NO',
@@ -57,7 +57,29 @@ DROP TABLE anticipos;		-- ELIMINAR LA TABLA ANTICIPOS
 -- EJEMPLO DE CREACION DE UN ANTICIPO
 INSERT INTO anticipos(Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP) values('F','B','C','D','E','F','G');
 
-
+create table transacciones(
+	Num_Transaccion varchar(10) not null,
+    Fecha varchar(10) not null,
+    Semana varchar(10) not null,
+    Kg_Brutos int, 
+	Kg_Netos  int,
+    Materia_S int,
+    Impurezas int,
+    Materia_Prima varchar(2),
+    Cuadrilla varchar(2),
+    Flete varchar(2),
+    Peaje varchar(2),
+	-- Informacion adicional de la transaccion
+    Dias_Trabajados int,
+    Ha_Ubicacion int, 
+    USD_DIA varchar(2), 
+    USD_HA varchar(2),
+    Observaciones varchar(150),
+    -- Foreign Key referente al proveedor
+    Codigo_Proveedor varchar(15),
+    foreign key(Codigo_Proveedor) references proveedor(Codigo),
+    primary key(Num_Transaccion)
+);
 
 
 

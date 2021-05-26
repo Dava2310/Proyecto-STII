@@ -345,6 +345,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
         Codigotxt.setText(codigo_proveedor);
         String razon_social = data[2].toString();
         RazonSocialtxt.setText(razon_social);
+        Fechatxt.setText(fechaActual());
     }//GEN-LAST:event_formWindowOpened
 
     String[] botones = {"ACEPTAR","CANCELAR"};
@@ -410,7 +411,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
             //CAMBIANDO EL TEXTO DEL BOTON DE CANCELAR POR CERRAR
             CancelarBT.setText("CERRAR");
         } else {
-            JOptionPane.showMessageDialog(null, "INGRESE POR FAVOR LOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR);
+            JOptionPane.showMessageDialog(null, "INGRESE POR FAVOR LOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
         }  
     }//GEN-LAST:event_CrearBTActionPerformed
 
@@ -424,7 +425,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
 
     private void FechatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechatxtActionPerformed
         // TODO add your handling code here:
-        Fechatxt.setText(fechaActual());
+        
     }//GEN-LAST:event_FechatxtActionPerformed
 
     private void MotivoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MotivoCBActionPerformed
@@ -437,7 +438,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
         Date fecha = new Date();
         //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
         //ADEMAS PERMITE CONVERTIR DE DATE A STRING
-        SimpleDateFormat formatoFecha=new SimpleDateFormat("DD/MM/YYY");
+        SimpleDateFormat formatoFecha=new SimpleDateFormat("MM/DD/YYYY");
         
         return formatoFecha.format(fecha);
     

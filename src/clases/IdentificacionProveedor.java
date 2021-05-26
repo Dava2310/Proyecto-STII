@@ -179,7 +179,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                     CA.tipo_identificacion = this.tipoIdentificacion;
                     CA.setVisible(true);
                     procedio = true;
-                } else if (!p.buscarProveedorActivo(identificacion_completa) && p.buscarIdentificacion(identificacion)){
+                } else if (!p.buscarProveedorActivo(identificacion_completa) && p.buscarIdentificacion(identificacion_completa)){
                     JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO ESTA ACTIVO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 } else if (!p.buscarIdentificacion(identificacion_completa)){
                     JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO SE ENCUENTRA REGISTRADO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);

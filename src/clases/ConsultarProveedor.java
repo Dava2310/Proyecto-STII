@@ -75,6 +75,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         MODCB = new javax.swing.JComboBox<>();
         MonedaCB = new javax.swing.JComboBox<>();
         TCuentaCB = new javax.swing.JComboBox<>();
+        idCBaut = new javax.swing.JComboBox<>();
         PanelObservaciones = new javax.swing.JPanel();
         NuevoBT = new javax.swing.JButton();
         BuscarBT = new javax.swing.JButton();
@@ -310,6 +311,9 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         TCuentaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente", "Cuenta Maxima", "Cuenta Moneda Extranjera" }));
         TCuentaCB.setEnabled(false);
 
+        idCBaut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        idCBaut.setEnabled(false);
+
         javax.swing.GroupLayout PanelBancarioLayout = new javax.swing.GroupLayout(PanelBancario);
         PanelBancario.setLayout(PanelBancarioLayout);
         PanelBancarioLayout.setHorizontalGroup(
@@ -341,6 +345,8 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                             .addComponent(NameAuttxt))
                         .addGroup(PanelBancarioLayout.createSequentialGroup()
                             .addComponent(IDAutL)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(idCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(PanelBancarioLayout.createSequentialGroup()
@@ -406,7 +412,8 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(IDAutL)
-                            .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(idCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -601,7 +608,14 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     }
                     //-------------------------------------------------------------------------------
                     NameAuttxt.setText(data[14].toString());
-                    IDAuttxt.setText(data[15].toString());
+                    //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
+                    String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
+                    char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
+                    int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
+                    idCBaut.setSelectedIndex(tipoID3);
+                    IDAuttxt.setText(identificacion2.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
+                    //--------------------------------------------------------------------------------
+                    //SE AGREGA EL ESTATUS DEL PROVEEDOR----------------------------------------------
                     String actividad = data[16].toString();
                     if (actividad.equals("Activo")){
                         ActividadCB.setSelectedIndex(0);
@@ -747,5 +761,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> TlfCB;
     private javax.swing.JLabel TlfL;
     private javax.swing.JTextField Tlftxt;
+    private javax.swing.JComboBox<String> idCBaut;
     // End of variables declaration//GEN-END:variables
 }

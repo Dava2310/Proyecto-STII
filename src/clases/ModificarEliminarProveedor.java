@@ -85,6 +85,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         MODCB = new javax.swing.JComboBox<>();
         MonedaCB = new javax.swing.JComboBox<>();
         TCuentaCB = new javax.swing.JComboBox<>();
+        IdCBaut = new javax.swing.JComboBox<>();
         PanelObservaciones = new javax.swing.JPanel();
         CancelarBT = new javax.swing.JButton();
         Actualizar = new javax.swing.JButton();
@@ -329,6 +330,9 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         TCuentaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente", "Cuenta Maxima", "Cuenta Moneda Extranjera" }));
         TCuentaCB.setEnabled(false);
 
+        IdCBaut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        IdCBaut.setEnabled(false);
+
         javax.swing.GroupLayout PanelBancarioLayout = new javax.swing.GroupLayout(PanelBancario);
         PanelBancario.setLayout(PanelBancarioLayout);
         PanelBancarioLayout.setHorizontalGroup(
@@ -382,6 +386,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     .addGroup(PanelBancarioLayout.createSequentialGroup()
                         .addComponent(IDAutL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IdCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 10, Short.MAX_VALUE))
             .addGroup(PanelBancarioLayout.createSequentialGroup()
@@ -428,7 +434,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(IDAutL)
-                            .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IdCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -567,7 +574,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             String mod_cuenta = MODCB.getSelectedItem().toString();
             String moneda = MonedaCB.getSelectedItem().toString();
             String nombre_autorizado = NameAuttxt.getText();
-            String id_autorizado = IDAuttxt.getText();
+            String id_autorizado = IdCBaut.getSelectedItem().toString();
+            id_autorizado += IDAuttxt.getText();
 
             p.updateProveedorCodigo(codigo, identificacion, razon_social, direccion, telefono, email, name_beneficiario, id_beneficiario, mail_beneficiario, banco, num_cuenta, tipo_cuenta, mod_cuenta, moneda, nombre_autorizado, id_autorizado);
             JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
@@ -696,7 +704,13 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         }
         //-------------------------------------------------------------------------------
         NameAuttxt.setText(data[14].toString());
-        IDAuttxt.setText(data[15].toString());
+        //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
+        String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
+        char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
+        int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
+        IdCBaut.setSelectedIndex(tipoID3);
+        IDAuttxt.setText(identificacion2.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
+        //-------------------------------------------------------------------------------
         String actividad = data[16].toString();
         if (actividad.equals("Activo")) {
             ActividadCB.setSelectedIndex(0);
@@ -814,9 +828,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         if (MODCB.getSelectedItem().toString().equals("Cuenta Autorizada")) {
             NameAuttxt.setEditable(true);
             IDAuttxt.setEditable(true);
+            IdCBaut.setEnabled(true);
         } else if (MODCB.getSelectedItem().toString().equals("Cuenta Nueva") || MODCB.getSelectedItem().toString().equals("Cuenta Propia")) {
             NameAuttxt.setEditable(false);
             IDAuttxt.setEditable(false);
+            IdCBaut.setEnabled(false);
         }
     }//GEN-LAST:event_MODCBActionPerformed
 
@@ -908,6 +924,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         MonedaCB.setEnabled(false);
         NameAuttxt.setEditable(false);
         IDAuttxt.setEditable(false);
+        IdCBaut.setEnabled(false);
 
         if (modo_busqueda == 0) {
             //Habilitar nuevamente el campo de codigo
@@ -1001,6 +1018,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> IDCB;
     private javax.swing.JLabel IDL;
     private javax.swing.JTextField IDtxt;
+    private javax.swing.JComboBox<String> IdCBaut;
     private javax.swing.JComboBox<String> IdentificacionCB;
     private javax.swing.JLabel IdentificacionL;
     private javax.swing.JLabel IdentificacionProveedor;

@@ -400,6 +400,8 @@
                       <Group type="102" attributes="0">
                           <Component id="IDAutL" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="IdCBaut" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="IDAuttxt" min="-2" pref="205" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -457,6 +459,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="IDAutL" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="IDAuttxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="IdCBaut" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -706,6 +709,23 @@
                 <StringItem index="1" value="Cuenta Corriente"/>
                 <StringItem index="2" value="Cuenta Maxima"/>
                 <StringItem index="3" value="Cuenta Moneda Extranjera"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="IdCBaut">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="5">
+                <StringItem index="0" value="V"/>
+                <StringItem index="1" value="E"/>
+                <StringItem index="2" value="P"/>
+                <StringItem index="3" value="J"/>
+                <StringItem index="4" value="G"/>
               </StringArray>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>

@@ -73,6 +73,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
         TCuentaCB = new javax.swing.JComboBox<>();
         MODCB = new javax.swing.JComboBox<>();
         MonedaCB = new javax.swing.JComboBox<>();
+        idCBaut = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         LimpiarBT = new javax.swing.JButton();
         CrearBT = new javax.swing.JButton();
@@ -286,6 +287,9 @@ public class CreacionProveedor extends javax.swing.JFrame {
 
         MonedaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "$" }));
 
+        idCBaut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
+        idCBaut.setEnabled(false);
+
         javax.swing.GroupLayout PanelBancarioLayout = new javax.swing.GroupLayout(PanelBancario);
         PanelBancario.setLayout(PanelBancarioLayout);
         PanelBancarioLayout.setHorizontalGroup(
@@ -310,6 +314,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
                                 .addComponent(MonedaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanelBancarioLayout.createSequentialGroup()
                                 .addComponent(IDAutL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -394,7 +400,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(IDAutL)
-                            .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(idCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -427,7 +434,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(559, Short.MAX_VALUE)
                 .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(CrearBT, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -516,7 +523,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
             String mod_cuenta = MODCB.getSelectedItem().toString();
             String moneda = MonedaCB.getSelectedItem().toString();
             String name_autorizado = NameAuttxt.getText();
-            String ID_autorizado = IDAuttxt.getText();
+            String ID_autorizado = idCBaut.getSelectedItem().toString();
+            ID_autorizado += IDAuttxt.getText();
             //=====================================================================================================================================================================================================================
             p.NuevoProveedor(codigo, identificacion, razon_social, direccion, telefono, mail, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, moneda, name_autorizado, ID_autorizado);
             //Llamar a la funcion de nuevo proveedor
@@ -545,6 +553,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
         if (MODCB.getSelectedItem().toString().equals("Cuenta Autorizada")) {
             NameAuttxt.setEditable(true);
             NameAuttxt.setBackground(new Color(255,255,255));
+            //SE AGREGA LA ACTIVACION DEL ID COMBOBOX DEL AUTORIZADO
+            idCBaut.setEnabled(true);
             IDAuttxt.setEditable(true);
             IDAuttxt.setBackground(new Color(255,255,255));
         } else if (MODCB.getSelectedItem().toString().equals("Cuenta Nueva") || MODCB.getSelectedItem().toString().equals("Cuenta Propia")) {
@@ -552,6 +562,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
             NameAuttxt.setBackground(new Color(240,240,240));
             IDAuttxt.setEditable(false);
             IDAuttxt.setBackground(new Color(240,240,240));
+            idCBaut.setEnabled(false);
         }
     }//GEN-LAST:event_MODCBActionPerformed
 
@@ -662,6 +673,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> TlfCB;
     private javax.swing.JLabel TlfL;
     private javax.swing.JTextField Tlftxt;
+    private javax.swing.JComboBox<String> idCBaut;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }

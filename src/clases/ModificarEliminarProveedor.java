@@ -617,7 +617,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     //-----------------------------------------------------------------------------
                     RazonSocialtxt.setText(data[2].toString());
                     escribirDatos(data);
-                } else if(!encontrado){
+                } else if (!encontrado) {
                     JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
@@ -635,7 +635,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     Codigotxt.setText(data[0].toString());
                     RazonSocialtxt.setText(data[2].toString());
                     escribirDatos(data);
-                } else if(encontrado == false) {
+                } else if (encontrado == false) {
                     JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
@@ -659,7 +659,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
                     //----------------------------------------------------------------------------------
                     escribirDatos(data);
-                } else if(!encontrado) {
+                } else if (!encontrado) {
                     JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
@@ -708,10 +708,12 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         NameAuttxt.setText(data[14].toString());
         //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
         String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
-        char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
-        int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
-        IdCBaut.setSelectedIndex(tipoID3);
-        IDAuttxt.setText(identificacion2.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
+        if (!identificacion3.isEmpty()) {
+            char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
+            int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
+            IdCBaut.setSelectedIndex(tipoID3);
+            IDAuttxt.setText(identificacion2.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
+        }
         //-------------------------------------------------------------------------------
         String actividad = data[16].toString();
         if (actividad.equals("Activo")) {
@@ -794,7 +796,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             if (!(Codigotxt.getText().equals("")) && !(Identificaciontxt.getText().equals("")) && !(RazonSocialtxt.getText().equals(""))) {
                 //SI LA PERSONA INGRESÓ BUSCANDO POR CODIGO, ES LA MANERA DE VERIFICAR SI YA BUSCÓ
                 Codigotxt.setEnabled(false);         //SE DESHABILITA EL CODIGO, PARA QUE SE MANTENGA AHÍ DURANTE LA MODIFICACION, PARA QUE NO HAYA ERRORES
-                Identificaciontxt.setEnabled(false); //SE DESHABILITA LA IDENTIFICACION, PARA QUE SE MANTENGA AHÍ DURANTE LA MODIFICACION
+                Identificaciontxt.setEditable(false); //SE DESHABILITA LA IDENTIFICACION, PARA QUE SE MANTENGA AHÍ DURANTE LA MODIFICACION
 
                 edicion = true;
                 //A PARTIR DE AQUÍ SE HABILITAN LOS CAMPOS EMPEZANDO POR LA RAZON SOCIAL
@@ -907,6 +909,9 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         TCuentaCB.setEnabled(true);
         MODCB.setEnabled(true);
         MonedaCB.setEnabled(true);
+        NameAuttxt.setEditable(true);
+        IDAuttxt.setEditable(true);
+        IdCBaut.setEnabled(true);
     }
 
     public void deshabilitarCampos() {

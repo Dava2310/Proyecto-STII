@@ -515,37 +515,37 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     //-----------------------------------------------------------------------------
                     RazonSocialtxt.setText(data[2].toString());
                     escribirDatos(data);
-                } else if (!encontrado){
+                } else if (!encontrado) {
                     JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
-        //Busqueda por identificacion
+            //Busqueda por identificacion
         } else if (modo_busqueda == 1) {
             String identificacion = IdentificacionCB.getSelectedItem().toString();
             identificacion += Identificaciontxt.getText();
-            if(identificacion.equals("")){
+            if (identificacion.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
                 encontrado = p.buscarIdentificacion2(identificacion);
-                if(encontrado == true){
+                if (encontrado == true) {
                     data = p.conseguirDatos("", identificacion, "", 2);
                     //COLOCAR EL CODIGO Y LA RAZON SOCIAL
                     Codigotxt.setText(data[0].toString());
                     RazonSocialtxt.setText(data[2].toString());
                     escribirDatos(data);
-                } else if (encontrado == false){
+                } else if (encontrado == false) {
                     JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
-            } 
-        //Busqueda por razon_social
+            }
+            //Busqueda por razon_social
         } else if (modo_busqueda == 2) {
             //DEBO COLOCAR EL CODIGO Y LA IDENTIFICACION
             String RS = RazonSocialtxt.getText();
-            if(RS.equals("")){
+            if (RS.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UNA RAZON SOCIAL DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
                 encontrado = p.buscarRazonSocial(RS);
-                if(encontrado == true){
+                if (encontrado == true) {
                     data = p.conseguirDatos("", "", RS, 3);
                     //COLOCAR EL CODIGO Y LA IDENTIFICACION
                     Codigotxt.setText(data[0].toString());
@@ -557,7 +557,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
                     //----------------------------------------------------------------------------------
                     escribirDatos(data);
-                } else if(!encontrado){
+                } else if (!encontrado) {
                     JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                 }
             }
@@ -565,58 +565,61 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_BuscarBTActionPerformed
 
     //FUNCION PARA ESCRIBIR LOS DATOS DEL PROVEEDOR ENCONTRADO DESDE LA DIRECCION
-    public void escribirDatos(Object[] data){
+    public void escribirDatos(Object[] data) {
         Direcciontxt.setText(data[3].toString());
-                    //CONSEGUIR REPARTIR EL TEXTO DEL TELEFONO
-                    String telefono = data[4].toString();               //EL STRING COMPLETO DE TELEFONO
-                    String tipoNumero = telefono.substring(0, 4);       //RECIBES EL TIPO NUMERO (0412, etc)
-                    TipoTlftxt.setText(tipoNumero);
-                    Tlftxt.setText(telefono.substring(4, telefono.length())); //AQUI SE ESCRIBE TODO EL RESTO DEL NUMERO MENOS EL PREFIJO
-                    //---------------------------------------------------------------------------
-                    Mailtxt.setText(data[5].toString());
-                    NameBnftxt.setText(data[6].toString());
-                    //CONSEGUIR REPARTIR LA IDENTIFICACION DEL BENEFICIARIO----------------------
-                    String identificacion2 = data[7].toString();                //LA CEDULA COMPLETA
-                    char tipoIdentificacion2 = identificacion2.charAt(0);       //EL TIPO DE CEDULA 'V', etc
-                    int TipoID2 = p.indexIdentificacion(tipoIdentificacion2);     //RECIBIR EL INDEX PARA EL CB SEGUN EL TIPO DE CEDULA
-                    IDCB.setSelectedIndex(TipoID2);
-                    IDtxt.setText(identificacion2.substring(1, identificacion2.length())); //LO QUE QUEDA DE CEDULA SIN EL TIPO
-                    //----------------------------------------------------------------------------
-                    MailBNFtxt.setText(data[8].toString());
-                    //IDENTIFICAR EL TIPO DE BANCO
-                    String banco = data[9].toString();                  //EL STRING COMPLETO DEL BANCO
-                    BancoCB.setSelectedIndex(p.getindexBanco(banco));     //COLOCO SEGUN EL INDEX DE LO QUE CORRESPONDE AL BANCO EN EL COMBOBOX
-                    //----------------------------------------------------------------------------
-                    NumCuentatxt.setText(data[10].toString());
-                    //IDENTIFICAR EL TIPO DE CUENTA DE BANCO
-                    String tipoCuenta = data[11].toString();                    //EL STRING COMPLETO DEL TIPO DE CUENTA BANCARIA
-                    TCuentaCB.setSelectedIndex(p.indexTipoCuenta(tipoCuenta));
-                    //IDENTIFICAR EL MODO DE CUENTA-------------------------------------------------
-                    String modo_cuenta = data[12].toString();                   //EL STRING COMPLETO DEL MOD
-                    MODCB.setSelectedIndex(p.indexmod_Cuenta(modo_cuenta));
-                    //IDENTIFICAR EL TIPO DE MONEDA-------------------------------------------------
-                    String moneda = data[13].toString();                        //EL STRING COMPLETO DE LA MONEDA
-                    if(moneda.equals("BS")){
-                        MonedaCB.setSelectedIndex(0);
-                    } else if(moneda.equals("$")){
-                        MonedaCB.setSelectedIndex(1);
-                    }
-                    //-------------------------------------------------------------------------------
-                    NameAuttxt.setText(data[14].toString());
-                    //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
-                    String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
-                    char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
-                    int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
-                    idCBaut.setSelectedIndex(tipoID3);
-                    IDAuttxt.setText(identificacion2.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
-                    //--------------------------------------------------------------------------------
-                    //SE AGREGA EL ESTATUS DEL PROVEEDOR----------------------------------------------
-                    String actividad = data[16].toString();
-                    if (actividad.equals("Activo")){
-                        ActividadCB.setSelectedIndex(0);
-                    } else if (actividad.equals("Inactivo")) {
-                        ActividadCB.setSelectedIndex(1);
-                    }
+        //CONSEGUIR REPARTIR EL TEXTO DEL TELEFONO
+        String telefono = data[4].toString();               //EL STRING COMPLETO DE TELEFONO
+        String tipoNumero = telefono.substring(0, 4);       //RECIBES EL TIPO NUMERO (0412, etc)
+        TipoTlftxt.setText(tipoNumero);
+        Tlftxt.setText(telefono.substring(4, telefono.length())); //AQUI SE ESCRIBE TODO EL RESTO DEL NUMERO MENOS EL PREFIJO
+        //---------------------------------------------------------------------------
+        Mailtxt.setText(data[5].toString());
+        NameBnftxt.setText(data[6].toString());
+        //CONSEGUIR REPARTIR LA IDENTIFICACION DEL BENEFICIARIO----------------------
+        String identificacion2 = data[7].toString();                //LA CEDULA COMPLETA
+        char tipoIdentificacion2 = identificacion2.charAt(0);       //EL TIPO DE CEDULA 'V', etc
+        int TipoID2 = p.indexIdentificacion(tipoIdentificacion2);     //RECIBIR EL INDEX PARA EL CB SEGUN EL TIPO DE CEDULA
+        IDCB.setSelectedIndex(TipoID2);
+        IDtxt.setText(identificacion2.substring(1, identificacion2.length())); //LO QUE QUEDA DE CEDULA SIN EL TIPO
+        //----------------------------------------------------------------------------
+        MailBNFtxt.setText(data[8].toString());
+        //IDENTIFICAR EL TIPO DE BANCO
+        String banco = data[9].toString();                  //EL STRING COMPLETO DEL BANCO
+        BancoCB.setSelectedIndex(p.getindexBanco(banco));     //COLOCO SEGUN EL INDEX DE LO QUE CORRESPONDE AL BANCO EN EL COMBOBOX
+        //----------------------------------------------------------------------------
+        NumCuentatxt.setText(data[10].toString());
+        //IDENTIFICAR EL TIPO DE CUENTA DE BANCO
+        String tipoCuenta = data[11].toString();                    //EL STRING COMPLETO DEL TIPO DE CUENTA BANCARIA
+        TCuentaCB.setSelectedIndex(p.indexTipoCuenta(tipoCuenta));
+        //IDENTIFICAR EL MODO DE CUENTA-------------------------------------------------
+        String modo_cuenta = data[12].toString();                   //EL STRING COMPLETO DEL MOD
+        MODCB.setSelectedIndex(p.indexmod_Cuenta(modo_cuenta));
+        //IDENTIFICAR EL TIPO DE MONEDA-------------------------------------------------
+        String moneda = data[13].toString();                        //EL STRING COMPLETO DE LA MONEDA
+        if (moneda.equals("BS")) {
+            MonedaCB.setSelectedIndex(0);
+        } else if (moneda.equals("$")) {
+            MonedaCB.setSelectedIndex(1);
+        }
+        //-------------------------------------------------------------------------------
+        NameAuttxt.setText(data[14].toString());
+        //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
+        String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
+        if (!identificacion3.isEmpty()) {
+            char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
+            int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
+            idCBaut.setSelectedIndex(tipoID3);
+            IDAuttxt.setText(identificacion2.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
+        }
+
+        //--------------------------------------------------------------------------------
+        //SE AGREGA EL ESTATUS DEL PROVEEDOR----------------------------------------------
+        String actividad = data[16].toString();
+        if (actividad.equals("Activo")) {
+            ActividadCB.setSelectedIndex(0);
+        } else if (actividad.equals("Inactivo")) {
+            ActividadCB.setSelectedIndex(1);
+        }
     }
 
     private void NuevoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoBTActionPerformed

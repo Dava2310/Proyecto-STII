@@ -45,12 +45,12 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         DireccionL = new javax.swing.JLabel();
         Direcciontxt = new javax.swing.JTextField();
         TlfL = new javax.swing.JLabel();
-        TlfCB = new javax.swing.JComboBox<>();
         Tlftxt = new javax.swing.JTextField();
         MailL = new javax.swing.JLabel();
         Mailtxt = new javax.swing.JTextField();
         ActividadL = new javax.swing.JLabel();
         ActividadCB = new javax.swing.JComboBox<>();
+        TipoTlftxt = new javax.swing.JTextField();
         PanelBancario = new javax.swing.JPanel();
         NameBnfL = new javax.swing.JLabel();
         IDL = new javax.swing.JLabel();
@@ -133,14 +133,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         TlfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         TlfL.setText("Teléfono");
 
-        TlfCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0412", "0414", "0416", "0424", "0426" }));
-        TlfCB.setEnabled(false);
-        TlfCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TlfCBActionPerformed(evt);
-            }
-        });
-
         Tlftxt.setEditable(false);
         Tlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
@@ -155,6 +147,9 @@ public class ConsultarProveedor extends javax.swing.JFrame {
 
         ActividadCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
         ActividadCB.setEnabled(false);
+
+        TipoTlftxt.setEditable(false);
+        TipoTlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         javax.swing.GroupLayout PanelIdentificacionLayout = new javax.swing.GroupLayout(PanelIdentificacion);
         PanelIdentificacion.setLayout(PanelIdentificacionLayout);
@@ -171,8 +166,8 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                         .addGroup(PanelIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelIdentificacionLayout.createSequentialGroup()
                                 .addComponent(TlfL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(TlfCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
+                                .addComponent(TipoTlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -231,10 +226,10 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(PanelIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TlfL)
-                            .addComponent(TlfCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MailL)
-                            .addComponent(Mailtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(Mailtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TipoTlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ActividadL)
@@ -575,7 +570,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     //CONSEGUIR REPARTIR EL TEXTO DEL TELEFONO
                     String telefono = data[4].toString();               //EL STRING COMPLETO DE TELEFONO
                     String tipoNumero = telefono.substring(0, 4);       //RECIBES EL TIPO NUMERO (0412, etc)
-                    TlfCB.setSelectedIndex(p.tipoNumeroTlf(tipoNumero));
+                    TipoTlftxt.setText(tipoNumero);
                     Tlftxt.setText(telefono.substring(4, telefono.length())); //AQUI SE ESCRIBE TODO EL RESTO DEL NUMERO MENOS EL PREFIJO
                     //---------------------------------------------------------------------------
                     Mailtxt.setText(data[5].toString());
@@ -649,10 +644,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
-    private void TlfCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TlfCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TlfCBActionPerformed
-
     public void limpiar() {
         Codigotxt.setText("");
         IdentificacionCB.setSelectedIndex(0);
@@ -660,7 +651,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         RazonSocialtxt.setText("");
         Direcciontxt.setText("");
         Tlftxt.setText("");
-        TlfCB.setSelectedIndex(0);
+        TipoTlftxt.setText("");
         Mailtxt.setText("");
         NameBnftxt.setText("");
         IDCB.setSelectedIndex(0);
@@ -758,7 +749,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField RazonSocialtxt;
     private javax.swing.JComboBox<String> TCuentaCB;
     private javax.swing.JLabel TCuentaL;
-    private javax.swing.JComboBox<String> TlfCB;
+    private javax.swing.JTextField TipoTlftxt;
     private javax.swing.JLabel TlfL;
     private javax.swing.JTextField Tlftxt;
     private javax.swing.JComboBox<String> idCBaut;

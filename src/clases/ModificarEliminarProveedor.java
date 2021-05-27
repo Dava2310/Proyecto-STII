@@ -55,12 +55,12 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         DireccionL = new javax.swing.JLabel();
         Direcciontxt = new javax.swing.JTextField();
         TlfL = new javax.swing.JLabel();
-        TlfCB = new javax.swing.JComboBox<>();
         Tlftxt = new javax.swing.JTextField();
         MailL = new javax.swing.JLabel();
         Mailtxt = new javax.swing.JTextField();
         ActividadL = new javax.swing.JLabel();
         ActividadCB = new javax.swing.JComboBox<>();
+        TipoTlftxt = new javax.swing.JTextField();
         PanelBancario = new javax.swing.JPanel();
         NameBnfL = new javax.swing.JLabel();
         NameBnftxt = new javax.swing.JTextField();
@@ -151,9 +151,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         TlfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         TlfL.setText("Teléfono");
 
-        TlfCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0412", "0414", "0416", "0424", "0426" }));
-        TlfCB.setEnabled(false);
-
         Tlftxt.setEditable(false);
         Tlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
@@ -170,6 +167,9 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         ActividadCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
         ActividadCB.setEnabled(false);
 
+        TipoTlftxt.setEditable(false);
+        TipoTlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
         javax.swing.GroupLayout PanelDeIdentificacionLayout = new javax.swing.GroupLayout(PanelDeIdentificacion);
         PanelDeIdentificacion.setLayout(PanelDeIdentificacionLayout);
         PanelDeIdentificacionLayout.setHorizontalGroup(
@@ -184,16 +184,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
-                                .addComponent(TlfL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(TlfCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(MailL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Mailtxt))
-                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
                                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(RazonSocialL)
                                     .addComponent(DireccionL))
@@ -201,10 +191,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(RazonSocialtxt)
                                     .addComponent(Direcciontxt)))
-                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
-                                .addComponent(ActividadL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
                                 .addComponent(CodigoL)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -214,7 +200,23 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(IdentificacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                        .addComponent(TlfL)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(TipoTlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(ActividadL))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                        .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(MailL)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(Mailtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)))))))
                 .addContainerGap())
         );
         PanelDeIdentificacionLayout.setVerticalGroup(
@@ -241,14 +243,14 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(DireccionL)
-                            .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(TlfL)
-                            .addComponent(TlfCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MailL)
-                            .addComponent(Mailtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(2, 2, 2)
+                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TlfL)
+                    .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MailL)
+                    .addComponent(Mailtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TipoTlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ActividadL)
@@ -561,7 +563,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             identificacion += Identificaciontxt.getText();
             String razon_social = RazonSocialtxt.getText();
             String direccion = Direcciontxt.getText();
-            String telefono = TlfCB.getSelectedItem().toString();
+            String telefono = TipoTlftxt.getText();
             telefono += Tlftxt.getText();
             String email = Mailtxt.getText();
             String name_beneficiario = NameBnftxt.getText();
@@ -671,7 +673,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         //CONSEGUIR REPARTIR EL TEXTO DEL TELEFONO
         String telefono = data[4].toString();               //EL STRING COMPLETO DE TELEFONO
         String tipoNumero = telefono.substring(0, 4);       //RECIBES EL TIPO NUMERO (0412, etc)
-        TlfCB.setSelectedIndex(p.tipoNumeroTlf(tipoNumero));
+        TipoTlftxt.setText(tipoNumero);
         Tlftxt.setText(telefono.substring(4, telefono.length()));
         //---------------------------------------------------------------------------
         Mailtxt.setText(data[5].toString());
@@ -893,7 +895,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     public void habilitarCampos() {
         RazonSocialtxt.setEditable(true);
         Direcciontxt.setEditable(true);
-        TlfCB.setEnabled(true);
+        TipoTlftxt.setEditable(true);
         Tlftxt.setEditable(true);
         Mailtxt.setEditable(true);
         NameBnftxt.setEditable(true);
@@ -910,7 +912,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     public void deshabilitarCampos() {
         RazonSocialtxt.setEditable(false);
         Direcciontxt.setEditable(false);
-        TlfCB.setEnabled(false);
+        TipoTlftxt.setEditable(false);
         Tlftxt.setEditable(false);
         Mailtxt.setEditable(false);
         NameBnftxt.setEditable(false);
@@ -946,7 +948,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         RazonSocialtxt.setText("");
         Direcciontxt.setText("");
         Tlftxt.setText("");
-        TlfCB.setSelectedIndex(0);
+        TipoTlftxt.setText("");
         Mailtxt.setText("");
         NameBnftxt.setText("");
         IDCB.setSelectedIndex(0);
@@ -1046,7 +1048,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField RazonSocialtxt;
     private javax.swing.JComboBox<String> TCuentaCB;
     private javax.swing.JLabel TCuentaL;
-    private javax.swing.JComboBox<String> TlfCB;
+    private javax.swing.JTextField TipoTlftxt;
     private javax.swing.JLabel TlfL;
     private javax.swing.JTextField Tlftxt;
     // End of variables declaration//GEN-END:variables

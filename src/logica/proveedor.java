@@ -393,22 +393,6 @@ public class proveedor {
         return index;
     }
     
-    //FUNCION PARA IDENTIFICAR EL TIPO DE NUMERO TELEFONICO
-    public int tipoNumeroTlf(String postal) {
-        int index = 0;
-        if (postal.equals("0412")) {
-            index = 0;
-        } else if (postal.equals("0414")) {
-            index = 1;
-        } else if (postal.equals("0416")) {
-            index = 2;
-        } else if (postal.equals("0424")) {
-            index = 3;
-        } else if (postal.equals("0426")) {
-            index = 4;
-        }
-        return index;
-    }
     
     //FUNCION PARA CAPTURAR EL TIPO DE CUENTA DE BANCO
     public int indexTipoCuenta(String tipo){

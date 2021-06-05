@@ -5,6 +5,8 @@
  */
 package clases;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author usuario
@@ -14,6 +16,17 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     /**
      * Creates new form TransaccionesCrear
      */
+    
+    /*
+        VARIABLES INICIALES PARA EL PROVEEDOR QUE SE INGRESA A TRAVES DE LA
+        PANTALLA ANTERIOR
+    */
+    int indexComboProveedor = 0;
+    String identificacionTXT;
+    String codigoTXT;
+    String razonSocialTXT;
+    String numeroBoleto;
+    
     public TransaccionesCrear() {
         initComponents();
     }
@@ -74,6 +87,11 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Informacion del Proveedor");
@@ -212,6 +230,11 @@ public class TransaccionesCrear extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton2.setText("CANCELAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -431,6 +454,38 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private void PeajeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PeajeCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PeajeCBActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        /*
+            EN ESTE APARTADO, NOS TENEMOS QUE ENCARGAR DE COLOCAR POR PANTALLA
+            LOS DATOS DEL PROVEEDOR QUE FUERON PUESTOS EN LA PRIMERA PANTALLA
+            QUE DA PASO ANTES DE CREAR UNA TRANSACCION
+        */
+        
+        CODtxt.setText(codigoTXT);
+        RazonSocialtxt.setText(razonSocialTXT);
+        tipoIDProveedorCB.setSelectedIndex(indexComboProveedor);
+        IDtxt.setText(identificacionTXT);
+        
+        /*
+            DESPUES, TENEMOS QUE COLOCAR POR PANTALLA EL NUMERO DE BOLETO QUE SE
+            COLOCO EN LA ANTERIOR PANTALLA
+        */
+        NroBoletotxt.setText(numeroBoleto);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String[] botones_confirmacionCancelar = {"NO, NO DESEO CANCELAR", "SI, SI DESEO CANCELAR"};
+        int index = JOptionPane.showOptionDialog(null, "DESEA CANCELAR LA CREACION DE TRANSACCION?", "CONFIRMACION DE CANCELACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCancelar, botones_confirmacionCancelar[0]);
+        /*
+            ESTE AVISO ARROJA DOS VALORES ENTEROS
+            0- NO DESEA CANCELAR
+            1- SI DESEA CANCELAR
+        */
+        if(index == 1){
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

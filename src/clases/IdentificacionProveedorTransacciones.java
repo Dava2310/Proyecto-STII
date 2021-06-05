@@ -161,9 +161,40 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
                 PROCEDEMOS A VERIFICAR
              */
             if (transaccionEncontrada == false && proveedorActivoEncontrado == true) {
+                Object[] datosProveedor = new Object[3];
+                datosProveedor = p.conseguirDatosPrincipales("", identificacion_completa, "", 2);
+                /*
+                    AHORA TENGO QUE LLAMAR A LAS VARIABLES PUBLICAS DE LA PANTALLA DE TRANSACCION
+                    PARA DARLE LOS VALORES DE LOS DATOS PRINCIPALES DEL PROVEEDOR ENCONTRADO
+                    int indexComboProveedor = 0;
+                    String identificacionTXT;
+                    String codigoTXT;
+                    String razonSocialTXT;
+                */
+                
                 TC = new TransaccionesCrear();
+                
+                /*
+                    ASIGNACION DE DATOS
+                */
+                
+                TC.codigoTXT = datosProveedor[0].toString();
+                TC.razonSocialTXT = datosProveedor[2].toString();
+                /*
+                    CON RESPECTO A LA IDENTIFICACION, ESO YA LO TENEMOS
+                    GRACIAS A QUE LA BUSQUEDA FUE CON ESTE DATO
+                */
+                TC.indexComboProveedor = tipoIdentificacion;
+                TC.identificacionTXT = IDProveedortxt.getText();
+                
+                /*
+                    DE AQUI YA SE HAN ASIGNADO CORRECTAMENTE LOS DATOS DEL PROVEEDOR A LA PANTALLA SIGUIENTE
+                    SOLO FALTA SACAR EL NUMERO DE BOLETO DE ESTA PANTALLA Y MANDARLO A LA SIGUIENTE
+                */
+                TC.numeroBoleto = NroBoletotxt.getText();
                 TC.setVisible(true);
                 this.dispose();
+                
             } else if (transaccionEncontrada) {
                 JOptionPane.showMessageDialog(null, "Esta transaccion o boleto ya existe en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else if (proveedorActivoEncontrado == false){

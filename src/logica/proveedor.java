@@ -286,6 +286,12 @@ public class proveedor {
     }
     
     //FUNCION PARA CONSEGUIR LOS DATOS DE UN ÚNICO PROVEEDOR
+    /*
+        LOS MODOS PARA ESTA FUNCION SON LOS SIGUIENTES
+        1- ENCONTRAR LOS DATOS GRACIAS AL CODIGO DEL PROVEEDOR
+        2- ENCONTRAR LOS DATOS GRACIAS A LA IDENTIFICACION
+        3- ENCONTRAR LOS DATOS GRACIAS A LA RAZON SOCIAL
+    */
     public Object[] conseguirDatos(String codigo, String identificacion, String Razon_Social, int modo){
         Object[] data = new Object[17];
         Object[] data2 = new Object[17];
@@ -331,9 +337,11 @@ public class proveedor {
         return data2;
     }
     
-    //FUNCION QUE LE SIRVE a conseguirDatos() PARA DEVOVLER CADA UNO DE LOS DATOS
-    //SE LE INGRESA EL OBJETO VECTOR DATA PARA GUARDAR ALLÍ LOS DATOS
-    //Y LA RESULTSET QUE ES DONDE SE GUARDA EL RESULTADO DE LA QUERY DE SQL
+    /*
+        FUNCION QUE LE SIRVE a conseguirDatos() PARA DEVOVLER CADA UNO DE LOS DATOS
+        SE LE INGRESA EL OBJETO VECTOR DATA PARA GUARDAR ALLÍ LOS DATOS
+        Y LA RESULTSET QUE ES DONDE SE GUARDA EL RESULTADO DE LA QUERY DE SQL
+    */
     public Object[] informacion(ResultSet res, Object[] data){
         try {
             while(res.next()){
@@ -372,6 +380,80 @@ public class proveedor {
                 data[14] = estNombre_Autorizado;
                 data[15] = estID_Autorizado; 
                 data[16] = estActividad;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
+    }
+    
+    /*
+        FUNCION PARA OBTENER UNICAMENTE LOS DATOS PRINCIPALES DEL PROVEEDOR (CODIGO, IDENTIFICACION, RAZON_SOCIAL)
+        LOS MODOS PARA ESTA FUNCION SON LOS SIGUIENTES
+        1- ENCONTRAR LOS DATOS GRACIAS AL CODIGO DEL PROVEEDOR
+        2- ENCONTRAR LOS DATOS GRACIAS A LA IDENTIFICACION
+        3- ENCONTRAR LOS DATOS GRACIAS A LA RAZON SOCIAL
+    */
+    public Object[] conseguirDatosPrincipales(String codigo, String identificacion, String razon_social, int modo){
+        Object[] data = new Object[3];
+        Object[] data2 = new Object[3];
+        PreparedStatement pstm;
+        ResultSet res;
+        try{
+            //Conseguir datos habiendo buscado por codigo
+            if(modo == 1){
+               pstm = con.getConnection().prepareStatement("SELECT " + 
+                    " Codigo, Identificacion, Razon_Social" + 
+                    " FROM proveedor " +
+                    " WHERE Codigo = ?");
+               pstm.setString(1, codigo); 
+               res = pstm.executeQuery();
+               data2 = informacionPrincipal(res,data);
+               res.close();
+               //Conseguir datos habiendo buscado por identificacion
+            } else if (modo == 2){
+                //BUSQUEDA POR IDENTIFICACION
+                pstm = con.getConnection().prepareStatement("SELECT " + 
+                    " Codigo, Identificacion, Razon_Social" + 
+                    " FROM proveedor " +
+                    " WHERE Identificacion = ?");
+                pstm.setString(1, identificacion);
+                res = pstm.executeQuery();
+                data2 = informacionPrincipal(res,data);
+                res.close();
+                //Conseguir datos habiendo buscado por razon social
+            } else if (modo == 3){
+                //BUSQUEDA POR RAZON_SOCIAL
+                pstm = con.getConnection().prepareStatement("SELECT " + 
+                    " Codigo, Identificacion, Razon_Social" + 
+                    " FROM proveedor " +
+                    " WHERE Razon_Social = ?");
+                pstm.setString(1, razon_social);
+                res = pstm.executeQuery();
+                data2 = informacionPrincipal(res, data);
+                res.close();
+            }   
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return data2;
+    }
+    
+    /*  FUNCION QUE LE SIRVE a conseguirDatosPrincipales() PARA DEVOVLER CADA UNO DE LOS DATOS
+        SE LE INGRESA EL OBJETO VECTOR DATA PARA GUARDAR ALLÍ LOS DATOS
+        Y LA RESULTSET QUE ES DONDE SE GUARDA EL RESULTADO DE LA QUERY DE SQL
+    */
+    public Object[] informacionPrincipal(ResultSet res, Object[] data){
+        try {
+            while(res.next()){
+                String estCodigo = res.getString("Codigo");
+                String estIdentificacion = res.getString("Identificacion");
+                String estRazon_Social = res.getString("Razon_Social");
+                //Ingresando todos los datos
+                data[0] = estCodigo;
+                data[1] = estIdentificacion;
+                data[2] = estRazon_Social;
             }
             
         } catch (SQLException ex) {

@@ -34,6 +34,7 @@ INSERT INTO proveedor VALUES('00027578138','V27578138','Jennifer','Floresta','04
 							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','', 'Inactivo');
 DELETE FROM proveedor where Estado_Actividad = 'Inactivo';
 UPDATE proveedor set Identificacion = 'V27578138' where Razon_Social = 'Jennifer';
+SELECT * from proveedor where Identificacion = 'V29517648' and Codigo = '00029517648' and Razon_Social = 'Daniel Vetencourt';
 -- CREACION DE LA TABLA ANTICIPO
 create table anticipos(
 	Num_Anticipo int NOT NULL auto_increment, 
@@ -59,11 +60,12 @@ INSERT INTO anticipos(Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Ob
 
 -- CREACION DE LA TABLA TRANSACCIONES
 create table transacciones(
+	ID_Transaccion int auto_increment,
 	Num_Transaccion varchar(10) not null,
     Fecha varchar(10) not null,
     Semana varchar(10) not null,
-    Kg_Brutos float not null, 
-	Kg_Netos  float not null,
+    Kg_Brutos int not null, 		-- ESTE CAMPO NO PUEDE SER DECIMAL
+	Kg_Netos  int not null,			-- ESTE CAMPO NO PUEDE SER DECIMAL
     Materia_S float not null,
     Impurezas float not null,
     Materia_Prima varchar(3),
@@ -79,7 +81,7 @@ create table transacciones(
     -- Foreign Key referente al proveedor
     Codigo_Proveedor varchar(15),
     foreign key(Codigo_Proveedor) references proveedor(Codigo),
-    primary key(Num_Transaccion)
+    primary key(ID_Transaccion)
 );
 
 -- COMANDOS PARA LA TABLA TRANSACCIONES

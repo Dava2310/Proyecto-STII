@@ -6,7 +6,9 @@
 package clases;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import logica.transacciones;
 
@@ -19,11 +21,10 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     /**
      * Creates new form TransaccionesCrear
      */
-    
     /*
         VARIABLES INICIALES PARA EL PROVEEDOR QUE SE INGRESA A TRAVES DE LA
         PANTALLA ANTERIOR
-    */
+     */
     int indexComboProveedor = 0;
     String identificacionTXT;
     String codigoTXT;
@@ -32,6 +33,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     boolean informacionAdicional = false;
     transacciones t = new transacciones();
     IdentificacionProveedorTransacciones IPT = new IdentificacionProveedorTransacciones();
+
     public TransaccionesCrear() {
         initComponents();
     }
@@ -147,6 +149,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         FechaL1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         FechaL1.setText("Fecha");
 
+        Semanatxt.setEditable(false);
         Semanatxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         KGBrutosL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -487,28 +490,36 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             EN ESTE APARTADO, NOS TENEMOS QUE ENCARGAR DE COLOCAR POR PANTALLA
             LOS DATOS DEL PROVEEDOR QUE FUERON PUESTOS EN LA PRIMERA PANTALLA
             QUE DA PASO ANTES DE CREAR UNA TRANSACCION
-        */
-        
+         */
+
         CODtxt.setText(codigoTXT);
         RazonSocialtxt.setText(razonSocialTXT);
         tipoIDProveedorCB.setSelectedIndex(indexComboProveedor);
         IDtxt.setText(identificacionTXT);
-        
+
         /*
             DESPUES, TENEMOS QUE COLOCAR POR PANTALLA EL NUMERO DE BOLETO QUE SE
             COLOCO EN LA ANTERIOR PANTALLA
-        */
+         */
         NroBoletotxt.setText(numeroBoleto);
-        
+
         /*
             EN ESTE APARTADO, INTENTAMOS COLOCAR LA FECHA DEL SISTEMA EN EL TXT CORRESPONDIENTE
             ADEMAS DE QUE DEBERIAMOS COLOCAR LA SEMANA
-        */
-        
+         */
         Date fecha = new Date();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
         String fechaActual = formatoFecha.format(fecha);
         Fechatxt.setText(fechaActual);
+
+        Date anio = new Date();
+        SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
+        String anioActual = formatoAnio.format(anio);
+
+        GregorianCalendar gc = new GregorianCalendar();
+        int day = 0;
+        gc.add(Calendar.DATE, day);
+        Semanatxt.setText((gc.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
     }//GEN-LAST:event_formWindowOpened
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
@@ -518,20 +529,20 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             ESTE AVISO ARROJA DOS VALORES ENTEROS
             0- NO DESEA CANCELAR
             1- SI DESEA CANCELAR
-        */
-        if(index == 1){
+         */
+        if (index == 1) {
             this.dispose();
         }
     }//GEN-LAST:event_CancelarBTActionPerformed
 
     private void InformacionAdicionalBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InformacionAdicionalBTActionPerformed
-        if(informacionAdicional){
+        if (informacionAdicional) {
             informacionAdicional = false;
             DtrabajadosCB.setEnabled(false);
             HAubicacionCB.setEnabled(false);
             USDHACB.setEnabled(false);
             USDdiaCB.setEnabled(false);
-        } else if (!informacionAdicional){
+        } else if (!informacionAdicional) {
             informacionAdicional = true;
             DtrabajadosCB.setEnabled(true);
             HAubicacionCB.setEnabled(true);
@@ -543,8 +554,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
         /*
             LO PRIMERO SIEMPRE VERIFICAR QUE LOS CAMPOS OBLIGATORIOS SE HAYAN LLENADO EXITOSAMENTE
-        */
-        if(!NroBoletotxt.getText().isEmpty() && !Fechatxt.getText().isEmpty() && !Semanatxt.getText().isEmpty()){
+         */
+        if (!NroBoletotxt.getText().isEmpty() && !Fechatxt.getText().isEmpty() && !Semanatxt.getText().isEmpty()) {
             //AL MENOS DE AQUI YA SABEMOS QUE ESOS DATOS NO ESTAN VACIOS
             /*
                 TAMBIEN HAY QUE COMPROBAR LOS SIGUIENTES ELEMENTOS PARA QUE NO SEAN NULOS
@@ -552,8 +563,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                 KGnetos
                 MateriaSeca
                 Impurezas
-            */
-            if(!KGbrutostxt.getText().isEmpty() && !KGNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()){
+             */
+            if (!KGbrutostxt.getText().isEmpty() && !KGNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()) {
                 //ENTRANDO AQUI YA SABEMOS QUE LOS CAMPOS DE LOS KG NO ESTAN VACIOS
                 /*
                     NOS LAS TENEMOS QUE INGENIAR ENTONCES PARA SABER QUE AL MENOS UNO DE LOS CUATRO CAMPOS DE:
@@ -563,18 +574,17 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                     - Peaje
                     ESTAN ACTIVOS
                     POR TANTO, SOLO NECESITAMOS UNO DE ELLOS, USAMOS LA CONDICION LOGICA OR
-                */
-                if(MPCB.isSelected() || CuadrillaCB.isSelected() || PeajeCB.isSelected() || FleteCB.isSelected()){
+                 */
+                if (MPCB.isSelected() || CuadrillaCB.isSelected() || PeajeCB.isSelected() || FleteCB.isSelected()) {
                     /*
                         A PARTIR DE AQUI, YA TENEMOS TODO LO SUFICIENTE COMO PARAR CREAR UNA TRANSACCION
                         LOS DEMAS DATOS TENTATIVOS COMO LOS DE INFOMRACION ADICIONAL IRAN EN UN IF DENTRO 
                         DE ESTA SECCION DE CREACION DE UNA TRANSACCION
-                    */
-                    
+                     */
+
                     /*=================================================================================================\\
                     ||==================================CREACION DE LA TRANSACCION=====================================||
                     //=================================================================================================*/
-                    
                     //EMPEZAMOS POR RECOGER TODOS LOS DATOS DE LA PANTALLA
                     String num_transaccion = NroBoletotxt.getText();
                     String fecha = Fechatxt.getText();
@@ -583,89 +593,113 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                     String KGnetos = KGNetostxt.getText();
                     String MateriaSeca = MStxt.getText();
                     String Impurezas = Impurezastxt.getText();
-                    
+
                     /*
                         AQUI REVISAMOS CUALES SON LOS TIPOS DE TRANSACCIONES DE ESTA TRANSACCION
                         POR CADA UNO DE ELLOS, SE HACE UN CONDICIONAL, SI ESTAN SELECTED, AL CAMPO SE LE COLOCA SI, 
                         O NO SI NO ESTA SELECCIONADO
-                    */
-                    
+                     */
                     //PRIMERO CREAMOS VARIABLES STRING EN BLANCO, PORQUE IGUAL HAY QUE METER LAS VARIABLES DENTRO DE LAS FUNCIONES.
                     String materiaPrima = "";
                     String Cuadrilla = "";
                     String Flete = "";
                     String peaje = "";
-                    
-                    if(MPCB.isSelected()){          //CONDICIONAL DE LA MATERIA PRIMA
+
+                    if (MPCB.isSelected()) {          //CONDICIONAL DE LA MATERIA PRIMA
                         materiaPrima = "SI";
                     } else {
                         materiaPrima = "NO";
                     }
-                    
-                    if(CuadrillaCB.isSelected()){   //CONDICIONAL DE LA CUADRILLA
+
+                    if (CuadrillaCB.isSelected()) {   //CONDICIONAL DE LA CUADRILLA
                         Cuadrilla = "SI";
-                    } else{
+                    } else {
                         Cuadrilla = "NO";
                     }
-                    
-                    if(PeajeCB.isSelected()){       //CONDICIONAL DE PEAJE
+
+                    if (PeajeCB.isSelected()) {       //CONDICIONAL DE PEAJE
                         peaje = "SI";
                     } else {
                         peaje = "NO";
                     }
-                    
-                    if(FleteCB.isSelected()){       //CONDICIONAL DE FLETE
+
+                    if (FleteCB.isSelected()) {       //CONDICIONAL DE FLETE
                         Flete = "SI";
                     } else {
                         Flete = "NO";
                     }
-                    
+
                     /*
                         DE AQUI EN ADELANTE, VERIFICAMOS PRIMERO UN CONDICIONAL DONDE VEAMOS SI LA INFORMACION ADICIONAL ESTA HABILITADA
                         PARA ESO, TENEMOS NUESTRA VARIABLE GLOBAL "informacionAdicional"
                         SOLO ES NECESARIO QUE COMPROBEMOS SI ESTA ACTIVO
                         DE IGUAL MANERA, CREAMOS LAS VARIABLES CON VALORES POR DEFECTO PARA QUE NO ESTEN NULOS.
-                    */
+                     */
                     String diasTrabajados = "";
                     String HAubicacion = "";
                     String USDdia = "";
                     String USDha = "";
-                    if(informacionAdicional){
+                    if (informacionAdicional) {
                         diasTrabajados = DtrabajadosCB.getSelectedItem().toString();
                         HAubicacion = HAubicacionCB.getSelectedItem().toString();
                         USDdia = USDdiaCB.getSelectedItem().toString();
-                        USDha =  USDHACB.getSelectedItem().toString();
+                        USDha = USDHACB.getSelectedItem().toString();
                     }
                     String observaciones = "";
                     observaciones = ObservacionesTXT.getText();
                     //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
                     String codigoProveedor = CODtxt.getText();
-                    
-                    
+
                     /*=================================================================================================\\
                     ||==================================LLAMADA DE LA FUNCION==========================================||
                     //=================================================================================================*/
-                    
                     t.NuevaTransaccion(num_transaccion, fecha, semana, KBbrutos, KGnetos, MateriaSeca, Impurezas, materiaPrima, Cuadrilla, Flete, peaje, diasTrabajados, HAubicacion, USDdia, USDha, observaciones, codigoProveedor, informacionAdicional);
-                    String[] botones_confirmacionCrear = {"SI", "NO"};
-                    int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
                     /*
+                        A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:
+                        1- SE RELLENARON TODOS LOS TIPOS DE TRANSACCION
+                        2- NO SE LLENARON TODOS LOS TIPOS DE TRANSACCION
+                    
+                        PARA EL PRIMER ESCENARIO, DIREMOS QUE LA CREACION SE COMPLETO, Y QUE SI DESEA CREAR UNA NUEVA
+                        LO COMPROBAREMOS CON LA CONDICION LOGICA AND
+                    
+                        SI ESTE PRIMERO NO SE DA, COMO DE POR SI SE NECESITABA UNO SELECCIONADO PARA ENTRAR
+                        NOS BASTA CON UN ELSE SIN CONDICION LOGICA
+                     */
+                    
+                    //PRIMER ESCENARIO
+                    if (CuadrillaCB.isSelected() && MPCB.isSelected() && PeajeCB.isSelected() && FleteCB.isSelected()) {
+                        String[] botones_confirmacionCrear = {"SI", "NO"};
+                        int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UNA NUEVA TRANSACCION?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                        /*
                         EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
                         SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
                         PARA DESPUES DESACTIVAR ESTA
                     
                         EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
-                    */
-                    
-                    if(index == 0){
-                        IPT.setVisible(true);
-                        this.dispose();
-                    } else {
-                        this.dispose();
+                         */
+
+                        if (index == 0) {
+                            IPT.setVisible(true);
+                            this.dispose();
+                        } else {
+                            this.dispose();
+                        }
+                    } else { //SEGUNDO ESCENARIO
+                        
                     }
+                    //====================================FINAL DE CREACION DE TRANSACCION==============================\\
                 }//CIERRE DE CONDICIONAL DE LOS TIPOS DE TRANSACCION
+                else {
+                    JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR ALGUN TIPO DE TRANSACCION", "ERROR", JOptionPane.PLAIN_MESSAGE);
+                }
             }//CIERRE DE CONDICIONAL DE LAS CANTIDADES
+            else {
+                JOptionPane.showMessageDialog(null, "DEBE RELLENAR TODOS LOS CAMPOS DE KILOS, MATERIA SECA, ETC", "ERROR", JOptionPane.PLAIN_MESSAGE);
+            }
         }//CIERRE DE CONDICIONAL DE FECHA, SEMANA Y NRO
+        else {
+            JOptionPane.showMessageDialog(null, "DEBEN ESTAS PRESENTE EL NUMERO DE TRANSACCION, FECHA Y SEMANA", "ERROR", JOptionPane.PLAIN_MESSAGE);
+        }
     }//GEN-LAST:event_CrearBTActionPerformed
 
     /**

@@ -147,4 +147,105 @@ public class transacciones {
         }
         return encontrado;
     }
+    
+    /*
+        La busqueda por ahora sera estatica.
+	Esto quiere decir que se va a buscar un boleto que tenga todos siguientes datos:
+	Codigo de Proveedor.
+	Identificacion de Proveedor.
+        Razon social de proveedor.
+	Numero de Boleto.
+	Fecha de boleto.
+	Semana de boleto.
+    */
+    public Object[] busquedaEstatica(String CodigoProveedor, String ID_Proveedor, String Razon_Social, String Num_Boleto, String Fecha_Boleto, String Semana_Boleto){
+        boolean encontrado = false;
+        PreparedStatement pstm;
+        Object[] data = new Object[18];
+        Object[] data2 = new Object[18];
+        try{
+            //Podemos usar primero una busqueda por el Numero de Boleto para saber si hay alguno
+            pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where Num_Transaccion = ?");
+            pstm.setString(1, Num_Boleto);
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                encontrado = true;
+            } 
+            res.close();          
+        }catch(SQLException e){
+            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+        }
+        if(encontrado){
+            try {
+                pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where" +
+                        " Num_Transaccion = ? and" +
+                        " Fecha = ? and" +
+                        " Semana = ? and"+
+                        " Codigo_Proveedor = ?");
+                pstm.setString(1, Num_Boleto);
+                pstm.setString(2, Fecha_Boleto);
+                pstm.setString(3, Semana_Boleto);
+                pstm.setString(4, CodigoProveedor);
+                ResultSet res2 = pstm.executeQuery();
+                data2 = informacion(res2, data);
+                res2.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return data2;
+    }
+    
+    /*
+        FUNCION QUE LE SIRVE A BUSQUEDA ESTATICA PARA DEVOLVER TODOS LOS DATOS DE LA TRANSACCION BUSCADA
+        SE LE INGRESA EL OBJETO VECTOR DATA PARA GUARDAR ALLÍ LOS DATOS
+        Y LA RESULTSET QUE ES DONDE SE GUARDA EL RESULTADO DE LA QUERY DE SQL
+    */
+    public Object[] informacion(ResultSet res, Object[] data){
+        try{
+            while(res.next()){
+                String estID_Transaccion = res.getString("ID_Transaccion");
+                String estNum_Transaccion = res.getString("Num_Transaccion");
+                String estFecha = res.getString("Fecha");
+                String estSemana = res.getString("Semana");
+                String estKg_Brutos = res.getString("Kg_Brutos");
+                String estKg_Netos = res.getString("Kg_Netos");
+                String estMateria_S = res.getString("Materia_S");
+                String estImpurezas = res.getString("Impurezas");
+                String estMateria_Prima = res.getString("Materia_Prima");
+                String estCuadrilla = res.getString("Cuadrilla");
+                String estFlete = res.getString("Flete");
+                String estPeaje = res.getString("Peaje");
+                String estDias_Trabajados = res.getString("Dias_Trabajados");
+                String estHa_Ubicacion = res.getString("Ha_Ubicacion");
+                String estUSD_DIA = res.getString("USD_DIA");
+                String estUSD_HA = res.getString("USD_HA");
+                String estObservaciones = res.getString("Observaciones");
+                String estCodigo_Proveedor = res.getString("Codigo_Proveedor");
+                //INGRESANDO TODOS LOS DATOS EN EL VECTOR DATA[]
+                data[0] = estID_Transaccion;
+                data[1] = estNum_Transaccion;
+                data[2] = estFecha;
+                data[3] = estSemana;
+                data[4] = estKg_Brutos;
+                data[5] = estKg_Netos;
+                data[6] = estMateria_S;
+                data[7] = estImpurezas;
+                data[8] = estMateria_Prima;
+                data[9] = estCuadrilla;
+                data[10] = estFlete;
+                data[11] = estPeaje;
+                data[12] = estDias_Trabajados;
+                data[13] = estHa_Ubicacion;
+                data[14] = estUSD_DIA;
+                data[15] = estUSD_HA;
+                data[16] = estObservaciones;
+                data[17] = estCodigo_Proveedor;
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
+    }
+    
 }

@@ -147,8 +147,14 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
             //DESPUES DE HABER COMPROBADO QUE NINGUNO DE LOS CAMPOS ESTAN VACIOS, PROCEDEMOS A HACER DISTINTAS VALIDACIONES
             //1- Validar que el num de transaccion no se encuentra en el sistema
             //2- Validad que el proveedor si se encuentra en el sistema
-
-            boolean transaccionEncontrada = t.buscarTransaccion(NroBoletotxt.getText());
+            String cadena = NroBoletotxt.getText();
+            String boletoBueno = "";
+            for(int i = 0; i < cadena.length(); i++){
+                if(cadena.charAt(i)!=' ' && cadena.charAt(i)!='\n'){
+                    boletoBueno = boletoBueno + cadena.charAt(i);
+                }
+            }
+            boolean transaccionEncontrada = t.buscarTransaccion(boletoBueno);
             //Recolectar los datos en una identificacion completa
             int tipoIdentificacion = tipoIDProveedorCB.getSelectedIndex();
             String t_identificacion = tipoIDProveedorCB.getSelectedItem().toString();
@@ -191,7 +197,7 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
                     DE AQUI YA SE HAN ASIGNADO CORRECTAMENTE LOS DATOS DEL PROVEEDOR A LA PANTALLA SIGUIENTE
                     SOLO FALTA SACAR EL NUMERO DE BOLETO DE ESTA PANTALLA Y MANDARLO A LA SIGUIENTE
                 */
-                TC.numeroBoleto = NroBoletotxt.getText();
+                TC.numeroBoleto = boletoBueno;
                 TC.setVisible(true);
                 this.dispose();
                 

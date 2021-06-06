@@ -15,7 +15,7 @@ public class transacciones {
     
     public void NuevaTransaccion(String Num_Transaccion, String Fecha, String Semana, String Kg_Brutos, String Kg_Netos, String Materia_S,
             String Impurezas, String Materia_Prima, String Cuadrilla, String Flete, String Peaje, String Dias_Trabajados, String Ha_Ubicacion, 
-            String USD_DIA, String USD_HA, String Observaciones, String Codigo_Proveedor){
+            String USD_DIA, String USD_HA, String Observaciones, String Codigo_Proveedor, boolean adicional){
         
         //INICIO DE LA FUNCION Y QUERY
         try{
@@ -33,12 +33,31 @@ public class transacciones {
             pstm.setString(9, Cuadrilla);
             pstm.setString(10, Flete);
             pstm.setString(11, Peaje);
-            pstm.setString(12, Dias_Trabajados);
-            pstm.setString(13, Ha_Ubicacion);
-            pstm.setString(14, USD_DIA);
-            pstm.setString(15, USD_HA);
+            /*
+                ES POSIBLE QUE LA INFORMACION ADICIONAL HAYA ESTADO DESACTIVADA
+                DE SER ASI, LOS DIAS TRABAJADOS Y HA_UBICACION QUEDARAN COMO STRING NULO
+                NOSOTROS MISMOS DEBEMOS DE PONER 0
+            
+                SI LA INFORMACION ADICIONAL ADEMAS NO ESTA APROBADA, DEBEMOS HAECRNOS CARGOS DE LOS CAMPOS
+                USD_DIA - USD_HA
+                AMBOS LOS COLOCAREMOS POR DEFECTO COMO "NO"
+            */
+            if(adicional){
+                pstm.setString(12, Dias_Trabajados);
+                pstm.setString(13, Ha_Ubicacion);
+                pstm.setString(14, USD_DIA);
+                pstm.setString(15, USD_HA);
+            } else {
+                String numero = "0";
+                pstm.setString(12, numero);
+                pstm.setString(13, numero);
+                pstm.setString(14, "NO");
+                pstm.setString(15, "NO");
+            }     
             pstm.setString(16, Observaciones);
             pstm.setString(17, Codigo_Proveedor);
+            pstm.execute();
+            pstm.close();
         }catch(SQLException e){
             System.out.println(e);
         }

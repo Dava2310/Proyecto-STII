@@ -62,19 +62,19 @@ create table transacciones(
 	Num_Transaccion varchar(10) not null,
     Fecha varchar(10) not null,
     Semana varchar(10) not null,
-    Kg_Brutos int, 
-	Kg_Netos  int,
-    Materia_S int,
-    Impurezas int,
-    Materia_Prima varchar(2),
-    Cuadrilla varchar(2),
-    Flete varchar(2),
-    Peaje varchar(2),
+    Kg_Brutos float not null, 
+	Kg_Netos  float not null,
+    Materia_S float not null,
+    Impurezas float not null,
+    Materia_Prima varchar(3),
+    Cuadrilla varchar(3),
+    Flete varchar(3),
+    Peaje varchar(3),
 	-- Informacion adicional de la transaccion
     Dias_Trabajados int,
     Ha_Ubicacion int, 
-    USD_DIA varchar(2), 
-    USD_HA varchar(2),
+    USD_DIA varchar(3), 
+    USD_HA varchar(3),
     Observaciones varchar(150),
     -- Foreign Key referente al proveedor
     Codigo_Proveedor varchar(15),
@@ -84,7 +84,8 @@ create table transacciones(
 
 -- COMANDOS PARA LA TABLA TRANSACCIONES
 
-SELECT * from transacciones;
+SELECT * from transacciones; -- MOSTRAR TODOS LOS DATOS DE LAS TRANSACCIONES
+DROP TABLE transacciones; 	 -- ELIMINAR LA TABLA DE TRANSACCIONES
 
 
 

@@ -5,7 +5,10 @@
  */
 package clases;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import logica.transacciones;
 
 /**
  *
@@ -26,7 +29,9 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     String codigoTXT;
     String razonSocialTXT;
     String numeroBoleto;
-    
+    boolean informacionAdicional = false;
+    transacciones t = new transacciones();
+    IdentificacionProveedorTransacciones IPT = new IdentificacionProveedorTransacciones();
     public TransaccionesCrear() {
         initComponents();
     }
@@ -63,7 +68,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         ImpurezasL = new javax.swing.JLabel();
         KGNetostxt = new javax.swing.JTextField();
         MStxt = new javax.swing.JTextField();
-        KGbrutostxt3 = new javax.swing.JTextField();
+        Impurezastxt = new javax.swing.JTextField();
         TipoTransaccion = new javax.swing.JLabel();
         MPCB = new javax.swing.JCheckBox();
         CuadrillaCB = new javax.swing.JCheckBox();
@@ -80,11 +85,12 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         USDHACB = new javax.swing.JComboBox<>();
         USDdiaL1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        ObservacionesTXT = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        CrearBT = new javax.swing.JButton();
+        CancelarBT = new javax.swing.JButton();
+        InformacionAdicionalBT = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -141,7 +147,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         FechaL1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         FechaL1.setText("Fecha");
 
-        Semanatxt.setEditable(false);
         Semanatxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         KGBrutosL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -162,7 +167,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
 
         MStxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
-        KGbrutostxt3.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        Impurezastxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         TipoTransaccion.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         TipoTransaccion.setText("TipoTransaccion");
@@ -191,23 +196,27 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         DTrabajadosl.setText("Dias Trabajados");
 
         DtrabajadosCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        DtrabajadosCB.setEnabled(false);
 
         HaUbicacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         HaUbicacionL.setText("Ha. ubicacion");
 
         HAubicacionCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        HAubicacionCB.setEnabled(false);
 
         USDdiaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         USDdiaL.setText("USD DIA");
 
         USDdiaCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         USDdiaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        USDdiaCB.setEnabled(false);
 
         USDHAL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         USDHAL.setText("USD HA");
 
         USDHACB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         USDHACB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        USDHACB.setEnabled(false);
         USDHACB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 USDHACBActionPerformed(evt);
@@ -217,22 +226,35 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         USDdiaL1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         USDdiaL1.setText("Observaciones");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        ObservacionesTXT.setColumns(20);
+        ObservacionesTXT.setRows(5);
+        jScrollPane1.setViewportView(ObservacionesTXT);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen1.png"))); // NOI18N
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/boleto.png"))); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setText("CREAR");
-
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setText("CANCELAR");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        CrearBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CrearBT.setText("CREAR");
+        CrearBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                CrearBTActionPerformed(evt);
+            }
+        });
+
+        CancelarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CancelarBT.setText("CANCELAR");
+        CancelarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarBTActionPerformed(evt);
+            }
+        });
+
+        InformacionAdicionalBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        InformacionAdicionalBT.setText("Habilitar informacion adicional");
+        InformacionAdicionalBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InformacionAdicionalBTActionPerformed(evt);
             }
         });
 
@@ -293,7 +315,10 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                                                 .addComponent(RazonSocialL)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(RazonSocialtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))))
-                                    .addComponent(InfoAdicionalL)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(InfoAdicionalL)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(InformacionAdicionalBT))
                                     .addComponent(USDdiaL1)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
@@ -320,7 +345,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                                                 .addGap(18, 18, 18)
                                                 .addComponent(ImpurezasL)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(KGbrutostxt3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(Impurezastxt, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(50, 50, 50)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -336,16 +361,16 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                                         .addComponent(MPCB)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(CuadrillaCB)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(PeajeCB)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(PeajeCB)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(FleteCB)))))
                         .addGap(0, 8, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(CrearBT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(CancelarBT)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -394,7 +419,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                             .addComponent(MSL)
                             .addComponent(MStxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ImpurezasL)
-                            .addComponent(KGbrutostxt3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Impurezastxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TipoTransaccion)
@@ -404,7 +429,9 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                             .addComponent(FleteCB)))
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(InfoAdicionalL)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InfoAdicionalL)
+                    .addComponent(InformacionAdicionalBT))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DTrabajadosl)
@@ -423,8 +450,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(CrearBT)
+                    .addComponent(CancelarBT))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -472,9 +499,19 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             COLOCO EN LA ANTERIOR PANTALLA
         */
         NroBoletotxt.setText(numeroBoleto);
+        
+        /*
+            EN ESTE APARTADO, INTENTAMOS COLOCAR LA FECHA DEL SISTEMA EN EL TXT CORRESPONDIENTE
+            ADEMAS DE QUE DEBERIAMOS COLOCAR LA SEMANA
+        */
+        
+        Date fecha = new Date();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
+        String fechaActual = formatoFecha.format(fecha);
+        Fechatxt.setText(fechaActual);
     }//GEN-LAST:event_formWindowOpened
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
         String[] botones_confirmacionCancelar = {"NO, NO DESEO CANCELAR", "SI, SI DESEO CANCELAR"};
         int index = JOptionPane.showOptionDialog(null, "DESEA CANCELAR LA CREACION DE TRANSACCION?", "CONFIRMACION DE CANCELACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCancelar, botones_confirmacionCancelar[0]);
         /*
@@ -485,7 +522,151 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         if(index == 1){
             this.dispose();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_CancelarBTActionPerformed
+
+    private void InformacionAdicionalBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InformacionAdicionalBTActionPerformed
+        if(informacionAdicional){
+            informacionAdicional = false;
+            DtrabajadosCB.setEnabled(false);
+            HAubicacionCB.setEnabled(false);
+            USDHACB.setEnabled(false);
+            USDdiaCB.setEnabled(false);
+        } else if (!informacionAdicional){
+            informacionAdicional = true;
+            DtrabajadosCB.setEnabled(true);
+            HAubicacionCB.setEnabled(true);
+            USDHACB.setEnabled(true);
+            USDdiaCB.setEnabled(true);
+        }
+    }//GEN-LAST:event_InformacionAdicionalBTActionPerformed
+
+    private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
+        /*
+            LO PRIMERO SIEMPRE VERIFICAR QUE LOS CAMPOS OBLIGATORIOS SE HAYAN LLENADO EXITOSAMENTE
+        */
+        if(!NroBoletotxt.getText().isEmpty() && !Fechatxt.getText().isEmpty() && !Semanatxt.getText().isEmpty()){
+            //AL MENOS DE AQUI YA SABEMOS QUE ESOS DATOS NO ESTAN VACIOS
+            /*
+                TAMBIEN HAY QUE COMPROBAR LOS SIGUIENTES ELEMENTOS PARA QUE NO SEAN NULOS
+                KGbrutos
+                KGnetos
+                MateriaSeca
+                Impurezas
+            */
+            if(!KGbrutostxt.getText().isEmpty() && !KGNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()){
+                //ENTRANDO AQUI YA SABEMOS QUE LOS CAMPOS DE LOS KG NO ESTAN VACIOS
+                /*
+                    NOS LAS TENEMOS QUE INGENIAR ENTONCES PARA SABER QUE AL MENOS UNO DE LOS CUATRO CAMPOS DE:
+                    - Matiera Prima
+                    - Cuadrilla
+                    - Flete
+                    - Peaje
+                    ESTAN ACTIVOS
+                    POR TANTO, SOLO NECESITAMOS UNO DE ELLOS, USAMOS LA CONDICION LOGICA OR
+                */
+                if(MPCB.isSelected() || CuadrillaCB.isSelected() || PeajeCB.isSelected() || FleteCB.isSelected()){
+                    /*
+                        A PARTIR DE AQUI, YA TENEMOS TODO LO SUFICIENTE COMO PARAR CREAR UNA TRANSACCION
+                        LOS DEMAS DATOS TENTATIVOS COMO LOS DE INFOMRACION ADICIONAL IRAN EN UN IF DENTRO 
+                        DE ESTA SECCION DE CREACION DE UNA TRANSACCION
+                    */
+                    
+                    /*=================================================================================================\\
+                    ||==================================CREACION DE LA TRANSACCION=====================================||
+                    //=================================================================================================*/
+                    
+                    //EMPEZAMOS POR RECOGER TODOS LOS DATOS DE LA PANTALLA
+                    String num_transaccion = NroBoletotxt.getText();
+                    String fecha = Fechatxt.getText();
+                    String semana = Semanatxt.getText();
+                    String KBbrutos = KGbrutostxt.getText();
+                    String KGnetos = KGNetostxt.getText();
+                    String MateriaSeca = MStxt.getText();
+                    String Impurezas = Impurezastxt.getText();
+                    
+                    /*
+                        AQUI REVISAMOS CUALES SON LOS TIPOS DE TRANSACCIONES DE ESTA TRANSACCION
+                        POR CADA UNO DE ELLOS, SE HACE UN CONDICIONAL, SI ESTAN SELECTED, AL CAMPO SE LE COLOCA SI, 
+                        O NO SI NO ESTA SELECCIONADO
+                    */
+                    
+                    //PRIMERO CREAMOS VARIABLES STRING EN BLANCO, PORQUE IGUAL HAY QUE METER LAS VARIABLES DENTRO DE LAS FUNCIONES.
+                    String materiaPrima = "";
+                    String Cuadrilla = "";
+                    String Flete = "";
+                    String peaje = "";
+                    
+                    if(MPCB.isSelected()){          //CONDICIONAL DE LA MATERIA PRIMA
+                        materiaPrima = "SI";
+                    } else {
+                        materiaPrima = "NO";
+                    }
+                    
+                    if(CuadrillaCB.isSelected()){   //CONDICIONAL DE LA CUADRILLA
+                        Cuadrilla = "SI";
+                    } else{
+                        Cuadrilla = "NO";
+                    }
+                    
+                    if(PeajeCB.isSelected()){       //CONDICIONAL DE PEAJE
+                        peaje = "SI";
+                    } else {
+                        peaje = "NO";
+                    }
+                    
+                    if(FleteCB.isSelected()){       //CONDICIONAL DE FLETE
+                        Flete = "SI";
+                    } else {
+                        Flete = "NO";
+                    }
+                    
+                    /*
+                        DE AQUI EN ADELANTE, VERIFICAMOS PRIMERO UN CONDICIONAL DONDE VEAMOS SI LA INFORMACION ADICIONAL ESTA HABILITADA
+                        PARA ESO, TENEMOS NUESTRA VARIABLE GLOBAL "informacionAdicional"
+                        SOLO ES NECESARIO QUE COMPROBEMOS SI ESTA ACTIVO
+                        DE IGUAL MANERA, CREAMOS LAS VARIABLES CON VALORES POR DEFECTO PARA QUE NO ESTEN NULOS.
+                    */
+                    String diasTrabajados = "";
+                    String HAubicacion = "";
+                    String USDdia = "";
+                    String USDha = "";
+                    if(informacionAdicional){
+                        diasTrabajados = DtrabajadosCB.getSelectedItem().toString();
+                        HAubicacion = HAubicacionCB.getSelectedItem().toString();
+                        USDdia = USDdiaCB.getSelectedItem().toString();
+                        USDha =  USDHACB.getSelectedItem().toString();
+                    }
+                    String observaciones = "";
+                    observaciones = ObservacionesTXT.getText();
+                    //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
+                    String codigoProveedor = CODtxt.getText();
+                    
+                    
+                    /*=================================================================================================\\
+                    ||==================================LLAMADA DE LA FUNCION==========================================||
+                    //=================================================================================================*/
+                    
+                    t.NuevaTransaccion(num_transaccion, fecha, semana, KBbrutos, KGnetos, MateriaSeca, Impurezas, materiaPrima, Cuadrilla, Flete, peaje, diasTrabajados, HAubicacion, USDdia, USDha, observaciones, codigoProveedor, informacionAdicional);
+                    String[] botones_confirmacionCrear = {"SI", "NO"};
+                    int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                    /*
+                        EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
+                        SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
+                        PARA DESPUES DESACTIVAR ESTA
+                    
+                        EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
+                    */
+                    
+                    if(index == 0){
+                        IPT.setVisible(true);
+                        this.dispose();
+                    } else {
+                        this.dispose();
+                    }
+                }//CIERRE DE CONDICIONAL DE LOS TIPOS DE TRANSACCION
+            }//CIERRE DE CONDICIONAL DE LAS CANTIDADES
+        }//CIERRE DE CONDICIONAL DE FECHA, SEMANA Y NRO
+    }//GEN-LAST:event_CrearBTActionPerformed
 
     /**
      * @param args the command line arguments
@@ -525,7 +706,9 @@ public class TransaccionesCrear extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CODtxt;
+    private javax.swing.JButton CancelarBT;
     private javax.swing.JLabel CodL;
+    private javax.swing.JButton CrearBT;
     private javax.swing.JCheckBox CuadrillaCB;
     private javax.swing.JLabel DTrabajadosl;
     private javax.swing.JComboBox<String> DtrabajadosCB;
@@ -537,18 +720,20 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private javax.swing.JLabel IDL;
     private javax.swing.JTextField IDtxt;
     private javax.swing.JLabel ImpurezasL;
+    private javax.swing.JTextField Impurezastxt;
     private javax.swing.JLabel InfoAdicionalL;
     private javax.swing.JLabel InfoBoletoL;
+    private javax.swing.JToggleButton InformacionAdicionalBT;
     private javax.swing.JLabel KGBrutosL;
     private javax.swing.JLabel KGNetosL;
     private javax.swing.JTextField KGNetostxt;
     private javax.swing.JTextField KGbrutostxt;
-    private javax.swing.JTextField KGbrutostxt3;
     private javax.swing.JCheckBox MPCB;
     private javax.swing.JLabel MSL;
     private javax.swing.JTextField MStxt;
     private javax.swing.JLabel NroBoletoL;
     private javax.swing.JTextField NroBoletotxt;
+    private javax.swing.JTextArea ObservacionesTXT;
     private javax.swing.JCheckBox PeajeCB;
     private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
@@ -560,14 +745,11 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> USDdiaCB;
     private javax.swing.JLabel USDdiaL;
     private javax.swing.JLabel USDdiaL1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox<String> tipoIDProveedorCB;
     // End of variables declaration//GEN-END:variables
 }

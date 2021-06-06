@@ -1,5 +1,7 @@
 package clases;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import logica.conectate;
 import logica.proveedor;
 
@@ -18,5 +20,9 @@ public class Main {
                     " - " + sc[i][15]); 
         }
         con.desconectar();
+        
+        Date fecha = new Date();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
+        
     }
 }

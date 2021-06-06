@@ -345,7 +345,13 @@ public class CrearAnticipo extends javax.swing.JFrame {
         Codigotxt.setText(codigo_proveedor);
         String razon_social = data[2].toString();
         RazonSocialtxt.setText(razon_social);
-        Fechatxt.setText(fechaActual());
+        //SE CREA UN OBJETO TIPO DATE
+        Date fecha = new Date();
+        //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
+        //ADEMAS PERMITE CONVERTIR DE DATE A STRING
+        SimpleDateFormat formatoFecha=new SimpleDateFormat("dd/MM/YYYY");
+        String nuevaFecha = formatoFecha.format(fecha);
+        Fechatxt.setText(nuevaFecha);
     }//GEN-LAST:event_formWindowOpened
 
     String[] botones = {"ACEPTAR","CANCELAR"};
@@ -439,8 +445,8 @@ public class CrearAnticipo extends javax.swing.JFrame {
         //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
         //ADEMAS PERMITE CONVERTIR DE DATE A STRING
         SimpleDateFormat formatoFecha=new SimpleDateFormat("MM/DD/YYYY");
-        
-        return formatoFecha.format(fecha);
+        String nuevaFecha = formatoFecha.format(fecha);
+        return nuevaFecha;
     
     }
     public void cerrar(){

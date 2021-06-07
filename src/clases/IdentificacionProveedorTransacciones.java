@@ -1,6 +1,7 @@
 package clases;
 
 import javax.swing.JOptionPane;
+import logica.boleto;
 import logica.proveedor;
 import logica.transacciones;
 
@@ -9,7 +10,8 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
     TransaccionesCrear TC;
     proveedor p = new proveedor();
     transacciones t = new transacciones();
-
+    boleto b = new boleto();
+    public int modo = 0;
     public IdentificacionProveedorTransacciones() {
         initComponents();
     }
@@ -145,7 +147,7 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DEL BOLETO Y LA IDENTIFICACION DEL PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             //DESPUES DE HABER COMPROBADO QUE NINGUNO DE LOS CAMPOS ESTAN VACIOS, PROCEDEMOS A HACER DISTINTAS VALIDACIONES
-            //1- Validar que el num de transaccion no se encuentra en el sistema
+            //1- Validar que el num de boleto tenga >= 1 transaccion y < 4 transacciones.
             //2- Validad que el proveedor si se encuentra en el sistema
             String cadena = NroBoletotxt.getText();
             String boletoBueno = "";
@@ -154,57 +156,159 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
                     boletoBueno = boletoBueno + cadena.charAt(i);
                 }
             }
-            boolean transaccionEncontrada = t.buscarTransaccion(boletoBueno);
+            boolean boletoEncontrado = b.buscarBoleto(boletoBueno);
             //Recolectar los datos en una identificacion completa
             int tipoIdentificacion = tipoIDProveedorCB.getSelectedIndex();
             String t_identificacion = tipoIDProveedorCB.getSelectedItem().toString();
             String identificacion_completa = t_identificacion + IDProveedortxt.getText();
             boolean proveedorActivoEncontrado = p.buscarProveedorActivo(identificacion_completa);
-
+            
+            /*
+                AQUI VERIFICAMOS Y GUARDAMOS CUANTAS TRANSACCIONES TIENE ESTE BOLETO
+                PARA HACER ESO, DEBERIAMOS ENTONCES BUSCAR SI PRIMERO SE ENCUENTRA REGISTRADO EL BOLETO
+                SI SE ENCUENTRA, ENTONCES DEFINIREMOS UN BOOLEAN QUE SERA TRUE SI AUN TIENE CUPO
+                DE LO CONTRARIO SERA FALSE
+            */
+            int cantidad_transacciones = 0;
+            boolean cupoBoleto = true;
+            if(boletoEncontrado){
+                cantidad_transacciones = b.cantidadTransacciones_Boleto(boletoBueno);
+                if(cantidad_transacciones == 4){
+                    cupoBoleto = false;
+                }
+            }
             /*
                 AHORA QUE YA SABEMOS SI TENEMOS UN PROVEEDOR ACTIVO EN EL SISTEMA, 
-                Y QUE SI EXISTE O NO UNA TRANSACCION EN EL SISTEMA,
-                PROCEDEMOS A VERIFICAR
+                Y QUE EL BOLETO ASIGNADO TIENE CUPO
+                O EN SU DEFECTO NO ESTA NI SIQUIERA ASIGNADO
+                PROCEDEMOS A VERIFICAR LAS CONDICIONES VERDADERAS PARA PROCEDER
              */
-            if (transaccionEncontrada == false && proveedorActivoEncontrado == true) {
-                Object[] datosProveedor = new Object[3];
-                datosProveedor = p.conseguirDatosPrincipales("", identificacion_completa, "", 2);
+            if (proveedorActivoEncontrado == true && cupoBoleto == true) {
                 /*
-                    AHORA TENGO QUE LLAMAR A LAS VARIABLES PUBLICAS DE LA PANTALLA DE TRANSACCION
-                    PARA DARLE LOS VALORES DE LOS DATOS PRINCIPALES DEL PROVEEDOR ENCONTRADO
-                    int indexComboProveedor = 0;
-                    String identificacionTXT;
-                    String codigoTXT;
-                    String razonSocialTXT;
+                    AQUI PUEDEN PASAR DOS CASOS
+                    1- Un boleto no creado
+                    2- Un boleto ya creado pero con menos de 4 transacciones.
+                
+                    Para los boletos no creados, es tan facil como hacer un procedimiento standard.
+                    
+                    Para los boletos ya creados, es distinto, debemos ingresar ciertos datos necesarios que no se pueden modificar
+                    Mandar una condicion boleeana que sepa que debe hacer con los datos del boleto.
+                
                 */
-                
-                TC = new TransaccionesCrear();
-                
-                /*
-                    ASIGNACION DE DATOS
-                */
-                
-                TC.codigoTXT = datosProveedor[0].toString();
-                TC.razonSocialTXT = datosProveedor[2].toString();
-                /*
-                    CON RESPECTO A LA IDENTIFICACION, ESO YA LO TENEMOS
-                    GRACIAS A QUE LA BUSQUEDA FUE CON ESTE DATO
-                */
-                TC.indexComboProveedor = tipoIdentificacion;
-                TC.identificacionTXT = IDProveedortxt.getText();
-                
-                /*
-                    DE AQUI YA SE HAN ASIGNADO CORRECTAMENTE LOS DATOS DEL PROVEEDOR A LA PANTALLA SIGUIENTE
-                    SOLO FALTA SACAR EL NUMERO DE BOLETO DE ESTA PANTALLA Y MANDARLO A LA SIGUIENTE
-                */
-                TC.numeroBoleto = boletoBueno;
-                TC.setVisible(true);
-                this.dispose();
-                
-            } else if (transaccionEncontrada) {
-                JOptionPane.showMessageDialog(null, "Esta transaccion o boleto ya existe en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else if (proveedorActivoEncontrado == false){
+                //Primer escenario: Un boleto no creado
+                if(!boletoEncontrado){
+                    Object[] datosProveedor = new Object[3];
+                    datosProveedor = p.conseguirDatosPrincipales("", identificacion_completa, "", 2);
+                    /*
+                        AHORA TENGO QUE LLAMAR A LAS VARIABLES PUBLICAS DE LA PANTALLA DE TRANSACCION
+                        PARA DARLE LOS VALORES DE LOS DATOS PRINCIPALES DEL PROVEEDOR ENCONTRADO
+                        int indexComboProveedor = 0;
+                        String identificacionTXT;
+                        String codigoTXT;
+                        String razonSocialTXT;
+                    */
+
+                    TC = new TransaccionesCrear();
+
+                    /*
+                        ASIGNACION DE DATOS
+                    */
+
+                    TC.codigoTXT = datosProveedor[0].toString();
+                    TC.razonSocialTXT = datosProveedor[2].toString();
+                    /*
+                        CON RESPECTO A LA IDENTIFICACION, ESO YA LO TENEMOS
+                        GRACIAS A QUE LA BUSQUEDA FUE CON ESTE DATO
+                    */
+                    TC.indexComboProveedor = tipoIdentificacion;
+                    TC.identificacionTXT = IDProveedortxt.getText();
+
+                    /*
+                        DE AQUI YA SE HAN ASIGNADO CORRECTAMENTE LOS DATOS DEL PROVEEDOR A LA PANTALLA SIGUIENTE
+                        SOLO FALTA SACAR EL NUMERO DE BOLETO DE ESTA PANTALLA Y MANDARLO A LA SIGUIENTE
+                    */
+                    TC.numeroBoleto = boletoBueno;
+                    TC.setVisible(true);
+                    this.dispose();
+                } else if(boletoEncontrado){ //Segundo escenario: boleto ya creado.
+                    TC = new TransaccionesCrear();
+                    //EMPEZAMOS POR DECIRLE A LA SIGUIENTE PANTALLA QUE ESTE BOLETO YA ESTA CREADO
+                    TC.boletoCreado = true;
+                    /*
+                        LO SIGUIENTE QUE DEBEMOS DARLE A LA PANTALLA SIGUIENTE SON LOS DATOS FIJOS:
+                        - Fecha         (String fecha)
+                        - Semana        (String semana)
+                        - Kg_Brutos     (int Kg_Brutos)
+                        - Kg_Netos      (int Kg_Netos)
+                        - Materia_Seca  (float MS)
+                        - Impurezas     (float Impurezas)
+                    
+                        PARA ESO ENTONCES RECOGEMOS LOS DATOS DEL BOLETO, Y VAMOS METIENDO CADA DATO DEL VECTOR EN ESAS VARIABLES
+                    */
+                    Object[] informacionBoleto = new Object[8];
+                    informacionBoleto = b.conseguirDatos(boletoBueno);
+                    TC.fecha = informacionBoleto[1].toString();
+                    TC.semana = informacionBoleto[2].toString();
+                    TC.Kg_Brutos = (int) informacionBoleto[3];
+                    TC.Kg_Netos = (int) informacionBoleto[4];
+                    TC.MS = (float) informacionBoleto[5];
+                    TC.Impurezas = (float) informacionBoleto[6];
+                    
+                    //VARIABLES BOOLEANAS DE CADA TIPO DE TRANSACCION PARA LA SIGUIENTE SECCION
+                    boolean Cuadrilla = false;
+                    boolean Materia_Prima = false;
+                    boolean Flete = false;
+                    boolean Peaje = false;
+                    /*
+                        DESPUES DE HABERNOS ENCARGADO DE ESTOS DATOS
+                        DEBEMOS ENTONCES BLOQUEAR LOS CAMPOS QUE YA SE HAYAN SELECCIONADO DE ESTE BOLETO
+                        PARA ESO, PODEMOS IR HACIENDO QUERY POR QUERY DE CADA CAMPO
+                        CADA UNO QUE SALGA SI, PUES MANDAMOS A BLOQUEAR ESE CAMPO
+                        CADA UNO QUE SALGA QUE NO, NO LE HACEMOS NADA
+                    
+                        PARA DECIRLE A LA SIGUIENTE PANTALLA QUE ESO ES ASI
+                        PUES HAY VARIABLES BOLEANAS PARA CADA CAMPO
+                        QUE AL MOMENTO DE QUE LA PANTALLA SE ABRA EN ESE MODO, PUES SABRA CUAL BLOQUEAR
+                        - Materia_Prima (boolean Materia_Prima)
+                        - Cuadrilla     (boolean Cuadrilla)
+                        - Flete         (boolean Flete)
+                        - Peaje         (boolean Peaje)
+                    */
+                    //LLAMEMOS ENTONCES A LAS QUERYS
+                    Cuadrilla = t.transaccionCuadrilla(boletoBueno);
+                    Materia_Prima = t.transaccionMateria_Prima(boletoBueno);
+                    Flete = t.transaccionFlete(boletoBueno);
+                    Peaje = t.transaccionPeaje(boletoBueno);
+                    //REALIZAMOS LAS VERIFICACIONES POR CADA TRANSACCION PARA BLOQUEAR LO QUE TOCA
+                    if(Cuadrilla){
+                        //Asignamos la variable booleana que corresponde a verdadera.
+                        TC.Cuadrilla = true;
+                    }
+                    
+                    if(Materia_Prima){
+                        //Asignamos la variable booleana que corresponde a verdadera.
+                        TC.Materia_Prima = true;
+                    }
+                    
+                    if(Flete){
+                        //Asignamos la variable booleana que corresponde a verdadera.
+                        TC.Flete = true;
+                    }
+                    
+                    if(Peaje){
+                        //Asignamos la variable booleana que corresponde a verdadera.
+                        TC.Peaje = true;
+                    }
+                    TC.numeroBoleto = boletoBueno;
+                    TC.setVisible(true);
+                    this.dispose();
+                }
+            } else if (cantidad_transacciones == 4) {
+                JOptionPane.showMessageDialog(null, "Este boleto ya tienes las 4 transacciones asignadas", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else if (p.buscarIdentificacion(identificacion_completa) && proveedorActivoEncontrado == false){
                 JOptionPane.showMessageDialog(null, "El proveedor asignado no esta activo en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else if(!p.buscarIdentificacion(identificacion_completa)){
+                JOptionPane.showMessageDialog(null, "El proveedor asignado no se encuentra en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_EnterBTActionPerformed

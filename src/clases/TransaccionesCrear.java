@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
+import logica.boleto;
 import logica.transacciones;
 
 /**
@@ -25,13 +26,25 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         VARIABLES INICIALES PARA EL PROVEEDOR QUE SE INGRESA A TRAVES DE LA
         PANTALLA ANTERIOR
      */
-    int indexComboProveedor = 0;
-    String identificacionTXT;
-    String codigoTXT;
-    String razonSocialTXT;
-    String numeroBoleto;
+    public int indexComboProveedor = 0;
+    public String identificacionTXT;
+    public String codigoTXT;
+    public String razonSocialTXT;
+    public String numeroBoleto;
+    public String fecha;
+    public String semana;
+    public int Kg_Brutos;
+    public int Kg_Netos;
+    public float MS;
+    public float Impurezas;
+    public boolean boletoCreado = false;
+    public boolean Materia_Prima = false;
+    public boolean Cuadrilla = false;
+    public boolean Flete = false;
+    public boolean Peaje = false;
     boolean informacionAdicional = false;
     transacciones t = new transacciones();
+    boleto b = new boleto();
     IdentificacionProveedorTransacciones IPT = new IdentificacionProveedorTransacciones();
 
     public TransaccionesCrear() {
@@ -486,40 +499,117 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     }//GEN-LAST:event_PeajeCBActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        /*
-            EN ESTE APARTADO, NOS TENEMOS QUE ENCARGAR DE COLOCAR POR PANTALLA
-            LOS DATOS DEL PROVEEDOR QUE FUERON PUESTOS EN LA PRIMERA PANTALLA
-            QUE DA PASO ANTES DE CREAR UNA TRANSACCION
-         */
+        if(!boletoCreado){
+            /*
+                EN ESTE APARTADO, NOS TENEMOS QUE ENCARGAR DE COLOCAR POR PANTALLA
+                LOS DATOS DEL PROVEEDOR QUE FUERON PUESTOS EN LA PRIMERA PANTALLA
+                QUE DA PASO ANTES DE CREAR UNA TRANSACCION
+             */
 
-        CODtxt.setText(codigoTXT);
-        RazonSocialtxt.setText(razonSocialTXT);
-        tipoIDProveedorCB.setSelectedIndex(indexComboProveedor);
-        IDtxt.setText(identificacionTXT);
+            CODtxt.setText(codigoTXT);
+            RazonSocialtxt.setText(razonSocialTXT);
+            tipoIDProveedorCB.setSelectedIndex(indexComboProveedor);
+            IDtxt.setText(identificacionTXT);
 
-        /*
-            DESPUES, TENEMOS QUE COLOCAR POR PANTALLA EL NUMERO DE BOLETO QUE SE
-            COLOCO EN LA ANTERIOR PANTALLA
-         */
-        NroBoletotxt.setText(numeroBoleto);
+            /*
+                DESPUES, TENEMOS QUE COLOCAR POR PANTALLA EL NUMERO DE BOLETO QUE SE
+                COLOCO EN LA ANTERIOR PANTALLA
+             */
+            NroBoletotxt.setText(numeroBoleto);
 
-        /*
-            EN ESTE APARTADO, INTENTAMOS COLOCAR LA FECHA DEL SISTEMA EN EL TXT CORRESPONDIENTE
-            ADEMAS DE QUE DEBERIAMOS COLOCAR LA SEMANA
-         */
-        Date fecha = new Date();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
-        String fechaActual = formatoFecha.format(fecha);
-        Fechatxt.setText(fechaActual);
+            /*
+                EN ESTE APARTADO, INTENTAMOS COLOCAR LA FECHA DEL SISTEMA EN EL TXT CORRESPONDIENTE
+                ADEMAS DE QUE DEBERIAMOS COLOCAR LA SEMANA
+             */
+            Date fecha = new Date();
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
+            String fechaActual = formatoFecha.format(fecha);
+            Fechatxt.setText(fechaActual);
 
-        Date anio = new Date();
-        SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
-        String anioActual = formatoAnio.format(anio);
+            Date anio = new Date();
+            SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
+            String anioActual = formatoAnio.format(anio);
 
-        GregorianCalendar gc = new GregorianCalendar();
-        int day = 0;
-        gc.add(Calendar.DATE, day);
-        Semanatxt.setText((gc.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
+            GregorianCalendar gc = new GregorianCalendar();
+            int day = 0;
+            gc.add(Calendar.DATE, day);
+            Semanatxt.setText((gc.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
+        } else {
+            /*
+                EN ESTE APARTADO, NOS TENEMOS QUE ENCARGAR DE COLOCAR POR PANTALLA
+                LOS DATOS DEL PROVEEDOR QUE FUERON PUESTOS EN LA PRIMERA PANTALLA
+                QUE DA PASO ANTES DE CREAR UNA TRANSACCION
+             */
+
+            CODtxt.setText(codigoTXT);
+            RazonSocialtxt.setText(razonSocialTXT);
+            tipoIDProveedorCB.setSelectedIndex(indexComboProveedor);
+            IDtxt.setText(identificacionTXT);
+
+            /*
+                DESPUES, TENEMOS QUE COLOCAR POR PANTALLA EL NUMERO DE BOLETO QUE SE
+                COLOCO EN LA ANTERIOR PANTALLA
+             */
+            NroBoletotxt.setText(numeroBoleto);
+            
+            /*
+                DESHABILITAR LOS CAMPOS FIJOS
+            */
+            KGbrutostxt.setEditable(false);
+            KGNetostxt.setEditable(false);
+            MStxt.setEditable(false);
+            Impurezastxt.setEditable(false);
+            
+            
+            /*
+                BLOQUEAR LOS TIPOS DE TRANSACCIONES YA ESCOJIDOS
+            */
+            if(Cuadrilla){
+                CuadrillaCB.setSelected(true);
+                CuadrillaCB.setEnabled(false);
+            }
+            
+            if(Materia_Prima){
+                MPCB.setSelected(true);
+                MPCB.setEnabled(false);
+            }
+            
+            if(Flete){
+                FleteCB.setSelected(true);
+                FleteCB.setEnabled(false);
+            }    
+            
+            if(Peaje){
+               PeajeCB.setSelected(true);
+               PeajeCB.setEnabled(false);
+            }
+            
+            /*
+                YA TENEMOS PUESTOS LOS DATOS DEL NUEVO PROVEEDOR
+                SABEMOS QUE ESTE ES UN BOLETO YA CREADO
+                Y CUALES SON LAS TARNSACCIONES QUE FALTAN
+                
+                NOS FALTA BUSCAR LOS VALORES DE:
+                - Fecha
+                - Semana
+                - KgBrutos
+                - KgNetos
+                - Materia Seca
+                - Impurezas
+            */
+            
+            NroBoletotxt.setText(numeroBoleto);
+            
+            //LLAMAMOS A LA FUNCION QUE NOS RECOJE LOS DATOS DEL BOLETO
+            Object[] informacionBoleto = new Object[8];
+            informacionBoleto = b.conseguirDatos(numeroBoleto);
+            Fechatxt.setText(informacionBoleto[1].toString());
+            Semanatxt.setText(informacionBoleto[2].toString());
+            KGbrutostxt.setText(informacionBoleto[3].toString());
+            KGNetostxt.setText(informacionBoleto[4].toString());
+            MStxt.setText(informacionBoleto[5].toString());
+            Impurezastxt.setText(informacionBoleto[6].toString());       
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
@@ -604,27 +694,32 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                     String Cuadrilla = "";
                     String Flete = "";
                     String peaje = "";
-
+                    int cantidad_transacciones = 0;
+                    
                     if (MPCB.isSelected()) {          //CONDICIONAL DE LA MATERIA PRIMA
                         materiaPrima = "SI";
+                        cantidad_transacciones++;
                     } else {
                         materiaPrima = "NO";
                     }
 
                     if (CuadrillaCB.isSelected()) {   //CONDICIONAL DE LA CUADRILLA
                         Cuadrilla = "SI";
+                        cantidad_transacciones++;
                     } else {
                         Cuadrilla = "NO";
                     }
 
                     if (PeajeCB.isSelected()) {       //CONDICIONAL DE PEAJE
                         peaje = "SI";
+                        cantidad_transacciones++;
                     } else {
                         peaje = "NO";
                     }
 
                     if (FleteCB.isSelected()) {       //CONDICIONAL DE FLETE
                         Flete = "SI";
+                        cantidad_transacciones++;
                     } else {
                         Flete = "NO";
                     }
@@ -667,15 +762,15 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                      */
                     
                     //PRIMER ESCENARIO
-                    if (CuadrillaCB.isSelected() && MPCB.isSelected() && PeajeCB.isSelected() && FleteCB.isSelected()) {
+                    if (cantidad_transacciones == 4) {
                         String[] botones_confirmacionCrear = {"SI", "NO"};
-                        int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UNA NUEVA TRANSACCION?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                        int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA INGRESAR UN NUEVO BOLETON?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
                         /*
-                        EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
-                        SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
-                        PARA DESPUES DESACTIVAR ESTA
+                            EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
+                            SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
+                            PARA DESPUES DESACTIVAR ESTA
                     
-                        EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
+                            EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
                          */
 
                         if (index == 0) {
@@ -684,7 +779,21 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                         } else {
                             this.dispose();
                         }
-                    } else { //SEGUNDO ESCENARIO
+                    } else if(cantidad_transacciones < 4) { //SEGUNDO ESCENARIO
+                        /*
+                            AQUI DEBERIA LLAMAR A UNA SIGUIENTE PANTALLA PRACTICAMENTE DE ESTE MISMO ESTILO
+                            CREARIA UN NUEVO OBJETO TRANSACCIONES CREAR
+                            DONDE SEPA QUE ESTOY HACIENDO UNA NUEVA TRANSACCION DE UN MISMO BOLETO
+                            IMPRIMIR LOS DATOS YA FIJOS DEL BOLETO
+                            DESHABILITANDO LOS TIPOS DE TRANSACCIONES QUE YA SE ASIGNARON
+                            Y SOLO DEJANDO QUE CAMBIE EL TIPO DE TRANSACCION MAS EL OTRO PROVEEDOR
+                        
+                            ENTONCES LO QUE DEBO HACER ES PRIMERO LLAMAR A LA VENTANA ANTERIOR DE IDENTIFICACIONPROVEEDOR TRANSACCIONES
+                            DONDE DEJE METER EL NUEVO PROVEEDOR, YA QUE AHI SE ENCUENTRAN TODAS LAS VERIFICACIONES
+                            PERO QUE EL NUM BOLETO SEA EL MISMO
+                            SE IRA PASANDO UNA CONDICION BOOLEANA ENTRE AMBAS INTERFACES
+                            PARA QUE AL MOMENTO DE LLEGAR ESTA VENTANA NUEVAMENTE, SE SEPA QUE ESTAMOS TRABAJANDO CON EL MISMO BOLETO ANTERIOR
+                        */
                         
                     }
                     //====================================FINAL DE CREACION DE TRANSACCION==============================\\

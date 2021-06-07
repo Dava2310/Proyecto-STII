@@ -13,16 +13,16 @@ public class transacciones {
         con = new conectate();
     }
     
-    public void NuevaTransaccion(String Num_Transaccion, String Fecha, String Semana, String Kg_Brutos, String Kg_Netos, String Materia_S,
+    public void NuevaTransaccion(String Num_Boleto, String Fecha, String Semana, String Kg_Brutos, String Kg_Netos, String Materia_S,
             String Impurezas, String Materia_Prima, String Cuadrilla, String Flete, String Peaje, String Dias_Trabajados, String Ha_Ubicacion, 
             String USD_DIA, String USD_HA, String Observaciones, String Codigo_Proveedor, boolean adicional){
         
         //INICIO DE LA FUNCION Y QUERY
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                    " transacciones(Num_Transaccion, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Materia_Prima, Cuadrilla, Flete, Peaje, Dias_Trabajados, Ha_Ubicacion, USD_DIA, USD_HA, Observaciones, Codigo_Proveedor)" + 
+                    " transacciones(Num_Boleto, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Materia_Prima, Cuadrilla, Flete, Peaje, Dias_Trabajados, Ha_Ubicacion, USD_DIA, USD_HA, Observaciones, Codigo_Proveedor)" + 
                     " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            pstm.setString(1, Num_Transaccion);
+            pstm.setString(1, Num_Boleto);
             pstm.setString(2, Fecha);
             pstm.setString(3, Semana);
             pstm.setString(4, Kg_Brutos);
@@ -79,13 +79,13 @@ public class transacciones {
         Object[][] data = new String[registros][17];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " + 
-                    " Num_Transaccion, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Materia_Prima, Cuadrilla, Flete, Peaje, Dias_Trabajados, Ha_Ubicacion, USD_DIA, USD_HA, Observaciones, Codigo_Proveedor " + 
+                    " Num_Boleto, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Materia_Prima, Cuadrilla, Flete, Peaje, Dias_Trabajados, Ha_Ubicacion, USD_DIA, USD_HA, Observaciones, Codigo_Proveedor " + 
                     " FROM transacciones " + 
-                    " ORDER BY Num_Transaccion");
+                    " ORDER BY Num_Boleto");
             ResultSet res = pstm.executeQuery();
             int i = 0;
             while(res.next()){
-                String estNum_Transaccion = res.getString("Num_Transaccion");
+                String estNum_Transaccion = res.getString("Num_Boleto");
                 String estFecha = res.getString("Fecha");
                 String estSemana = res.getString("Semana");
                 String estKg_Brutos = res.getString("Kg_Brutos");
@@ -135,7 +135,7 @@ public class transacciones {
         boolean encontrado = false;
         PreparedStatement pstm;
         try{
-            pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where Num_Transaccion = ?");
+            pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where Num_Boleto = ?");
             pstm.setString(1, Num_Transaccion);
             ResultSet res = pstm.executeQuery();
             if(res.next()){
@@ -165,7 +165,7 @@ public class transacciones {
         Object[] data2 = new Object[18];
         try{
             //Podemos usar primero una busqueda por el Numero de Boleto para saber si hay alguno
-            pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where Num_Transaccion = ?");
+            pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where Num_Boleto = ?");
             pstm.setString(1, Num_Boleto);
             ResultSet res = pstm.executeQuery();
             if(res.next()){
@@ -178,7 +178,7 @@ public class transacciones {
         if(encontrado){
             try {
                 pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where" +
-                        " Num_Transaccion = ? and" +
+                        " Num_Boleto = ? and" +
                         " Fecha = ? and" +
                         " Semana = ? and"+
                         " Codigo_Proveedor = ?");
@@ -205,7 +205,7 @@ public class transacciones {
         try{
             while(res.next()){
                 String estID_Transaccion = res.getString("ID_Transaccion");
-                String estNum_Transaccion = res.getString("Num_Transaccion");
+                String estNum_Transaccion = res.getString("Num_Boleto");
                 String estFecha = res.getString("Fecha");
                 String estSemana = res.getString("Semana");
                 String estKg_Brutos = res.getString("Kg_Brutos");
@@ -248,4 +248,99 @@ public class transacciones {
         return data;
     }
     
+    /*
+        QUERY PARA RETORNAR UN TRUE O FALSE SI DE UN CIERTO BOLETO
+        SE ENCUENTRA UNA TRANSACION DE CUADRILLA
+    */
+    public boolean transaccionCuadrilla(String codigo_boleto){
+        boolean transaccionEncontrada = false;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Cuadrilla "
+                    + " FROM transacciones "
+                    + " WHERE transacciones.Num_Boleto = ?");
+            pstm.setString(1, codigo_boleto);
+            ResultSet res = pstm.executeQuery();
+            while(res.next() || !transaccionEncontrada){
+                String verificacionCuadrilla = res.getString("Cuadrilla");
+                if(verificacionCuadrilla.equals("SI")){
+                    transaccionEncontrada = true;
+                }
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return transaccionEncontrada;
+    }
+    
+    /*
+        QUERY PARA RETORNAR UN TRUE O FALSE SI DE UN CIERTO BOLETO
+        SE ENCUENTRA UNA TRANSACION DE MATERIA_PRIMA
+    */
+    public boolean transaccionMateria_Prima(String codigo_boleto){
+        boolean transaccionEncontrada = false;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Materia_Prima "
+                    + " FROM transacciones "
+                    + " WHERE transacciones.Num_Boleto = ?");
+            pstm.setString(1, codigo_boleto);
+            ResultSet res = pstm.executeQuery();
+            while(res.next() || !transaccionEncontrada){
+                String verificacionCuadrilla = res.getString("Materia_Prima");
+                if(verificacionCuadrilla.equals("SI")){
+                    transaccionEncontrada = true;
+                }
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return transaccionEncontrada;
+    }
+    
+    /*
+        QUERY PARA RETORNAR UN TRUE O FALSE SI DE UN CIERTO BOLETO
+        SE ENCUENTRA UNA TRANSACION DE FLETE
+    */
+    public boolean transaccionFlete(String codigo_boleto){
+        boolean transaccionEncontrada = false;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Flete "
+                    + " FROM transacciones "
+                    + " WHERE transacciones.Num_Boleto = ?");
+            pstm.setString(1, codigo_boleto);
+            ResultSet res = pstm.executeQuery();
+            while(res.next() || !transaccionEncontrada){
+                String verificacionCuadrilla = res.getString("Flete");
+                if(verificacionCuadrilla.equals("SI")){
+                    transaccionEncontrada = true;
+                }
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return transaccionEncontrada;
+    }
+    
+    /*
+        QUERY PARA RETORNAR UN TRUE O FALSE SI DE UN CIERTO BOLETO
+        SE ENCUENTRA UNA TRANSACION DE PEAJE
+    */
+    public boolean transaccionPeaje(String codigo_boleto){
+        boolean transaccionEncontrada = false;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Peaje "
+                    + " FROM transacciones "
+                    + " WHERE transacciones.Num_Boleto = ?");
+            pstm.setString(1, codigo_boleto);
+            ResultSet res = pstm.executeQuery();
+            while(res.next() || !transaccionEncontrada){
+                String verificacionCuadrilla = res.getString("Peaje");
+                if(verificacionCuadrilla.equals("SI")){
+                    transaccionEncontrada = true;
+                }
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return transaccionEncontrada;
+    }
 }

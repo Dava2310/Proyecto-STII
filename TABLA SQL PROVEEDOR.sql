@@ -26,6 +26,7 @@ create table proveedor(
 
 SELECT * from proveedor;	-- MOSTRAR TODOS LOS DATOS DE LA TABLA PROVEEDOR
 DROP TABLE proveedor; 		-- ELIMINAR LA TABLA PROVEEDOR
+SELECT count(1) as total FROM proveedor;
 -- EJEMPLO DE CREACION DE UN PROVEEDOR
 INSERT INTO proveedor VALUES('00029517648','V29517648','Daniel','Trinitarias','04167902535','dv@gmail.com','Daniel Vetencourt',
 							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','');
@@ -58,16 +59,31 @@ DROP TABLE anticipos;		-- ELIMINAR LA TABLA ANTICIPOS
 -- EJEMPLO DE CREACION DE UN ANTICIPO
 INSERT INTO anticipos(Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP) values('F','B','C','D','E','F','G');
 
+-- CREACION DE LA TABLA BOLETO
+create table boleto(
+	Codigo varchar(10) not null,
+    Fecha varchar(10) not null,
+    Semana varchar(10) not null,
+    Kg_Brutos int not null,
+    Kg_Netos int not null,
+    Materia_S float not null,
+    Impurezas float not null,
+    Cantidad_Transacciones int not null,
+    primary key(Codigo)
+);
+
 -- CREACION DE LA TABLA TRANSACCIONES
 create table transacciones(
 	ID_Transaccion int auto_increment,
-	Num_Transaccion varchar(10) not null,
+    -- ESTA ES LA INFORMACION DEL BOLETO
+	Num_Boleto varchar(10) not null,
     Fecha varchar(10) not null,
     Semana varchar(10) not null,
     Kg_Brutos int not null, 		-- ESTE CAMPO NO PUEDE SER DECIMAL
 	Kg_Netos  int not null,			-- ESTE CAMPO NO PUEDE SER DECIMAL
     Materia_S float not null,
     Impurezas float not null,
+    -- ESTAS SON LOS TIPOS DE TRANSACCIONES
     Materia_Prima varchar(3),
     Cuadrilla varchar(3),
     Flete varchar(3),
@@ -81,6 +97,7 @@ create table transacciones(
     -- Foreign Key referente al proveedor
     Codigo_Proveedor varchar(15),
     foreign key(Codigo_Proveedor) references proveedor(Codigo),
+    foreign key(Num_Boleto) references boleto(Codigo),
     primary key(ID_Transaccion)
 );
 
@@ -88,7 +105,7 @@ create table transacciones(
 
 SELECT * from transacciones; -- MOSTRAR TODOS LOS DATOS DE LAS TRANSACCIONES
 DROP TABLE transacciones; 	 -- ELIMINAR LA TABLA DE TRANSACCIONES
-
+SELECT transaccion.Materia_Prima, transaccion.Cuadrilla, transaccion.Flete, transaccion.Peaje FROM transaccion WHERE transaccion.Num_Boleto = ?
 
 
 

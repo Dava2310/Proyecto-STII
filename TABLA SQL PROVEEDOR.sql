@@ -64,13 +64,18 @@ create table boleto(
 	Codigo varchar(10) not null,
     Fecha varchar(10) not null,
     Semana varchar(10) not null,
-    Kg_Brutos int not null,
-    Kg_Netos int not null,
-    Materia_S float not null,
-    Impurezas float not null,
+    Kg_Brutos int not null,			-- ESTO ES FLOAT
+    Kg_Netos int not null,			-- ESTO ES FLOAT
+    Materia_S float not null,		-- ESTO ES INT
+    Impurezas float not null,		-- ESTO ES INT
     Cantidad_Transacciones int not null,
     primary key(Codigo)
 );
+
+SELECT * from boleto;
+SELECT Cantidad_Transacciones from boleto where Codigo = '2021112';
+UPDATE boleto set Cantidad_Transacciones = 4 where Codigo = '20211110';
+DROP TABLE boleto;
 
 -- CREACION DE LA TABLA TRANSACCIONES
 create table transacciones(
@@ -79,10 +84,10 @@ create table transacciones(
 	Num_Boleto varchar(10) not null,
     Fecha varchar(10) not null,
     Semana varchar(10) not null,
-    Kg_Brutos int not null, 		-- ESTE CAMPO NO PUEDE SER DECIMAL
-	Kg_Netos  int not null,			-- ESTE CAMPO NO PUEDE SER DECIMAL
-    Materia_S float not null,
-    Impurezas float not null,
+    Kg_Brutos float not null, 		
+	Kg_Netos  float not null,		
+    Materia_S int not null,			-- ESTE CAMPO NO PUEDE SER DECIMAL
+    Impurezas int not null,			-- ESTE CAMPO NO PUEDE SER DECIMAL
     -- ESTAS SON LOS TIPOS DE TRANSACCIONES
     Materia_Prima varchar(3),
     Cuadrilla varchar(3),
@@ -105,7 +110,7 @@ create table transacciones(
 
 SELECT * from transacciones; -- MOSTRAR TODOS LOS DATOS DE LAS TRANSACCIONES
 DROP TABLE transacciones; 	 -- ELIMINAR LA TABLA DE TRANSACCIONES
-SELECT transaccion.Materia_Prima, transaccion.Cuadrilla, transaccion.Flete, transaccion.Peaje FROM transaccion WHERE transaccion.Num_Boleto = ?
+SELECT transacciones.Materia_Prima FROM transacciones where transacciones.Num_Boleto = '1';
 
 
 

@@ -13,7 +13,7 @@ public class boleto {
     }
     
     //ESTA FUNCION NOS PERMITE CREAR UN NUEVO BOLETO EN LA BASE DE DATOS
-    public void NuevoBoleto(String codigo, String fecha, String semana, int Kg_Brutos, int Kg_Netos, float Materia_S, float Impurezas, int Cantidad_Transacciones){
+    public void NuevoBoleto(String codigo, String fecha, String semana, float Kg_Brutos, float Kg_Netos, int Materia_S, int Impurezas, int Cantidad_Transacciones){
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into "
                     + "boleto(Codigo, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Cantidad_Transacciones) " +
@@ -109,6 +109,7 @@ public class boleto {
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cantidad_Transacciones from boleto where Codigo = ?");
             pstm.setString(1, codigo);
             ResultSet res = pstm.executeQuery();
+            res.next();
             cantidad_Transacciones = res.getInt("Cantidad_Transacciones");
             res.close();
         }catch(SQLException ex){
@@ -123,12 +124,13 @@ public class boleto {
         UNA FUNCION QUE ME HAGA EL UPDATE DE LAS CANTIDADES DE TRANSACCIONES
     */
     
-    public void updateCantidad_Transacciones(String codigo){
+    public void updateCantidad_Transacciones(String codigo, int cantidad_transacciones){
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE boleto " + 
                     " set Cantidad_Transacciones = ? " +
                     " where Codigo = ?");
-            pstm.setString(1, codigo);
+            pstm.setInt(1, cantidad_transacciones);
+            pstm.setString(2, codigo);
             pstm.execute();
             pstm.close();
         }catch(SQLException ex){
@@ -151,6 +153,7 @@ public class boleto {
                     " WHERE Codigo = ?");
             pstm.setString(1, codigo);
             res = pstm.executeQuery();
+            res.next();
             data2 = informacion(res, data);
             res.close();
         }catch(SQLException ex){
@@ -164,10 +167,10 @@ public class boleto {
             String estCodigo = res.getString("Codigo");
                 String estFecha = res.getString("Fecha");
                 String estSemana = res.getString("Semana");
-                int estKg_Brutos = res.getInt("Kg_Brutos");
-                int estKg_Netos = res.getInt("Kg_Netos");
-                float estMateria_S = res.getFloat("Materia_S");
-                float estImpurezas = res.getFloat("Impurezas");
+                float estKg_Brutos = res.getFloat("Kg_Brutos");
+                float estKg_Netos = res.getFloat("Kg_Netos");
+                int estMateria_S = res.getInt("Materia_S");
+                int estImpurezas = res.getInt("Impurezas");
                 int estCantidad_Transaccioens = res.getInt("Cantidad_Transacciones");
                 //Ingresando todos los datos en el vector[] data
                 data[0] = estCodigo;

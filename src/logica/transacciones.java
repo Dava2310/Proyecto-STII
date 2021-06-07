@@ -260,7 +260,7 @@ public class transacciones {
                     + " WHERE transacciones.Num_Boleto = ?");
             pstm.setString(1, codigo_boleto);
             ResultSet res = pstm.executeQuery();
-            while(res.next() || !transaccionEncontrada){
+            while(res.next() && !transaccionEncontrada){
                 String verificacionCuadrilla = res.getString("Cuadrilla");
                 if(verificacionCuadrilla.equals("SI")){
                     transaccionEncontrada = true;
@@ -284,7 +284,7 @@ public class transacciones {
                     + " WHERE transacciones.Num_Boleto = ?");
             pstm.setString(1, codigo_boleto);
             ResultSet res = pstm.executeQuery();
-            while(res.next() || !transaccionEncontrada){
+            while(res.next() && !transaccionEncontrada){
                 String verificacionCuadrilla = res.getString("Materia_Prima");
                 if(verificacionCuadrilla.equals("SI")){
                     transaccionEncontrada = true;
@@ -308,7 +308,7 @@ public class transacciones {
                     + " WHERE transacciones.Num_Boleto = ?");
             pstm.setString(1, codigo_boleto);
             ResultSet res = pstm.executeQuery();
-            while(res.next() || !transaccionEncontrada){
+            while(res.next() && !transaccionEncontrada){
                 String verificacionCuadrilla = res.getString("Flete");
                 if(verificacionCuadrilla.equals("SI")){
                     transaccionEncontrada = true;
@@ -332,7 +332,7 @@ public class transacciones {
                     + " WHERE transacciones.Num_Boleto = ?");
             pstm.setString(1, codigo_boleto);
             ResultSet res = pstm.executeQuery();
-            while(res.next() || !transaccionEncontrada){
+            while(res.next() && !transaccionEncontrada){
                 String verificacionCuadrilla = res.getString("Peaje");
                 if(verificacionCuadrilla.equals("SI")){
                     transaccionEncontrada = true;

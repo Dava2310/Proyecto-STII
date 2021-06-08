@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases;
+package clases.transacciones;
 
 /**
  *
@@ -70,12 +70,17 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        CancelarBT = new javax.swing.JButton();
+        BuscarBT = new javax.swing.JButton();
+        HabilitarCambiosBT = new javax.swing.JButton();
+        ModificarBT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Informacion del Proveedor");
@@ -224,17 +229,37 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/boleto.png"))); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setText("CANCELAR");
+        CancelarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CancelarBT.setText("CANCELAR");
+        CancelarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarBTActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setText("BUSCAR");
+        BuscarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BuscarBT.setText("BUSCAR");
+        BuscarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarBTActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton3.setText("HABILITAR CAMBIOS");
+        HabilitarCambiosBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        HabilitarCambiosBT.setText("HABILITAR CAMBIOS");
+        HabilitarCambiosBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HabilitarCambiosBTActionPerformed(evt);
+            }
+        });
 
-        jButton4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton4.setText("MODIFICAR");
+        ModificarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ModificarBT.setText("MODIFICAR");
+        ModificarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarBTActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -342,13 +367,13 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton4)
+                        .addComponent(ModificarBT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
+                        .addComponent(HabilitarCambiosBT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(BuscarBT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))))
+                        .addComponent(CancelarBT))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -425,10 +450,10 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)))
+                    .addComponent(CancelarBT)
+                    .addComponent(BuscarBT)
+                    .addComponent(HabilitarCambiosBT)
+                    .addComponent(ModificarBT)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -459,6 +484,27 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
     private void PeajeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PeajeCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PeajeCBActionPerformed
+    
+    /*================================ ACCIONES AL CREARSE AL PANTALLA =====================================================*/
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+    }//GEN-LAST:event_formWindowOpened
+    /*================================ ACCIONES DE LOS BOTONES =====================================================*/
+    private void ModificarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarBTActionPerformed
+        
+    }//GEN-LAST:event_ModificarBTActionPerformed
+
+    private void HabilitarCambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarCambiosBTActionPerformed
+        
+    }//GEN-LAST:event_HabilitarCambiosBTActionPerformed
+
+    private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
+        
+    }//GEN-LAST:event_BuscarBTActionPerformed
+
+    private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
+        
+    }//GEN-LAST:event_CancelarBTActionPerformed
 
     /**
      * @param args the command line arguments
@@ -499,7 +545,9 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BuscarBT;
     private javax.swing.JTextField CODtxt;
+    private javax.swing.JButton CancelarBT;
     private javax.swing.JLabel CodL;
     private javax.swing.JCheckBox CuadrillaCB;
     private javax.swing.JLabel DTrabajadosl;
@@ -509,6 +557,7 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
     private javax.swing.JCheckBox FleteCB;
     private javax.swing.JComboBox<String> HAubicacionCB;
     private javax.swing.JLabel HaUbicacionL;
+    private javax.swing.JButton HabilitarCambiosBT;
     private javax.swing.JLabel IDL;
     private javax.swing.JTextField IDtxt;
     private javax.swing.JLabel ImpurezasL;
@@ -522,6 +571,7 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
     private javax.swing.JCheckBox MPCB;
     private javax.swing.JLabel MSL;
     private javax.swing.JTextField MStxt;
+    private javax.swing.JButton ModificarBT;
     private javax.swing.JLabel NroBoletoL;
     private javax.swing.JTextField NroBoletotxt;
     private javax.swing.JCheckBox PeajeCB;
@@ -535,10 +585,6 @@ public class TransaccionesConsultarModificar extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> USDdiaCB;
     private javax.swing.JLabel USDdiaL;
     private javax.swing.JLabel USDdiaL1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

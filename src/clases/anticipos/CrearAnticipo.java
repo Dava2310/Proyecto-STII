@@ -1,18 +1,39 @@
-package clases;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package clases.anticipos;
 
-import java.awt.Color;
+import clases.proveedores.IdentificacionProveedor;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.anticipos;
 import logica.proveedor;
-import sun.reflect.misc.ReflectUtil;
 
-public class ConsultarAnticipo extends javax.swing.JFrame {
+/**
+ *
+ * @author DANIEL
+ */
+public class CrearAnticipo extends javax.swing.JFrame {
 
-    anticipos a = new anticipos();
-    proveedor p = new proveedor();
-
-    public ConsultarAnticipo() {
+    public String identificacion;
+    public int tipo_identificacion;
+    public String codigo_proveedor;
+    public String razon_social;
+    public String identificacion_completa;
+    public proveedor p = new proveedor();
+    public anticipos a = new anticipos();
+    public String num_anticipo = "";
+    public boolean creado = false;
+    public IdentificacionProveedor IP;
+    public CrearAnticipo() {
         initComponents();
+        cerrar();
     }
 
     /**
@@ -24,72 +45,60 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        MontoDStxt = new javax.swing.JTextField();
-        FechaL = new javax.swing.JLabel();
         InfoProveedorL = new javax.swing.JLabel();
-        Fechatxt = new javax.swing.JTextField();
-        IconProveedor = new javax.swing.JLabel();
-        AprobacionL = new javax.swing.JLabel();
+        IconoProveedor = new javax.swing.JLabel();
         CodigoL = new javax.swing.JLabel();
-        Aprobaciontxt = new javax.swing.JTextField();
         Codigotxt = new javax.swing.JTextField();
-        ObservacionesL = new javax.swing.JLabel();
         IDL = new javax.swing.JLabel();
         IDCB = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Observaciontxt = new javax.swing.JTextArea();
         IDtxt = new javax.swing.JTextField();
-        BuscarBT = new javax.swing.JButton();
         RazonSocialL = new javax.swing.JLabel();
         RazonSocialtxt = new javax.swing.JTextField();
-        InfoAnticipo = new javax.swing.JLabel();
+        infoAnticipoL = new javax.swing.JLabel();
         IconAnticipo = new javax.swing.JLabel();
-        NroAnticipoL = new javax.swing.JLabel();
+        NroAnticipo = new javax.swing.JLabel();
         NroAnticipotxt = new javax.swing.JTextField();
         MotivoAnticipoL = new javax.swing.JLabel();
         MontoBSL = new javax.swing.JLabel();
         MontoBStxt = new javax.swing.JTextField();
-        MontoDSL = new javax.swing.JLabel();
+        MontoDS = new javax.swing.JLabel();
+        MontoDStxt = new javax.swing.JTextField();
+        FechaL = new javax.swing.JLabel();
+        Fechatxt = new javax.swing.JTextField();
+        AprobacionL = new javax.swing.JLabel();
+        Aprobaciontxt = new javax.swing.JTextField();
+        ObservacionL = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Observaciontxt = new javax.swing.JTextArea();
+        CrearBT = new javax.swing.JButton();
         CancelarBT = new javax.swing.JButton();
-        MotivoAnticipoCB = new javax.swing.JComboBox<>();
-        AprobacionL1 = new javax.swing.JLabel();
+        MotivoCB = new javax.swing.JComboBox<>();
+        DescuentoODPCB = new javax.swing.JLabel();
         DescontarCB = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
 
-        MontoDStxt.setEditable(false);
-        MontoDStxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-
-        FechaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        FechaL.setText("Fecha");
-
         InfoProveedorL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         InfoProveedorL.setText("Información del Proveedor");
 
-        Fechatxt.setEditable(false);
-        Fechatxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-
-        IconProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen1.png"))); // NOI18N
-
-        AprobacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        AprobacionL.setText("Aprobado por");
+        IconoProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen1.png"))); // NOI18N
 
         CodigoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         CodigoL.setText("Código (*)");
 
-        Aprobaciontxt.setEditable(false);
-        Aprobaciontxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-
         Codigotxt.setEditable(false);
-        Codigotxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-
-        ObservacionesL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        ObservacionesL.setText("Observaciones");
+        Codigotxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         IDL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IDL.setText("Identificación (*)");
@@ -102,36 +111,21 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
             }
         });
 
-        Observaciontxt.setEditable(false);
-        Observaciontxt.setColumns(20);
-        Observaciontxt.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        Observaciontxt.setRows(5);
-        jScrollPane1.setViewportView(Observaciontxt);
-
         IDtxt.setEditable(false);
-        IDtxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-
-        BuscarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BuscarBT.setText("BUSCAR");
-        BuscarBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarBTActionPerformed(evt);
-            }
-        });
+        IDtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         RazonSocialL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         RazonSocialL.setText("Razón Social (*)");
 
         RazonSocialtxt.setEditable(false);
-        RazonSocialtxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
 
-        InfoAnticipo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        InfoAnticipo.setText("Información del Anticipo");
+        infoAnticipoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        infoAnticipoL.setText("Información del Anticipo");
 
         IconAnticipo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/aa.png"))); // NOI18N
 
-        NroAnticipoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        NroAnticipoL.setText("Anticipo Nº");
+        NroAnticipo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        NroAnticipo.setText("Anticipo Nº");
 
         NroAnticipotxt.setEditable(false);
 
@@ -141,30 +135,62 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
         MontoBSL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MontoBSL.setText("Monto en BS");
 
-        MontoBStxt.setEditable(false);
         MontoBStxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
 
-        MontoDSL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        MontoDSL.setText("Monto en $");
+        MontoDS.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MontoDS.setText("Monto en $");
 
-        CancelarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CancelarBT.setText("CANCELAR");
+        FechaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        FechaL.setText("Fecha");
 
-        MotivoAnticipoCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        MotivoAnticipoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Materia Prima", "Adicional", "Peaje", "Otros" }));
-        MotivoAnticipoCB.setEnabled(false);
-        MotivoAnticipoCB.addActionListener(new java.awt.event.ActionListener() {
+        Fechatxt.setEditable(false);
+        Fechatxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        Fechatxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MotivoAnticipoCBActionPerformed(evt);
+                FechatxtActionPerformed(evt);
             }
         });
 
-        AprobacionL1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        AprobacionL1.setText("Descontar en ODP");
+        AprobacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        AprobacionL.setText("Aprobado por");
+
+        ObservacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ObservacionL.setText("Observaciones");
+
+        Observaciontxt.setColumns(20);
+        Observaciontxt.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        Observaciontxt.setRows(5);
+        jScrollPane1.setViewportView(Observaciontxt);
+
+        CrearBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CrearBT.setText("Crear");
+        CrearBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearBTActionPerformed(evt);
+            }
+        });
+
+        CancelarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CancelarBT.setText("CANCELAR");
+        CancelarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarBTActionPerformed(evt);
+            }
+        });
+
+        MotivoCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        MotivoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Materia Prima", "Adicional", "Peaje", "Otros" }));
+        MotivoCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MotivoCBActionPerformed(evt);
+            }
+        });
+
+        DescuentoODPCB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        DescuentoODPCB.setText("Descontar en ODP");
 
         DescontarCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        DescontarCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
-        DescontarCB.setEnabled(false);
+        DescontarCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"SI", "NO" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -178,7 +204,7 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(InfoProveedorL)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(IconProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(IconoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -195,13 +221,13 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
                                         .addComponent(RazonSocialL)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(RazonSocialtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(InfoAnticipo)
+                            .addComponent(infoAnticipoL)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(IconAnticipo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(NroAnticipoL)
+                                        .addComponent(NroAnticipo)
                                         .addGap(70, 70, 70)
                                         .addComponent(NroAnticipotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
@@ -209,28 +235,28 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
                                             .addComponent(MotivoAnticipoL)
                                             .addComponent(MontoBSL)
                                             .addComponent(AprobacionL)
-                                            .addComponent(AprobacionL1))
+                                            .addComponent(DescuentoODPCB))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                     .addComponent(MontoBStxt, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                                                    .addComponent(MotivoAnticipoCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                    .addComponent(MotivoCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(MontoDSL)
+                                                    .addComponent(MontoDS)
                                                     .addComponent(FechaL))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(Fechatxt)
                                                     .addComponent(MontoDStxt)))
                                             .addComponent(Aprobaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(DescontarCB, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(ObservacionesL))
+                                            .addComponent(DescontarCB, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(ObservacionL))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(BuscarBT)
+                        .addComponent(CrearBT)
                         .addGap(18, 18, 18)
                         .addComponent(CancelarBT)))
                 .addContainerGap())
@@ -243,7 +269,7 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IconProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(IconoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -257,42 +283,44 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
                             .addComponent(RazonSocialL)
                             .addComponent(RazonSocialtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(InfoAnticipo)
+                .addComponent(infoAnticipoL)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(IconAnticipo)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(NroAnticipoL)
+                            .addComponent(NroAnticipo)
                             .addComponent(NroAnticipotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(MotivoAnticipoL)
-                            .addComponent(FechaL)
-                            .addComponent(Fechatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MotivoAnticipoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Fechatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(MontoBSL)
-                                .addComponent(MontoBStxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(MontoDSL))
-                            .addComponent(MontoDStxt, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(MotivoAnticipoL)
+                                .addComponent(FechaL)
+                                .addComponent(MotivoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(MontoBSL)
+                                    .addComponent(MontoDS))
+                                .addComponent(MontoDStxt, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                            .addComponent(MontoBStxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AprobacionL)
                             .addComponent(Aprobaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(AprobacionL1)
+                            .addComponent(DescuentoODPCB)
                             .addComponent(DescontarCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ObservacionesL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ObservacionL)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BuscarBT)
+                    .addComponent(CrearBT)
                     .addComponent(CancelarBT))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -302,69 +330,148 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void IDCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDCBActionPerformed
-
+        // TODO add your handling code here:
     }//GEN-LAST:event_IDCBActionPerformed
 
-    private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
-        Object[] dataAnticipo;
-        Object[] dataProveedor;
-        //LA BUSQUEDA POR AHORA SERA UNICAMENTE GRACIAS AL NUMERO O CODIGO DE ANTICIPO
-
-        //CUANDO SE BUSQUE EL ANTICIPO, HAY QUE IMPRIMIR LOS DATOS DEL ANTICIPO
-        //Y ADEMAS, HAY QUE HACER UNA BUSQUEDA DEL PROVEEDOR
-        //SEGUN LA CLAVE FORANEA DEL ANTICIPO
-        //Y SE COLOCAN LOS 3 DATOS PRINCIPALES DEL PROVEEDOR
-        //REALIZANDO BUSQUEDA POR CODIGO
-        String num_anticipo = NroAnticipotxt.getText();
-        if (!num_anticipo.isEmpty()) {
-            boolean encontrado = a.buscarAnticipo(num_anticipo);
-            if (encontrado) {
-                dataAnticipo = a.conseguirDatos(num_anticipo);
-                //SE DEBE AGARRAR LOS DATOS DEL PROVEEDOR
-                if (p.buscarCodigo(dataAnticipo[8].toString())) {
-                    dataProveedor = p.conseguirDatos(dataAnticipo[8].toString(), "", "", 1);
-                    escribirDatosProveedor(dataProveedor);
-                }
-                //UNA VEZ COLOCADOS TODOS LOS DATOS DEL PROVEEDOR, SE LLAMA A LA FUNCION DE ESCRIBIR LOS DATOS DEL ANTICIPO
-                escribirDatosAnticipo(dataAnticipo);
-            } else if (!encontrado){
-                JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN ANTICIPO CON ESTE CODIGO", "BUSQUEDA DE ANTICIPO", JOptionPane.ERROR);
-            }
-        }
-    }//GEN-LAST:event_BuscarBTActionPerformed
-
-    //FUNCION PARA ESCRIBIR TODOS LOS DATOS DEL ANTICIPO EN LA INTERFAZ
-    public void escribirDatosAnticipo(Object[] dataAnticipo) {
-        NroAnticipotxt.setText(dataAnticipo[0].toString());
-        MotivoAnticipoCB.setSelectedIndex(a.motivoAnticipo(dataAnticipo[1].toString()));
-        Fechatxt.setText(dataAnticipo[2].toString());
-        MontoBStxt.setText(dataAnticipo[3].toString());
-        MontoDStxt.setText(dataAnticipo[4].toString());
-        Aprobaciontxt.setText(dataAnticipo[5].toString());
-        Observaciontxt.setText(dataAnticipo[6].toString());
-        DescontarCB.setSelectedIndex(a.descontarODP(dataAnticipo[7].toString()));
-    }
-
-    public void escribirDatosProveedor(Object[] dataProveedor) {
-        Codigotxt.setText(dataProveedor[0].toString());
-        RazonSocialtxt.setText(dataProveedor[2].toString());
-        String identificacion_completa = dataProveedor[1].toString();
-        char tipo_identificacion = identificacion_completa.charAt(0);
-        int TipoID = p.indexIdentificacion(tipo_identificacion);
-        IDCB.setSelectedIndex(TipoID);
-        IDtxt.setText(identificacion_completa.substring(1, identificacion_completa.length()));
-    }
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        //HACIENDO QUE EL CAMPO DE NUM_ANTICIPO SEA DISPONIBLE DE EDITAR
-        NroAnticipotxt.setEditable(true);
-        NroAnticipotxt.setBackground(Color.BLACK);
-        NroAnticipotxt.setForeground(Color.WHITE);
+        //DEBEMOS COLOCAR LAS SIGUIENTES COSAS AL ABRIR LA VENTANA:
+        //LA IDENTIFICACION
+        //TIPO IDENTIFICACION
+        //CODIGO - RAZON SOCIAL (LO PODEMOS CONSEGUIR LLAMADO A LA FUNCION DE CONSEGUIR DATOS Y EXTRAYENDO UNICAMENTE ESOS DOS VALORES)
+        //=============================================================================================================================
+        IDtxt.setText(identificacion);
+        IDCB.setSelectedIndex(tipo_identificacion);
+        Object[] data = p.conseguirDatos("", identificacion_completa, "", 2);
+        this.codigo_proveedor = data[0].toString();
+        Codigotxt.setText(codigo_proveedor);
+        String razon_social = data[2].toString();
+        RazonSocialtxt.setText(razon_social);
+        //SE CREA UN OBJETO TIPO DATE
+        Date fecha = new Date();
+        //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
+        //ADEMAS PERMITE CONVERTIR DE DATE A STRING
+        SimpleDateFormat formatoFecha=new SimpleDateFormat("dd/MM/YYYY");
+        String nuevaFecha = formatoFecha.format(fecha);
+        Fechatxt.setText(nuevaFecha);
     }//GEN-LAST:event_formWindowOpened
 
-    private void MotivoAnticipoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MotivoAnticipoCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MotivoAnticipoCBActionPerformed
+    String[] botones = {"ACEPTAR","CANCELAR"};
+    private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
+        if(creado){
+            int index = JOptionPane.showOptionDialog(null, "¿DESEA CREAR OTRO ANTICIPO?","CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
+            if(index == 0){
+                IP = new IdentificacionProveedor();
+                IP.modo = 2;
+                IP.setVisible(true);
+                this.dispose();
+            } else{
+                this.dispose();
+            }
+        } else {
+            this.dispose();
+        }
+    }//GEN-LAST:event_CancelarBTActionPerformed
 
+    //CUANDO SE ABRIO LA VENTANA, YA SABEMOS QUE LA IDENTIFICACION DEL PROVEEDOR ESTA EN PANTALLA
+    //SIMPLEMENTE, RECOGEMOS TODOS LOS DATOS DE LA INTERFAZ Y CREAMOS EL ANTICIPO
+    //DESPUES DE ESO, DESHABILITAMOS EL BOTON DE CREAR
+    //COLOCAMOS EL CODIGO DEL ANTICIPO CREADO EN EL TEXTFIELD CORRESPONDIENTE
+    //MANDAMOS UN MENSAJE POR PANTALLA AVISANDO PARA QUE LO ANOTE
+    //Y PODEMOS CAMBIAR EL TEXTO DEL BOTON DE CANCELAR POR CERRAR
+    private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
+        //HAY QUE HACER UNA VALIDACION DE QUE SE INGRESEN LOS DATOS NECESARIOS
+        //MOTIVO DEL ANTICIPO, FECHA, MONTOBS, MONTODS
+        if (!(MotivoCB.getSelectedItem().toString().isEmpty()) && !(Fechatxt.getText().isEmpty())
+                && !(MontoBStxt.getText().isEmpty()) && !(MontoDStxt.getText().isEmpty())) {
+            //RECOGIDA DE DATOS:
+            String motivo_anticipo = MotivoCB.getSelectedItem().toString();
+            String fecha = Fechatxt.getText();
+            String monto_bs = MontoBStxt.getText();
+            String monto_ds = MontoDStxt.getText();
+            String aprobacion = Aprobaciontxt.getText();
+            String descontarODP = DescontarCB.getSelectedItem().toString();
+            String observaciones = Observaciontxt.getText();
+            String codigo_proveedor = Codigotxt.getText();
+            //LLAMADA DE LA FUNCION CREAR ANTICIPO:
+            a.NuevoAnticipo(motivo_anticipo, fecha, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, "SI");
+            creado = true;
+            //DEBEMOS MANDAR UN MENSAJE DE CONFIRMACION-------------
+
+            //DESHABILITAR EL BOTON DE CREACION:
+            CrearBT.setEnabled(false);
+            //DESHABILITAR CADA CAMPO DE LA INTERFAZ
+            MontoBStxt.setEnabled(false);
+            MontoDStxt.setEnabled(false);
+            Aprobaciontxt.setEnabled(false);
+            Observaciontxt.setEnabled(false);
+            MotivoCB.setEnabled(false);
+
+            //COLOCAMOS EL CODIGO DEL ANTICIPO CREADO EN EL TXT
+            String num_anticipo = a.codigo_RecienCreado();
+            //YA PODEMOS PASAR EL ESTADO DE RECIEN CREADO DE SI A NO EN EL ANTICIPO
+            NroAnticipotxt.setText(num_anticipo);
+            a.updateEstado(num_anticipo);
+            
+            //AQUI HAY QUE DEJAR UN MENSAJE DICIENDO QUE REVISE EL NRO DEL ANTICIPO QUE ESTA, COLOCADO EN EL TEXTFIELD
+            JOptionPane.showMessageDialog(null, "LA CREACION DE SU ANTICIPO HA SIDO EXITOSA", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "VERIFIQUE EL NUMERO DEL ANTICIPO GENERADO POR EL SISTEMA ANTES DE CERRAR", "AVISO", JOptionPane.PLAIN_MESSAGE);
+            //CAMBIANDO EL TEXTO DEL BOTON DE CANCELAR POR CERRAR
+            CancelarBT.setText("CERRAR");
+        } else {
+            JOptionPane.showMessageDialog(null, "INGRESE POR FAVOR LOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }  
+    }//GEN-LAST:event_CrearBTActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+    }//GEN-LAST:event_formWindowClosing
+
+    private void FechatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechatxtActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_FechatxtActionPerformed
+
+    private void MotivoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MotivoCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MotivoCBActionPerformed
+    
+    //SE CREA UNA FUNCION QUE PERMITA OBTENER LA FECHA ACTUAL DEL SISTEMA
+    public static String fechaActual(){
+        //SE CREA UN OBJETO TIPO DATE
+        Date fecha = new Date();
+        //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
+        //ADEMAS PERMITE CONVERTIR DE DATE A STRING
+        SimpleDateFormat formatoFecha=new SimpleDateFormat("MM/DD/YYYY");
+        String nuevaFecha = formatoFecha.format(fecha);
+        return nuevaFecha;
+    
+    }
+    public void cerrar(){
+        try{
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e){
+                   confirmarSalida();
+                }
+            });
+            this.setVisible(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    //CONFIRMAR SALIDA
+    public void confirmarSalida(){
+        int index = JOptionPane.showConfirmDialog(this, "ESTA SEGURO DE CERRAR LA VENTANA", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
+        if(index==JOptionPane.YES_OPTION){
+            this.dispose();
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -382,55 +489,54 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarAnticipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CrearAnticipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarAnticipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CrearAnticipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarAnticipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CrearAnticipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarAnticipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CrearAnticipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultarAnticipo().setVisible(true);
+                new CrearAnticipo().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AprobacionL;
-    private javax.swing.JLabel AprobacionL1;
     private javax.swing.JTextField Aprobaciontxt;
-    private javax.swing.JButton BuscarBT;
     private javax.swing.JButton CancelarBT;
     private javax.swing.JLabel CodigoL;
     private javax.swing.JTextField Codigotxt;
+    private javax.swing.JButton CrearBT;
     private javax.swing.JComboBox<String> DescontarCB;
+    private javax.swing.JLabel DescuentoODPCB;
     private javax.swing.JLabel FechaL;
     private javax.swing.JTextField Fechatxt;
     private javax.swing.JComboBox<String> IDCB;
     private javax.swing.JLabel IDL;
     private javax.swing.JTextField IDtxt;
     private javax.swing.JLabel IconAnticipo;
-    private javax.swing.JLabel IconProveedor;
-    private javax.swing.JLabel InfoAnticipo;
+    private javax.swing.JLabel IconoProveedor;
     private javax.swing.JLabel InfoProveedorL;
     private javax.swing.JLabel MontoBSL;
     private javax.swing.JTextField MontoBStxt;
-    private javax.swing.JLabel MontoDSL;
+    private javax.swing.JLabel MontoDS;
     private javax.swing.JTextField MontoDStxt;
-    private javax.swing.JComboBox<String> MotivoAnticipoCB;
     private javax.swing.JLabel MotivoAnticipoL;
-    private javax.swing.JLabel NroAnticipoL;
+    private javax.swing.JComboBox<String> MotivoCB;
+    private javax.swing.JLabel NroAnticipo;
     private javax.swing.JTextField NroAnticipotxt;
-    private javax.swing.JLabel ObservacionesL;
+    private javax.swing.JLabel ObservacionL;
     private javax.swing.JTextArea Observaciontxt;
     private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
+    private javax.swing.JLabel infoAnticipoL;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

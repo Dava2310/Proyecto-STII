@@ -1,4 +1,4 @@
-package clases;
+package clases.transacciones;
 
 import javax.swing.JOptionPane;
 import logica.boleto;
@@ -7,10 +7,10 @@ import logica.transacciones;
 
 public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
 
-    TransaccionesCrear TC;
-    proveedor p = new proveedor();
-    transacciones t = new transacciones();
-    boleto b = new boleto();
+    public TransaccionesCrear TC;
+    public proveedor p = new proveedor();
+    public transacciones t = new transacciones();
+    public boleto b = new boleto();
     public int modo = 0;
     public String num_Boleto = "";
     

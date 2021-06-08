@@ -3,12 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases;
+package clases.transacciones;
 
+import clases.transacciones.IdentificacionProveedorTransacciones;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.boleto;
 import logica.transacciones;
@@ -67,7 +73,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         NroBoletoL = new javax.swing.JLabel();
         NroBoletotxt = new javax.swing.JTextField();
         SemanaL = new javax.swing.JLabel();
-        Fechatxt = new javax.swing.JTextField();
         FechaL1 = new javax.swing.JLabel();
         Semanatxt = new javax.swing.JTextField();
         KGBrutosL = new javax.swing.JLabel();
@@ -100,6 +105,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         CrearBT = new javax.swing.JButton();
         CancelarBT = new javax.swing.JButton();
         InformacionAdicionalBT = new javax.swing.JToggleButton();
+        Fechatxt = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -149,9 +155,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
 
         SemanaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         SemanaL.setText("Semana");
-
-        Fechatxt.setEditable(false);
-        Fechatxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         FechaL1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         FechaL1.setText("Fecha");
@@ -268,6 +271,17 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             }
         });
 
+        Fechatxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                FechatxtFocusLost(evt);
+            }
+        });
+        Fechatxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                FechatxtKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -358,9 +372,9 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                                                 .addComponent(Impurezastxt, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(50, 50, 50)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(NroBoletotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(Fechatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(NroBoletotxt, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                                                    .addComponent(Fechatxt))
                                                 .addGap(18, 18, 18)
                                                 .addComponent(SemanaL)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -417,9 +431,9 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(FechaL1)
-                            .addComponent(Fechatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(SemanaL)
-                            .addComponent(Semanatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Semanatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Fechatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(KGBrutosL, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -510,16 +524,19 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                 COLOCO EN LA ANTERIOR PANTALLA
              */
             NroBoletotxt.setText(numeroBoleto);
-
+            
             /*
                 EN ESTE APARTADO, INTENTAMOS COLOCAR LA FECHA DEL SISTEMA EN EL TXT CORRESPONDIENTE
                 ADEMAS DE QUE DEBERIAMOS COLOCAR LA SEMANA
              */
-            Date fecha = new Date();
-            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
-            String fechaActual = formatoFecha.format(fecha);
-            Fechatxt.setText(fechaActual);
+            
+            //Date fecha = new Date();
+            //SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
+            //String fechaActual = formatoFecha.format(fecha);
+            //Fechatxt.setText(fechaActual);
 
+            
+            /*
             Date anio = new Date();
             SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
             String anioActual = formatoAnio.format(anio);
@@ -528,6 +545,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             int day = 0;
             gc.add(Calendar.DATE, day);
             Semanatxt.setText((gc.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
+            */
+            
         } else if(continuacion) {
             System.out.println("continuacion");
             /*
@@ -999,7 +1018,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                             /*===================================================================================================================\\
                             ||==================================LLAMADA DE LA FUNCION CREAR TRANSACCION==========================================||
                             //===================================================================================================================*/
-                            t.NuevaTransaccion(num_transaccion, fecha, semana, KBbrutos, KGnetos, MateriaSeca, Impurezas, materiaPrima2, Cuadrilla2, Flete2, peaje2, diasTrabajados, HAubicacion, USDdia, USDha, observaciones, codigoProveedor, informacionAdicional);
+                            t.NuevaTransaccion(num_transaccion, fecha, semana, KBbrutos, KGnetos, MateriaSeca, Impurezas, materiaPrima2, Cuadrilla2, Flete2, peaje2, observaciones, codigoProveedor, informacionAdicional);
                             /*
                                 A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:
                                 1- SE RELLENARON TODOS LOS TIPOS DE TRANSACCION
@@ -1075,6 +1094,28 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CrearBTActionPerformed
 
+    private void FechatxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FechatxtKeyTyped
+        
+    }//GEN-LAST:event_FechatxtKeyTyped
+
+    private void FechatxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FechatxtFocusLost
+        if(Fechatxt.getText().length() == 10){
+            String date2 = Fechatxt.getText();
+            Date anio = new Date();
+            SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
+            String anioActual = formatoAnio.format(anio);
+            try {
+                Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date2);
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(date1);
+                Semanatxt.setText((calendar.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
+            } catch (ParseException ex) {
+                Logger.getLogger(TransaccionesCrear.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            
+    }//GEN-LAST:event_FechatxtFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -1120,7 +1161,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private javax.swing.JLabel DTrabajadosl;
     private javax.swing.JComboBox<String> DtrabajadosCB;
     private javax.swing.JLabel FechaL1;
-    private javax.swing.JTextField Fechatxt;
+    private javax.swing.JFormattedTextField Fechatxt;
     private javax.swing.JCheckBox FleteCB;
     private javax.swing.JComboBox<String> HAubicacionCB;
     private javax.swing.JLabel HaUbicacionL;

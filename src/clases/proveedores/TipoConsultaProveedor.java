@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases;
+package clases.proveedores;
+
+import clases.proveedores.ConsultarProveedor;
 
 /**
  *
@@ -11,9 +13,9 @@ package clases;
  */
 public class TipoConsultaProveedor extends javax.swing.JFrame {
 
-    ConsultarProveedor CP;
-    ModificarEliminarProveedor MEP;
-    int modo = 0;
+    public ConsultarProveedor CP;
+    public ModificarEliminarProveedor MEP;
+    public int modo = 0;
 
     public TipoConsultaProveedor() {
         initComponents();

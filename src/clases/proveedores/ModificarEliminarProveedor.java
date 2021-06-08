@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases;
+package clases.proveedores;
 
+import clases.proveedores.TipoConsultaProveedor;
+import clases.proveedores.ConsultarProveedor;
 import javax.swing.JOptionPane;
 import java.awt.Color;
 import logica.proveedor;
@@ -18,15 +20,15 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     /**
      * Creates new form CreacionProveedor
      */
-    int modo_busqueda = 0;
+    public int modo_busqueda = 0;
     //MODO BUSQUEDA = 0 - CONSULTA POR CODIGO
     //MODO BUSQUEDA = 1 - CONSULTA POR IDENTIFICACION
     //MODO BUSQUEDA = 2 - CONSULTA POR RAZON SOCIAL
-    proveedor p = new proveedor();
-    String ultimo_buscado = "";
-    ConsultarProveedor CP = new ConsultarProveedor();
-    boolean edicion = false;
-    TipoConsultaProveedor TCP;
+    public proveedor p = new proveedor();
+    public String ultimo_buscado = "";
+    public ConsultarProveedor CP = new ConsultarProveedor();
+    public boolean edicion = false;
+    public TipoConsultaProveedor TCP;
 
     public ModificarEliminarProveedor() {
         initComponents();

@@ -82,22 +82,12 @@ create table transacciones(
 	ID_Transaccion int auto_increment,
     -- ESTA ES LA INFORMACION DEL BOLETO
 	Num_Boleto varchar(10) not null,
-    Fecha varchar(10) not null,
-    Semana varchar(10) not null,
-    Kg_Brutos float not null, 		
-	Kg_Netos  float not null,		
-    Materia_S int not null,			-- ESTE CAMPO NO PUEDE SER DECIMAL
-    Impurezas int not null,			-- ESTE CAMPO NO PUEDE SER DECIMAL
     -- ESTAS SON LOS TIPOS DE TRANSACCIONES
     Materia_Prima varchar(3),
     Cuadrilla varchar(3),
     Flete varchar(3),
     Peaje varchar(3),
 	-- Informacion adicional de la transaccion
-    Dias_Trabajados int,
-    Ha_Ubicacion int, 
-    USD_DIA varchar(3), 
-    USD_HA varchar(3),
     Observaciones varchar(150),
     -- Foreign Key referente al proveedor
     Codigo_Proveedor varchar(15),

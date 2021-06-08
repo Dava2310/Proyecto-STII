@@ -1,5 +1,7 @@
-package clases;
+package clases.proveedores;
 
+import clases.anticipos.CrearAnticipo;
+import clases.proveedores.CreacionProveedor;
 import logica.conectate;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -10,14 +12,14 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    conectate con;
+    public conectate con;
 
-    CreacionProveedor CP;
-    int modo = 0;
-    CrearAnticipo CA;
-    String identificacion;
-    int tipoIdentificacion;
-    proveedor p;
+    public CreacionProveedor CP;
+    public int modo = 0;
+    public CrearAnticipo CA;
+    public String identificacion;
+    public int tipoIdentificacion;
+    public proveedor p;
 
     public IdentificacionProveedor() {
         initComponents();

@@ -509,16 +509,18 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                 try {
                         encontrado = p.buscarCodigo(codigo);
                         if (encontrado == true) {
-                        data = p.conseguirDatos(codigo, "", "", 1);
-                        //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                        String identificacion = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
-                        char tipoidentificacion = identificacion.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
-                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
-                        IdentificacionCB.setSelectedIndex(TipoID1);
-                        Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                        //-----------------------------------------------------------------------------
-                        RazonSocialtxt.setText(data[2].toString());
-                        escribirDatos(data);
+                            data = p.conseguirDatos(codigo, "", "", 1);
+                            limpiar();
+                            Codigotxt.setText(data[0].toString());
+                            //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
+                            String identificacion = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
+                            char tipoidentificacion = identificacion.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
+                            int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
+                            IdentificacionCB.setSelectedIndex(TipoID1);
+                            Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
+                            //-----------------------------------------------------------------------------
+                            RazonSocialtxt.setText(data[2].toString());
+                            escribirDatos(data);
                     } else if (!encontrado) {
                         JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                     }
@@ -538,8 +540,16 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     encontrado = p.buscarIdentificacion2(identificacion);
                     if (encontrado == true) {
                         data = p.conseguirDatos("", identificacion, "", 2);
+                        limpiar();
                         //COLOCAR EL CODIGO Y LA RAZON SOCIAL
                         Codigotxt.setText(data[0].toString());
+                        //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
+                        String identificacion_nueva = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
+                            char tipoidentificacion = identificacion_nueva.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
+                            int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
+                            IdentificacionCB.setSelectedIndex(TipoID1);
+                            Identificaciontxt.setText(identificacion_nueva.substring(1, identificacion.length()));
+                            //-----------------------------------------------------------------------------
                         RazonSocialtxt.setText(data[2].toString());
                         escribirDatos(data);
                     } else if (encontrado == false) {
@@ -561,6 +571,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     encontrado = p.buscarRazonSocial(RS);
                     if (encontrado == true) {
                         data = p.conseguirDatos("", "", RS, 3);
+                        limpiar();
                         //COLOCAR EL CODIGO Y LA IDENTIFICACION
                         Codigotxt.setText(data[0].toString());
                         //CONSEGUIR REPARTIR LA IDENTIFICACION --------------------------------------------
@@ -570,6 +581,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                         IdentificacionCB.setSelectedIndex(TipoID1);
                         Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
                         //----------------------------------------------------------------------------------
+                        RazonSocialtxt.setText(data[2].toString());
                     escribirDatos(data);
                     } else if (!encontrado) {
                         JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
@@ -627,7 +639,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
             int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
             idCBaut.setSelectedIndex(tipoID3);
-            IDAuttxt.setText(identificacion2.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
+            IDAuttxt.setText(identificacion3.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
         }
 
         //--------------------------------------------------------------------------------

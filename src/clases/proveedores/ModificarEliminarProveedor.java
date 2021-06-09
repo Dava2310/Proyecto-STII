@@ -618,6 +618,9 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     encontrado = p.buscarCodigo(codigo);
                     if (encontrado == true) {
                         data = p.conseguirDatos(codigo, "", "", 1);
+                        limpiar();
+                        String nuevo_codigo = data[0].toString();
+                        Codigotxt.setText(nuevo_codigo);
                         //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
                         String identificacion = data[1].toString();
                         char tipoidentificacion = identificacion.charAt(0);
@@ -644,11 +647,18 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 try{
                     encontrado = p.buscarIdentificacion2(identificacion);
                     if (encontrado) {
-                    data = p.conseguirDatos("", identificacion, "", 2);
-                    //COLOCAR EL CODIGO Y LA RAZON SOCIAL
-                    Codigotxt.setText(data[0].toString());
-                    RazonSocialtxt.setText(data[2].toString());
-                    escribirDatos(data);
+                        data = p.conseguirDatos("", identificacion, "", 2);
+                        limpiar();
+                        //COLOCAR EL CODIGO Y LA RAZON SOCIAL
+                        Codigotxt.setText(data[0].toString());
+                        //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
+                        String identificacion_nueva = data[1].toString();
+                        char tipoidentificacion = identificacion_nueva.charAt(0);
+                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);
+                        IdentificacionCB.setSelectedIndex(TipoID1);
+                        Identificaciontxt.setText(identificacion_nueva.substring(1, identificacion.length()));
+                        RazonSocialtxt.setText(data[2].toString());
+                        escribirDatos(data);
                     } else if (encontrado == false) {
                         JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                     }
@@ -667,6 +677,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     encontrado = p.buscarRazonSocial(RS);
                     if (encontrado == true) {
                         data = p.conseguirDatos("", "", RS, 3);
+                        limpiar();
                         //COLOCAR EL CODIGO Y LA IDENTIFICACION
                         Codigotxt.setText(data[0].toString());
                         //CONSEGUIR REPARTIR LA IDENTIFICACION --------------------------------------------
@@ -676,6 +687,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         IdentificacionCB.setSelectedIndex(TipoID1);
                         Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
                         //----------------------------------------------------------------------------------
+                        RazonSocialtxt.setText(data[2].toString());
                         escribirDatos(data);
                     } else if (!encontrado) {
                         JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
@@ -733,7 +745,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
             int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
             IdCBaut.setSelectedIndex(tipoID3);
-            IDAuttxt.setText(identificacion2.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
+            IDAuttxt.setText(identificacion3.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
         }
         //-------------------------------------------------------------------------------
         String actividad = data[16].toString();
@@ -854,14 +866,16 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void MODCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODCBActionPerformed
-        if (MODCB.getSelectedItem().toString().equals("Cuenta Autorizada")) {
+        if(edicion){
+            if (MODCB.getSelectedItem().toString().equals("Cuenta Autorizada")) {
             NameAuttxt.setEditable(true);
             IDAuttxt.setEditable(true);
             IdCBaut.setEnabled(true);
-        } else if (MODCB.getSelectedItem().toString().equals("Cuenta Nueva") || MODCB.getSelectedItem().toString().equals("Cuenta Propia")) {
-            NameAuttxt.setEditable(false);
-            IDAuttxt.setEditable(false);
-            IdCBaut.setEnabled(false);
+            } else if (MODCB.getSelectedItem().toString().equals("Cuenta Nueva") || MODCB.getSelectedItem().toString().equals("Cuenta Propia")) {
+                NameAuttxt.setEditable(false);
+                IDAuttxt.setEditable(false);
+                IdCBaut.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_MODCBActionPerformed
 
@@ -938,9 +952,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         TCuentaCB.setEnabled(true);
         MODCB.setEnabled(true);
         MonedaCB.setEnabled(true);
-        NameAuttxt.setEditable(true);
-        IDAuttxt.setEditable(true);
-        IdCBaut.setEnabled(true);
+        if(MODCB.getSelectedItem().toString().equals("Cuenta Autorizada")){
+            NameAuttxt.setEditable(true);
+            IdCBaut.setEnabled(true);
+            IDAuttxt.setEditable(true);
+        }
     }
 
     public void deshabilitarCampos() {

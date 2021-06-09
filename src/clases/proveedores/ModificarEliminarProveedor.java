@@ -631,7 +631,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         RazonSocialtxt.setText(data[2].toString());
                         escribirDatos(data);
                     } else if (!encontrado) {
-                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                     }
                 }catch(SQLException ex){
                     Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);

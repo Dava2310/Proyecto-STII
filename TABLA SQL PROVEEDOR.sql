@@ -34,6 +34,7 @@ INSERT INTO proveedor VALUES('00029517648','V29517648','Daniel','Trinitarias','0
 INSERT INTO proveedor VALUES('00027578138','V27578138','Jennifer','Floresta','04167902535','dv@gmail.com','Daniel Vetencourt',
 							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','', 'Inactivo');
 DELETE FROM proveedor where Estado_Actividad = 'Inactivo';
+DELETE FROM proveedor where Estado_Actividad = 'Activo';
 UPDATE proveedor set Identificacion = 'V27578138' where Razon_Social = 'Jennifer';
 SELECT * from proveedor where Identificacion = 'V29517648' and Codigo = '00029517648' and Razon_Social = 'Daniel Vetencourt';
 -- CREACION DE LA TABLA ANTICIPO
@@ -90,6 +91,8 @@ create table transacciones(
     Cuadrilla varchar(3),
     Flete varchar(3),
     Peaje varchar(3),
+    -- Estado de la transaccion.
+    Estado_Transaccion varchar(2),
 	-- Informacion adicional de la transaccion
     Observaciones varchar(150),
     -- Foreign Key referente al proveedor

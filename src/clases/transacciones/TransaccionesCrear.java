@@ -95,6 +95,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         CrearBT = new javax.swing.JButton();
         CancelarBT = new javax.swing.JButton();
         Fechatxt = new javax.swing.JFormattedTextField();
+        EstadoLB = new javax.swing.JLabel();
+        EstadoCB = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -239,6 +241,18 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             }
         });
 
+        EstadoLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        EstadoLB.setText("Estado de la Transaccion");
+
+        EstadoCB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        EstadoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Procesada", "Procesada" }));
+        EstadoCB.setEnabled(false);
+        EstadoCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EstadoCBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -322,7 +336,11 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(PeajeCB)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(FleteCB)))))
+                                        .addComponent(FleteCB))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(EstadoLB)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(EstadoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 8, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -357,6 +375,10 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(USDdiaL1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
@@ -384,10 +406,11 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                             .addComponent(MPCB)
                             .addComponent(CuadrillaCB)
                             .addComponent(PeajeCB)
-                            .addComponent(FleteCB)))
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(USDdiaL1)
+                            .addComponent(FleteCB))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(EstadoLB)
+                            .addComponent(EstadoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -570,6 +593,17 @@ public class TransaccionesCrear extends javax.swing.JFrame {
 
                     String observaciones = "";
                     observaciones = ObservacionesTXT.getText();
+                    
+                    /*
+                        AQUI SIEMPRE DIREMOS QUE LA TRANSACCION COMO SE ESTA CREANDO NO HA SIDO PAGADA
+                        POR CONVENIENCIA ESTETICA, SE MUESTRA IGUAL UN COMBO BOX QUE MUESTRA EL TIPO DE LA TRANSACCION
+                    */
+                    
+                    String estado = EstadoCB.getSelectedItem().toString();
+                    //SOLO DE AQUI VERIFICAMOS POR SI ACASO, QUE SEA NO PROCESADA
+                    if(estado.equals("No Procesada")){
+                        estado = "NO"; // HACEMOS ESTO PORQUE EN LA TABLA SQL, ESE DATO ES SI/NO
+                    }
                     //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
                     String codigoProveedor = CODtxt.getText();
                     
@@ -580,7 +614,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                     /*===================================================================================================================\\
                     ||==================================LLAMADA DE LA FUNCION CREAR TRANSACCION==========================================||
                     //===================================================================================================================*/
-                    t.NuevaTransaccion(num_transaccion, materiaPrima2, Cuadrilla2, Flete2, peaje2, observaciones, codigoProveedor);
+                    t.NuevaTransaccion(num_transaccion, materiaPrima2, Cuadrilla2, Flete2, peaje2, estado, observaciones, codigoProveedor);
                     
                         /*
                         A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:
@@ -662,6 +696,10 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_FechatxtActionPerformed
 
+    private void EstadoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstadoCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EstadoCBActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -704,6 +742,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private javax.swing.JLabel CodL;
     private javax.swing.JButton CrearBT;
     private javax.swing.JCheckBox CuadrillaCB;
+    private javax.swing.JComboBox<String> EstadoCB;
+    private javax.swing.JLabel EstadoLB;
     private javax.swing.JLabel FechaL1;
     private javax.swing.JFormattedTextField Fechatxt;
     private javax.swing.JCheckBox FleteCB;

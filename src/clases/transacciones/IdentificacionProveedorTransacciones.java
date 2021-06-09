@@ -159,7 +159,7 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
     public void procedimiento(){
         if (NroBoletotxt.getText().isEmpty() || IDProveedortxt.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DEL BOLETO Y LA IDENTIFICACION DEL PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else {
+            } else if(!NroBoletotxt.getText().isEmpty() && !IDProveedortxt.getText().isEmpty()) {
                 //DESPUES DE HABER COMPROBADO QUE NINGUNO DE LOS CAMPOS ESTAN VACIOS, PROCEDEMOS A HACER DISTINTAS VALIDACIONES
                 //1- Validar que el num de boleto exista en el sistema.
                 //2- Validad que el proveedor si se encuentra en el sistema
@@ -311,12 +311,14 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
                             TC.setVisible(true);
                             this.dispose();
                         }
-                    } else if (cantidad_transacciones == 4) {
+                    } else if (cantidad_transacciones == 4 && boletoEncontrado) {
                         JOptionPane.showMessageDialog(null, "Este boleto ya tienes las 4 transacciones asignadas", "ERROR", JOptionPane.ERROR_MESSAGE);
                     } else if (p.buscarIdentificacion(identificacion_completa) && proveedorActivoEncontrado == false) {
                         JOptionPane.showMessageDialog(null, "El proveedor asignado no esta activo en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
                     } else if (!p.buscarIdentificacion(identificacion_completa)) {
                         JOptionPane.showMessageDialog(null, "El proveedor asignado no se encuentra en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } else if (!boletoEncontrado){
+                        JOptionPane.showMessageDialog(null, "El boleto no se encuentra en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(IdentificacionProveedorTransacciones.class.getName()).log(Level.SEVERE, null, ex);

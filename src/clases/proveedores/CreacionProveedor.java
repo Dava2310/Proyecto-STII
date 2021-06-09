@@ -20,7 +20,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
     int tipoIdentificacion;
     String codigo = "000";
     IdentificacionProveedor IP = new IdentificacionProveedor();
-
+    boolean bancaria = false;
+    
     public CreacionProveedor() {
         initComponents();
         setResizable(false);
@@ -77,6 +78,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
         MODCB = new javax.swing.JComboBox<>();
         MonedaCB = new javax.swing.JComboBox<>();
         idCBaut = new javax.swing.JComboBox<>();
+        BancariaBT = new javax.swing.JToggleButton();
         jPanel3 = new javax.swing.JPanel();
         LimpiarBT = new javax.swing.JButton();
         CrearBT = new javax.swing.JButton();
@@ -232,12 +234,15 @@ public class CreacionProveedor extends javax.swing.JFrame {
         IDL.setText("Identificación (*)");
 
         IDCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        IDCB.setEnabled(false);
 
+        NameBnftxt.setEditable(false);
         NameBnftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         MailBnfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MailBnfL.setText("E-mail del beneficiario");
 
+        MailBnftxt.setEditable(false);
         MailBnftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         BancoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -246,11 +251,13 @@ public class CreacionProveedor extends javax.swing.JFrame {
         NumCuentaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         NumCuentaL.setText("Nº de Cuenta (*)");
 
+        NumCuentatxt.setEditable(false);
         NumCuentatxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         TCuentaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         TCuentaL.setText("Tipo de cuenta (*)");
 
+        IDtxt.setEditable(false);
         IDtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         MonedaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -278,10 +285,13 @@ public class CreacionProveedor extends javax.swing.JFrame {
 
         BancoCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         BancoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MERCANTIL BANCO UNIVERSAL", "BANCO DE VENEZUELA S.A BANCO UNIVERSAL", "VENEZOLANO DE CREDITO S.A BANCO UNIVERSAL", "BANCO PROVINCIAL S.A BANCO UNIVERSAL", "BANCO DEL CARIBE S.A C.A", "BANCO EXTERIOR S.A", "BANCO OCCIDENTAL DE DESCUENTO S.A C.A", "BANCO CARONI C.A BANCO UNIVERSAL", "BANESCO BANCO UNIVERSAL", "BANCO SOFITASA", "BANCO PLAZA", "BANCO DE COMERCIO EXTERIOR", "FONDO COMUN C.A BANCO UNIVERSAL", "100% BANCO, BANCO UNIVERSAL C.A", "DEL SUR BANCO UNIVERSAL, C.A", "BANCO DEL TESORO ", "BANCO AGRICOLA DE VENEZUELA C.A", "BANCRECER S.A BANCO MICROFINANCIERO", "MIBANCO BANCO DE DESARROLLO", "BANCO ACTIVO C.A", "BANCA AMIGA BANCO MICROFINANCIERO", "BANCO BICENTENARIO BANCO UNIVERSAL C.A", "BANCO DE LA FUERZA ARMADA NACIONAL BOLIVARIANA", "BANCO NACIONAL DE CREDITO " }));
+        BancoCB.setEnabled(false);
 
         TCuentaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente", "Cuenta Maxima", "Cuenta Moneda Extranjera" }));
+        TCuentaCB.setEnabled(false);
 
         MODCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Propia", "Cuenta Nueva", "Cuenta Autorizada" }));
+        MODCB.setEnabled(false);
         MODCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MODCBActionPerformed(evt);
@@ -289,9 +299,18 @@ public class CreacionProveedor extends javax.swing.JFrame {
         });
 
         MonedaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "$" }));
+        MonedaCB.setEnabled(false);
 
         idCBaut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
         idCBaut.setEnabled(false);
+
+        BancariaBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BancariaBT.setText("HABILITAR INFORMACION BANCARIA");
+        BancariaBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BancariaBTActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelBancarioLayout = new javax.swing.GroupLayout(PanelBancario);
         PanelBancario.setLayout(PanelBancarioLayout);
@@ -360,13 +379,17 @@ public class CreacionProveedor extends javax.swing.JFrame {
             .addGroup(PanelBancarioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(InformacionBancariaL)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BancariaBT)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelBancarioLayout.setVerticalGroup(
             PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBancarioLayout.createSequentialGroup()
-                .addComponent(InformacionBancariaL)
-                .addGap(7, 7, 7)
+                .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InformacionBancariaL)
+                    .addComponent(BancariaBT))
+                .addGap(3, 3, 3)
                 .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LogoInformacionBancaria)
                     .addGroup(PanelBancarioLayout.createSequentialGroup()
@@ -505,9 +528,10 @@ public class CreacionProveedor extends javax.swing.JFrame {
     private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
         //SE VERIFICA PRIMERO SI SE HAN RELLENADO LOS DATOS DE LOS PROVEEDORES
         if ((Codigotxt.getText().equals("")) || (Identificaciontxt.getText().equals("")) || (RazonSocialtxt.getText().equals(""))) {
-            JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS OBLIGATORIOS", "ERROR", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS OBLIGATORIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
-            //PRIMERO SE OBTIENEN TODOS LOS DATOS DE LOS CAMPOS
+            boolean buena_creacion = true;
+            //PRIMERO SE OBTIENEN TODOS LOS DATOS DE LOS CAMPOS NORMALES DEL PROVEEDOR
             String codigo = Codigotxt.getText();
             String identificacion = IdentificacionCB.getSelectedItem().toString();
             identificacion += Identificaciontxt.getText();
@@ -516,35 +540,83 @@ public class CreacionProveedor extends javax.swing.JFrame {
             String telefono = TipoTlftxt.getText();
             telefono += Tlftxt.getText();
             String mail = Mailtxt.getText();
-            String nombre_beneficiario = NameBnftxt.getText();
-            String id_beneficiario = IDCB.getSelectedItem().toString();
-            id_beneficiario += IDtxt.getText();
-            String mail_bnf = MailBnftxt.getText();
-            String banco = BancoCB.getSelectedItem().toString();
-            String num_cuenta = NumCuentatxt.getText();
-            String Tipo_cuenta = TCuentaCB.getSelectedItem().toString();
-            String mod_cuenta = MODCB.getSelectedItem().toString();
-            String moneda = MonedaCB.getSelectedItem().toString();
-            String name_autorizado = NameAuttxt.getText();
-            String ID_autorizado = idCBaut.getSelectedItem().toString();
-            ID_autorizado += IDAuttxt.getText();
-            try {
-                //=====================================================================================================================================================================================================================
-                p.NuevoProveedor(codigo, identificacion, razon_social, direccion, telefono, mail, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, moneda, name_autorizado, ID_autorizado);
-                //Llamar a la funcion de nuevo proveedor
-                int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-                //si desea crear nuevo
-                if (index == 0) {
-                    IP.setVisible(true);
-                    IP.modo = 1;
-                    this.dispose();
+            //DESPUES SE TOMA LA INFORMACION BANCIA, PRIMERO SE INICIALIZAN LAS VARIABLES Y DESPUES SE VERIFICA SI EL USUARIO HABILITO ESTA INFORMACION
+            String nombre_beneficiario = "";
+            String id_beneficiario = "";
+            String mail_bnf = "";
+            String banco = "";
+            String num_cuenta = "";
+            String Tipo_cuenta = "";
+            String mod_cuenta = "";
+            String moneda = "";
+            String name_autorizado = "";
+            String ID_autorizado = "";
+            if(bancaria){
+                /*
+                    SI LA INFORMACION BANCARIA ESTA HABILITADA
+                    NO PUEDO PERMITIR QUE NINGUN TEXTFIELD ESTE VACIO
+                */
+                if(!NameBnftxt.getText().isEmpty() && !IDtxt.getText().isEmpty() && !MailBnftxt.getText().isEmpty()
+                        && !NumCuentatxt.getText().isEmpty()){
+                    
+                        nombre_beneficiario = NameBnftxt.getText();
+                        mail_bnf = MailBnftxt.getText();
+                        banco = BancoCB.getSelectedItem().toString();
+                        num_cuenta = NumCuentatxt.getText();
+                        if(!IDtxt.getText().isEmpty()){
+                            if(IDtxt.getText().length() < 7 || IDtxt.getText().length() > 8){
+                                buena_creacion = false;
+                                JOptionPane.showMessageDialog(null, "DEBE COLOCAR UN BUEN FORMATO DE LA CEDULA", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                id_beneficiario = IDCB.getSelectedItem().toString();
+                                id_beneficiario += IDtxt.getText();
+                            } 
+                        }
+                        Tipo_cuenta = TCuentaCB.getSelectedItem().toString();
+                        mod_cuenta = MODCB.getSelectedItem().toString();
+                        moneda = MonedaCB.getSelectedItem().toString();
+                        //PRIMERO VERIFICAMOS SI LA CUENTA ESTA EN MODO AUTORIZADA
+                        if(MODCB.getSelectedItem().toString().equals("Cuenta Autorizada")){
+                            //DESPUES SI QUEREMOS RECOGER ESTOS DATOS, AJURO AMBOS CAMPOS NO PUEDEN ESTAR VACIOS
+                            if(!NameAuttxt.getText().isEmpty() && !IDAuttxt.getText().isEmpty()){
+                                //Y ADEMAS DE ESO, DEBEMO VERIFICAR QUE LA CEDULA SEA CORRECTA
+                                if(IDAuttxt.getText().length() < 7 || IDAuttxt.getText().length() > 8){
+                                    buena_creacion = false;
+                                } else {
+                                    name_autorizado = NameAuttxt.getText();
+                                    ID_autorizado = idCBaut.getSelectedItem().toString();
+                                    ID_autorizado += IDAuttxt.getText();
+                                }
+                            } else {
+                                //SI EL CAMPO DE CUENTA AUTORIZADA ESTA SELECCIONADO PERO LOS CAMPOS VACIOS
+                                buena_creacion = false;
+                                JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS DE AUTORIZADO", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
                 } else {
-                    this.dispose();
-
+                    JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS OBLIGATORIOS DE BANCO Y EN SU DEBIDO FORMATO", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    buena_creacion = false;
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(CreacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
             }
+            if(buena_creacion){
+                try {
+                    //=====================================================================================================================================================================================================================
+                    p.NuevoProveedor(codigo, identificacion, razon_social, direccion, telefono, mail, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, moneda, name_autorizado, ID_autorizado);
+                    //Llamar a la funcion de nuevo proveedor
+                    int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                    //si desea crear nuevo
+                    if (index == 0) {
+                        IP.setVisible(true);
+                        IP.modo = 1;
+                        this.dispose();
+                    } else {
+                        this.dispose();
+
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }    
         }
     }//GEN-LAST:event_CrearBTActionPerformed
 
@@ -573,6 +645,63 @@ public class CreacionProveedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MODCBActionPerformed
 
+    private void BancariaBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BancariaBTActionPerformed
+        /*
+            LO IMPORTANTE DE ESTO ES ENTENDER QUE MIENTRAS LA INFORMACION BANCARIA ESA FALSA
+            NO GUARDAREMOS ESOS DATOS EN EL PROVEEDOR
+        
+            CUANDO SEA VERDADERA, SI LOS GUARDAREMOS
+            PERO TENDREMOS QUE HACER ENTONCES VERIFICACIONES DE QUE LOS CAMPOS NO ESTEN VACIOS
+        */
+        if(bancaria == false){
+            /*
+                LA INFORMACION BANCARIA VIENE DE POR SI DESHABILITADA
+                POR TANTO, COMO LE ESTAN PRESIONANDO EL BOTON, DEBO HABILITAR CAMPOS BANCARIOS
+            */
+            habilitarCamposBancarios();
+            bancaria = true;
+        } else if(bancaria) {
+            /*
+                EN ESTE MOMENTO, LA INFORMACION BANCARIA ESTABA HABILITADA
+                SI LO VOLVIERON A PRESIONAR, QUIERE DECIR QUE DEBO DESHABILITAR ESOS CAMPOS
+            */
+            desHabilitarCamposBancarios();
+            bancaria = false;
+        }
+    }//GEN-LAST:event_BancariaBTActionPerformed
+    
+    public void habilitarCamposBancarios(){
+        NameBnftxt.setEditable(true);
+        IDtxt.setEditable(true);
+        IDCB.setEnabled(true);
+        MailBnftxt.setEditable(true);
+        BancoCB.setEnabled(true);
+        NumCuentatxt.setEditable(true);
+        TCuentaCB.setEnabled(true);
+        MODCB.setEnabled(true);
+        MonedaCB.setEnabled(true);
+        if(MODCB.getSelectedItem().toString().equals("Cuenta Autorizada")){
+            NameAuttxt.setEditable(true);
+            idCBaut.setEnabled(true);
+            IDAuttxt.setEditable(true);
+        }
+    }
+    
+    public void desHabilitarCamposBancarios(){
+        NameBnftxt.setEditable(false);
+        IDtxt.setEditable(false);
+        IDCB.setEnabled(false);
+        MailBnftxt.setEditable(false);
+        BancoCB.setEnabled(false);
+        NumCuentatxt.setEditable(false);
+        TCuentaCB.setEnabled(false);
+        MODCB.setEnabled(false);
+        MonedaCB.setEnabled(false);
+        NameAuttxt.setEditable(false);
+        idCBaut.setEnabled(false);
+        IDAuttxt.setEditable(false);
+    }
+    
     public void limpiar() {
         RazonSocialtxt.setText("");
         Direcciontxt.setText("");
@@ -636,6 +765,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton BancariaBT;
     private javax.swing.JComboBox<String> BancoCB;
     private javax.swing.JLabel BancoL;
     private javax.swing.JButton CancelarBT;

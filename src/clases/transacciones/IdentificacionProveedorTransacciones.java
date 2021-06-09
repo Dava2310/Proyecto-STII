@@ -150,12 +150,15 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_IDProveedortxtActionPerformed
 
     private void EnterBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterBTActionPerformed
-        if (modo == 0) {
-            if (NroBoletotxt.getText().isEmpty() || IDProveedortxt.getText().isEmpty()) {
+        procedimiento();
+    }//GEN-LAST:event_EnterBTActionPerformed
+    
+    public void procedimiento(){
+        if (NroBoletotxt.getText().isEmpty() || IDProveedortxt.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DEL BOLETO Y LA IDENTIFICACION DEL PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 //DESPUES DE HABER COMPROBADO QUE NINGUNO DE LOS CAMPOS ESTAN VACIOS, PROCEDEMOS A HACER DISTINTAS VALIDACIONES
-                //1- Validar que el num de boleto tenga >= 1 transaccion y < 4 transacciones.
+                //1- Validar que el num de boleto exista en el sistema.
                 //2- Validad que el proveedor si se encuentra en el sistema
                 String cadena = NroBoletotxt.getText();
                 //PROCESO PARA QUITAR LOS ESPACIOS EN BLANCO
@@ -189,86 +192,51 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
                 }
                 /*
                     AHORA QUE YA SABEMOS SI TENEMOS UN PROVEEDOR ACTIVO EN EL SISTEMA, 
+                    QUE ADEMAS NUESTRO BOLETO ESTA ENCONTRADO O NO
                     Y QUE EL BOLETO ASIGNADO TIENE CUPO O NO
-                    O EN SU DEFECTO NO ESTA NI SIQUIERA ASIGNADO
                     PROCEDEMOS A VERIFICAR LAS CONDICIONES VERDADERAS PARA PROCEDER
                  */
-                if (proveedorActivoEncontrado == true && cupoBoleto == true) {
+                if (proveedorActivoEncontrado == true && boletoEncontrado && cupoBoleto == true) {
                     /*
-                        AQUI PUEDEN PASAR DOS CASOS
-                        1- Un boleto no creado
-                        2- Un boleto ya creado pero con menos de 4 transacciones.
+                        AQUI PUEDEN PASAR LO SIGUIENTE:
+                        Un boleto ya creado pero con menos de 4 transacciones.
 
-                        Para los boletos no creados, es tan facil como hacer un procedimiento standard.
-
-                        Para los boletos ya creados, es distinto, debemos ingresar ciertos datos necesarios que no se pueden modificar
+                        Para los boletos ya creados debemos ingresar ciertos datos necesarios que no se pueden modificar
                         Mandar una condicion boleeana que sepa que debe hacer con los datos del boleto.
                 
                      */
-                    //Primer escenario: Un boleto no creado
-                    if (!boletoEncontrado) {
-                        Object[] datosProveedor = new Object[3];
-                        datosProveedor = p.conseguirDatosPrincipales("", identificacion_completa, "", 2);
-                        /*
-                            AHORA TENGO QUE LLAMAR A LAS VARIABLES PUBLICAS DE LA PANTALLA DE TRANSACCION
-                            PARA DARLE LOS VALORES DE LOS DATOS PRINCIPALES DEL PROVEEDOR ENCONTRADO
-                            int indexComboProveedor = 0;
-                            String identificacionTXT;
-                            String codigoTXT;
-                            String razonSocialTXT;
-                         */
-
-                        TC = new TransaccionesCrear();
-
-                        /*
-                            ASIGNACION DE DATOS
-                         */
-                        TC.codigoTXT = datosProveedor[0].toString();
-                        TC.razonSocialTXT = datosProveedor[2].toString();
-                        /*
-                            CON RESPECTO A LA IDENTIFICACION, ESO YA LO TENEMOS
-                            GRACIAS A QUE LA BUSQUEDA FUE CON ESTE DATO
-                         */
-                        TC.indexComboProveedor = tipoIdentificacion;
-                        TC.identificacionTXT = IDProveedortxt.getText();
-
-                        /*
-                            DE AQUI YA SE HAN ASIGNADO CORRECTAMENTE LOS DATOS DEL PROVEEDOR A LA PANTALLA SIGUIENTE
-                            SOLO FALTA SACAR EL NUMERO DE BOLETO DE ESTA PANTALLA Y MANDARLO A LA SIGUIENTE
-                        */
-                        TC.numeroBoleto = boletoBueno;
-                        TC.setVisible(true);
-                        this.dispose();
-                    } else if (boletoEncontrado) { //Segundo escenario: boleto ya creado.
-                        TC = new TransaccionesCrear();
+                    
+                    //Un boleto ya creado
+                    if (boletoEncontrado) { 
                         
-                        Object[] datosProveedor = new Object[3];
-                        datosProveedor = p.conseguirDatosPrincipales("", identificacion_completa, "", 2);
-                        /*
-                            AHORA TENGO QUE LLAMAR A LAS VARIABLES PUBLICAS DE LA PANTALLA DE TRANSACCION
-                            PARA DARLE LOS VALORES DE LOS DATOS PRINCIPALES DEL PROVEEDOR ENCONTRADO
-                            int indexComboProveedor = 0;
-                            String identificacionTXT;
-                            String codigoTXT;
-                            String razonSocialTXT;
-                         */
-
                         TC = new TransaccionesCrear();
-                        TC.boletoCreado = true;
-                        /*
-                            ASIGNACION DE DATOS
-                         */
-                        TC.codigoTXT = datosProveedor[0].toString();
-                        TC.razonSocialTXT = datosProveedor[2].toString();
-                        /*
-                            CON RESPECTO A LA IDENTIFICACION, ESO YA LO TENEMOS
-                            GRACIAS A QUE LA BUSQUEDA FUE CON ESTE DATO
-                         */
-                        TC.indexComboProveedor = tipoIdentificacion;
-                        TC.identificacionTXT = IDProveedortxt.getText();
-                        
                         //EMPEZAMOS POR DECIRLE A LA SIGUIENTE PANTALLA QUE ESTE BOLETO YA ESTA CREADO
                         TC.boletoCreado = true;
+                        
+                        Object[] datosProveedor = new Object[3];
+                        datosProveedor = p.conseguirDatosPrincipales("", identificacion_completa, "", 2);
+                        /*
+                            AHORA TENGO QUE LLAMAR A LAS VARIABLES PUBLICAS DE LA PANTALLA DE TRANSACCION
+                            PARA DARLE LOS VALORES DE LOS DATOS PRINCIPALES DEL PROVEEDOR ENCONTRADO
+                            int indexComboProveedor = 0;
+                            String identificacionTXT;
+                            String codigoTXT;
+                            String razonSocialTXT;
+                         */
+                        
+                        /*
+                            ASIGNACION DE DATOS
+                         */
+                        TC.codigoTXT = datosProveedor[0].toString();
+                        TC.razonSocialTXT = datosProveedor[2].toString();
+                        /*
+                            CON RESPECTO A LA IDENTIFICACION, ESO YA LO TENEMOS
+                            GRACIAS A QUE LA BUSQUEDA FUE CON ESTE DATO
+                         */
+                        TC.indexComboProveedor = tipoIdentificacion;
+                        TC.identificacionTXT = IDProveedortxt.getText();
+                        
+                        
                         /*
                             LO SIGUIENTE QUE DEBEMOS DARLE A LA PANTALLA SIGUIENTE SON LOS DATOS FIJOS:
                             - Fecha         (String fecha)
@@ -346,129 +314,7 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "El proveedor asignado no se encuentra en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } else if (modo == 1){
-            
-            if (NroBoletotxt.getText().isEmpty() || IDProveedortxt.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DEL BOLETO Y LA IDENTIFICACION DEL PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else {
-                //RECOLECCION DE DATOS DEL NUEVO PROVEEDOR
-                int tipoIdentificacion = tipoIDProveedorCB.getSelectedIndex();
-                String t_identificacion = tipoIDProveedorCB.getSelectedItem().toString();
-                String identificacion_completa = t_identificacion + IDProveedortxt.getText();
-                boolean proveedorActivoEncontrado = p.buscarProveedorActivo(identificacion_completa);
-                
-                boolean boletoEncontrado = b.buscarBoleto(num_Boleto);
-                int cantidad_transacciones = 0;
-                boolean cupoBoleto = true;
-                if (boletoEncontrado) {
-                    cantidad_transacciones = b.cantidadTransacciones_Boleto(num_Boleto);
-                    if (cantidad_transacciones == 4) {
-                        cupoBoleto = false;
-                    }
-                }
-                if(cupoBoleto && proveedorActivoEncontrado){
-                    TC = new TransaccionesCrear();
-                    //EMPEZAMOS POR DECIRLE A LA SIGUIENTE PANTALLA QUE ESTE BOLETO YA ESTA CREADO
-                        TC.boletoCreado = true;
-                        /*
-                            LO SIGUIENTE QUE DEBEMOS DARLE A LA PANTALLA SIGUIENTE SON LOS DATOS FIJOS:
-                            - Fecha         (String fecha)
-                            - Semana        (String semana)
-                            - Kg_Brutos     (int Kg_Brutos)
-                            - Kg_Netos      (int Kg_Netos)
-                            - Materia_Seca  (float MS)
-                            - Impurezas     (float Impurezas)
-
-                            PARA ESO ENTONCES RECOGEMOS LOS DATOS DEL BOLETO, Y VAMOS METIENDO CADA DATO DEL VECTOR EN ESAS VARIABLES
-                        */
-                        
-                        Object[] datosProveedor = new Object[3];
-                        datosProveedor = p.conseguirDatosPrincipales("", identificacion_completa, "", 2);
-                        /*
-                            AHORA TENGO QUE LLAMAR A LAS VARIABLES PUBLICAS DE LA PANTALLA DE TRANSACCION
-                            PARA DARLE LOS VALORES DE LOS DATOS PRINCIPALES DEL PROVEEDOR ENCONTRADO
-                            int indexComboProveedor = 0;
-                            String identificacionTXT;
-                            String codigoTXT;
-                            String razonSocialTXT;
-                         */
-
-                        /*
-                            ASIGNACION DE DATOS
-                         */
-                        TC.codigoTXT = datosProveedor[0].toString();
-                        TC.razonSocialTXT = datosProveedor[2].toString();
-                        /*
-                            CON RESPECTO A LA IDENTIFICACION, ESO YA LO TENEMOS
-                            GRACIAS A QUE LA BUSQUEDA FUE CON ESTE DATO
-                         */
-                        TC.indexComboProveedor = tipoIdentificacion;
-                        TC.identificacionTXT = IDProveedortxt.getText();
-                        
-                        Object[] informacionBoleto = new Object[8];
-                        informacionBoleto = b.conseguirDatos(num_Boleto);
-                        TC.numeroBoleto = this.num_Boleto;
-                        TC.fecha = informacionBoleto[1].toString();
-                        TC.semana = informacionBoleto[2].toString();
-                        TC.Kg_Brutos = Float.parseFloat(informacionBoleto[3].toString());
-                        TC.Kg_Netos = Float.parseFloat(informacionBoleto[4].toString());
-                        TC.MS = Integer.parseInt(informacionBoleto[5].toString());
-                        TC.Impurezas = Integer.parseInt(informacionBoleto[6].toString());
-
-                        //VARIABLES BOOLEANAS DE CADA TIPO DE TRANSACCION PARA LA SIGUIENTE SECCION
-                        boolean Cuadrilla = false;
-                        boolean Materia_Prima = false;
-                        boolean Flete = false;
-                        boolean Peaje = false;
-                        /*
-                            DESPUES DE HABERNOS ENCARGADO DE ESTOS DATOS
-                            DEBEMOS ENTONCES BLOQUEAR LOS CAMPOS QUE YA SE HAYAN SELECCIONADO DE ESTE BOLETO
-                            PARA ESO, PODEMOS IR HACIENDO QUERY POR QUERY DE CADA CAMPO
-                            CADA UNO QUE SALGA SI, PUES MANDAMOS A BLOQUEAR ESE CAMPO
-                            CADA UNO QUE SALGA QUE NO, NO LE HACEMOS NADA
-
-                            PARA DECIRLE A LA SIGUIENTE PANTALLA QUE ESO ES ASI
-                            PUES HAY VARIABLES BOLEANAS PARA CADA CAMPO
-                            QUE AL MOMENTO DE QUE LA PANTALLA SE ABRA EN ESE MODO, PUES SABRA CUAL BLOQUEAR
-                            - Materia_Prima (boolean Materia_Prima)
-                            - Cuadrilla     (boolean Cuadrilla)
-                            - Flete         (boolean Flete)
-                            - Peaje         (boolean Peaje)
-                         */
-                        //LLAMEMOS ENTONCES A LAS QUERYS
-                        Cuadrilla = t.transaccionCuadrilla(num_Boleto);
-                        Materia_Prima = t.transaccionMateria_Prima(num_Boleto);
-                        Flete = t.transaccionFlete(num_Boleto);
-                        Peaje = t.transaccionPeaje(num_Boleto);
-                        //REALIZAMOS LAS VERIFICACIONES POR CADA TRANSACCION PARA BLOQUEAR LO QUE TOCA
-                        if (Cuadrilla) {
-                            //Asignamos la variable booleana que corresponde a verdadera.
-                            TC.Cuadrilla = true;
-                        }
-
-                        if (Materia_Prima) {
-                            //Asignamos la variable booleana que corresponde a verdadera.
-                            TC.Materia_Prima = true;
-                        }
-
-                        if (Flete) {
-                            //Asignamos la variable booleana que corresponde a verdadera.
-                            TC.Flete = true;
-                        }
-
-                        if (Peaje) {
-                            //Asignamos la variable booleana que corresponde a verdadera.
-                            TC.Peaje = true;
-                        }
-                        TC.setVisible(true);
-                        TC.continuacion = true;
-                        TC.boletoCreado = true;
-                        this.dispose();
-                }
-            }
-        }
-    }//GEN-LAST:event_EnterBTActionPerformed
-
+    }
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         if(modo == 1){
             NroBoletotxt.setEditable(false);

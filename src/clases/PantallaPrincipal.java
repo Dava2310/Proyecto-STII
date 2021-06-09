@@ -3,11 +3,15 @@ package clases;
 import clases.anticipos.ConsultarAnticipo;
 import clases.transacciones.TransaccionesConsultarModificar;
 import clases.anticipos.ModificarAnticipo;
+import clases.boletos.BusquedaYModificicacionBoleto;
+import clases.boletos.CreacionBoleto;
+import clases.boletos.IdentificacionBoleto;
 import clases.transacciones.IdentificacionProveedorTransacciones;
 import clases.proveedores.ModificarEliminarProveedor;
 import clases.proveedores.TipoConsultaProveedor;
 import clases.proveedores.ConsultarProveedor;
 import clases.proveedores.IdentificacionProveedor;
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -21,19 +25,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      */
     //CREACION DE TODOS LAS INTERFACES
     
-    IdentificacionProveedor IP = new IdentificacionProveedor();
-    ConsultarProveedor CP;
-    TasaDePrecios TDP;
-    TasaBsUSD TasaBSUSD;
-    TasaBsUSDConsultarModificar TasaBSUSDCM;
-    ModificarEliminarProveedor MEP;
-    ModificarAnticipo MA;
-    ConsultarAnticipo CA;
-    TipoConsultaProveedor TCP;
-    IdentificacionProveedorTransacciones IPT;
-    TransaccionesConsultarModificar TCM;
+    public IdentificacionProveedor IP = new IdentificacionProveedor();
+    public ConsultarProveedor CP;
+    public TasaDePrecios TDP;
+    public TasaBsUSD TasaBSUSD;
+    public TasaBsUSDConsultarModificar TasaBSUSDCM;
+    public ModificarEliminarProveedor MEP;
+    public ModificarAnticipo MA;
+    public ConsultarAnticipo CA;
+    public TipoConsultaProveedor TCP;
+    public IdentificacionProveedorTransacciones IPT;
+    public TransaccionesConsultarModificar TCM;
+    public CreacionBoleto CB;
+    public IdentificacionBoleto IB;
+    public BusquedaYModificicacionBoleto BYM;
     
-
     conectate con;
     
     public PantallaPrincipal() {
@@ -364,15 +370,18 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_SMI_PreciosActionPerformed
 
     private void CrearBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBoletoActionPerformed
-        
+        IB = new IdentificacionBoleto();
+        IB.setVisible(true);
     }//GEN-LAST:event_CrearBoletoActionPerformed
 
     private void BuscarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBoletoActionPerformed
-        // TODO add your handling code here:
+        BYM = new BusquedaYModificicacionBoleto();
+        BYM.setVisible(true);
     }//GEN-LAST:event_BuscarBoletoActionPerformed
 
     private void ModificarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarBoletoActionPerformed
-        // TODO add your handling code here:
+        BYM = new BusquedaYModificicacionBoleto();
+        BYM.setVisible(true);
     }//GEN-LAST:event_ModificarBoletoActionPerformed
     
     public void cerrar(){

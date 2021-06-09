@@ -21,7 +21,7 @@ public class transacciones {
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
                     " transacciones(Num_Boleto, Materia_Prima, Cuadrilla, Flete, Peaje, Observaciones, Codigo_Proveedor)" + 
-                    " values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    " values(?,?,?,?,?,?,?)");
             pstm.setString(1, Num_Boleto);
             pstm.setString(2, Materia_Prima);
             pstm.setString(3, Cuadrilla);

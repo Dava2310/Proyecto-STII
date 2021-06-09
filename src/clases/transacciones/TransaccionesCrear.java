@@ -41,8 +41,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     public boolean Cuadrilla = false;
     public boolean Flete = false;
     public boolean Peaje = false;
-    public boolean informacionAdicional = false;
-    public boolean continuacion = false;
     transacciones t = new transacciones();
     boleto b = new boleto();
     IdentificacionProveedorTransacciones IPT = new IdentificacionProveedorTransacciones();
@@ -88,15 +86,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         CuadrillaCB = new javax.swing.JCheckBox();
         FleteCB = new javax.swing.JCheckBox();
         PeajeCB = new javax.swing.JCheckBox();
-        InfoAdicionalL = new javax.swing.JLabel();
-        DTrabajadosl = new javax.swing.JLabel();
-        DtrabajadosCB = new javax.swing.JComboBox<>();
-        HaUbicacionL = new javax.swing.JLabel();
-        HAubicacionCB = new javax.swing.JComboBox<>();
-        USDdiaL = new javax.swing.JLabel();
-        USDdiaCB = new javax.swing.JComboBox<>();
-        USDHAL = new javax.swing.JLabel();
-        USDHACB = new javax.swing.JComboBox<>();
         USDdiaL1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ObservacionesTXT = new javax.swing.JTextArea();
@@ -104,7 +93,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         CrearBT = new javax.swing.JButton();
         CancelarBT = new javax.swing.JButton();
-        InformacionAdicionalBT = new javax.swing.JToggleButton();
         Fechatxt = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -165,6 +153,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         KGBrutosL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         KGBrutosL.setText("Kg.Brutos");
 
+        KGbrutostxt.setEditable(false);
         KGbrutostxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         KGNetosL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -176,10 +165,13 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         ImpurezasL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ImpurezasL.setText("Impurezas");
 
+        KGNetostxt.setEditable(false);
         KGNetostxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
+        MStxt.setEditable(false);
         MStxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
+        Impurezastxt.setEditable(false);
         Impurezastxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
         TipoTransaccion.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -199,40 +191,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         PeajeCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PeajeCBActionPerformed(evt);
-            }
-        });
-
-        InfoAdicionalL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        InfoAdicionalL.setText("Informacion Adicional");
-
-        DTrabajadosl.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        DTrabajadosl.setText("Dias Trabajados");
-
-        DtrabajadosCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13", "14", "15", "16", "17", "18", "19", "20" }));
-        DtrabajadosCB.setEnabled(false);
-
-        HaUbicacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        HaUbicacionL.setText("Ha. ubicacion");
-
-        HAubicacionCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13", "14", "15", "16", "17", "18", "19", "20" }));
-        HAubicacionCB.setEnabled(false);
-
-        USDdiaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        USDdiaL.setText("USD DIA");
-
-        USDdiaCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        USDdiaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
-        USDdiaCB.setEnabled(false);
-
-        USDHAL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        USDHAL.setText("USD HA");
-
-        USDHACB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        USDHACB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
-        USDHACB.setEnabled(false);
-        USDHACB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                USDHACBActionPerformed(evt);
             }
         });
 
@@ -263,17 +221,15 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             }
         });
 
-        InformacionAdicionalBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        InformacionAdicionalBT.setText("Habilitar informacion adicional");
-        InformacionAdicionalBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InformacionAdicionalBTActionPerformed(evt);
-            }
-        });
-
+        Fechatxt.setEditable(false);
         Fechatxt.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 FechatxtFocusLost(evt);
+            }
+        });
+        Fechatxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FechatxtActionPerformed(evt);
             }
         });
         Fechatxt.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -300,27 +256,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jLabel1))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(95, 95, 95)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(DTrabajadosl)
-                                    .addComponent(USDdiaL))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(USDdiaCB, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DtrabajadosCB, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(36, 36, 36)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(HaUbicacionL)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(HAubicacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(USDHAL)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(USDHACB, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -338,11 +275,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(RazonSocialL)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(RazonSocialtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(InfoAdicionalL)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(InformacionAdicionalBT))
+                                                .addComponent(RazonSocialtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addComponent(USDdiaL1)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
@@ -452,27 +385,11 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                             .addComponent(PeajeCB)
                             .addComponent(FleteCB)))
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(InfoAdicionalL)
-                    .addComponent(InformacionAdicionalBT))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DTrabajadosl)
-                    .addComponent(DtrabajadosCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(HaUbicacionL)
-                    .addComponent(HAubicacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(USDdiaL)
-                    .addComponent(USDdiaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(USDHAL)
-                    .addComponent(USDHACB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addComponent(USDdiaL1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(USDdiaL1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CrearBT)
                     .addComponent(CancelarBT))
@@ -487,16 +404,12 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void USDHACBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_USDHACBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_USDHACBActionPerformed
 
     private void tipoIDProveedorCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoIDProveedorCBActionPerformed
         // TODO add your handling code here:
@@ -507,7 +420,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     }//GEN-LAST:event_PeajeCBActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if(!boletoCreado){
+        // LA FASE NORMAL DE CREACION DE TRANSACCION    
+        if(boletoCreado) {
             /*
                 EN ESTE APARTADO, NOS TENEMOS QUE ENCARGAR DE COLOCAR POR PANTALLA
                 LOS DATOS DEL PROVEEDOR QUE FUERON PUESTOS EN LA PRIMERA PANTALLA
@@ -518,120 +432,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             RazonSocialtxt.setText(razonSocialTXT);
             tipoIDProveedorCB.setSelectedIndex(indexComboProveedor);
             IDtxt.setText(identificacionTXT);
-
-            /*
-                DESPUES, TENEMOS QUE COLOCAR POR PANTALLA EL NUMERO DE BOLETO QUE SE
-                COLOCO EN LA ANTERIOR PANTALLA
-             */
-            NroBoletotxt.setText(numeroBoleto);
-            
-            /*
-                EN ESTE APARTADO, INTENTAMOS COLOCAR LA FECHA DEL SISTEMA EN EL TXT CORRESPONDIENTE
-                ADEMAS DE QUE DEBERIAMOS COLOCAR LA SEMANA
-             */
-            
-            //Date fecha = new Date();
-            //SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
-            //String fechaActual = formatoFecha.format(fecha);
-            //Fechatxt.setText(fechaActual);
-
-            
-            /*
-            Date anio = new Date();
-            SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
-            String anioActual = formatoAnio.format(anio);
-
-            GregorianCalendar gc = new GregorianCalendar();
-            int day = 0;
-            gc.add(Calendar.DATE, day);
-            Semanatxt.setText((gc.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
-            */
-            
-        } else if(continuacion) {
-            System.out.println("continuacion");
-            /*
-                COLOCO PRIMERO LOS DATOS DE PROVEEDOR
-                - Codigo
-                - Su identificacion
-                - Su razon social
-            */
-            CODtxt.setText(codigoTXT);
-            RazonSocialtxt.setText(razonSocialTXT);
-            tipoIDProveedorCB.setSelectedIndex(indexComboProveedor);
-            IDtxt.setText(identificacionTXT);
-            
-            /*
-                PONER POR PANTALLA:
-                - Num Boleto
-                - Semana Boleto
-                - Fecha
-            */
-            NroBoletotxt.setText(numeroBoleto);
-            Semanatxt.setText(semana);
-            Fechatxt.setText(fecha);
-            /*
-                DEBO HACER QUE LAS ZONAS DE KILOGRAMOS Y DEMAS NO SEAN EDITABLES
-                PERO ADEMAS, DEBO IMPRIMIR ESOS DATOS
-            */
-            KGbrutostxt.setEditable(false);
-            KGNetostxt.setEditable(false);
-            MStxt.setEditable(false);
-            Impurezastxt.setEditable(false);
-            /*
-                AHORA A IMPRIMIR CADA UNO DE LOS DATOS DE ESA ZONA
-            */
-            KGNetostxt.setText(String.valueOf(Kg_Netos));
-            KGbrutostxt.setText(String.valueOf(Kg_Brutos));
-            MStxt.setText(String.valueOf(this.MS));
-            Impurezastxt.setText(String.valueOf(Impurezas));
-            
-            if(Cuadrilla){
-                CuadrillaCB.setSelected(true);
-                CuadrillaCB.setEnabled(false);
-            }
-            
-            if(Materia_Prima){
-                MPCB.setSelected(true);
-                MPCB.setEnabled(false);
-            }
-            
-            if(Flete){
-                FleteCB.setSelected(true);
-                FleteCB.setEnabled(false);
-            }    
-            
-            if(Peaje){
-               PeajeCB.setSelected(true);
-               PeajeCB.setEnabled(false);
-            }
-            
-        } else if(boletoCreado && !continuacion) {
-            /*
-                EN ESTE APARTADO, NOS TENEMOS QUE ENCARGAR DE COLOCAR POR PANTALLA
-                LOS DATOS DEL PROVEEDOR QUE FUERON PUESTOS EN LA PRIMERA PANTALLA
-                QUE DA PASO ANTES DE CREAR UNA TRANSACCION
-             */
-
-            CODtxt.setText(codigoTXT);
-            RazonSocialtxt.setText(razonSocialTXT);
-            tipoIDProveedorCB.setSelectedIndex(indexComboProveedor);
-            IDtxt.setText(identificacionTXT);
-
-            /*
-                DESPUES, TENEMOS QUE COLOCAR POR PANTALLA EL NUMERO DE BOLETO QUE SE
-                COLOCO EN LA ANTERIOR PANTALLA
-             */
-            NroBoletotxt.setEditable(false);
-            
-            /*
-                DESHABILITAR LOS CAMPOS FIJOS
-            */
-            KGbrutostxt.setEditable(false);
-            KGNetostxt.setEditable(false);
-            MStxt.setEditable(false);
-            Impurezastxt.setEditable(false);
-            
-            
+           
             /*
                 BLOQUEAR LOS TIPOS DE TRANSACCIONES YA ESCOJIDOS
             */
@@ -658,9 +459,9 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             /*
                 YA TENEMOS PUESTOS LOS DATOS DEL NUEVO PROVEEDOR
                 SABEMOS QUE ESTE ES UN BOLETO YA CREADO
-                Y CUALES SON LAS TARNSACCIONES QUE FALTAN
+                Y CUALES SON LAS TRANSACCIONES QUE FALTAN
                 
-                NOS FALTA BUSCAR LOS VALORES DE:
+                NOS FALTA BUSCAR COLOCAR POR PANTALLA LOS VALORES DE:
                 - Fecha
                 - Semana
                 - KgBrutos
@@ -672,14 +473,12 @@ public class TransaccionesCrear extends javax.swing.JFrame {
             NroBoletotxt.setText(numeroBoleto);
             
             //LLAMAMOS A LA FUNCION QUE NOS RECOJE LOS DATOS DEL BOLETO
-            Object[] informacionBoleto = new Object[8];
-            informacionBoleto = b.conseguirDatos(numeroBoleto);
-            Fechatxt.setText(informacionBoleto[1].toString());
-            Semanatxt.setText(informacionBoleto[2].toString());
-            KGbrutostxt.setText(informacionBoleto[3].toString());
-            KGNetostxt.setText(informacionBoleto[4].toString());
-            MStxt.setText(informacionBoleto[5].toString());
-            Impurezastxt.setText(informacionBoleto[6].toString()); 
+            Fechatxt.setText(this.fecha);
+            Semanatxt.setText(this.semana);
+            KGbrutostxt.setText(String.valueOf(this.Kg_Brutos));
+            KGNetostxt.setText(String.valueOf(this.Kg_Netos));
+            MStxt.setText(String.valueOf(this.MS));
+            Impurezastxt.setText(String.valueOf(this.Impurezas)); 
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -696,401 +495,151 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CancelarBTActionPerformed
 
-    private void InformacionAdicionalBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InformacionAdicionalBTActionPerformed
-        if (informacionAdicional) {
-            informacionAdicional = false;
-            DtrabajadosCB.setEnabled(false);
-            HAubicacionCB.setEnabled(false);
-            USDHACB.setEnabled(false);
-            USDdiaCB.setEnabled(false);
-        } else if (!informacionAdicional) {
-            informacionAdicional = true;
-            DtrabajadosCB.setEnabled(true);
-            HAubicacionCB.setEnabled(true);
-            USDHACB.setEnabled(true);
-            USDdiaCB.setEnabled(true);
-        }
-    }//GEN-LAST:event_InformacionAdicionalBTActionPerformed
-
     private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
-        if(!boletoCreado){
+        if(boletoCreado) {
+            if (MPCB.isSelected() || CuadrillaCB.isSelected() || PeajeCB.isSelected() || FleteCB.isSelected()) {
                 /*
-                    LO PRIMERO SIEMPRE VERIFICAR QUE LOS CAMPOS OBLIGATORIOS SE HAYAN LLENADO EXITOSAMENTE
-                 */
-                if (!NroBoletotxt.getText().isEmpty() && !Fechatxt.getText().isEmpty() && !Semanatxt.getText().isEmpty()) {
-                    //AL MENOS DE AQUI YA SABEMOS QUE ESOS DATOS NO ESTAN VACIOS
-                    /*
-                        TAMBIEN HAY QUE COMPROBAR LOS SIGUIENTES ELEMENTOS PARA QUE NO SEAN NULOS
-                        KGbrutos
-                        KGnetos
-                        MateriaSeca
-                        Impurezas
-                     */
-                    if (!KGbrutostxt.getText().isEmpty() && !KGNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()) {
-                        //ENTRANDO AQUI YA SABEMOS QUE LOS CAMPOS DE LOS KG NO ESTAN VACIOS
-                        /*
-                            NOS LAS TENEMOS QUE INGENIAR ENTONCES PARA SABER QUE AL MENOS UNO DE LOS CUATRO CAMPOS DE:
-                            - Matiera Prima
-                            - Cuadrilla
-                            - Flete
-                            - Peaje
-                            ESTAN ACTIVOS
-                            POR TANTO, SOLO NECESITAMOS UNO DE ELLOS, USAMOS LA CONDICION LOGICA OR
-                         */
-                        if (MPCB.isSelected() || CuadrillaCB.isSelected() || PeajeCB.isSelected() || FleteCB.isSelected()) {
-                            /*
-                                A PARTIR DE AQUI, YA TENEMOS TODO LO SUFICIENTE COMO PARAR CREAR UNA TRANSACCION
-                                LOS DEMAS DATOS TENTATIVOS COMO LOS DE INFOMRACION ADICIONAL IRAN EN UN IF DENTRO 
-                                DE ESTA SECCION DE CREACION DE UNA TRANSACCION
-                             */
+                    A PARTIR DE AQUI, YA TENEMOS TODO LO SUFICIENTE COMO PARAR CREAR UNA TRANSACCION
+                */
 
-                            /*=================================================================================================\\
-                            ||==================================CREACION DE LA TRANSACCION=====================================||
-                            //=================================================================================================*/
-                            //EMPEZAMOS POR RECOGER TODOS LOS DATOS DE LA PANTALLA
-                            String num_transaccion = NroBoletotxt.getText();
-                            String fecha = Fechatxt.getText();
-                            String semana = Semanatxt.getText();
-                            String KBbrutos = KGbrutostxt.getText();
-                            String KGnetos = KGNetostxt.getText();
-                            String MateriaSeca = MStxt.getText();
-                            String Impurezas = Impurezastxt.getText();
-
-                            /*
-                                AQUI REVISAMOS CUALES SON LOS TIPOS DE TRANSACCIONES DE ESTA TRANSACCION
-                                POR CADA UNO DE ELLOS, SE HACE UN CONDICIONAL, SI ESTAN SELECTED, AL CAMPO SE LE COLOCA SI, 
-                                O NO SI NO ESTA SELECCIONADO
-                             */
-                            //PRIMERO CREAMOS VARIABLES STRING EN BLANCO, PORQUE IGUAL HAY QUE METER LAS VARIABLES DENTRO DE LAS FUNCIONES.
-                            String materiaPrima = "";
-                            String Cuadrilla = "";
-                            String Flete = "";
-                            String peaje = "";
-                            int cantidad_transacciones = 0;
-
-                            if (MPCB.isSelected()) {          //CONDICIONAL DE LA MATERIA PRIMA
-                                materiaPrima = "SI";
-                                cantidad_transacciones++;
-                            } else {
-                                materiaPrima = "NO";
-                            }
-
-                            if (CuadrillaCB.isSelected()) {   //CONDICIONAL DE LA CUADRILLA
-                                Cuadrilla = "SI";
-                                cantidad_transacciones++;
-                            } else {
-                                Cuadrilla = "NO";
-                            }
-
-                            if (PeajeCB.isSelected()) {       //CONDICIONAL DE PEAJE
-                                peaje = "SI";
-                                cantidad_transacciones++;
-                            } else {
-                                peaje = "NO";
-                            }
-
-                            if (FleteCB.isSelected()) {       //CONDICIONAL DE FLETE
-                                Flete = "SI";
-                                cantidad_transacciones++;
-                            } else {
-                                Flete = "NO";
-                            }
-
-                            /*
-                                DE AQUI EN ADELANTE, VERIFICAMOS PRIMERO UN CONDICIONAL DONDE VEAMOS SI LA INFORMACION ADICIONAL ESTA HABILITADA
-                                PARA ESO, TENEMOS NUESTRA VARIABLE GLOBAL "informacionAdicional"
-                                SOLO ES NECESARIO QUE COMPROBEMOS SI ESTA ACTIVO
-                                DE IGUAL MANERA, CREAMOS LAS VARIABLES CON VALORES POR DEFECTO PARA QUE NO ESTEN NULOS.
-                             */
-                            String diasTrabajados = "";
-                            String HAubicacion = "";
-                            String USDdia = "";
-                            String USDha = "";
-                            if (informacionAdicional) {
-                                diasTrabajados = DtrabajadosCB.getSelectedItem().toString();
-                                HAubicacion = HAubicacionCB.getSelectedItem().toString();
-                                USDdia = USDdiaCB.getSelectedItem().toString();
-                                USDha = USDHACB.getSelectedItem().toString();
-                            }
-                            String observaciones = "";
-                            observaciones = ObservacionesTXT.getText();
-                            //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
-                            String codigoProveedor = CODtxt.getText();
-                            if(!continuacion){
-                                /*==============================================================================================================\\
-                                ||==================================LLAMADA DE LA FUNCION CREAR BOLETO==========================================||
-                                //==============================================================================================================*/
-                                b.NuevoBoleto(NroBoletotxt.getText(), Fechatxt.getText(), Semanatxt.getText(), Float.parseFloat(KGbrutostxt.getText()), Float.parseFloat(KGNetostxt.getText()), Integer.parseInt((MStxt.getText())), Integer.parseInt((Impurezastxt.getText())), cantidad_transacciones);
-                            }
-                            /*===================================================================================================================\\
-                            ||==================================LLAMADA DE LA FUNCION CREAR TRANSACCION==========================================||
-                            //===================================================================================================================*/
-                            t.NuevaTransaccion(num_transaccion, fecha, semana, KBbrutos, KGnetos, MateriaSeca, Impurezas, materiaPrima, Cuadrilla, Flete, peaje, diasTrabajados, HAubicacion, USDdia, USDha, observaciones, codigoProveedor, informacionAdicional);
-                            /*
-                                A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:
-                                1- SE RELLENARON TODOS LOS TIPOS DE TRANSACCION
-                                2- NO SE LLENARON TODOS LOS TIPOS DE TRANSACCION
-
-                                PARA EL PRIMER ESCENARIO, DIREMOS QUE LA CREACION SE COMPLETO, Y QUE SI DESEA CREAR UNA NUEVA
-                                LO COMPROBAREMOS CON LA CONDICION LOGICA AND
-
-                                SI ESTE PRIMERO NO SE DA, COMO DE POR SI SE NECESITABA UNO SELECCIONADO PARA ENTRAR
-                                NOS BASTA CON UN ELSE SIN CONDICION LOGICA
-                             */
-
-                            //PRIMER ESCENARIO
-                            if (cantidad_transacciones == 4) {
-                                String[] botones_confirmacionCrear = {"SI", "NO"};
-                                int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA INGRESAR UN NUEVO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-                                /*
-                                    EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
-                                    SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
-                                    PARA DESPUES DESACTIVAR ESTA
-
-                                    EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
-                                 */
-
-                                if (index == 0) {
-                                    IPT.setVisible(true);
-                                    this.dispose();
-                                } else if(index == 1) {
-                                    this.dispose();
-                                }
-                            } else if(cantidad_transacciones < 4) { //SEGUNDO ESCENARIO
-                                /*
-                                    AQUI DEBERIA LLAMAR A UNA SIGUIENTE PANTALLA PRACTICAMENTE DE ESTE MISMO ESTILO
-                                    CREARIA UN NUEVO OBJETO TRANSACCIONES CREAR
-                                    DONDE SEPA QUE ESTOY HACIENDO UNA NUEVA TRANSACCION DE UN MISMO BOLETO
-                                    IMPRIMIR LOS DATOS YA FIJOS DEL BOLETO
-                                    DESHABILITANDO LOS TIPOS DE TRANSACCIONES QUE YA SE ASIGNARON
-                                    Y SOLO DEJANDO QUE CAMBIE EL TIPO DE TRANSACCION MAS EL OTRO PROVEEDOR
-
-                                    ENTONCES LO QUE DEBO HACER ES PRIMERO LLAMAR A LA VENTANA ANTERIOR DE IDENTIFICACIONPROVEEDOR TRANSACCIONES
-                                    DONDE DEJE METER EL NUEVO PROVEEDOR, YA QUE AHI SE ENCUENTRAN TODAS LAS VERIFICACIONES
-                                    PERO QUE EL NUM BOLETO SEA EL MISMO
-                                    SE IRA PASANDO UNA CONDICION BOOLEANA ENTRE AMBAS INTERFACES
-                                    PARA QUE AL MOMENTO DE LLEGAR ESTA VENTANA NUEVAMENTE, SE SEPA QUE ESTAMOS TRABAJANDO CON EL MISMO BOLETO ANTERIOR
-                                */
-
-                                //CABE DESTACAR QUE TODO ESTE PROCEDIMIENTO SERA SI LA PERSONA SI DESEA HACER UNA NUEVA TRANSACCION
-                                String[] botones_confirmacionCrear = {"SI", "NO"};
-                                int index = JOptionPane.showOptionDialog(null, "SE HA DETECTADO QUE ESTE BOLETO AUN TIENE TRANSACCCIONES DISPONIBLES, ¿DESEA REALIZAR UNA NUEVA CON EL MISMO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-                                if(index == 0){
-                                    IPT = new IdentificacionProveedorTransacciones();
-                                    IPT.modo = 1;
-                                    IPT.num_Boleto = num_transaccion;
-                                    IPT.setVisible(true);
-                                    this.dispose();
-                                } else {
-                                    this.dispose();
-                                }
-
-                            }
-                            //====================================FINAL DE CREACION DE TRANSACCION==============================\\
-                        }//CIERRE DE CONDICIONAL DE LOS TIPOS DE TRANSACCION
-                        else {
-                            JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR ALGUN TIPO DE TRANSACCION", "ERROR", JOptionPane.PLAIN_MESSAGE);
-                        }
-                    }//CIERRE DE CONDICIONAL DE LAS CANTIDADES
-                    else {
-                        JOptionPane.showMessageDialog(null, "DEBE RELLENAR TODOS LOS CAMPOS DE KILOS, MATERIA SECA, ETC", "ERROR", JOptionPane.PLAIN_MESSAGE);
-                    }
-                }//CIERRE DE CONDICIONAL DE FECHA, SEMANA Y NRO
-                else {
-                    JOptionPane.showMessageDialog(null, "DEBEN ESTAS PRESENTE EL NUMERO DE TRANSACCION, FECHA Y SEMANA", "ERROR", JOptionPane.PLAIN_MESSAGE);
-                }
-        } else if(boletoCreado) {
+                /*=================================================================================================\\
+                ||==================================CREACION DE LA TRANSACCION=====================================||
+                //=================================================================================================*/
+                //EMPEZAMOS POR RECOGER TODOS LOS DATOS DE LA PANTALLA
+                String num_transaccion = NroBoletotxt.getText();
                 /*
-                    LO PRIMERO SIEMPRE VERIFICAR QUE LOS CAMPOS OBLIGATORIOS SE HAYAN LLENADO EXITOSAMENTE
-                 */
-                if (!NroBoletotxt.getText().isEmpty() && !Fechatxt.getText().isEmpty() && !Semanatxt.getText().isEmpty()) {
-                    //AL MENOS DE AQUI YA SABEMOS QUE ESOS DATOS NO ESTAN VACIOS
-                    /*
-                        TAMBIEN HAY QUE COMPROBAR LOS SIGUIENTES ELEMENTOS PARA QUE NO SEAN NULOS
-                        KGbrutos
-                        KGnetos
-                        MateriaSeca
-                        Impurezas
-                     */
-                    if (!KGbrutostxt.getText().isEmpty() && !KGNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()) {
-                        //ENTRANDO AQUI YA SABEMOS QUE LOS CAMPOS DE LOS KG NO ESTAN VACIOS
-                        /*
-                            NOS LAS TENEMOS QUE INGENIAR ENTONCES PARA SABER QUE AL MENOS UNO DE LOS CUATRO CAMPOS DE:
-                            - Matiera Prima
-                            - Cuadrilla
-                            - Flete
-                            - Peaje
-                            ESTAN ACTIVOS
-                            POR TANTO, SOLO NECESITAMOS UNO DE ELLOS, USAMOS LA CONDICION LOGICA OR
-                         */
-                        if (MPCB.isSelected() || CuadrillaCB.isSelected() || PeajeCB.isSelected() || FleteCB.isSelected()) {
-                            /*
-                                A PARTIR DE AQUI, YA TENEMOS TODO LO SUFICIENTE COMO PARAR CREAR UNA TRANSACCION
-                                LOS DEMAS DATOS TENTATIVOS COMO LOS DE INFOMRACION ADICIONAL IRAN EN UN IF DENTRO 
-                                DE ESTA SECCION DE CREACION DE UNA TRANSACCION
-                             */
-
-                            /*=================================================================================================\\
-                            ||==================================CREACION DE LA TRANSACCION=====================================||
-                            //=================================================================================================*/
-                            //EMPEZAMOS POR RECOGER TODOS LOS DATOS DE LA PANTALLA
-                            String num_transaccion = NroBoletotxt.getText();
-                            String fecha = Fechatxt.getText();
-                            String semana = Semanatxt.getText();
-                            String KBbrutos = KGbrutostxt.getText();
-                            String KGnetos = KGNetostxt.getText();
-                            String MateriaSeca = MStxt.getText();
-                            String Impurezas = Impurezastxt.getText();
-
-                            /*
-                                AQUI REVISAMOS CUALES SON LOS TIPOS DE TRANSACCIONES DE ESTA TRANSACCION
-                                POR CADA UNO DE ELLOS, SE HACE UN CONDICIONAL, SI ESTAN SELECTED, AL CAMPO SE LE COLOCA SI, 
-                                O NO SI NO ESTA SELECCIONADO
-                             */
-                            //PRIMERO CREAMOS VARIABLES STRING EN BLANCO, PORQUE IGUAL HAY QUE METER LAS VARIABLES DENTRO DE LAS FUNCIONES.
-                            String materiaPrima2 = "";
-                            String Cuadrilla2 = "";
-                            String Flete2 = "";
-                            String peaje2 = "";
-                            int cantidad_transacciones = b.cantidadTransacciones_Boleto(num_transaccion);
-                            System.out.println(cantidad_transacciones + " antes");
-                            boolean Materia_Prima = this.Materia_Prima;
-                            if (Materia_Prima) {          //CONDICIONAL DE LA MATERIA PRIMA
-                                materiaPrima2 = "NO";
-                            }
-                            boolean Cuadrilla = this.Cuadrilla;
-                            if (Cuadrilla) {   //CONDICIONAL DE LA CUADRILLA
-                                Cuadrilla2 = "NO";
-                            }
-                            boolean Peaje = this.Peaje;
-                            if (Peaje) {       //CONDICIONAL DE PEAJE
-                                peaje2 = "NO";
-                            }
-                            boolean Flete = this.Flete;
-                            if (Flete) {       //CONDICIONAL DE FLETE
-                                Flete2 = "NO";
-                            }
-                            
-                            if(!Materia_Prima && MPCB.isSelected()){
-                                materiaPrima2 = "SI";
-                                cantidad_transacciones++;
-                            }
-                            
-                            if(!Cuadrilla && CuadrillaCB.isSelected()){
-                                Cuadrilla2 = "SI";
-                                cantidad_transacciones++;
-                            }
-                            
-                            if(!Flete && FleteCB.isSelected()){
-                                Flete2 = "SI";
-                                cantidad_transacciones++;
-                            }
-                            
-                            if(!Peaje && PeajeCB.isSelected()){
-                                peaje2 = "SI";
-                                cantidad_transacciones++;
-                            }
-                            /*
-                                DE AQUI EN ADELANTE, VERIFICAMOS PRIMERO UN CONDICIONAL DONDE VEAMOS SI LA INFORMACION ADICIONAL ESTA HABILITADA
-                                PARA ESO, TENEMOS NUESTRA VARIABLE GLOBAL "informacionAdicional"
-                                SOLO ES NECESARIO QUE COMPROBEMOS SI ESTA ACTIVO
-                                DE IGUAL MANERA, CREAMOS LAS VARIABLES CON VALORES POR DEFECTO PARA QUE NO ESTEN NULOS.
-                             */
-                            String diasTrabajados = "";
-                            String HAubicacion = "";
-                            String USDdia = "";
-                            String USDha = "";
-                            if (informacionAdicional) {
-                                diasTrabajados = DtrabajadosCB.getSelectedItem().toString();
-                                HAubicacion = HAubicacionCB.getSelectedItem().toString();
-                                USDdia = USDdiaCB.getSelectedItem().toString();
-                                USDha = USDHACB.getSelectedItem().toString();
-                            }
-                            String observaciones = "";
-                            observaciones = ObservacionesTXT.getText();
-                            //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
-                            String codigoProveedor = CODtxt.getText();
-                            /*===============================================================================================================================\\
-                            ||==================================LLAMADA DE LA FUNCION UPDATE CANTIDAD_TRANSACCIONES==========================================||
-                            //===============================================================================================================================*/
-                            System.out.println(cantidad_transacciones + " despues");
-                            b.updateCantidad_Transacciones(num_transaccion, cantidad_transacciones);
-                            /*===================================================================================================================\\
-                            ||==================================LLAMADA DE LA FUNCION CREAR TRANSACCION==========================================||
-                            //===================================================================================================================*/
-                            t.NuevaTransaccion(num_transaccion, fecha, semana, KBbrutos, KGnetos, MateriaSeca, Impurezas, materiaPrima2, Cuadrilla2, Flete2, peaje2, observaciones, codigoProveedor, informacionAdicional);
-                            /*
-                                A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:
-                                1- SE RELLENARON TODOS LOS TIPOS DE TRANSACCION
-                                2- NO SE LLENARON TODOS LOS TIPOS DE TRANSACCION
-
-                                PARA EL PRIMER ESCENARIO, DIREMOS QUE LA CREACION SE COMPLETO, Y QUE SI DESEA CREAR UNA NUEVA
-                                LO COMPROBAREMOS CON LA CONDICION LOGICA AND
-
-                                SI ESTE PRIMERO NO SE DA, COMO DE POR SI SE NECESITABA UNO SELECCIONADO PARA ENTRAR
-                                NOS BASTA CON UN ELSE SIN CONDICION LOGICA
-                             */
-
-                            //PRIMER ESCENARIO
-                            if (cantidad_transacciones == 4) {
-                                String[] botones_confirmacionCrear = {"SI", "NO"};
-                                int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA INGRESAR UN NUEVO BOLETON?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-                                /*
-                                    EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
-                                    SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
-                                    PARA DESPUES DESACTIVAR ESTA
-
-                                    EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
-                                 */
-
-                                if (index == 0) {
-                                    IPT.setVisible(true);
-                                    this.dispose();
-                                } else {
-                                    this.dispose();
-                                }
-                            } else if(cantidad_transacciones < 4) { //SEGUNDO ESCENARIO
-                                /*
-                                    AQUI DEBERIA LLAMAR A UNA SIGUIENTE PANTALLA PRACTICAMENTE DE ESTE MISMO ESTILO
-                                    CREARIA UN NUEVO OBJETO TRANSACCIONES CREAR
-                                    DONDE SEPA QUE ESTOY HACIENDO UNA NUEVA TRANSACCION DE UN MISMO BOLETO
-                                    IMPRIMIR LOS DATOS YA FIJOS DEL BOLETO
-                                    DESHABILITANDO LOS TIPOS DE TRANSACCIONES QUE YA SE ASIGNARON
-                                    Y SOLO DEJANDO QUE CAMBIE EL TIPO DE TRANSACCION MAS EL OTRO PROVEEDOR
-
-                                    ENTONCES LO QUE DEBO HACER ES PRIMERO LLAMAR A LA VENTANA ANTERIOR DE IDENTIFICACIONPROVEEDOR TRANSACCIONES
-                                    DONDE DEJE METER EL NUEVO PROVEEDOR, YA QUE AHI SE ENCUENTRAN TODAS LAS VERIFICACIONES
-                                    PERO QUE EL NUM BOLETO SEA EL MISMO
-                                    SE IRA PASANDO UNA CONDICION BOOLEANA ENTRE AMBAS INTERFACES
-                                    PARA QUE AL MOMENTO DE LLEGAR ESTA VENTANA NUEVAMENTE, SE SEPA QUE ESTAMOS TRABAJANDO CON EL MISMO BOLETO ANTERIOR
-                                */
-
-                                //CABE DESTACAR QUE TODO ESTE PROCEDIMIENTO SERA SI LA PERSONA SI DESEA HACER UNA NUEVA TRANSACCION
-                                String[] botones_confirmacionCrear = {"SI", "NO"};
-                                int index = JOptionPane.showOptionDialog(null, "SE HA DETECTADO QUE ESTE BOLETO AUN TIENE TRANSACCCIONES DISPONIBLES, ¿DESEA REALIZAR UNA NUEVA CON EL MISMO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-                                if(index == 0){
-                                    IPT = new IdentificacionProveedorTransacciones();
-                                    IPT.modo = 1;
-                                    IPT.num_Boleto = num_transaccion;
-                                    this.dispose();
-                                } else {
-                                    this.dispose();
-                                }
-
-                            }
-                            //====================================FINAL DE CREACION DE TRANSACCION==============================\\
-                        }//CIERRE DE CONDICIONAL DE LOS TIPOS DE TRANSACCION
-                        else {
-                            JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR ALGUN TIPO DE TRANSACCION", "ERROR", JOptionPane.PLAIN_MESSAGE);
-                        }
-                    }//CIERRE DE CONDICIONAL DE LAS CANTIDADES
-                    else {
-                        JOptionPane.showMessageDialog(null, "DEBE RELLENAR TODOS LOS CAMPOS DE KILOS, MATERIA SECA, ETC", "ERROR", JOptionPane.PLAIN_MESSAGE);
-                    }
-                }//CIERRE DE CONDICIONAL DE FECHA, SEMANA Y NRO
-                else {
-                    JOptionPane.showMessageDialog(null, "DEBEN ESTAS PRESENTE EL NUMERO DE TRANSACCION, FECHA Y SEMANA", "ERROR", JOptionPane.PLAIN_MESSAGE);
+                    AQUI REVISAMOS CUALES SON LOS TIPOS DE TRANSACCIONES DE ESTA TRANSACCION
+                    POR CADA UNO DE ELLOS, SE HACE UN CONDICIONAL, SI ESTAN SELECTED, AL CAMPO SE LE COLOCA SI, 
+                    O NO SI NO ESTA SELECCIONADO
+                */
+                //PRIMERO CREAMOS VARIABLES STRING EN BLANCO, PORQUE IGUAL HAY QUE METER LAS VARIABLES DENTRO DE LAS FUNCIONES.
+                String materiaPrima2 = "";
+                String Cuadrilla2 = "";
+                String Flete2 = "";
+                String peaje2 = "";
+                int cantidad_transacciones = b.cantidadTransacciones_Boleto(num_transaccion);
+                System.out.println(cantidad_transacciones + " antes");
+                
+                boolean Materia_Prima = this.Materia_Prima;
+                if (Materia_Prima) {          //CONDICIONAL DE LA MATERIA PRIMA
+                    materiaPrima2 = "NO";
                 }
+                
+                boolean Cuadrilla = this.Cuadrilla;
+                if (Cuadrilla) {   //CONDICIONAL DE LA CUADRILLA
+                    Cuadrilla2 = "NO";
+                }
+                
+                boolean Peaje = this.Peaje;
+                if (Peaje) {       //CONDICIONAL DE PEAJE
+                    peaje2 = "NO";
+                }
+                
+                boolean Flete = this.Flete;
+                if (Flete) {       //CONDICIONAL DE FLETE
+                    Flete2 = "NO";
+                }
+                
+                
+                if(!Materia_Prima && MPCB.isSelected()){
+                    materiaPrima2 = "SI";
+                    cantidad_transacciones++;
+                } else if(!Materia_Prima && !MPCB.isSelected()){
+                    materiaPrima2 = "NO";
+                }
+                if(!Cuadrilla && CuadrillaCB.isSelected()){
+                    Cuadrilla2 = "SI";
+                    cantidad_transacciones++;
+                } else if(!Cuadrilla && !CuadrillaCB.isSelected()) {
+                    Cuadrilla2 = "NO";
+                }
+                if(!Flete && FleteCB.isSelected()){
+                    Flete2 = "SI";
+                    cantidad_transacciones++;
+                }else if(!Flete && !FleteCB.isSelected()){
+                    Flete2 = "NO";
+                }                     
+                if(!Peaje && PeajeCB.isSelected()){
+                    peaje2 = "SI";
+                    cantidad_transacciones++;
+                } else if(!Peaje && !PeajeCB.isSelected()){
+                    peaje2 = "NO";
+                }
+                
+                String observaciones = "";
+                observaciones = ObservacionesTXT.getText();
+                //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
+                String codigoProveedor = CODtxt.getText();
+                /*===============================================================================================================================\\
+                ||==================================LLAMADA DE LA FUNCION UPDATE CANTIDAD_TRANSACCIONES==========================================||
+                //===============================================================================================================================*/
+                System.out.println(cantidad_transacciones + " despues");
+                b.updateCantidad_Transacciones(num_transaccion, cantidad_transacciones);
+                /*===================================================================================================================\\
+                ||==================================LLAMADA DE LA FUNCION CREAR TRANSACCION==========================================||
+                //===================================================================================================================*/
+                t.NuevaTransaccion(num_transaccion, materiaPrima2, Cuadrilla2, Flete2, peaje2, observaciones, codigoProveedor);
+                 /*
+                    A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:
+                    1- SE RELLENARON TODOS LOS TIPOS DE TRANSACCION
+                    2- NO SE LLENARON TODOS LOS TIPOS DE TRANSACCION
+
+                    PARA EL PRIMER ESCENARIO, DIREMOS QUE LA CREACION SE COMPLETO, Y QUE SI DESEA CREAR UNA NUEVA
+                    LO COMPROBAREMOS CON LA CONDICION LOGICA AND
+
+                    SI ESTE PRIMERO NO SE DA, COMO DE POR SI SE NECESITABA UNO SELECCIONADO PARA ENTRAR
+                    NOS BASTA CON UN ELSE SIN CONDICION LOGICA
+                 */
+
+                    //PRIMER ESCENARIO
+                    if (cantidad_transacciones == 4) {
+                        String[] botones_confirmacionCrear = {"SI", "NO"};
+                        int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA INGRESAR UN NUEVO BOLETON?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                        /*
+                            EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
+                            SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
+                            PARA DESPUES DESACTIVAR ESTA
+
+                            EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
+                        */
+
+                        if (index == 0) {
+                            IPT.setVisible(true);
+                            this.dispose();
+                        } else {
+                            this.dispose();
+                        }
+                    } else if(cantidad_transacciones < 4) { //SEGUNDO ESCENARIO
+                        /*
+                            AQUI DEBERIA LLAMAR A UNA SIGUIENTE PANTALLA PRACTICAMENTE DE ESTE MISMO ESTILO
+                            CREARIA UN NUEVO OBJETO TRANSACCIONES CREAR
+                            DONDE SEPA QUE ESTOY HACIENDO UNA NUEVA TRANSACCION DE UN MISMO BOLETO
+                            IMPRIMIR LOS DATOS YA FIJOS DEL BOLETO
+                            DESHABILITANDO LOS TIPOS DE TRANSACCIONES QUE YA SE ASIGNARON
+                            Y SOLO DEJANDO QUE CAMBIE EL TIPO DE TRANSACCION MAS EL OTRO PROVEEDOR
+
+                            ENTONCES LO QUE DEBO HACER ES PRIMERO LLAMAR A LA VENTANA ANTERIOR DE IDENTIFICACIONPROVEEDOR TRANSACCIONES
+                            DONDE DEJE METER EL NUEVO PROVEEDOR, YA QUE AHI SE ENCUENTRAN TODAS LAS VERIFICACIONES
+                            PERO QUE EL NUM BOLETO SEA EL MISMO
+                            SE IRA PASANDO UNA CONDICION BOOLEANA ENTRE AMBAS INTERFACES
+                            PARA QUE AL MOMENTO DE LLEGAR ESTA VENTANA NUEVAMENTE, SE SEPA QUE ESTAMOS TRABAJANDO CON EL MISMO BOLETO ANTERIOR
+                        */
+
+                        //CABE DESTACAR QUE TODO ESTE PROCEDIMIENTO SERA SI LA PERSONA SI DESEA HACER UNA NUEVA TRANSACCION
+                        String[] botones_confirmacionCrear = {"SI", "NO"};
+                        int index = JOptionPane.showOptionDialog(null, "SE HA DETECTADO QUE ESTE BOLETO AUN TIENE TRANSACCCIONES DISPONIBLES, ¿DESEA REALIZAR UNA NUEVA CON EL MISMO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                        if(index == 0){
+                            IPT = new IdentificacionProveedorTransacciones();
+                            IPT.modo = 1;
+                            IPT.num_Boleto = num_transaccion;
+                            IPT.setVisible(true);
+                            this.dispose();
+                        } else {
+                            this.dispose();
+                        }
+                    }
+                    //====================================FINAL DE CREACION DE TRANSACCION==============================\\
+            }//CIERRE DE CONDICIONAL DE LOS TIPOS DE TRANSACCION
         }
     }//GEN-LAST:event_CrearBTActionPerformed
 
@@ -1099,22 +648,12 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     }//GEN-LAST:event_FechatxtKeyTyped
 
     private void FechatxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FechatxtFocusLost
-        if(Fechatxt.getText().length() == 10){
-            String date2 = Fechatxt.getText();
-            Date anio = new Date();
-            SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
-            String anioActual = formatoAnio.format(anio);
-            try {
-                Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date2);
-                Calendar calendar = new GregorianCalendar();
-                calendar.setTime(date1);
-                Semanatxt.setText((calendar.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
-            } catch (ParseException ex) {
-                Logger.getLogger(TransaccionesCrear.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-            
+    
     }//GEN-LAST:event_FechatxtFocusLost
+
+    private void FechatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechatxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FechatxtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1158,20 +697,14 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private javax.swing.JLabel CodL;
     private javax.swing.JButton CrearBT;
     private javax.swing.JCheckBox CuadrillaCB;
-    private javax.swing.JLabel DTrabajadosl;
-    private javax.swing.JComboBox<String> DtrabajadosCB;
     private javax.swing.JLabel FechaL1;
     private javax.swing.JFormattedTextField Fechatxt;
     private javax.swing.JCheckBox FleteCB;
-    private javax.swing.JComboBox<String> HAubicacionCB;
-    private javax.swing.JLabel HaUbicacionL;
     private javax.swing.JLabel IDL;
     private javax.swing.JTextField IDtxt;
     private javax.swing.JLabel ImpurezasL;
     private javax.swing.JTextField Impurezastxt;
-    private javax.swing.JLabel InfoAdicionalL;
     private javax.swing.JLabel InfoBoletoL;
-    private javax.swing.JToggleButton InformacionAdicionalBT;
     private javax.swing.JLabel KGBrutosL;
     private javax.swing.JLabel KGNetosL;
     private javax.swing.JTextField KGNetostxt;
@@ -1188,10 +721,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private javax.swing.JLabel SemanaL;
     private javax.swing.JTextField Semanatxt;
     private javax.swing.JLabel TipoTransaccion;
-    private javax.swing.JComboBox<String> USDHACB;
-    private javax.swing.JLabel USDHAL;
-    private javax.swing.JComboBox<String> USDdiaCB;
-    private javax.swing.JLabel USDdiaL;
     private javax.swing.JLabel USDdiaL1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

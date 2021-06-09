@@ -3,6 +3,7 @@ package logica;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class boleto {
     conectate con;
@@ -139,6 +140,34 @@ public class boleto {
     }
     
     /*
+        FUNCION QUE NOS PERMITE HACER UN UPDATE COMPLETO DEL BOLETO
+    */
+    public void updateBoleto(String codigo, String fecha, String semana,
+            float KgBrutos, float KgNetos, int MS, int Impurezas){
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE boleto " +
+                    " set Fecha = ? , " +
+                    " Semana = ? , " +
+                    " Kg_Brutos = ? , " + 
+                    " Kg_Netos = ? , " +
+                    " Materia_S = ? , " +
+                    " Impurezas = ? " + 
+                    " where Codigo = ?");
+            pstm.setString(1, fecha);
+            pstm.setString(2, semana);
+            pstm.setFloat(3, KgBrutos);
+            pstm.setFloat(4, KgNetos);
+            pstm.setInt(5, MS);
+            pstm.setInt(6, Impurezas);
+            pstm.setString(7, codigo);
+            pstm.execute();
+            pstm.close();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "NO SE PUDO REALIZAR EL UPDATE DE BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    /*
         FUNCION PARA OBTENER LOS DATOS DE UN SOLO BOLETO
     */
     public Object[] conseguirDatos(String codigo){
@@ -176,11 +205,11 @@ public class boleto {
                 data[0] = estCodigo;
                 data[1] = estFecha;
                 data[2] = estSemana;
-                data[3] = String.valueOf(estKg_Brutos);
-                data[4] = String.valueOf(estKg_Netos);
-                data[5] = String.valueOf(estMateria_S);
-                data[6] = String.valueOf(estImpurezas);
-                data[7] = String.valueOf(estCantidad_Transaccioens);
+                data[3] = estKg_Brutos;
+                data[4] = estKg_Netos;
+                data[5] = estMateria_S;
+                data[6] = estImpurezas;
+                data[7] = estCantidad_Transaccioens; 
         }catch(SQLException ex){
             Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
         }

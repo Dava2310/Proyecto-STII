@@ -64,13 +64,15 @@ create table boleto(
 	Codigo varchar(10) not null,
     Fecha varchar(10) not null,
     Semana varchar(10) not null,
-    Kg_Brutos int not null,			-- ESTO ES FLOAT
-    Kg_Netos int not null,			-- ESTO ES FLOAT
-    Materia_S float not null,		-- ESTO ES INT
-    Impurezas float not null,		-- ESTO ES INT
+    Kg_Brutos float not null,			-- ESTO ES FLOAT
+    Kg_Netos float not null,			-- ESTO ES FLOAT
+    Materia_S int not null,		-- ESTO ES INT
+    Impurezas int not null,		-- ESTO ES INT
     Cantidad_Transacciones int not null,
     primary key(Codigo)
 );
+
+INSERT into boleto values('20','06/08/2021','23-2021',30.5,30.3,30,30,0);
 
 SELECT * from boleto;
 SELECT Cantidad_Transacciones from boleto where Codigo = '2021112';
@@ -98,9 +100,16 @@ create table transacciones(
 
 -- COMANDOS PARA LA TABLA TRANSACCIONES
 
+INSERT INTO transacciones (Num_Boleto, Materia_Prima, Cuadrilla, Flete, Peaje, Observaciones, Codigo_Proveedor) values('20','NO','NO','NO','SI',' ','00029517648');
+INSERT INTO transacciones (Num_Boleto, Materia_Prima, Cuadrilla, Flete, Peaje, Observaciones, Codigo_Proveedor) values('20','SI','NO','NO','NO',' ','00029517648');
+INSERT INTO transacciones (Num_Boleto, Materia_Prima, Cuadrilla, Flete, Peaje, Observaciones, Codigo_Proveedor) values('20','NO','SI','NO','NO',' ','00029517648');
+INSERT INTO transacciones (Num_Boleto, Materia_Prima, Cuadrilla, Flete, Peaje, Observaciones, Codigo_Proveedor) values('20','NO','NO','SI','NO',' ','00029517648');
+
 SELECT * from transacciones; -- MOSTRAR TODOS LOS DATOS DE LAS TRANSACCIONES
 DROP TABLE transacciones; 	 -- ELIMINAR LA TABLA DE TRANSACCIONES
-SELECT transacciones.Materia_Prima FROM transacciones where transacciones.Num_Boleto = '1';
+SELECT transacciones.Materia_Prima FROM transacciones where transacciones.Num_Boleto = '30';
+SELECT transacciones.Cuadrilla FROM transacciones where transacciones.Num_Boleto = '20';
+UPDATE transacciones set Materia_Prima = 'NO' where Materia_Prima = 'SI' and Num_Boleto = '20';
 
 
 

@@ -5,6 +5,7 @@
  */
 package clases.boletos;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -244,6 +245,7 @@ public class CreacionBoleto extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void NumBoletotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumBoletotxtActionPerformed
@@ -276,25 +278,30 @@ public class CreacionBoleto extends javax.swing.JFrame {
         float Kg_Netos = Float.parseFloat(KgNetostxt.getText());
         int MS = Integer.parseInt(MStxt.getText());
         int impurezas = Integer.parseInt(Impurezastxt.getText());
-        
+        String observaciones = ObservacionestTXT.getText();
         
         if(!num_boleto.isEmpty() && !Fecha.isEmpty() && !Semana.isEmpty() && !KgBrutostxt.getText().isEmpty() 
                 && !KgNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()){
             
-            /*
+            try {
+                /*
                 ESTO SIGNIFICA QUE TODOS Y ABSOLUTAMENTE TODOS ESTAN LLENOS
                 COMO YA TENEMOS LOS DATOS AQUI, SOLAMENTE PROCEDEMOS A LLAMAR A LA FUNCION CON LAS VARIABLES
-            */
-            boleto.NuevoBoleto(num_boleto, Fecha, Semana, Kg_Brutos, Kg_Netos, MS, impurezas, 0);
-            // EL ULTIMO DATO DEL BOLETO ES 0, QUE SIGNIFICA LA CANTIDAD DE TRANSACCIONES
-            // COMO ESTE BOLETO, ESTA CREANDOSE A PENAS, NO TIENE NIGUNA TRANSACCION
-            int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-            if(index == 0){
-                IB.setVisible(true);
-                this.dispose();
-            } else {
-                this.dispose();
+                */
+                boleto.NuevoBoleto(num_boleto, Fecha, Semana, Kg_Brutos, Kg_Netos, MS, impurezas, 0, observaciones);
+                // EL ULTIMO DATO DEL BOLETO ES 0, QUE SIGNIFICA LA CANTIDAD DE TRANSACCIONES
+                // COMO ESTE BOLETO, ESTA CREANDOSE A PENAS, NO TIENE NIGUNA TRANSACCION
+                int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                if(index == 0){
+                    IB.setVisible(true);
+                    this.dispose();
+                } else {
+                    this.dispose();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CreacionBoleto.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         } else {
             JOptionPane.showMessageDialog(null, "INGRESE TODOS LOS CAMPOS (las observaciones NO)", "ERROR", JOptionPane.ERROR_MESSAGE);
         }

@@ -1,6 +1,9 @@
 package clases.boletos;
 
 import clases.transacciones.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.boleto;
 import logica.proveedor;
@@ -116,21 +119,25 @@ public class IdentificacionBoleto extends javax.swing.JFrame {
                 BUSCAR EN LA BASE DE DATOS SI ESTE BOLETO SE ENCUENTRA 
                 SI SE ENCUENTRA, NO DEBE DEJARLE PASO
             */
-            boolean encontrado = b.buscarBoleto(boletoBueno);
-            if(!encontrado){
-                /*
-                    COMO YA SABEMOS QUE EL BOLETO NO ESTA CREADO
-                    PODEMOS DAR PASO A ENVIAR A LA SIGUIENTE PANTALLA
-                
-                */
-                CB = new CreacionBoleto();
-                //LE PASAMOS ESTE BOLETO A LA SIGUIENTE PANTALLA
-                CB.Num_Boleto = boletoBueno;
-                CB.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "ESTE BOLETO YA ESTA CREADO EN EL SISTEMA", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
+            boolean encontrado;
+            try {
+                encontrado = b.buscarBoleto(boletoBueno);
+                    if(!encontrado){
+                    /*
+                        COMO YA SABEMOS QUE EL BOLETO NO ESTA CREADO
+                        PODEMOS DAR PASO A ENVIAR A LA SIGUIENTE PANTALLA
+                    */
+                    CB = new CreacionBoleto();
+                    //LE PASAMOS ESTE BOLETO A LA SIGUIENTE PANTALLA
+                    CB.Num_Boleto = boletoBueno;
+                    CB.setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "ESTE BOLETO YA ESTA CREADO EN EL SISTEMA", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(IdentificacionBoleto.class.getName()).log(Level.SEVERE, null, ex);
+            } 
         } else {
             JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DEL BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
         }

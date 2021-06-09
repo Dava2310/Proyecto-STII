@@ -5,11 +5,14 @@
  */
 package clases.boletos;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.boleto;
 
@@ -290,6 +293,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void NumBoletotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumBoletotxtActionPerformed
@@ -312,18 +316,22 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
                 LLAMAR A LA FUNCION BUSQUEDA DE BOLETO
                 CON LA VARIABLE "boletoBueno"
             */
-            boolean encontrado = boleto.buscarBoleto(boletoBueno);
-            //AHORA ME TOCA IDENTIFICAR SI LO ENCONTRAMOS O NO
-            if(encontrado){
-                /*
-                    COMO SI SE ENCONTRO, ME TOCA IMPRIMIR TODOS LOS DATOS DEL BOLETO EN PANTALLA
-                */
-                Object[] data = boleto.conseguirDatos(boletoBueno);
-                num_boleto_buscado = boletoBueno;
-                imprimirDatos(data);
-            } else {
+            try{
+                boolean encontrado = boleto.buscarBoleto(boletoBueno);
+                //AHORA ME TOCA IDENTIFICAR SI LO ENCONTRAMOS O NO
+                if(encontrado){
+                    /*
+                        COMO SI SE ENCONTRO, ME TOCA IMPRIMIR TODOS LOS DATOS DEL BOLETO EN PANTALLA
+                    */
+                    Object[] data = boleto.conseguirDatos(boletoBueno);
+                    num_boleto_buscado = boletoBueno;
+                    imprimirDatos(data);
+                } else {
                 JOptionPane.showMessageDialog(null, "BOLETO NO ENCONTRADO", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
+                }
+            }catch(SQLException ex){
+                Logger.getLogger(BusquedaYModificicacionBoleto.class.getName()).log(Level.SEVERE, null, ex);
+            }     
         } else {
             JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DE BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -341,6 +349,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         MStxt.setText(String.valueOf(data[5]));
         Impurezastxt.setText(String.valueOf(data[6]));
         CantidadTransaccionesTXT.setText(String.valueOf(data[7]));
+        ObservacionestTXT.setText(data[8].toString());
     }
     
     private void ModificarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarBTActionPerformed
@@ -358,8 +367,14 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
                     float KgNetos = Float.parseFloat(KgNetostxt.getText());
                     int MS = Integer.parseInt(MStxt.getText());
                     int Impurezas = Integer.parseInt(Impurezastxt.getText());
-                    //DE AQUI YA TENEMOS TODOS LOS NECESARIOS PARA UN UPDATE DE BOLETO
-                    boleto.updateBoleto(num_boleto, fecha, semana, KgBrutos, KgNetos, MS, Impurezas);
+                    String Observaciones = ObservacionestTXT.getText();
+                    try {
+                        //DE AQUI YA TENEMOS TODOS LOS NECESARIOS PARA UN UPDATE DE BOLETO
+                        boleto.updateBoleto(num_boleto, fecha, semana, KgBrutos, KgNetos, MS, Impurezas, Observaciones);
+                        JOptionPane.showMessageDialog(null, "SE PUDO REALIZAR LA MODIFICACION DEL BOLETO CON EXITO", "EXITO", JOptionPane.PLAIN_MESSAGE);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "NO SE PUDO REALIZAR LA MODIFICACION DEL BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
                     CambiarBT.setSelected(false);
                     modificacion = false;
                     deshabilitarCampos();

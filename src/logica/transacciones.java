@@ -15,7 +15,7 @@ public class transacciones {
     
     public void NuevaTransaccion(String Num_Boleto,
             String Materia_Prima, String Cuadrilla, String Flete, String Peaje,  
-            String Observaciones, String Codigo_Proveedor){
+            String Observaciones, String Codigo_Proveedor) throws SQLException {
         
         //INICIO DE LA FUNCION Y QUERY
         try{
@@ -37,7 +37,7 @@ public class transacciones {
     }
     
     //FUNCION PARA OBTENER DATOS DE TODAS LAS TRANSACCIONES
-    public Object[][] getDatos(){
+    public Object[][] getDatos() throws SQLException{
         int registros = 0;
         //OBTENEMOS LA CANTIDAD DE REGISTROS EXISTENTES EN LA TABLA DE TRANSACCIONES
         try{
@@ -84,7 +84,7 @@ public class transacciones {
     //FUNCION PARA BUSCAR UNA TRANSACCION CON EL DATO DE Num_Transaccion EN LA BASE DE DATOS
     //RETORNA UN TRUE SI ENCONTRO, RETORNA UN FALSE SI NO ENCONTRO
     //FUNCIONA PARA QUE PODAMOS AGREGAR UNA NUEVA TRANSACCION CON UN CODIGO DISTINTO
-    public boolean buscarTransaccion(String Num_Transaccion){
+    public boolean buscarTransaccion(String Num_Transaccion) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
         try{
@@ -111,7 +111,8 @@ public class transacciones {
 	Fecha de boleto.
 	Semana de boleto.
     */
-    public Object[] busquedaEstatica(String CodigoProveedor, String ID_Proveedor, String Razon_Social, String Num_Boleto, String Fecha_Boleto, String Semana_Boleto){
+    public Object[] busquedaEstatica(String CodigoProveedor, String ID_Proveedor, String Razon_Social, String Num_Boleto, String Fecha_Boleto, String Semana_Boleto)
+    throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
         Object[] data = new Object[8];
@@ -185,7 +186,7 @@ public class transacciones {
         QUERY PARA RETORNAR UN TRUE O FALSE SI DE UN CIERTO BOLETO
         SE ENCUENTRA UNA TRANSACION DE CUADRILLA
     */
-    public boolean transaccionCuadrilla(String codigo_boleto){
+    public boolean transaccionCuadrilla(String codigo_boleto) throws SQLException{
         boolean transaccionEncontrada = false;
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Cuadrilla "
@@ -209,7 +210,7 @@ public class transacciones {
         QUERY PARA RETORNAR UN TRUE O FALSE SI DE UN CIERTO BOLETO
         SE ENCUENTRA UNA TRANSACION DE MATERIA_PRIMA
     */
-    public boolean transaccionMateria_Prima(String codigo_boleto){
+    public boolean transaccionMateria_Prima(String codigo_boleto) throws SQLException{
         boolean transaccionEncontrada = false;
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Materia_Prima "
@@ -233,7 +234,7 @@ public class transacciones {
         QUERY PARA RETORNAR UN TRUE O FALSE SI DE UN CIERTO BOLETO
         SE ENCUENTRA UNA TRANSACION DE FLETE
     */
-    public boolean transaccionFlete(String codigo_boleto){
+    public boolean transaccionFlete(String codigo_boleto) throws SQLException{
         boolean transaccionEncontrada = false;
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Flete "
@@ -257,7 +258,7 @@ public class transacciones {
         QUERY PARA RETORNAR UN TRUE O FALSE SI DE UN CIERTO BOLETO
         SE ENCUENTRA UNA TRANSACION DE PEAJE
     */
-    public boolean transaccionPeaje(String codigo_boleto){
+    public boolean transaccionPeaje(String codigo_boleto) throws SQLException{
         boolean transaccionEncontrada = false;
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Peaje "

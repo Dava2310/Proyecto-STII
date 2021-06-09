@@ -4,6 +4,8 @@ import clases.anticipos.CrearAnticipo;
 import clases.proveedores.CreacionProveedor;
 import logica.conectate;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.proveedor;
 
@@ -158,33 +160,41 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
             //PROCEDEMOS A HACER UNA VERIFICACION DE QUE SEA UNA CEDULA DE PUROS DIGITOS
             boolean digitos = p.comprobacionIdentificacion(identificacion);
             if (modo == 1 && digitos) {
-                //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN FALSE
-                //SIGNIFICANDO QUE NO HAY NADIE REGISTRADO POR AHORA CON ESA IDENTIFICACION
-                //PARA DAR PASO A LA CREACION DE UN NUEVO PROVEEDOR SIN QUE SE REPITA LA CEDULA
-                if (!(p.buscarIdentificacion(identificacion_completa))) {
-                    CP = new CreacionProveedor();
-                    CP.identificacion = this.identificacion;
-                    CP.tipoIdentificacion = this.tipoIdentificacion;
-                    CP.setVisible(true);
-                    procedio = true;
-                } else if(p.buscarIdentificacion(identificacion_completa)){
-                    JOptionPane.showMessageDialog(null, "YA EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                try {
+                    //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN FALSE
+                    //SIGNIFICANDO QUE NO HAY NADIE REGISTRADO POR AHORA CON ESA IDENTIFICACION
+                    //PARA DAR PASO A LA CREACION DE UN NUEVO PROVEEDOR SIN QUE SE REPITA LA CEDULA
+                    if (!(p.buscarIdentificacion(identificacion_completa))) {
+                        CP = new CreacionProveedor();
+                        CP.identificacion = this.identificacion;
+                        CP.tipoIdentificacion = this.tipoIdentificacion;
+                        CP.setVisible(true);
+                        procedio = true;
+                    } else if(p.buscarIdentificacion(identificacion_completa)){
+                        JOptionPane.showMessageDialog(null, "YA EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(IdentificacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (modo == 2 && digitos) {
-                //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN TRUE
-                //DE ESTA MANERA EL ANTICIPO TRABAJA CON UN CODIGO DE PROVEEDOR VALIDO
-                //PARA DAR PASO A LA CREACION DE UN NUEVO ANTICIPO
-                if (p.buscarProveedorActivo(identificacion_completa)) {
-                    CA = new CrearAnticipo();
-                    CA.identificacion = this.identificacion;
-                    CA.identificacion_completa = identificacion_completa;
-                    CA.tipo_identificacion = this.tipoIdentificacion;
-                    CA.setVisible(true);
-                    procedio = true;
-                } else if (!p.buscarProveedorActivo(identificacion_completa) && p.buscarIdentificacion(identificacion_completa)){
-                    JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO ESTA ACTIVO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
-                } else if (!p.buscarIdentificacion(identificacion_completa)){
-                    JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO SE ENCUENTRA REGISTRADO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                try {
+                    //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN TRUE
+                    //DE ESTA MANERA EL ANTICIPO TRABAJA CON UN CODIGO DE PROVEEDOR VALIDO
+                    //PARA DAR PASO A LA CREACION DE UN NUEVO ANTICIPO
+                    if (p.buscarProveedorActivo(identificacion_completa)) {
+                        CA = new CrearAnticipo();
+                        CA.identificacion = this.identificacion;
+                        CA.identificacion_completa = identificacion_completa;
+                        CA.tipo_identificacion = this.tipoIdentificacion;
+                        CA.setVisible(true);
+                        procedio = true;
+                    } else if (!p.buscarProveedorActivo(identificacion_completa) && p.buscarIdentificacion(identificacion_completa)){
+                        JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO ESTA ACTIVO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    } else if (!p.buscarIdentificacion(identificacion_completa)){
+                        JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO SE ENCUENTRA REGISTRADO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(IdentificacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (procedio) {

@@ -8,8 +8,11 @@ package clases.anticipos;
 import clases.proveedores.IdentificacionProveedor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.anticipos;
@@ -341,18 +344,24 @@ public class CrearAnticipo extends javax.swing.JFrame {
         //=============================================================================================================================
         IDtxt.setText(identificacion);
         IDCB.setSelectedIndex(tipo_identificacion);
-        Object[] data = p.conseguirDatos("", identificacion_completa, "", 2);
-        this.codigo_proveedor = data[0].toString();
-        Codigotxt.setText(codigo_proveedor);
-        String razon_social = data[2].toString();
-        RazonSocialtxt.setText(razon_social);
-        //SE CREA UN OBJETO TIPO DATE
-        Date fecha = new Date();
-        //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
-        //ADEMAS PERMITE CONVERTIR DE DATE A STRING
-        SimpleDateFormat formatoFecha=new SimpleDateFormat("dd/MM/YYYY");
-        String nuevaFecha = formatoFecha.format(fecha);
-        Fechatxt.setText(nuevaFecha);
+        try{
+            Object[] data = p.conseguirDatos("", identificacion_completa, "", 2);
+            this.codigo_proveedor = data[0].toString();
+            Codigotxt.setText(codigo_proveedor);
+            String razon_social = data[2].toString();
+            RazonSocialtxt.setText(razon_social);
+            //SE CREA UN OBJETO TIPO DATE
+            Date fecha = new Date();
+            //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
+            //ADEMAS PERMITE CONVERTIR DE DATE A STRING
+            SimpleDateFormat formatoFecha=new SimpleDateFormat("dd/MM/YYYY");
+            String nuevaFecha = formatoFecha.format(fecha);
+            Fechatxt.setText(nuevaFecha);
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }//GEN-LAST:event_formWindowOpened
 
     String[] botones = {"ACEPTAR","CANCELAR"};
@@ -393,30 +402,34 @@ public class CrearAnticipo extends javax.swing.JFrame {
             String observaciones = Observaciontxt.getText();
             String codigo_proveedor = Codigotxt.getText();
             //LLAMADA DE LA FUNCION CREAR ANTICIPO:
-            a.NuevoAnticipo(motivo_anticipo, fecha, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, "SI");
-            creado = true;
-            //DEBEMOS MANDAR UN MENSAJE DE CONFIRMACION-------------
+            try{
+                a.NuevoAnticipo(motivo_anticipo, fecha, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, "SI");
+                creado = true;
+                //DEBEMOS MANDAR UN MENSAJE DE CONFIRMACION-------------
 
-            //DESHABILITAR EL BOTON DE CREACION:
-            CrearBT.setEnabled(false);
-            //DESHABILITAR CADA CAMPO DE LA INTERFAZ
-            MontoBStxt.setEnabled(false);
-            MontoDStxt.setEnabled(false);
-            Aprobaciontxt.setEnabled(false);
-            Observaciontxt.setEnabled(false);
-            MotivoCB.setEnabled(false);
+                //DESHABILITAR EL BOTON DE CREACION:
+                CrearBT.setEnabled(false);
+                //DESHABILITAR CADA CAMPO DE LA INTERFAZ
+                MontoBStxt.setEnabled(false);
+                MontoDStxt.setEnabled(false);
+                Aprobaciontxt.setEnabled(false);
+                Observaciontxt.setEnabled(false);
+                MotivoCB.setEnabled(false);
 
-            //COLOCAMOS EL CODIGO DEL ANTICIPO CREADO EN EL TXT
-            String num_anticipo = a.codigo_RecienCreado();
-            //YA PODEMOS PASAR EL ESTADO DE RECIEN CREADO DE SI A NO EN EL ANTICIPO
-            NroAnticipotxt.setText(num_anticipo);
-            a.updateEstado(num_anticipo);
+                //COLOCAMOS EL CODIGO DEL ANTICIPO CREADO EN EL TXT
+                String num_anticipo = a.codigo_RecienCreado();
+                //YA PODEMOS PASAR EL ESTADO DE RECIEN CREADO DE SI A NO EN EL ANTICIPO
+                NroAnticipotxt.setText(num_anticipo);
+                a.updateEstado(num_anticipo);
             
-            //AQUI HAY QUE DEJAR UN MENSAJE DICIENDO QUE REVISE EL NRO DEL ANTICIPO QUE ESTA, COLOCADO EN EL TEXTFIELD
-            JOptionPane.showMessageDialog(null, "LA CREACION DE SU ANTICIPO HA SIDO EXITOSA", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
-            JOptionPane.showMessageDialog(null, "VERIFIQUE EL NUMERO DEL ANTICIPO GENERADO POR EL SISTEMA ANTES DE CERRAR", "AVISO", JOptionPane.PLAIN_MESSAGE);
-            //CAMBIANDO EL TEXTO DEL BOTON DE CANCELAR POR CERRAR
-            CancelarBT.setText("CERRAR");
+                //AQUI HAY QUE DEJAR UN MENSAJE DICIENDO QUE REVISE EL NRO DEL ANTICIPO QUE ESTA, COLOCADO EN EL TEXTFIELD
+                JOptionPane.showMessageDialog(null, "LA CREACION DE SU ANTICIPO HA SIDO EXITOSA", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "VERIFIQUE EL NUMERO DEL ANTICIPO GENERADO POR EL SISTEMA ANTES DE CERRAR", "AVISO", JOptionPane.PLAIN_MESSAGE);
+                //CAMBIANDO EL TEXTO DEL BOTON DE CANCELAR POR CERRAR
+                CancelarBT.setText("CERRAR");
+            }catch(SQLException ex){
+                Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "INGRESE POR FAVOR LOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
         }  
@@ -467,7 +480,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
     
     //CONFIRMAR SALIDA
     public void confirmarSalida(){
-        int index = JOptionPane.showConfirmDialog(this, "ESTA SEGURO DE CERRAR LA VENTANA", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
+        int index = JOptionPane.showConfirmDialog(this, "ESTA SEGURO DE CERRAR LA VENTANA?", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
         if(index==JOptionPane.YES_OPTION){
             this.dispose();
         }

@@ -69,6 +69,7 @@ create table boleto(
     Materia_S int not null,		-- ESTO ES INT
     Impurezas int not null,		-- ESTO ES INT
     Cantidad_Transacciones int not null,
+    Observaciones varchar(150),
     primary key(Codigo)
 );
 

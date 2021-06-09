@@ -13,7 +13,8 @@ public class proveedor {
     
     //ESTA FUNCION NOS PERMITE CREAR UN NUEVO PROVEEDOR EN LA BASE DE DATOS
     public void NuevoProveedor(String codigo, String identificacion, String razon_social, String direccion, String telefono, String email, String name_beneficiario, String id_beneficiario,
-            String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String moneda, String nombre_autorizado, String id_autorizado){
+            String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String moneda, String nombre_autorizado, String id_autorizado) 
+            throws SQLException{
         
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
@@ -43,7 +44,7 @@ public class proveedor {
     }
     
     //FUNCION PARA OBTENER DATOS DE TODOS LOS PROVEEDORES
-    public Object[][] getDatos(){
+    public Object[][] getDatos() throws SQLException{
         int registros = 0;
         //obtenemos la cantidad de registros existentes en la tabla
         try{
@@ -108,7 +109,7 @@ public class proveedor {
     }
     
     //FUNCION PARA INHABILITAR AL PROVEEDOR
-    public void deleteProveedor(String cod){       
+    public void deleteProveedor(String cod) throws SQLException{       
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Estado_Actividad = ? where Codigo = ?");
             pstm.setString(1, "Inactivo");
@@ -120,7 +121,7 @@ public class proveedor {
         }
     }
     
-    public void habilitarProveedor(String cod){
+    public void habilitarProveedor(String cod) throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Estado_Actividad = ? where Codigo = ?");
             pstm.setString(1, "Activo");
@@ -133,7 +134,8 @@ public class proveedor {
     }
     //FUNCION PARA ACTUALIZAR LOS DATOS DE UN PROVEEDOR
     public void updateProveedorCodigo(String codigo, String identificacion, String razon_social, String direccion, String telefono, String email, String name_beneficiario, String id_beneficiario,
-            String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String moneda, String nombre_autorizado, String id_autorizado){
+            String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String moneda, String nombre_autorizado, String id_autorizado)
+    throws SQLException{
         
         //SE REALIZA LA QUERY EN SQL PARA ACTUALIZAR LOS DATOS DEL PROVEEDOR
         try{
@@ -178,7 +180,7 @@ public class proveedor {
     //FUNCION PARA ENCONTRAR A UN PROVEEDOR SEGUN SU CEDULA
     //MANDA UN MENSAJE DE ERROR SI LOGRA ENCONTRAR A UN PROVEEDOR CON DICHA IDENTIFICACION
     //SIRVE UNICAMENTE PARA AGREGAR A UN PROVEEDOR
-    public boolean buscarIdentificacion(String identificacion){
+    public boolean buscarIdentificacion(String identificacion) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
         try {
@@ -199,7 +201,7 @@ public class proveedor {
     //MANDA UN MENSAJE DE ERROR SI NO LO ENCONTRO Y DEVUELVE FALSE
     //DEVUELVE TRUE SI LO ENCONTRO
     //SIRVE PARA HACER BUSQUEDAS, MODIFICAR O ELIMINAR
-    public boolean buscarIdentificacion2(String identificacion){
+    public boolean buscarIdentificacion2(String identificacion) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
         try {
@@ -218,7 +220,7 @@ public class proveedor {
         return encontrado;
     }
     
-    public boolean buscarProveedorActivo(String identificacion){
+    public boolean buscarProveedorActivo(String identificacion) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
         try{
@@ -244,7 +246,7 @@ public class proveedor {
     //FUNCION PARA BUSCAR A UN PROVEEDOR SEGUN SU CODIGO
     //MANDA UN MENSAJE DE ERROR SI NO LO ENCUENTRA
     //FUNCIONA TANTO PARA LA PANTALLA DE BUSQUEDA, COMO MODIFICAR Y ELIMINAR
-    public boolean buscarCodigo(String codigo){
+    public boolean buscarCodigo(String codigo) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
         try{
@@ -265,7 +267,7 @@ public class proveedor {
     
     //FUNCION PARA BUSCAR A UN PROVEEDOR SEGUN SU RAZON SOCIAL
     //FUNCIONA TANTO PARA LAS PANTALLAS DE BUSQUEDA, COMO DE MODIFICAR Y ELIMINAR
-    public boolean buscarRazonSocial(String RS){
+    public boolean buscarRazonSocial(String RS) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
         try{
@@ -291,7 +293,7 @@ public class proveedor {
         2- ENCONTRAR LOS DATOS GRACIAS A LA IDENTIFICACION
         3- ENCONTRAR LOS DATOS GRACIAS A LA RAZON SOCIAL
     */
-    public Object[] conseguirDatos(String codigo, String identificacion, String Razon_Social, int modo){
+    public Object[] conseguirDatos(String codigo, String identificacion, String Razon_Social, int modo) throws SQLException{
         Object[] data = new Object[17];
         Object[] data2 = new Object[17];
         PreparedStatement pstm;
@@ -394,7 +396,7 @@ public class proveedor {
         2- ENCONTRAR LOS DATOS GRACIAS A LA IDENTIFICACION
         3- ENCONTRAR LOS DATOS GRACIAS A LA RAZON SOCIAL
     */
-    public Object[] conseguirDatosPrincipales(String codigo, String identificacion, String razon_social, int modo){
+    public Object[] conseguirDatosPrincipales(String codigo, String identificacion, String razon_social, int modo) throws SQLException{
         Object[] data = new Object[3];
         Object[] data2 = new Object[3];
         PreparedStatement pstm;
@@ -443,7 +445,7 @@ public class proveedor {
         SE LE INGRESA EL OBJETO VECTOR DATA PARA GUARDAR ALLÍ LOS DATOS
         Y LA RESULTSET QUE ES DONDE SE GUARDA EL RESULTADO DE LA QUERY DE SQL
     */
-    public Object[] informacionPrincipal(ResultSet res, Object[] data){
+    public Object[] informacionPrincipal(ResultSet res, Object[] data) throws SQLException{
         try {
             while(res.next()){
                 String estCodigo = res.getString("Codigo");

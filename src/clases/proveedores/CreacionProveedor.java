@@ -1,6 +1,9 @@
 package clases.proveedores;
 
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.proveedor;
 
@@ -525,18 +528,22 @@ public class CreacionProveedor extends javax.swing.JFrame {
             String name_autorizado = NameAuttxt.getText();
             String ID_autorizado = idCBaut.getSelectedItem().toString();
             ID_autorizado += IDAuttxt.getText();
-            //=====================================================================================================================================================================================================================
-            p.NuevoProveedor(codigo, identificacion, razon_social, direccion, telefono, mail, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, moneda, name_autorizado, ID_autorizado);
-            //Llamar a la funcion de nuevo proveedor
-            int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-            //si desea crear nuevo
-            if (index == 0) {
-                IP.setVisible(true);
-                IP.modo = 1;
-                this.dispose();
-            } else {
-                this.dispose();
+            try {
+                //=====================================================================================================================================================================================================================
+                p.NuevoProveedor(codigo, identificacion, razon_social, direccion, telefono, mail, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, moneda, name_autorizado, ID_autorizado);
+                //Llamar a la funcion de nuevo proveedor
+                int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                //si desea crear nuevo
+                if (index == 0) {
+                    IP.setVisible(true);
+                    IP.modo = 1;
+                    this.dispose();
+                } else {
+                    this.dispose();
 
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CreacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_CrearBTActionPerformed

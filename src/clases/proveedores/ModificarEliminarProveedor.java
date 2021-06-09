@@ -9,6 +9,9 @@ import clases.proveedores.TipoConsultaProveedor;
 import clases.proveedores.ConsultarProveedor;
 import javax.swing.JOptionPane;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import logica.proveedor;
 
 /**
@@ -580,9 +583,13 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             String nombre_autorizado = NameAuttxt.getText();
             String id_autorizado = IdCBaut.getSelectedItem().toString();
             id_autorizado += IDAuttxt.getText();
-
-            p.updateProveedorCodigo(codigo, identificacion, razon_social, direccion, telefono, email, name_beneficiario, id_beneficiario, mail_beneficiario, banco, num_cuenta, tipo_cuenta, mod_cuenta, moneda, nombre_autorizado, id_autorizado);
-            JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
+            
+            try {
+                p.updateProveedorCodigo(codigo, identificacion, razon_social, direccion, telefono, email, name_beneficiario, id_beneficiario, mail_beneficiario, banco, num_cuenta, tipo_cuenta, mod_cuenta, moneda, nombre_autorizado, id_autorizado);
+                JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             if (edicion == false) {
                 JOptionPane.showMessageDialog(null, "HABILITE EL MODO DE MODIFICAR PARA HACER UNA ACTUALIZACION", "ACTUALIZACION DE DATOS", JOptionPane.ERROR_MESSAGE);
@@ -600,27 +607,31 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
         Object[] data;
         String codigo;
-        boolean encontrado;
+        boolean encontrado = false;
         //Busqueda por codigo
         if (modo_busqueda == 0) {
             codigo = Codigotxt.getText();
             if (codigo.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                encontrado = p.buscarCodigo(codigo);
-                if (encontrado == true) {
-                    data = p.conseguirDatos(codigo, "", "", 1);
-                    //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                    String identificacion = data[1].toString();
-                    char tipoidentificacion = identificacion.charAt(0);
-                    int TipoID1 = p.indexIdentificacion(tipoidentificacion);
-                    IdentificacionCB.setSelectedIndex(TipoID1);
-                    Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                    //-----------------------------------------------------------------------------
-                    RazonSocialtxt.setText(data[2].toString());
-                    escribirDatos(data);
-                } else if (!encontrado) {
-                    JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                try{
+                    encontrado = p.buscarCodigo(codigo);
+                    if (encontrado == true) {
+                        data = p.conseguirDatos(codigo, "", "", 1);
+                        //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
+                        String identificacion = data[1].toString();
+                        char tipoidentificacion = identificacion.charAt(0);
+                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);
+                        IdentificacionCB.setSelectedIndex(TipoID1);
+                        Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
+                        //-----------------------------------------------------------------------------
+                        RazonSocialtxt.setText(data[2].toString());
+                        escribirDatos(data);
+                    } else if (!encontrado) {
+                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    }
+                }catch(SQLException ex){
+                    Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             //Busqueda por identificacion
@@ -630,15 +641,19 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             if (identificacion.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                encontrado = p.buscarIdentificacion2(identificacion);
-                if (encontrado == true) {
+                try{
+                    encontrado = p.buscarIdentificacion2(identificacion);
+                    if (encontrado) {
                     data = p.conseguirDatos("", identificacion, "", 2);
                     //COLOCAR EL CODIGO Y LA RAZON SOCIAL
                     Codigotxt.setText(data[0].toString());
                     RazonSocialtxt.setText(data[2].toString());
                     escribirDatos(data);
-                } else if (encontrado == false) {
-                    JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    } else if (encontrado == false) {
+                        JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    }
+                }catch(SQLException ex){
+                    Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             //Busqueda por razon_social
@@ -648,21 +663,25 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             if (RS.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UNA RAZON SOCIAL DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                encontrado = p.buscarRazonSocial(RS);
-                if (encontrado == true) {
-                    data = p.conseguirDatos("", "", RS, 3);
-                    //COLOCAR EL CODIGO Y LA IDENTIFICACION
-                    Codigotxt.setText(data[0].toString());
-                    //CONSEGUIR REPARTIR LA IDENTIFICACION --------------------------------------------
-                    String identificacion = data[1].toString();
-                    char tipoidentificacion = identificacion.charAt(0);
-                    int TipoID1 = p.indexIdentificacion(tipoidentificacion);
-                    IdentificacionCB.setSelectedIndex(TipoID1);
-                    Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                    //----------------------------------------------------------------------------------
-                    escribirDatos(data);
-                } else if (!encontrado) {
-                    JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                try{
+                    encontrado = p.buscarRazonSocial(RS);
+                    if (encontrado == true) {
+                        data = p.conseguirDatos("", "", RS, 3);
+                        //COLOCAR EL CODIGO Y LA IDENTIFICACION
+                        Codigotxt.setText(data[0].toString());
+                        //CONSEGUIR REPARTIR LA IDENTIFICACION --------------------------------------------
+                        String identificacion = data[1].toString();
+                        char tipoidentificacion = identificacion.charAt(0);
+                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);
+                        IdentificacionCB.setSelectedIndex(TipoID1);
+                        Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
+                        //----------------------------------------------------------------------------------
+                        escribirDatos(data);
+                    } else if (!encontrado) {
+                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    }
+                }catch(SQLException ex){
+                    Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -759,21 +778,25 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 //DESEA ELIMINAR
                 String codigo = Codigotxt.getText();
                 if (codigo.equals(this.ultimo_buscado)) {
-                    p.deleteProveedor(codigo);
-                    JOptionPane.showMessageDialog(null, "SE HA INHABILITADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
-                    //AHORA SE LIMPIAN TODOS LOS DATOS Y SE DESHABILITAN LOS CAMPOS
-                    limpiar();
-                    deshabilitarCampos();
-                    //SE REALIZA LA PREGUNTA DE QUE SI QUIERE VOLVER A REALIZAR TODA LA ACCION NUEVAMENTE
-                    int index2 = JOptionPane.showOptionDialog(null, "¿DESEA VOLVER A INHABILITAR OTRO PROVEEDOR CON OTRO TIPO DE BUSQUEDA?", "CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionAccion, botones_confirmacionAccion[0]);
-                    //EL INDEX2 = 0 REPRESENTA QUE DESEA CAMBIAR DE TIPO DE BUSQUEDA
-                    //EL INDEX2 = 1 REPRESENTA QUE NO DESEA CAMBIAR DE TIPO DE BUSQUEDA
-                    if (index2 == 0) {
-                        //DESEA CAMBIAR DE TIPO DE BUSQUEDA
-                        TCP = new TipoConsultaProveedor();
-                        TCP.modo = 2;
-                        TCP.setVisible(true);
-                        this.dispose();
+                    try{
+                        p.deleteProveedor(codigo);
+                        JOptionPane.showMessageDialog(null, "SE HA INHABILITADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
+                        //AHORA SE LIMPIAN TODOS LOS DATOS Y SE DESHABILITAN LOS CAMPOS
+                        limpiar();
+                        deshabilitarCampos();
+                        //SE REALIZA LA PREGUNTA DE QUE SI QUIERE VOLVER A REALIZAR TODA LA ACCION NUEVAMENTE
+                        int index2 = JOptionPane.showOptionDialog(null, "¿DESEA VOLVER A INHABILITAR OTRO PROVEEDOR CON OTRO TIPO DE BUSQUEDA?", "CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionAccion, botones_confirmacionAccion[0]);
+                        //EL INDEX2 = 0 REPRESENTA QUE DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                        //EL INDEX2 = 1 REPRESENTA QUE NO DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                        if (index2 == 0) {
+                            //DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                            TCP = new TipoConsultaProveedor();
+                            TCP.modo = 2;
+                            TCP.setVisible(true);
+                            this.dispose();
+                        }
+                    }catch(SQLException ex){
+                        Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "NO CAMBIE EL CODIGO DEL PROVEEDOR DESPUES DE LA BUSQUEDA SI DESEA INHABILITAR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
@@ -865,21 +888,25 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 //DESEA HABILITAR
                 String codigo = Codigotxt.getText();
                 if (codigo.equals(this.ultimo_buscado)) {
-                    p.habilitarProveedor(codigo);
-                    JOptionPane.showMessageDialog(null, "SE HA HABILITADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
-                    //AHORA SE LIMPIAN TODOS LOS DATOS Y SE DESHABILITAN LOS CAMPOS
-                    limpiar();
-                    deshabilitarCampos();
-                    //SE REALIZA LA PREGUNTA DE QUE SI QUIERE VOLVER A REALIZAR TODA LA ACCION NUEVAMENTE
-                    int index2 = JOptionPane.showOptionDialog(null, "¿DESEA VOLVER A HABILITAR OTRO PROVEEDOR CON OTRO TIPO DE BUSQUEDA?", "CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionAccion, botones_confirmacionAccion[0]);
-                    //EL INDEX2 = 0 REPRESENTA QUE DESEA CAMBIAR DE TIPO DE BUSQUEDA
-                    //EL INDEX2 = 1 REPRESENTA QUE NO DESEA CAMBIAR DE TIPO DE BUSQUEDA
-                    if (index2 == 0) {
-                        //DESEA CAMBIAR DE TIPO DE BUSQUEDA
-                        TCP = new TipoConsultaProveedor();
-                        TCP.modo = 2;
-                        TCP.setVisible(true);
-                        this.dispose();
+                    try{
+                        p.habilitarProveedor(codigo);
+                        JOptionPane.showMessageDialog(null, "SE HA HABILITADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
+                        //AHORA SE LIMPIAN TODOS LOS DATOS Y SE DESHABILITAN LOS CAMPOS
+                        limpiar();
+                        deshabilitarCampos();
+                        //SE REALIZA LA PREGUNTA DE QUE SI QUIERE VOLVER A REALIZAR TODA LA ACCION NUEVAMENTE
+                        int index2 = JOptionPane.showOptionDialog(null, "¿DESEA VOLVER A HABILITAR OTRO PROVEEDOR CON OTRO TIPO DE BUSQUEDA?", "CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionAccion, botones_confirmacionAccion[0]);
+                        //EL INDEX2 = 0 REPRESENTA QUE DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                        //EL INDEX2 = 1 REPRESENTA QUE NO DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                        if (index2 == 0) {
+                            //DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                            TCP = new TipoConsultaProveedor();
+                            TCP.modo = 2;
+                            TCP.setVisible(true);
+                            this.dispose();
+                        }
+                    }catch(SQLException ex){
+                        Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "NO CAMBIE EL CODIGO DEL PROVEEDOR DESPUES DE LA BUSQUEDA SI DESEA HABILITAR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);

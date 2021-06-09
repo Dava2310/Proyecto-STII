@@ -10,6 +10,9 @@ package clases.anticipos;
  * @author DANIEL
  */
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.anticipos;
 import logica.proveedor;
@@ -336,19 +339,23 @@ public class ModificarAnticipo extends javax.swing.JFrame {
 
         String num_anticipo = NroAnticipotxt.getText();
         if (!num_anticipo.isEmpty()) {
-            boolean encontrado = a.buscarAnticipo(num_anticipo);
-            if (encontrado) {
-                dataAnticipo = a.conseguirDatos(num_anticipo);
-                //SE DEBE AGARRAR LOS DATOS DEL PROVEEDOR
-                if (p.buscarCodigo(dataAnticipo[8].toString())) {
-                    dataProveedor = p.conseguirDatos(dataAnticipo[8].toString(), "", "", 1);
-                    escribirDatosProveedor(dataProveedor);
-                }
-                //UNA VEZ COLOCADOS TODOS LOS DATOS DEL PROVEEDOR, SE LLAMA A LA FUNCION DE ESCRIBIR LOS DATOS DEL ANTICIPO
-                escribirDatosAnticipo(dataAnticipo);
-            } else if (!encontrado){
-                JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN ANTICIPO CON ESTE CODIGO", "BUSQUEDA DE ANTICIPO", JOptionPane.ERROR);
-            }
+            try{
+                boolean encontrado = a.buscarAnticipo(num_anticipo);
+                if (encontrado) {
+                    dataAnticipo = a.conseguirDatos(num_anticipo);
+                    //SE DEBE AGARRAR LOS DATOS DEL PROVEEDOR
+                    if (p.buscarCodigo(dataAnticipo[8].toString())) {
+                        dataProveedor = p.conseguirDatos(dataAnticipo[8].toString(), "", "", 1);
+                        escribirDatosProveedor(dataProveedor);
+                    }
+                    //UNA VEZ COLOCADOS TODOS LOS DATOS DEL PROVEEDOR, SE LLAMA A LA FUNCION DE ESCRIBIR LOS DATOS DEL ANTICIPO
+                    escribirDatosAnticipo(dataAnticipo);    
+                } else if (!encontrado){
+                    JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN ANTICIPO CON ESTE CODIGO", "BUSQUEDA DE ANTICIPO", JOptionPane.ERROR);
+                }    
+            }catch(SQLException ex) {
+                Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
+            }         
         }
     }//GEN-LAST:event_BuscarBTActionPerformed
 
@@ -364,9 +371,12 @@ public class ModificarAnticipo extends javax.swing.JFrame {
             String codigo_proveedor = Codigotxt.getText();
             String num_anticipo = NroAnticipotxt.getText();
 
-            a.updateAnticipo(motivo_anticipo, fecha, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, num_anticipo);
-            JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
-
+            try {
+                a.updateAnticipo(motivo_anticipo, fecha, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, num_anticipo);
+                JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(ModificarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "DEBE REALIZAR PRIMERO UNA BUSQUEDA DEL PROVEEDOR", "ACTUALIZACION DE DATOS", JOptionPane.ERROR_MESSAGE);
 

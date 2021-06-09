@@ -6,6 +6,9 @@
 package clases.proveedores;
 
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.proveedor;
 
@@ -503,21 +506,26 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             if (codigo.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                encontrado = p.buscarCodigo(codigo);
-                if (encontrado == true) {
-                    data = p.conseguirDatos(codigo, "", "", 1);
-                    //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                    String identificacion = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
-                    char tipoidentificacion = identificacion.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
-                    int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
-                    IdentificacionCB.setSelectedIndex(TipoID1);
-                    Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                    //-----------------------------------------------------------------------------
-                    RazonSocialtxt.setText(data[2].toString());
-                    escribirDatos(data);
-                } else if (!encontrado) {
-                    JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                try {
+                        encontrado = p.buscarCodigo(codigo);
+                        if (encontrado == true) {
+                        data = p.conseguirDatos(codigo, "", "", 1);
+                        //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
+                        String identificacion = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
+                        char tipoidentificacion = identificacion.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
+                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
+                        IdentificacionCB.setSelectedIndex(TipoID1);
+                        Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
+                        //-----------------------------------------------------------------------------
+                        RazonSocialtxt.setText(data[2].toString());
+                        escribirDatos(data);
+                    } else if (!encontrado) {
+                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             }
             //Busqueda por identificacion
         } else if (modo_busqueda == 1) {
@@ -526,16 +534,21 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             if (identificacion.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                encontrado = p.buscarIdentificacion2(identificacion);
-                if (encontrado == true) {
-                    data = p.conseguirDatos("", identificacion, "", 2);
-                    //COLOCAR EL CODIGO Y LA RAZON SOCIAL
-                    Codigotxt.setText(data[0].toString());
-                    RazonSocialtxt.setText(data[2].toString());
-                    escribirDatos(data);
-                } else if (encontrado == false) {
-                    JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                try {
+                    encontrado = p.buscarIdentificacion2(identificacion);
+                    if (encontrado == true) {
+                        data = p.conseguirDatos("", identificacion, "", 2);
+                        //COLOCAR EL CODIGO Y LA RAZON SOCIAL
+                        Codigotxt.setText(data[0].toString());
+                        RazonSocialtxt.setText(data[2].toString());
+                        escribirDatos(data);
+                    } else if (encontrado == false) {
+                        JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             }
             //Busqueda por razon_social
         } else if (modo_busqueda == 2) {
@@ -544,22 +557,27 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             if (RS.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UNA RAZON SOCIAL DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                encontrado = p.buscarRazonSocial(RS);
-                if (encontrado == true) {
-                    data = p.conseguirDatos("", "", RS, 3);
-                    //COLOCAR EL CODIGO Y LA IDENTIFICACION
-                    Codigotxt.setText(data[0].toString());
-                    //CONSEGUIR REPARTIR LA IDENTIFICACION --------------------------------------------
-                    String identificacion = data[1].toString();
-                    char tipoidentificacion = identificacion.charAt(0);
-                    int TipoID1 = p.indexIdentificacion(tipoidentificacion);
-                    IdentificacionCB.setSelectedIndex(TipoID1);
-                    Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                    //----------------------------------------------------------------------------------
+                try {
+                    encontrado = p.buscarRazonSocial(RS);
+                    if (encontrado == true) {
+                        data = p.conseguirDatos("", "", RS, 3);
+                        //COLOCAR EL CODIGO Y LA IDENTIFICACION
+                        Codigotxt.setText(data[0].toString());
+                        //CONSEGUIR REPARTIR LA IDENTIFICACION --------------------------------------------
+                        String identificacion = data[1].toString();
+                        char tipoidentificacion = identificacion.charAt(0);
+                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);
+                        IdentificacionCB.setSelectedIndex(TipoID1);
+                        Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
+                        //----------------------------------------------------------------------------------
                     escribirDatos(data);
-                } else if (!encontrado) {
-                    JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    } else if (!encontrado) {
+                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             }
         }
     }//GEN-LAST:event_BuscarBTActionPerformed

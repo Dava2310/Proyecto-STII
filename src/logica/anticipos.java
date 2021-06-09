@@ -13,7 +13,8 @@ public class anticipos {
     }
     
     //
-    public void NuevoAnticipo(String motivo_anticipo, String fecha, String monto_bs, String monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String recien_creado){
+    public void NuevoAnticipo(String motivo_anticipo, String fecha, String monto_bs, String monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String recien_creado)
+    throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
                     " anticipos(Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Recien_Creado)" + 
@@ -34,7 +35,7 @@ public class anticipos {
         }
     }
     //FUNCION PARA OBTENER DATOS DE TODOS LOS ANTICIPOS REALIZADOS
-    public Object[][] getDatos(){
+    public Object[][] getDatos() throws SQLException{
         int registros = 0;
         //SE OBTIENEN LA CANTIDAD DE REGISTROS EXISTENTES EN LA TABLA DE ANTICIPOS
         try{
@@ -85,7 +86,7 @@ public class anticipos {
     }
     
     
-    public void deleteAnticipo(String num_anticipo){
+    public void deleteAnticipo(String num_anticipo) throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("delete from anticipos where Num_Anticipo = ?");
             pstm.setString(1, num_anticipo);
@@ -97,7 +98,7 @@ public class anticipos {
     }
     
     //FUNCION PARA RETORNAR EL CODIGO DEL ANTICIPO RECIEN CREADO
-    public String codigo_RecienCreado(){
+    public String codigo_RecienCreado() throws SQLException{
         String num_anticipo = "";
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Num_Anticipo, Recien_Creado FROM anticipos" + 
@@ -115,7 +116,8 @@ public class anticipos {
     }
     
     //FUNCION PARA ACTUALIZAR DATOS DE ANTICIPO
-    public void updateAnticipo (String motivo_anticipo, String fecha, String monto_bs, String monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String num_anticipo){
+    public void updateAnticipo (String motivo_anticipo, String fecha, String monto_bs, String monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String num_anticipo)
+    throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos" +
                     " set anticipos(Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Recien_Creado)" + 
@@ -137,7 +139,7 @@ public class anticipos {
     }
     
     //FUNCION PARA CAMBIAR EL ESTADO DEL ANTICIPO DE RECIEN CREADO
-    public void updateEstado(String num_anticipo){
+    public void updateEstado(String num_anticipo) throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos set Recien_Creado = ? WHERE Num_Anticipo = ?");
             pstm.setString(1, "NO");
@@ -152,7 +154,7 @@ public class anticipos {
     
     //FUNCION PARA REALIZAR UNA BUSQUEDA DEL ANTICIPO
     //UNICAMENTE DEVUELVE UN TRUE O FALSE DEPENDIENDO SI CONSIGUIO EL ANTICIPO
-    public boolean buscarAnticipo(String num_anticipo){
+    public boolean buscarAnticipo(String num_anticipo) throws SQLException{
         boolean encontrado = false;
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * FROM anticipos where Num_Anticipo = ?");
@@ -172,7 +174,7 @@ public class anticipos {
     }
     
     //ESTA FUNCION ES PARA RETORNAR LOS DATOS DEL ANTICIPO EN ESPECIFICO
-    public Object[] conseguirDatos(String num_anticipo){
+    public Object[] conseguirDatos(String num_anticipo) throws SQLException{
         Object[] data = new Object[10];
         Object[] data2 = new Object[10];
         PreparedStatement pstm;

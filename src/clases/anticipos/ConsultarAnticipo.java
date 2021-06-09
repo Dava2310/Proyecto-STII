@@ -1,6 +1,9 @@
 package clases.anticipos;
 
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.anticipos;
 import logica.proveedor;
@@ -306,8 +309,8 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
     }//GEN-LAST:event_IDCBActionPerformed
 
     private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
-        Object[] dataAnticipo;
-        Object[] dataProveedor;
+        Object[] dataAnticipo = new Object[10];
+        Object[] dataProveedor = new Object[10];
         //LA BUSQUEDA POR AHORA SERA UNICAMENTE GRACIAS AL NUMERO O CODIGO DE ANTICIPO
 
         //CUANDO SE BUSQUE EL ANTICIPO, HAY QUE IMPRIMIR LOS DATOS DEL ANTICIPO
@@ -317,16 +320,27 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
         //REALIZANDO BUSQUEDA POR CODIGO
         String num_anticipo = NroAnticipotxt.getText();
         if (!num_anticipo.isEmpty()) {
-            boolean encontrado = a.buscarAnticipo(num_anticipo);
+            boolean encontrado = false;
+            try {
+                encontrado = a.buscarAnticipo(num_anticipo);
+            } catch (SQLException ex) {
+                Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (encontrado) {
-                dataAnticipo = a.conseguirDatos(num_anticipo);
                 //SE DEBE AGARRAR LOS DATOS DEL PROVEEDOR
-                if (p.buscarCodigo(dataAnticipo[8].toString())) {
-                    dataProveedor = p.conseguirDatos(dataAnticipo[8].toString(), "", "", 1);
-                    escribirDatosProveedor(dataProveedor);
+                try{
+                    dataAnticipo = a.conseguirDatos(num_anticipo);
+                    if (p.buscarCodigo(dataAnticipo[8].toString())) {
+                        dataProveedor = p.conseguirDatos(dataAnticipo[8].toString(), "", "", 1);
+                        escribirDatosProveedor(dataProveedor);
+                    }    
+                    //UNA VEZ COLOCADOS TODOS LOS DATOS DEL PROVEEDOR, SE LLAMA A LA FUNCION DE ESCRIBIR LOS DATOS DEL ANTICIPO
+                    escribirDatosAnticipo(dataAnticipo);
+                }catch(SQLException ex){
+                    Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                //UNA VEZ COLOCADOS TODOS LOS DATOS DEL PROVEEDOR, SE LLAMA A LA FUNCION DE ESCRIBIR LOS DATOS DEL ANTICIPO
-                escribirDatosAnticipo(dataAnticipo);
+                
+                
             } else if (!encontrado){
                 JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN ANTICIPO CON ESTE CODIGO", "BUSQUEDA DE ANTICIPO", JOptionPane.ERROR);
             }

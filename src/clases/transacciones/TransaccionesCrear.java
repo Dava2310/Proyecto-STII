@@ -6,6 +6,7 @@
 package clases.transacciones;
 
 import clases.transacciones.IdentificacionProveedorTransacciones;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -517,128 +518,134 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                 String Cuadrilla2 = "";
                 String Flete2 = "";
                 String peaje2 = "";
-                int cantidad_transacciones = b.cantidadTransacciones_Boleto(num_transaccion);
-                System.out.println(cantidad_transacciones + " antes");
-                
-                boolean Materia_Prima = this.Materia_Prima;
-                if (Materia_Prima) {          //CONDICIONAL DE LA MATERIA PRIMA
-                    materiaPrima2 = "NO";
-                }
-                
-                boolean Cuadrilla = this.Cuadrilla;
-                if (Cuadrilla) {   //CONDICIONAL DE LA CUADRILLA
-                    Cuadrilla2 = "NO";
-                }
-                
-                boolean Peaje = this.Peaje;
-                if (Peaje) {       //CONDICIONAL DE PEAJE
-                    peaje2 = "NO";
-                }
-                
-                boolean Flete = this.Flete;
-                if (Flete) {       //CONDICIONAL DE FLETE
-                    Flete2 = "NO";
-                }
-                
-                
-                if(!Materia_Prima && MPCB.isSelected()){
-                    materiaPrima2 = "SI";
-                    cantidad_transacciones++;
-                } else if(!Materia_Prima && !MPCB.isSelected()){
-                    materiaPrima2 = "NO";
-                }
-                if(!Cuadrilla && CuadrillaCB.isSelected()){
-                    Cuadrilla2 = "SI";
-                    cantidad_transacciones++;
-                } else if(!Cuadrilla && !CuadrillaCB.isSelected()) {
-                    Cuadrilla2 = "NO";
-                }
-                if(!Flete && FleteCB.isSelected()){
-                    Flete2 = "SI";
-                    cantidad_transacciones++;
-                }else if(!Flete && !FleteCB.isSelected()){
-                    Flete2 = "NO";
-                }                     
-                if(!Peaje && PeajeCB.isSelected()){
-                    peaje2 = "SI";
-                    cantidad_transacciones++;
-                } else if(!Peaje && !PeajeCB.isSelected()){
-                    peaje2 = "NO";
-                }
-                
-                String observaciones = "";
-                observaciones = ObservacionesTXT.getText();
-                //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
-                String codigoProveedor = CODtxt.getText();
-                /*===============================================================================================================================\\
-                ||==================================LLAMADA DE LA FUNCION UPDATE CANTIDAD_TRANSACCIONES==========================================||
-                //===============================================================================================================================*/
-                System.out.println(cantidad_transacciones + " despues");
-                b.updateCantidad_Transacciones(num_transaccion, cantidad_transacciones);
-                /*===================================================================================================================\\
-                ||==================================LLAMADA DE LA FUNCION CREAR TRANSACCION==========================================||
-                //===================================================================================================================*/
-                t.NuevaTransaccion(num_transaccion, materiaPrima2, Cuadrilla2, Flete2, peaje2, observaciones, codigoProveedor);
-                 /*
-                    A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:
-                    1- SE RELLENARON TODOS LOS TIPOS DE TRANSACCION
-                    2- NO SE LLENARON TODOS LOS TIPOS DE TRANSACCION
-
-                    PARA EL PRIMER ESCENARIO, DIREMOS QUE LA CREACION SE COMPLETO, Y QUE SI DESEA CREAR UNA NUEVA
-                    LO COMPROBAREMOS CON LA CONDICION LOGICA AND
-
-                    SI ESTE PRIMERO NO SE DA, COMO DE POR SI SE NECESITABA UNO SELECCIONADO PARA ENTRAR
-                    NOS BASTA CON UN ELSE SIN CONDICION LOGICA
-                 */
-
-                    //PRIMER ESCENARIO
-                    if (cantidad_transacciones == 4) {
-                        String[] botones_confirmacionCrear = {"SI", "NO"};
-                        int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA INGRESAR UN NUEVO BOLETON?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-                        /*
-                            EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
-                            SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
-                            PARA DESPUES DESACTIVAR ESTA
-
-                            EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
-                        */
-
-                        if (index == 0) {
-                            IPT.setVisible(true);
-                            this.dispose();
-                        } else {
-                            this.dispose();
-                        }
-                    } else if(cantidad_transacciones < 4) { //SEGUNDO ESCENARIO
-                        /*
-                            AQUI DEBERIA LLAMAR A UNA SIGUIENTE PANTALLA PRACTICAMENTE DE ESTE MISMO ESTILO
-                            CREARIA UN NUEVO OBJETO TRANSACCIONES CREAR
-                            DONDE SEPA QUE ESTOY HACIENDO UNA NUEVA TRANSACCION DE UN MISMO BOLETO
-                            IMPRIMIR LOS DATOS YA FIJOS DEL BOLETO
-                            DESHABILITANDO LOS TIPOS DE TRANSACCIONES QUE YA SE ASIGNARON
-                            Y SOLO DEJANDO QUE CAMBIE EL TIPO DE TRANSACCION MAS EL OTRO PROVEEDOR
-
-                            ENTONCES LO QUE DEBO HACER ES PRIMERO LLAMAR A LA VENTANA ANTERIOR DE IDENTIFICACIONPROVEEDOR TRANSACCIONES
-                            DONDE DEJE METER EL NUEVO PROVEEDOR, YA QUE AHI SE ENCUENTRAN TODAS LAS VERIFICACIONES
-                            PERO QUE EL NUM BOLETO SEA EL MISMO
-                            SE IRA PASANDO UNA CONDICION BOOLEANA ENTRE AMBAS INTERFACES
-                            PARA QUE AL MOMENTO DE LLEGAR ESTA VENTANA NUEVAMENTE, SE SEPA QUE ESTAMOS TRABAJANDO CON EL MISMO BOLETO ANTERIOR
-                        */
-
-                        //CABE DESTACAR QUE TODO ESTE PROCEDIMIENTO SERA SI LA PERSONA SI DESEA HACER UNA NUEVA TRANSACCION
-                        String[] botones_confirmacionCrear = {"SI", "NO"};
-                        int index = JOptionPane.showOptionDialog(null, "SE HA DETECTADO QUE ESTE BOLETO AUN TIENE TRANSACCCIONES DISPONIBLES, ¿DESEA REALIZAR UNA NUEVA CON EL MISMO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-                        if(index == 0){
-                            IPT = new IdentificacionProveedorTransacciones();
-                            IPT.modo = 1;
-                            IPT.num_Boleto = num_transaccion;
-                            IPT.setVisible(true);
-                            this.dispose();
-                        } else {
-                            this.dispose();
-                        }
+                int cantidad_transacciones;
+                try {
+                    cantidad_transacciones = b.cantidadTransacciones_Boleto(num_transaccion);
+                    System.out.println(cantidad_transacciones + " antes");
+                    boolean Materia_Prima = this.Materia_Prima;
+                    if (Materia_Prima) {          //CONDICIONAL DE LA MATERIA PRIMA
+                        materiaPrima2 = "NO";
                     }
-                    //====================================FINAL DE CREACION DE TRANSACCION==============================\\
+
+                    boolean Cuadrilla = this.Cuadrilla;
+                    if (Cuadrilla) {   //CONDICIONAL DE LA CUADRILLA
+                        Cuadrilla2 = "NO";
+                    }
+
+                    boolean Peaje = this.Peaje;
+                    if (Peaje) {       //CONDICIONAL DE PEAJE
+                        peaje2 = "NO";
+                    }
+
+                    boolean Flete = this.Flete;
+                    if (Flete) {       //CONDICIONAL DE FLETE
+                        Flete2 = "NO";
+                    }
+
+
+                    if(!Materia_Prima && MPCB.isSelected()){
+                        materiaPrima2 = "SI";
+                        cantidad_transacciones++;
+                    } else if(!Materia_Prima && !MPCB.isSelected()){
+                        materiaPrima2 = "NO";
+                    }
+                    if(!Cuadrilla && CuadrillaCB.isSelected()){
+                        Cuadrilla2 = "SI";
+                        cantidad_transacciones++;
+                    } else if(!Cuadrilla && !CuadrillaCB.isSelected()) {
+                        Cuadrilla2 = "NO";
+                    }
+                    if(!Flete && FleteCB.isSelected()){
+                        Flete2 = "SI";
+                        cantidad_transacciones++;
+                    }else if(!Flete && !FleteCB.isSelected()){
+                        Flete2 = "NO";
+                    }                     
+                    if(!Peaje && PeajeCB.isSelected()){
+                        peaje2 = "SI";
+                        cantidad_transacciones++;
+                    } else if(!Peaje && !PeajeCB.isSelected()){
+                        peaje2 = "NO";
+                    }
+
+                    String observaciones = "";
+                    observaciones = ObservacionesTXT.getText();
+                    //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
+                    String codigoProveedor = CODtxt.getText();
+                    
+                    /*===============================================================================================================================\\
+                    ||==================================LLAMADA DE LA FUNCION UPDATE CANTIDAD_TRANSACCIONES==========================================||
+                    //===============================================================================================================================*/
+                    b.updateCantidad_Transacciones(num_transaccion, cantidad_transacciones);
+                    /*===================================================================================================================\\
+                    ||==================================LLAMADA DE LA FUNCION CREAR TRANSACCION==========================================||
+                    //===================================================================================================================*/
+                    t.NuevaTransaccion(num_transaccion, materiaPrima2, Cuadrilla2, Flete2, peaje2, observaciones, codigoProveedor);
+                    
+                        /*
+                        A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:
+                        1- SE RELLENARON TODOS LOS TIPOS DE TRANSACCION
+                        2- NO SE LLENARON TODOS LOS TIPOS DE TRANSACCION
+
+                        PARA EL PRIMER ESCENARIO, DIREMOS QUE LA CREACION SE COMPLETO, Y QUE SI DESEA CREAR UNA NUEVA
+                        LO COMPROBAREMOS CON LA CONDICION LOGICA AND
+
+                        SI ESTE PRIMERO NO SE DA, COMO DE POR SI SE NECESITABA UNO SELECCIONADO PARA ENTRAR
+                        NOS BASTA CON UN ELSE SIN CONDICION LOGICA
+                        */
+
+                        //PRIMER ESCENARIO
+                        if (cantidad_transacciones == 4) {
+                            String[] botones_confirmacionCrear = {"SI", "NO"};
+                            int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA INGRESAR UN NUEVO BOLETON?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                            /*
+                                EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
+                                SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
+                                PARA DESPUES DESACTIVAR ESTA
+
+                                EN EL CASO CONTRARIO QUE DIGA QUE NO, SOLAMENTE DESACTIVAMOS ESTA
+                            */
+
+                            if (index == 0) {
+                                IPT.setVisible(true);
+                                this.dispose();
+                            } else {
+                                this.dispose();
+                            }
+                        } else if(cantidad_transacciones < 4) { //SEGUNDO ESCENARIO
+                            /*
+                                AQUI DEBERIA LLAMAR A UNA SIGUIENTE PANTALLA PRACTICAMENTE DE ESTE MISMO ESTILO
+                                CREARIA UN NUEVO OBJETO TRANSACCIONES CREAR
+                                DONDE SEPA QUE ESTOY HACIENDO UNA NUEVA TRANSACCION DE UN MISMO BOLETO
+                                IMPRIMIR LOS DATOS YA FIJOS DEL BOLETO
+                                DESHABILITANDO LOS TIPOS DE TRANSACCIONES QUE YA SE ASIGNARON
+                                Y SOLO DEJANDO QUE CAMBIE EL TIPO DE TRANSACCION MAS EL OTRO PROVEEDOR
+
+                                ENTONCES LO QUE DEBO HACER ES PRIMERO LLAMAR A LA VENTANA ANTERIOR DE IDENTIFICACIONPROVEEDOR TRANSACCIONES
+                                DONDE DEJE METER EL NUEVO PROVEEDOR, YA QUE AHI SE ENCUENTRAN TODAS LAS VERIFICACIONES
+                                PERO QUE EL NUM BOLETO SEA EL MISMO
+                                SE IRA PASANDO UNA CONDICION BOOLEANA ENTRE AMBAS INTERFACES
+                                PARA QUE AL MOMENTO DE LLEGAR ESTA VENTANA NUEVAMENTE, SE SEPA QUE ESTAMOS TRABAJANDO CON EL MISMO BOLETO ANTERIOR
+                            */
+
+                            //CABE DESTACAR QUE TODO ESTE PROCEDIMIENTO SERA SI LA PERSONA SI DESEA HACER UNA NUEVA TRANSACCION
+                            String[] botones_confirmacionCrear = {"SI", "NO"};
+                            int index = JOptionPane.showOptionDialog(null, "SE HA DETECTADO QUE ESTE BOLETO AUN TIENE TRANSACCCIONES DISPONIBLES, ¿DESEA REALIZAR UNA NUEVA CON EL MISMO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                            if(index == 0){
+                                IPT = new IdentificacionProveedorTransacciones();
+                                IPT.modo = 1;
+                                IPT.num_Boleto = num_transaccion;
+                                IPT.setVisible(true);
+                                this.dispose();
+                            } else {
+                                this.dispose();
+                            }
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TransaccionesCrear.class.getName()).log(Level.SEVERE, null, ex);                  
+                    }
+                    
+                //====================================FINAL DE CREACION DE TRANSACCION==============================\\
             }//CIERRE DE CONDICIONAL DE LOS TIPOS DE TRANSACCION
         }
     }//GEN-LAST:event_CrearBTActionPerformed

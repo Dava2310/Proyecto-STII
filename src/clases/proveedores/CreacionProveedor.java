@@ -512,7 +512,11 @@ public class CreacionProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_RazonSocialtxtActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        codigo += identificacion;
+        if(identificacion.length() == 8){
+            codigo += identificacion;
+        } else if(identificacion.length() == 7){
+            codigo += "0" + identificacion;
+        }
         IdentificacionCB.setSelectedIndex(tipoIdentificacion);
         Identificaciontxt.setText(identificacion);
         Codigotxt.setText(codigo);

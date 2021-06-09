@@ -614,27 +614,33 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             if (codigo.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                try{
-                    encontrado = p.buscarCodigo(codigo);
-                    if (encontrado == true) {
-                        data = p.conseguirDatos(codigo, "", "", 1);
-                        limpiar();
-                        String nuevo_codigo = data[0].toString();
-                        Codigotxt.setText(nuevo_codigo);
-                        //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                        String identificacion = data[1].toString();
-                        char tipoidentificacion = identificacion.charAt(0);
-                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);
-                        IdentificacionCB.setSelectedIndex(TipoID1);
-                        Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                        //-----------------------------------------------------------------------------
-                        RazonSocialtxt.setText(data[2].toString());
-                        escribirDatos(data);
-                    } else if (!encontrado) {
-                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                if(codigo.length() != 11){
+                    JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);    
+                } else if(p.comprobacionIdentificacion(codigo)){
+                    try{
+                        encontrado = p.buscarCodigo(codigo);
+                        if (encontrado == true) {
+                            data = p.conseguirDatos(codigo, "", "", 1);
+                            limpiar();
+                            String nuevo_codigo = data[0].toString();
+                            Codigotxt.setText(nuevo_codigo);
+                            //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
+                            String identificacion = data[1].toString();
+                            char tipoidentificacion = identificacion.charAt(0);
+                            int TipoID1 = p.indexIdentificacion(tipoidentificacion);
+                            IdentificacionCB.setSelectedIndex(TipoID1);
+                            Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
+                            //-----------------------------------------------------------------------------
+                            RazonSocialtxt.setText(data[2].toString());
+                            escribirDatos(data);
+                        } else if (!encontrado) {
+                            JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                        }
+                    }catch(SQLException ex){
+                        Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }catch(SQLException ex){
-                    Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
+                } else{
+                    JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DEL CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
             //Busqueda por identificacion
@@ -644,26 +650,32 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             if (identificacion.equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                try{
-                    encontrado = p.buscarIdentificacion2(identificacion);
-                    if (encontrado) {
-                        data = p.conseguirDatos("", identificacion, "", 2);
-                        limpiar();
-                        //COLOCAR EL CODIGO Y LA RAZON SOCIAL
-                        Codigotxt.setText(data[0].toString());
-                        //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                        String identificacion_nueva = data[1].toString();
-                        char tipoidentificacion = identificacion_nueva.charAt(0);
-                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);
-                        IdentificacionCB.setSelectedIndex(TipoID1);
-                        Identificaciontxt.setText(identificacion_nueva.substring(1, identificacion.length()));
-                        RazonSocialtxt.setText(data[2].toString());
-                        escribirDatos(data);
-                    } else if (encontrado == false) {
-                        JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                if(Identificaciontxt.getText().length() < 7 || Identificaciontxt.getText().length() > 8){
+                    JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE IDENTIFICACION", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else if(!p.comprobacionIdentificacion(Identificaciontxt.getText())){
+                    JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DE LA CEDULA", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else{
+                    try{
+                        encontrado = p.buscarIdentificacion2(identificacion);
+                        if (encontrado) {
+                            data = p.conseguirDatos("", identificacion, "", 2);
+                            limpiar();
+                            //COLOCAR EL CODIGO Y LA RAZON SOCIAL
+                            Codigotxt.setText(data[0].toString());
+                            //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
+                            String identificacion_nueva = data[1].toString();
+                            char tipoidentificacion = identificacion_nueva.charAt(0);
+                            int TipoID1 = p.indexIdentificacion(tipoidentificacion);
+                            IdentificacionCB.setSelectedIndex(TipoID1);
+                            Identificaciontxt.setText(identificacion_nueva.substring(1, identificacion.length()));
+                            RazonSocialtxt.setText(data[2].toString());
+                            escribirDatos(data);
+                        } else if (encontrado == false) {
+                            JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                        }
+                    }catch(SQLException ex){
+                        Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }catch(SQLException ex){
-                    Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             //Busqueda por razon_social

@@ -504,9 +504,12 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         if (modo_busqueda == 0) {
             codigo = Codigotxt.getText();
             if (codigo.equals("")) {
-                JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
             } else {
-                try {
+                if(codigo.length() != 11){
+                    JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else if (p.comprobacionIdentificacion(codigo)){
+                    try {
                         encontrado = p.buscarCodigo(codigo);
                         if (encontrado == true) {
                             data = p.conseguirDatos(codigo, "", "", 1);
@@ -521,51 +524,58 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                             //-----------------------------------------------------------------------------
                             RazonSocialtxt.setText(data[2].toString());
                             escribirDatos(data);
-                    } else if (!encontrado) {
-                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                        } else if (!encontrado) {
+                            JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DEL CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
-                
             }
             //Busqueda por identificacion
         } else if (modo_busqueda == 1) {
             String identificacion = IdentificacionCB.getSelectedItem().toString();
             identificacion += Identificaciontxt.getText();
             if (identificacion.equals("")) {
-                JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
             } else {
-                try {
-                    encontrado = p.buscarIdentificacion2(identificacion);
-                    if (encontrado == true) {
-                        data = p.conseguirDatos("", identificacion, "", 2);
-                        limpiar();
-                        //COLOCAR EL CODIGO Y LA RAZON SOCIAL
-                        Codigotxt.setText(data[0].toString());
-                        //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                        String identificacion_nueva = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
-                            char tipoidentificacion = identificacion_nueva.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
-                            int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
-                            IdentificacionCB.setSelectedIndex(TipoID1);
-                            Identificaciontxt.setText(identificacion_nueva.substring(1, identificacion.length()));
-                            //-----------------------------------------------------------------------------
-                        RazonSocialtxt.setText(data[2].toString());
-                        escribirDatos(data);
-                    } else if (encontrado == false) {
-                        JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                if(Identificaciontxt.getText().length() < 7 || Identificaciontxt.getText().length() > 8){
+                    JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE IDENTIFICACION", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else if(!p.comprobacionIdentificacion(Identificaciontxt.getText())){
+                    JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DE LA CEDULA", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        encontrado = p.buscarIdentificacion2(identificacion);
+                        if (encontrado == true) {
+                            data = p.conseguirDatos("", identificacion, "", 2);
+                            limpiar();
+                            //COLOCAR EL CODIGO Y LA RAZON SOCIAL
+                            Codigotxt.setText(data[0].toString());
+                            //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
+                            String identificacion_nueva = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
+                                char tipoidentificacion = identificacion_nueva.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
+                                int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
+                                IdentificacionCB.setSelectedIndex(TipoID1);
+                                Identificaciontxt.setText(identificacion_nueva.substring(1, identificacion.length()));
+                                //-----------------------------------------------------------------------------
+                            RazonSocialtxt.setText(data[2].toString());
+                            escribirDatos(data);
+                        } else if (encontrado == false) {
+                            JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
             }
             //Busqueda por razon_social
         } else if (modo_busqueda == 2) {
             //DEBO COLOCAR EL CODIGO Y LA IDENTIFICACION
             String RS = RazonSocialtxt.getText();
             if (RS.equals("")) {
-                JOptionPane.showMessageDialog(null, "INGRESE UNA RAZON SOCIAL DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "INGRESE UNA RAZON SOCIAL DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
                     encontrado = p.buscarRazonSocial(RS);
@@ -582,7 +592,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                         Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
                         //----------------------------------------------------------------------------------
                         RazonSocialtxt.setText(data[2].toString());
-                    escribirDatos(data);
+                        escribirDatos(data);
                     } else if (!encontrado) {
                         JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                     }

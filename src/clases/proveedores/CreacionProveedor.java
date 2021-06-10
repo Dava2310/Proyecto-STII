@@ -53,6 +53,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
         MailL = new javax.swing.JLabel();
         Mailtxt = new javax.swing.JTextField();
         TipoTlftxt = new javax.swing.JTextField();
+        MunicipioLB = new javax.swing.JLabel();
+        Municipiotxt = new javax.swing.JTextField();
         PanelBancario = new javax.swing.JPanel();
         NameBnfL = new javax.swing.JLabel();
         IDL = new javax.swing.JLabel();
@@ -148,6 +150,9 @@ public class CreacionProveedor extends javax.swing.JFrame {
 
         TipoTlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
+        MunicipioLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MunicipioLB.setText("Municipio");
+
         javax.swing.GroupLayout PanelDeIdentificacionLayout = new javax.swing.GroupLayout(PanelDeIdentificacion);
         PanelDeIdentificacion.setLayout(PanelDeIdentificacionLayout);
         PanelDeIdentificacionLayout.setHorizontalGroup(
@@ -165,7 +170,12 @@ public class CreacionProveedor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(RazonSocialtxt)
-                                    .addComponent(Direcciontxt)))
+                                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                        .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(MunicipioLB)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(Municipiotxt))))
                             .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
                                 .addComponent(TlfL)
                                 .addGap(33, 33, 33)
@@ -186,7 +196,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
                                 .addComponent(IdentificacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 190, Short.MAX_VALUE))))
                     .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(IdentificacionProveedor)))
@@ -216,7 +226,9 @@ public class CreacionProveedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(DireccionL)
-                            .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MunicipioLB)
+                            .addComponent(Municipiotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TlfL)
@@ -541,6 +553,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
             identificacion += Identificaciontxt.getText();
             String razon_social = RazonSocialtxt.getText();
             String direccion = Direcciontxt.getText();
+            String municipio = Municipiotxt.getText();
             String telefono = TipoTlftxt.getText();
             telefono += Tlftxt.getText();
             String mail = Mailtxt.getText();
@@ -605,7 +618,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
             if(buena_creacion){
                 try {
                     //=====================================================================================================================================================================================================================
-                    p.NuevoProveedor(codigo, identificacion, razon_social, direccion, telefono, mail, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, moneda, name_autorizado, ID_autorizado);
+                    p.NuevoProveedor(codigo, identificacion, razon_social, direccion, municipio, telefono, mail, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, moneda, name_autorizado, ID_autorizado);
                     //Llamar a la funcion de nuevo proveedor
                     int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
                     //si desea crear nuevo
@@ -709,6 +722,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
     public void limpiar() {
         RazonSocialtxt.setText("");
         Direcciontxt.setText("");
+        Municipiotxt.setText("");
         Tlftxt.setText("");
         TipoTlftxt.setText("");
         Mailtxt.setText("");
@@ -799,6 +813,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField Mailtxt;
     private javax.swing.JComboBox<String> MonedaCB;
     private javax.swing.JLabel MonedaL;
+    private javax.swing.JLabel MunicipioLB;
+    private javax.swing.JTextField Municipiotxt;
     private javax.swing.JLabel NameAutL;
     private javax.swing.JTextField NameAuttxt;
     private javax.swing.JLabel NameBnfL;

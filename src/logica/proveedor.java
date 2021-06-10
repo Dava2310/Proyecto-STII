@@ -12,35 +12,51 @@ public class proveedor {
     }
     
     //ESTA FUNCION NOS PERMITE CREAR UN NUEVO PROVEEDOR EN LA BASE DE DATOS
-    public void NuevoProveedor(String codigo, String identificacion, String razon_social, String direccion, String telefono, String email, String name_beneficiario, String id_beneficiario,
+    public void NuevoProveedor(String codigo, String identificacion, String razon_social, String direccion, String municipio, String telefono, String email, String name_beneficiario, String id_beneficiario,
             String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String moneda, String nombre_autorizado, String id_autorizado) 
             throws SQLException{
         
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                    " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_cuenta, Tipo_cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado)" + 
-                    " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_cuenta, Tipo_cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado)" + 
+                    " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pstm.setString(1, codigo);
             pstm.setString(2, identificacion);
             pstm.setString(3, razon_social);
             pstm.setString(4, direccion);
-            pstm.setString(5, telefono);
-            pstm.setString(6, email);
-            pstm.setString(7, name_beneficiario);
-            pstm.setString(8, id_beneficiario);
-            pstm.setString(9, mail_beneficiario);
-            pstm.setString(10, banco);
-            pstm.setString(11, num_cuenta);
-            pstm.setString(12, tipo_cuenta);
-            pstm.setString(13, mod_cuenta);
-            pstm.setString(14, moneda);
-            pstm.setString(15,nombre_autorizado);
-            pstm.setString(16,id_autorizado);
+            pstm.setString(5, municipio);
+            pstm.setString(6, telefono);
+            pstm.setString(7, email);
+            pstm.setString(8, name_beneficiario);
+            pstm.setString(9, id_beneficiario);
+            pstm.setString(10, mail_beneficiario);
+            pstm.setString(11, banco);
+            pstm.setString(12, num_cuenta);
+            pstm.setString(13, tipo_cuenta);
+            pstm.setString(14, mod_cuenta);
+            pstm.setString(15, moneda);
+            pstm.setString(16,nombre_autorizado);
+            pstm.setString(17,id_autorizado);
             pstm.execute();
             pstm.close();
         }catch(SQLException e){
             System.out.println(e);
         }
+    }
+    
+    public int cantidadProveedores() throws SQLException{
+        int registros = 0;
+        //OBTENEMOS LA CANTIDAD DE REGISTROS EXISTENTES EN TODA LA TABLA
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM proveedor");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        return registros;
     }
     
     //FUNCION PARA OBTENER DATOS DE TODOS LOS PROVEEDORES
@@ -56,10 +72,10 @@ public class proveedor {
         } catch(SQLException e){
             System.out.println(e);
         }
-        Object[][] data = new String[registros][17];
+        Object[][] data = new String[registros][18];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " + 
-                    " Codigo, Identificacion, Razon_Social, Direccion, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado, Estado_Actividad " + 
+                    " Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado, Estado_Actividad " + 
                     " FROM proveedor " +
                     " ORDER BY Codigo");
             ResultSet res = pstm.executeQuery();
@@ -69,6 +85,7 @@ public class proveedor {
                 String estIdentificacion = res.getString("Identificacion");
                 String estRazon_Social = res.getString("Razon_Social");
                 String estDireccion = res.getString("Direccion");
+                String estMunicipio = res.getString("Municipio");
                 String estTelefono = res.getString("Telefono");
                 String estEmail = res.getString("Email");
                 String estName_Beneficiario = res.getString("Name_Beneficiario");
@@ -87,19 +104,20 @@ public class proveedor {
                 data[i][1] = estIdentificacion;
                 data[i][2] = estRazon_Social;
                 data[i][3] = estDireccion;
-                data[i][4] = estTelefono;
-                data[i][5] = estEmail;
-                data[i][6] = estName_Beneficiario;
-                data[i][7] = estID_Beneficiario;
-                data[i][8] = estMail_Beneficiario;
-                data[i][9] = estBanco;
-                data[i][10] = estNum_Cuenta;
-                data[i][11] = estTipo_Cuenta;
-                data[i][12] = estMOD_Cuenta;
-                data[i][13] = estMoneda;
-                data[i][14] = estNombre_Autorizado;
-                data[i][15] = estID_Autorizado;
-                data[i][16] = estActividad;
+                data[i][4] = estMunicipio;
+                data[i][5] = estTelefono;
+                data[i][6] = estEmail;
+                data[i][7] = estName_Beneficiario;
+                data[i][8] = estID_Beneficiario;
+                data[i][9] = estMail_Beneficiario;
+                data[i][10] = estBanco;
+                data[i][11] = estNum_Cuenta;
+                data[i][12] = estTipo_Cuenta;
+                data[i][13] = estMOD_Cuenta;
+                data[i][14] = estMoneda;
+                data[i][15] = estNombre_Autorizado;
+                data[i][16] = estID_Autorizado;
+                data[i][17] = estActividad;
                 i++;        
             }
         }catch(SQLException e){
@@ -133,7 +151,7 @@ public class proveedor {
         }
     }
     //FUNCION PARA ACTUALIZAR LOS DATOS DE UN PROVEEDOR
-    public void updateProveedorCodigo(String codigo, String identificacion, String razon_social, String direccion, String telefono, String email, String name_beneficiario, String id_beneficiario,
+    public void updateProveedorCodigo(String codigo, String identificacion, String razon_social, String direccion, String municipio, String telefono, String email, String name_beneficiario, String id_beneficiario,
             String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String moneda, String nombre_autorizado, String id_autorizado)
     throws SQLException{
         
@@ -141,7 +159,8 @@ public class proveedor {
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
             " set Razon_Social = ? , " + 
-            " Direccion = ? , " +
+            " Direccion = ? , " + 
+            " Municipio = ? , " +
             " Telefono = ? , " +
             " Email = ? , " + 
             " Name_Beneficiario = ? , " +
@@ -157,19 +176,20 @@ public class proveedor {
             " where Codigo = ?");
             pstm.setString(1, razon_social);
             pstm.setString(2, direccion);
-            pstm.setString(3, telefono);
-            pstm.setString(4, email);
-            pstm.setString(5, name_beneficiario);
-            pstm.setString(6, id_beneficiario);
-            pstm.setString(7, mail_beneficiario);
-            pstm.setString(8, banco);
-            pstm.setString(9, num_cuenta);
-            pstm.setString(10, tipo_cuenta);
-            pstm.setString(11, mod_cuenta);
-            pstm.setString(12, moneda);
-            pstm.setString(13, nombre_autorizado);
-            pstm.setString(14, id_autorizado);
-            pstm.setString(15, codigo);
+            pstm.setString(3, municipio);
+            pstm.setString(4, telefono);
+            pstm.setString(5, email);
+            pstm.setString(6, name_beneficiario);
+            pstm.setString(7, id_beneficiario);
+            pstm.setString(8, mail_beneficiario);
+            pstm.setString(9, banco);
+            pstm.setString(10, num_cuenta);
+            pstm.setString(11, tipo_cuenta);
+            pstm.setString(12, mod_cuenta);
+            pstm.setString(13, moneda);
+            pstm.setString(14, nombre_autorizado);
+            pstm.setString(15, id_autorizado);
+            pstm.setString(16, codigo);
             pstm.execute();
             pstm.close();
         }catch(SQLException e){
@@ -294,15 +314,15 @@ public class proveedor {
         3- ENCONTRAR LOS DATOS GRACIAS A LA RAZON SOCIAL
     */
     public Object[] conseguirDatos(String codigo, String identificacion, String Razon_Social, int modo) throws SQLException{
-        Object[] data = new Object[17];
-        Object[] data2 = new Object[17];
+        Object[] data = new Object[18];
+        Object[] data2 = new Object[18];
         PreparedStatement pstm;
         ResultSet res;
         try{
             //Conseguir datos habiendo buscado por codigo
             if(modo == 1){
                pstm = con.getConnection().prepareStatement("SELECT " + 
-                    " Codigo, Identificacion, Razon_Social, Direccion, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado, Estado_Actividad " + 
+                    " Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado, Estado_Actividad " + 
                     " FROM proveedor " +
                     " WHERE Codigo = ?");
                pstm.setString(1, codigo); 
@@ -313,7 +333,7 @@ public class proveedor {
             } else if (modo == 2){
                 //BUSQUEDA POR IDENTIFICACION
                 pstm = con.getConnection().prepareStatement("SELECT " + 
-                    " Codigo, Identificacion, Razon_Social, Direccion, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado, Estado_Actividad " + 
+                    " Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado, Estado_Actividad " + 
                     " FROM proveedor " +
                     " WHERE Identificacion = ?");
                 pstm.setString(1, identificacion);
@@ -324,7 +344,7 @@ public class proveedor {
             } else if (modo == 3){
                 //BUSQUEDA POR RAZON_SOCIAL
                 pstm = con.getConnection().prepareStatement("SELECT " + 
-                    " Codigo, Identificacion, Razon_Social, Direccion, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado, Estado_Actividad " + 
+                    " Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Moneda, Nombre_Autorizado, ID_Autorizado, Estado_Actividad " + 
                     " FROM proveedor " +
                     " WHERE Razon_Social = ?");
                 pstm.setString(1, Razon_Social);
@@ -350,6 +370,7 @@ public class proveedor {
                 String estIdentificacion = res.getString("Identificacion");
                 String estRazon_Social = res.getString("Razon_Social");
                 String estDireccion = res.getString("Direccion");
+                String estMunicipio = res.getString("Municipio");
                 String estTelefono = res.getString("Telefono");
                 String estEmail = res.getString("Email");
                 String estName_Beneficiario = res.getString("Name_Beneficiario");
@@ -368,19 +389,20 @@ public class proveedor {
                 data[1] = estIdentificacion;
                 data[2] = estRazon_Social;
                 data[3] = estDireccion;
-                data[4] = estTelefono;
-                data[5] = estEmail;
-                data[6] = estName_Beneficiario;
-                data[7] = estID_Beneficiario;
-                data[8] = estMail_Beneficiario;
-                data[9] = estBanco;
-                data[10] = estNum_Cuenta;
-                data[11] = estTipo_Cuenta;
-                data[12] = estMOD_Cuenta;
-                data[13] = estMoneda;
-                data[14] = estNombre_Autorizado;
-                data[15] = estID_Autorizado; 
-                data[16] = estActividad;
+                data[4] = estMunicipio;
+                data[5] = estTelefono;
+                data[6] = estEmail;
+                data[7] = estName_Beneficiario;
+                data[8] = estID_Beneficiario;
+                data[9] = estMail_Beneficiario;
+                data[10] = estBanco;
+                data[11] = estNum_Cuenta;
+                data[12] = estTipo_Cuenta;
+                data[13] = estMOD_Cuenta;
+                data[14] = estMoneda;
+                data[15] = estNombre_Autorizado;
+                data[16] = estID_Autorizado; 
+                data[17] = estActividad;
             }
             
         } catch (SQLException ex) {

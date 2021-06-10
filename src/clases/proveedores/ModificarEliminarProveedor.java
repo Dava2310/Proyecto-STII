@@ -66,6 +66,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         ActividadL = new javax.swing.JLabel();
         ActividadCB = new javax.swing.JComboBox<>();
         TipoTlftxt = new javax.swing.JTextField();
+        MunicipioLB = new javax.swing.JLabel();
+        Municipiotxt = new javax.swing.JTextField();
         PanelBancario = new javax.swing.JPanel();
         NameBnfL = new javax.swing.JLabel();
         NameBnftxt = new javax.swing.JTextField();
@@ -175,6 +177,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         TipoTlftxt.setEditable(false);
         TipoTlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
+        MunicipioLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MunicipioLB.setText("Municipio");
+
+        Municipiotxt.setEditable(false);
+
         javax.swing.GroupLayout PanelDeIdentificacionLayout = new javax.swing.GroupLayout(PanelDeIdentificacion);
         PanelDeIdentificacion.setLayout(PanelDeIdentificacionLayout);
         PanelDeIdentificacionLayout.setHorizontalGroup(
@@ -195,7 +202,12 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(RazonSocialtxt)
-                                    .addComponent(Direcciontxt)))
+                                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                        .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(MunicipioLB)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(Municipiotxt))))
                             .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
                                 .addComponent(CodigoL)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -248,7 +260,9 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(DireccionL)
-                            .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MunicipioLB)
+                            .addComponent(Municipiotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(2, 2, 2)
                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TlfL)
@@ -568,6 +582,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             identificacion += Identificaciontxt.getText();
             String razon_social = RazonSocialtxt.getText();
             String direccion = Direcciontxt.getText();
+            String municipio = Municipiotxt.getText();
             String telefono = TipoTlftxt.getText();
             telefono += Tlftxt.getText();
             String email = Mailtxt.getText();
@@ -585,7 +600,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             id_autorizado += IDAuttxt.getText();
             
             try {
-                p.updateProveedorCodigo(codigo, identificacion, razon_social, direccion, telefono, email, name_beneficiario, id_beneficiario, mail_beneficiario, banco, num_cuenta, tipo_cuenta, mod_cuenta, moneda, nombre_autorizado, id_autorizado);
+                p.updateProveedorCodigo(codigo, identificacion, razon_social, direccion, municipio, telefono, email, name_beneficiario, id_beneficiario, mail_beneficiario, banco, num_cuenta, tipo_cuenta, mod_cuenta, moneda, nombre_autorizado, id_autorizado);
                 JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
@@ -715,44 +730,45 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     //FUNCION PARA ESCRIBIR LOS DATOS DEL PROVEEDOR ENCONTRADO DESDE LA DIRECCION
     public void escribirDatos(Object[] data) {
         Direcciontxt.setText(data[3].toString());
+        Municipiotxt.setText(data[4].toString());
         //CONSEGUIR REPARTIR EL TEXTO DEL TELEFONO
-        String telefono = data[4].toString();               //EL STRING COMPLETO DE TELEFONO
+        String telefono = data[5].toString();               //EL STRING COMPLETO DE TELEFONO
         String tipoNumero = telefono.substring(0, 4);       //RECIBES EL TIPO NUMERO (0412, etc)
         TipoTlftxt.setText(tipoNumero);
         Tlftxt.setText(telefono.substring(4, telefono.length()));
         //---------------------------------------------------------------------------
-        Mailtxt.setText(data[5].toString());
-        NameBnftxt.setText(data[6].toString());
+        Mailtxt.setText(data[6].toString());
+        NameBnftxt.setText(data[7].toString());
         //CONSEGUIR REPARTIR LA IDENTIFICACION DEL BENEFICIARIO----------------------
-        String identificacion2 = data[7].toString();                //LA CEDULA COMPLETA
+        String identificacion2 = data[8].toString();                //LA CEDULA COMPLETA
         char tipoIdentificacion2 = identificacion2.charAt(0);       //EL TIPO DE CEDULA 'V', etc
         int TipoID2 = p.indexIdentificacion(tipoIdentificacion2);     //RECIBIR EL INDEX PARA EL CB SEGUN EL TIPO DE CEDULA
         IDCB.setSelectedIndex(TipoID2);
         IDtxt.setText(identificacion2.substring(1, identificacion2.length())); //LO QUE QUEDA DE CEDULA SIN EL TIPO
         //----------------------------------------------------------------------------
-        MailBNFtxt.setText(data[8].toString());
+        MailBNFtxt.setText(data[9].toString());
         //IDENTIFICAR EL TIPO DE BANCO
-        String banco = data[9].toString();                          //EL STRING COMPLETO DEL BANCO
+        String banco = data[10].toString();                          //EL STRING COMPLETO DEL BANCO
         BancoCB.setSelectedIndex(p.getindexBanco(banco));
         //----------------------------------------------------------------------------
-        NumCuentatxt.setText(data[10].toString());
+        NumCuentatxt.setText(data[11].toString());
         //IDENTIFICAR EL TIPO DE CUENTA DE BANCO
-        String tipoCuenta = data[11].toString();                    //EL STRING COMPLETO DEL TIPO DE CUENTA BANCARIA
+        String tipoCuenta = data[12].toString();                    //EL STRING COMPLETO DEL TIPO DE CUENTA BANCARIA
         TCuentaCB.setSelectedIndex(p.indexTipoCuenta(tipoCuenta));
         //IDENTIFICAR EL MODO DE CUENTA-------------------------------------------------
-        String modo_cuenta = data[12].toString();                   //EL STRING COMPLETO DEL MOD
+        String modo_cuenta = data[13].toString();                   //EL STRING COMPLETO DEL MOD
         MODCB.setSelectedIndex(p.indexmod_Cuenta(modo_cuenta));
         //IDENTIFICAR EL TIPO DE MONEDA-------------------------------------------------
-        String moneda = data[13].toString();                        //EL STRING COMPLETO DE LA MONEDA
+        String moneda = data[14].toString();                        //EL STRING COMPLETO DE LA MONEDA
         if (moneda.equals("BS")) {
             MonedaCB.setSelectedIndex(0);
         } else if (moneda.equals("$")) {
             MonedaCB.setSelectedIndex(1);
         }
         //-------------------------------------------------------------------------------
-        NameAuttxt.setText(data[14].toString());
+        NameAuttxt.setText(data[15].toString());
         //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
-        String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
+        String identificacion3 = data[16].toString();               //SE OBTIENE LA CEDULA COMPLETA
         if (!identificacion3.isEmpty()) {
             char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
             int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
@@ -760,7 +776,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             IDAuttxt.setText(identificacion3.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
         }
         //-------------------------------------------------------------------------------
-        String actividad = data[16].toString();
+        String actividad = data[17].toString();
         if (actividad.equals("Activo")) {
             ActividadCB.setSelectedIndex(0);
         } else if (actividad.equals("Inactivo")) {
@@ -1097,6 +1113,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField Mailtxt;
     private javax.swing.JComboBox<String> MonedaCB;
     private javax.swing.JLabel MonedaL;
+    private javax.swing.JLabel MunicipioLB;
+    private javax.swing.JTextField Municipiotxt;
     private javax.swing.JLabel NameAutL;
     private javax.swing.JTextField NameAuttxt;
     private javax.swing.JLabel NameBnfL;

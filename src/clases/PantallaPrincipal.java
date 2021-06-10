@@ -11,6 +11,7 @@ import clases.proveedores.ModificarEliminarProveedor;
 import clases.proveedores.TipoConsultaProveedor;
 import clases.proveedores.ConsultarProveedor;
 import clases.proveedores.IdentificacionProveedor;
+import clases.proveedores.TablaProveedores;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -39,7 +40,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public CreacionBoleto CB;
     public IdentificacionBoleto IB;
     public BusquedaYModificicacionBoleto BYM;
-    
+    public TablaProveedores TP;
     conectate con;
     
     public PantallaPrincipal() {
@@ -69,6 +70,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         MI_Agregar = new javax.swing.JMenuItem();
         MI_Modificar = new javax.swing.JMenuItem();
         MI_Eliminar = new javax.swing.JMenuItem();
+        MI_MostrarProveedores = new javax.swing.JMenuItem();
         M_Transaccion = new javax.swing.JMenu();
         CrearTransaccion = new javax.swing.JMenuItem();
         ConsultarModificarTransaccion = new javax.swing.JMenuItem();
@@ -153,6 +155,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
         M_Proveedor.add(MI_Eliminar);
+
+        MI_MostrarProveedores.setText("Mostrar Proveedores");
+        MI_MostrarProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_MostrarProveedoresActionPerformed(evt);
+            }
+        });
+        M_Proveedor.add(MI_MostrarProveedores);
 
         MenuBar.add(M_Proveedor);
 
@@ -383,6 +393,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         BYM = new BusquedaYModificicacionBoleto();
         BYM.setVisible(true);
     }//GEN-LAST:event_ModificarBoletoActionPerformed
+
+    private void MI_MostrarProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_MostrarProveedoresActionPerformed
+        TP = new TablaProveedores();
+        TP.setVisible(true);
+    }//GEN-LAST:event_MI_MostrarProveedoresActionPerformed
     
     public void cerrar(){
         try{
@@ -459,6 +474,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MI_Guardar;
     private javax.swing.JMenuItem MI_Modificar;
     private javax.swing.JMenuItem MI_ModificarA;
+    private javax.swing.JMenuItem MI_MostrarProveedores;
     private javax.swing.JMenu M_Agregar;
     private javax.swing.JMenu M_Anticipos;
     private javax.swing.JMenu M_Archivo;

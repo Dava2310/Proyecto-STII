@@ -7,6 +7,7 @@ create table proveedor(
     Identificacion varchar(20) UNIQUE NOT NULL,
     Razon_Social varchar(30) NOT NULL,
     Direccion varchar(30),
+    Municipio varchar(30),
     Telefono varchar(11),
     Email varchar(30),
     Name_Beneficiario varchar(30),

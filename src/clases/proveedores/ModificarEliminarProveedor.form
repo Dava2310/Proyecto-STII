@@ -68,7 +68,13 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="RazonSocialtxt" max="32767" attributes="0"/>
-                                      <Component id="Direcciontxt" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="Direcciontxt" min="-2" pref="297" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="MunicipioLB" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="Municipiotxt" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
@@ -138,6 +144,8 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="DireccionL" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="Direcciontxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="MunicipioLB" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="Municipiotxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -328,6 +336,19 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="11" style="0"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="MunicipioLB">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Municipio"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="Municipiotxt">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>

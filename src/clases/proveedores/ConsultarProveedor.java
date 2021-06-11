@@ -68,7 +68,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         NumCuentatxt = new javax.swing.JTextField();
         TCuentaL = new javax.swing.JLabel();
         IDtxt = new javax.swing.JTextField();
-        MonedaL = new javax.swing.JLabel();
         MODL = new javax.swing.JLabel();
         InformacionBancariaL = new javax.swing.JLabel();
         LogoInformacionBancaria = new javax.swing.JLabel();
@@ -78,13 +77,22 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         IDAuttxt = new javax.swing.JTextField();
         BancoCB = new javax.swing.JComboBox<>();
         MODCB = new javax.swing.JComboBox<>();
-        MonedaCB = new javax.swing.JComboBox<>();
         TCuentaCB = new javax.swing.JComboBox<>();
         idCBaut = new javax.swing.JComboBox<>();
         PanelObservaciones = new javax.swing.JPanel();
         NuevoBT = new javax.swing.JButton();
         BuscarBT = new javax.swing.JButton();
         CancelarBT = new javax.swing.JButton();
+        PanelDePagos = new javax.swing.JPanel();
+        IdentificacionProveedor1 = new javax.swing.JLabel();
+        IdentificacionProveedor2 = new javax.swing.JLabel();
+        MPCB = new javax.swing.JComboBox<>();
+        IdentificacionProveedor3 = new javax.swing.JLabel();
+        Cuadrillatxt = new javax.swing.JTextField();
+        IdentificacionProveedor4 = new javax.swing.JLabel();
+        Fletetxt = new javax.swing.JTextField();
+        IdentificacionProveedor5 = new javax.swing.JLabel();
+        Peajetxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -287,9 +295,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         IDtxt.setEditable(false);
         IDtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
-        MonedaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        MonedaL.setText("Moneda");
-
         MODL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MODL.setText("MOD (*)");
 
@@ -316,9 +321,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
 
         MODCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Propia", "Cuenta Nueva", "Cuenta Autorizada" }));
         MODCB.setEnabled(false);
-
-        MonedaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "$" }));
-        MonedaCB.setEnabled(false);
 
         TCuentaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente", "Cuenta Maxima", "Cuenta Moneda Extranjera" }));
         TCuentaCB.setEnabled(false);
@@ -347,11 +349,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(MODL)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(MonedaL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(MonedaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanelBancarioLayout.createSequentialGroup()
                                 .addComponent(NameAutL)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -383,7 +381,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     .addGroup(PanelBancarioLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(InformacionBancariaL)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         PanelBancarioLayout.setVerticalGroup(
             PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,9 +411,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                         .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TCuentaL)
                             .addComponent(MODL)
-                            .addComponent(MonedaL)
                             .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MonedaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TCuentaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -430,7 +426,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         );
 
         NuevoBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        NuevoBT.setText("Nuevo");
+        NuevoBT.setText("NUEVO");
         NuevoBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NuevoBTActionPerformed(evt);
@@ -438,7 +434,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         });
 
         BuscarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BuscarBT.setText("Buscar");
+        BuscarBT.setText("BUSCAR");
         BuscarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BuscarBTActionPerformed(evt);
@@ -476,8 +472,83 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                             .addComponent(BuscarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(NuevoBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(CancelarBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(CancelarBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        IdentificacionProveedor1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor1.setText("Tasas de pago");
+
+        IdentificacionProveedor2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor2.setText("MP");
+
+        MPCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TABLA", "ACORDADO" }));
+        MPCB.setEnabled(false);
+        MPCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MPCBActionPerformed(evt);
+            }
+        });
+
+        IdentificacionProveedor3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor3.setText("Cuadrilla");
+
+        Cuadrillatxt.setEditable(false);
+
+        IdentificacionProveedor4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor4.setText("Peaje");
+
+        Fletetxt.setEditable(false);
+
+        IdentificacionProveedor5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor5.setText("Flete");
+
+        Peajetxt.setEditable(false);
+        Peajetxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PeajetxtActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelDePagosLayout = new javax.swing.GroupLayout(PanelDePagos);
+        PanelDePagos.setLayout(PanelDePagosLayout);
+        PanelDePagosLayout.setHorizontalGroup(
+            PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDePagosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(IdentificacionProveedor1)
+                .addGap(27, 27, 27)
+                .addComponent(IdentificacionProveedor2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(IdentificacionProveedor3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(IdentificacionProveedor5)
+                .addGap(10, 10, 10)
+                .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(IdentificacionProveedor4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelDePagosLayout.setVerticalGroup(
+            PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDePagosLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IdentificacionProveedor1)
+                    .addComponent(IdentificacionProveedor2)
+                    .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdentificacionProveedor3)
+                    .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdentificacionProveedor4)
+                    .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdentificacionProveedor5)
+                    .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -487,15 +558,19 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             .addComponent(PanelIdentificacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PanelBancario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PanelObservaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelDePagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(PanelIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(PanelBancario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PanelObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(PanelBancario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(PanelDePagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(PanelObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -512,18 +587,18 @@ public class ConsultarProveedor extends javax.swing.JFrame {
 
     private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
         Object[] data;
-        String codigo;
+        int codigo;
         boolean encontrado;
         //Busqueda por codigo
         if (modo_busqueda == 0) {
-            codigo = Codigotxt.getText();
-            if (codigo.equals("")) {
+            codigo = Integer.parseInt(Codigotxt.getText());
+            if (Codigotxt.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
             } else {
-                if(codigo.length() != 11){
+                if(Codigotxt.getText().length() != 12){
                     JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else if (p.comprobacionIdentificacion(codigo)){
-                    try {
+                } else if (p.comprobacionIdentificacion(Codigotxt.getText())){
+                    try { //V29517648
                         encontrado = p.buscarCodigo(codigo);
                         if (encontrado == true) {
                             data = p.conseguirDatos(codigo, "", "", 1);
@@ -563,7 +638,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     try {
                         encontrado = p.buscarIdentificacion2(identificacion);
                         if (encontrado == true) {
-                            data = p.conseguirDatos("", identificacion, "", 2);
+                            data = p.conseguirDatos(0, identificacion, "", 2);
                             limpiar();
                             //COLOCAR EL CODIGO Y LA RAZON SOCIAL
                             Codigotxt.setText(data[0].toString());
@@ -594,7 +669,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                 try {
                     encontrado = p.buscarRazonSocial(RS);
                     if (encontrado == true) {
-                        data = p.conseguirDatos("", "", RS, 3);
+                        data = p.conseguirDatos(0, "", RS, 3);
                         limpiar();
                         //COLOCAR EL CODIGO Y LA IDENTIFICACION
                         Codigotxt.setText(data[0].toString());
@@ -649,17 +724,10 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         //IDENTIFICAR EL MODO DE CUENTA-------------------------------------------------
         String modo_cuenta = data[13].toString();                   //EL STRING COMPLETO DEL MOD
         MODCB.setSelectedIndex(p.indexmod_Cuenta(modo_cuenta));
-        //IDENTIFICAR EL TIPO DE MONEDA-------------------------------------------------
-        String moneda = data[14].toString();                        //EL STRING COMPLETO DE LA MONEDA
-        if (moneda.equals("BS")) {
-            MonedaCB.setSelectedIndex(0);
-        } else if (moneda.equals("$")) {
-            MonedaCB.setSelectedIndex(1);
-        }
         //-------------------------------------------------------------------------------
-        NameAuttxt.setText(data[15].toString());
+        NameAuttxt.setText(data[14].toString());
         //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
-        String identificacion3 = data[16].toString();               //SE OBTIENE LA CEDULA COMPLETA
+        String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
         if (!identificacion3.isEmpty()) {
             char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
             int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
@@ -668,8 +736,24 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         }
 
         //--------------------------------------------------------------------------------
+        String MP = data[16].toString();
+        if(MP.equals("TABLA")){
+            MPCB.setSelectedIndex(0);
+        } else {
+            MPCB.setSelectedIndex(1);
+        }
+        
+        float Cuadrilla = Float.parseFloat(data[17].toString());
+        Cuadrillatxt.setText(String.valueOf(Cuadrilla));
+        
+        float Flete = Float.parseFloat(data[18].toString());
+        Fletetxt.setText(String.valueOf(Flete));
+        
+        int Peaje = Integer.parseInt(data[19].toString());
+        Peajetxt.setText(String.valueOf(Peaje));
+        
         //SE AGREGA EL ESTATUS DEL PROVEEDOR----------------------------------------------
-        String actividad = data[17].toString();
+        String actividad = data[20].toString();
         if (actividad.equals("Activo")) {
             ActividadCB.setSelectedIndex(0);
         } else if (actividad.equals("Inactivo")) {
@@ -702,6 +786,14 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    private void MPCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MPCBActionPerformed
+
+    private void PeajetxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PeajetxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PeajetxtActionPerformed
+
     public void limpiar() {
         Codigotxt.setText("");
         IdentificacionCB.setSelectedIndex(0);
@@ -720,9 +812,12 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         NumCuentatxt.setText("");
         TCuentaCB.setSelectedIndex(0);
         MODCB.setSelectedIndex(0);
-        MonedaCB.setSelectedIndex(0);
         NameAuttxt.setText("");
         IDAuttxt.setText("");
+        MPCB.setSelectedIndex(0);
+        Cuadrillatxt.setText("");
+        Fletetxt.setText("");
+        Peajetxt.setText("");
     }
 
     /**
@@ -772,8 +867,10 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     private javax.swing.JButton CancelarBT;
     private javax.swing.JLabel CodigoL;
     private javax.swing.JTextField Codigotxt;
+    private javax.swing.JTextField Cuadrillatxt;
     private javax.swing.JLabel DireccionL;
     private javax.swing.JTextField Direcciontxt;
+    private javax.swing.JTextField Fletetxt;
     private javax.swing.JLabel FotoIdentificacion;
     private javax.swing.JLabel IDAutL;
     private javax.swing.JTextField IDAuttxt;
@@ -783,17 +880,21 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> IdentificacionCB;
     private javax.swing.JLabel IdentificacionL;
     private javax.swing.JLabel IdentificacionProveedor;
+    private javax.swing.JLabel IdentificacionProveedor1;
+    private javax.swing.JLabel IdentificacionProveedor2;
+    private javax.swing.JLabel IdentificacionProveedor3;
+    private javax.swing.JLabel IdentificacionProveedor4;
+    private javax.swing.JLabel IdentificacionProveedor5;
     private javax.swing.JTextField Identificaciontxt;
     private javax.swing.JLabel InformacionBancariaL;
     private javax.swing.JLabel LogoInformacionBancaria;
     private javax.swing.JComboBox<String> MODCB;
     private javax.swing.JLabel MODL;
+    private javax.swing.JComboBox<String> MPCB;
     private javax.swing.JTextField MailBNFtxt;
     private javax.swing.JLabel MailBnfL;
     private javax.swing.JLabel MailL;
     private javax.swing.JTextField Mailtxt;
-    private javax.swing.JComboBox<String> MonedaCB;
-    private javax.swing.JLabel MonedaL;
     private javax.swing.JLabel MunicipioLB;
     private javax.swing.JTextField Municipiotxt;
     private javax.swing.JLabel NameAutL;
@@ -804,8 +905,10 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel NumCuentaL;
     private javax.swing.JTextField NumCuentatxt;
     private javax.swing.JPanel PanelBancario;
+    private javax.swing.JPanel PanelDePagos;
     private javax.swing.JPanel PanelIdentificacion;
     private javax.swing.JPanel PanelObservaciones;
+    private javax.swing.JTextField Peajetxt;
     private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
     private javax.swing.JComboBox<String> TCuentaCB;

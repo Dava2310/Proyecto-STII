@@ -344,8 +344,8 @@ public class ModificarAnticipo extends javax.swing.JFrame {
                 if (encontrado) {
                     dataAnticipo = a.conseguirDatos(num_anticipo);
                     //SE DEBE AGARRAR LOS DATOS DEL PROVEEDOR
-                    if (p.buscarCodigo(dataAnticipo[8].toString())) {
-                        dataProveedor = p.conseguirDatos(dataAnticipo[8].toString(), "", "", 1);
+                    if (p.buscarCodigo(Integer.parseInt(dataAnticipo[8].toString()))) {
+                        dataProveedor = p.conseguirDatos(Integer.parseInt(dataAnticipo[8].toString()), "", "", 1);
                         escribirDatosProveedor(dataProveedor);
                     }
                     //UNA VEZ COLOCADOS TODOS LOS DATOS DEL PROVEEDOR, SE LLAMA A LA FUNCION DE ESCRIBIR LOS DATOS DEL ANTICIPO

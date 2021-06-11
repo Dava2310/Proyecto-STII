@@ -219,7 +219,7 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
                             TC.boletoCreado = true;
 
                             Object[] datosProveedor = new Object[3];
-                            datosProveedor = p.conseguirDatosPrincipales("", identificacion_completa, "", 2);
+                            datosProveedor = p.conseguirDatosPrincipales(0, identificacion_completa, "", 2);
                             /*
                                 AHORA TENGO QUE LLAMAR A LAS VARIABLES PUBLICAS DE LA PANTALLA DE TRANSACCION
                                 PARA DARLE LOS VALORES DE LOS DATOS PRINCIPALES DEL PROVEEDOR ENCONTRADO

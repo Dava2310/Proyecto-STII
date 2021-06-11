@@ -80,7 +80,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         NumCuentatxt = new javax.swing.JTextField();
         TCuentaL = new javax.swing.JLabel();
         IDtxt = new javax.swing.JTextField();
-        MonedaL = new javax.swing.JLabel();
         MODL = new javax.swing.JLabel();
         InformacionBancariaL = new javax.swing.JLabel();
         LogoInformacionBancaria = new javax.swing.JLabel();
@@ -90,16 +89,25 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         IDAuttxt = new javax.swing.JTextField();
         BancoCB = new javax.swing.JComboBox<>();
         MODCB = new javax.swing.JComboBox<>();
-        MonedaCB = new javax.swing.JComboBox<>();
         TCuentaCB = new javax.swing.JComboBox<>();
         IdCBaut = new javax.swing.JComboBox<>();
-        PanelObservaciones = new javax.swing.JPanel();
+        PanelBotones = new javax.swing.JPanel();
         CancelarBT = new javax.swing.JButton();
         Actualizar = new javax.swing.JButton();
         BuscarBT = new javax.swing.JButton();
         EliminarBT = new javax.swing.JButton();
         HabilitarCambiosBT = new javax.swing.JButton();
         HabilitarBT = new javax.swing.JButton();
+        PanelDePagos = new javax.swing.JPanel();
+        IdentificacionProveedor1 = new javax.swing.JLabel();
+        IdentificacionProveedor2 = new javax.swing.JLabel();
+        MPCB = new javax.swing.JComboBox<>();
+        IdentificacionProveedor3 = new javax.swing.JLabel();
+        Cuadrillatxt = new javax.swing.JTextField();
+        IdentificacionProveedor4 = new javax.swing.JLabel();
+        Fletetxt = new javax.swing.JTextField();
+        IdentificacionProveedor5 = new javax.swing.JLabel();
+        Peajetxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -182,6 +190,177 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
 
         Municipiotxt.setEditable(false);
 
+        NameBnfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        NameBnfL.setText("Nombre del beneficiario (*)");
+
+        NameBnftxt.setEditable(false);
+        NameBnftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        IDL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IDL.setText("Identificación (*)");
+
+        IDCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        IDCB.setEnabled(false);
+
+        MailBnfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MailBnfL.setText("E-mail del beneficiario");
+
+        MailBNFtxt.setEditable(false);
+        MailBNFtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        BancoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BancoL.setText("Banco (*)");
+
+        NumCuentaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        NumCuentaL.setText("Nº de Cuenta (*)");
+
+        NumCuentatxt.setEditable(false);
+        NumCuentatxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        TCuentaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        TCuentaL.setText("Tipo de cuenta (*)");
+
+        IDtxt.setEditable(false);
+        IDtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        MODL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MODL.setText("MOD (*)");
+
+        InformacionBancariaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        InformacionBancariaL.setText("Información Bancaria");
+
+        LogoInformacionBancaria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen2.jpg"))); // NOI18N
+
+        NameAutL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        NameAutL.setText("Nombre del Autorizado (*)");
+
+        NameAuttxt.setEditable(false);
+        NameAuttxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        IDAutL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IDAutL.setText("Identificación del Autorizado (*)");
+
+        IDAuttxt.setEditable(false);
+        IDAuttxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        BancoCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        BancoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MERCANTIL BANCO UNIVERSAL", "BANCO DE VENEZUELA S.A BANCO UNIVERSAL", "VENEZOLANO DE CREDITO S.A BANCO UNIVERSAL", "BANCO PROVINCIAL S.A BANCO UNIVERSAL", "BANCO DEL CARIBE S.A C.A", "BANCO EXTERIOR S.A", "BANCO OCCIDENTAL DE DESCUENTO S.A C.A", "BANCO CARONI C.A BANCO UNIVERSAL", "BANESCO BANCO UNIVERSAL", "BANCO SOFITASA", "BANCO PLAZA", "BANCO DE COMERCIO EXTERIOR", "FONDO COMUN C.A BANCO UNIVERSAL", "100% BANCO, BANCO UNIVERSAL C.A", "DEL SUR BANCO UNIVERSAL, C.A", "BANCO DEL TESORO ", "BANCO AGRICOLA DE VENEZUELA C.A", "BANCRECER S.A BANCO MICROFINANCIERO", "MIBANCO BANCO DE DESARROLLO", "BANCO ACTIVO C.A", "BANCA AMIGA BANCO MICROFINANCIERO", "BANCO BICENTENARIO BANCO UNIVERSAL C.A", "BANCO DE LA FUERZA ARMADA NACIONAL BOLIVARIANA", "BANCO NACIONAL DE CREDITO ", " " }));
+        BancoCB.setEnabled(false);
+
+        MODCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Propia", "Cuenta Nueva", "Cuenta Autorizada" }));
+        MODCB.setEnabled(false);
+        MODCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODCBActionPerformed(evt);
+            }
+        });
+
+        TCuentaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente", "Cuenta Maxima", "Cuenta Moneda Extranjera" }));
+        TCuentaCB.setEnabled(false);
+
+        IdCBaut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        IdCBaut.setEnabled(false);
+
+        javax.swing.GroupLayout PanelBancarioLayout = new javax.swing.GroupLayout(PanelBancario);
+        PanelBancario.setLayout(PanelBancarioLayout);
+        PanelBancarioLayout.setHorizontalGroup(
+            PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBancarioLayout.createSequentialGroup()
+                .addComponent(LogoInformacionBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelBancarioLayout.createSequentialGroup()
+                        .addComponent(NameBnfL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(NameBnftxt))
+                    .addGroup(PanelBancarioLayout.createSequentialGroup()
+                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelBancarioLayout.createSequentialGroup()
+                                .addComponent(BancoL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BancoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelBancarioLayout.createSequentialGroup()
+                                .addComponent(IDL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(IDCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(IDtxt)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelBancarioLayout.createSequentialGroup()
+                                .addComponent(MailBnfL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(MailBNFtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+                            .addGroup(PanelBancarioLayout.createSequentialGroup()
+                                .addComponent(NumCuentaL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(NumCuentatxt))))
+                    .addGroup(PanelBancarioLayout.createSequentialGroup()
+                        .addComponent(TCuentaL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TCuentaCB, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MODL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelBancarioLayout.createSequentialGroup()
+                        .addComponent(NameAutL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(NameAuttxt))
+                    .addGroup(PanelBancarioLayout.createSequentialGroup()
+                        .addComponent(IDAutL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IdCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 11, Short.MAX_VALUE))
+            .addGroup(PanelBancarioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(InformacionBancariaL)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelBancarioLayout.setVerticalGroup(
+            PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBancarioLayout.createSequentialGroup()
+                .addComponent(InformacionBancariaL)
+                .addGap(7, 7, 7)
+                .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LogoInformacionBancaria)
+                    .addGroup(PanelBancarioLayout.createSequentialGroup()
+                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(NameBnfL)
+                            .addComponent(NameBnftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(IDCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MailBnfL)
+                            .addComponent(MailBNFtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IDL))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BancoL)
+                            .addComponent(NumCuentaL)
+                            .addComponent(NumCuentatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BancoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TCuentaL)
+                            .addComponent(MODL)
+                            .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TCuentaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(NameAutL)
+                            .addComponent(NameAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(IDAutL)
+                            .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IdCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout PanelDeIdentificacionLayout = new javax.swing.GroupLayout(PanelDeIdentificacion);
         PanelDeIdentificacion.setLayout(PanelDeIdentificacionLayout);
         PanelDeIdentificacionLayout.setHorizontalGroup(
@@ -233,7 +412,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(MailL)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(Mailtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)))))))
+                                        .addComponent(Mailtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE))))))
+                    .addComponent(PanelBancario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         PanelDeIdentificacionLayout.setVerticalGroup(
@@ -274,189 +454,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ActividadL)
                     .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        NameBnfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        NameBnfL.setText("Nombre del beneficiario (*)");
-
-        NameBnftxt.setEditable(false);
-        NameBnftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-
-        IDL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IDL.setText("Identificación (*)");
-
-        IDCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
-        IDCB.setEnabled(false);
-
-        MailBnfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        MailBnfL.setText("E-mail del beneficiario");
-
-        MailBNFtxt.setEditable(false);
-        MailBNFtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-
-        BancoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BancoL.setText("Banco (*)");
-
-        NumCuentaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        NumCuentaL.setText("Nº de Cuenta (*)");
-
-        NumCuentatxt.setEditable(false);
-        NumCuentatxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-
-        TCuentaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        TCuentaL.setText("Tipo de cuenta (*)");
-
-        IDtxt.setEditable(false);
-        IDtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-
-        MonedaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        MonedaL.setText("Moneda");
-
-        MODL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        MODL.setText("MOD (*)");
-
-        InformacionBancariaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        InformacionBancariaL.setText("Información Bancaria");
-
-        LogoInformacionBancaria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen2.jpg"))); // NOI18N
-
-        NameAutL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        NameAutL.setText("Nombre del Autorizado (*)");
-
-        NameAuttxt.setEditable(false);
-        NameAuttxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-
-        IDAutL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IDAutL.setText("Identificación del Autorizado (*)");
-
-        IDAuttxt.setEditable(false);
-        IDAuttxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-
-        BancoCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        BancoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MERCANTIL BANCO UNIVERSAL", "BANCO DE VENEZUELA S.A BANCO UNIVERSAL", "VENEZOLANO DE CREDITO S.A BANCO UNIVERSAL", "BANCO PROVINCIAL S.A BANCO UNIVERSAL", "BANCO DEL CARIBE S.A C.A", "BANCO EXTERIOR S.A", "BANCO OCCIDENTAL DE DESCUENTO S.A C.A", "BANCO CARONI C.A BANCO UNIVERSAL", "BANESCO BANCO UNIVERSAL", "BANCO SOFITASA", "BANCO PLAZA", "BANCO DE COMERCIO EXTERIOR", "FONDO COMUN C.A BANCO UNIVERSAL", "100% BANCO, BANCO UNIVERSAL C.A", "DEL SUR BANCO UNIVERSAL, C.A", "BANCO DEL TESORO ", "BANCO AGRICOLA DE VENEZUELA C.A", "BANCRECER S.A BANCO MICROFINANCIERO", "MIBANCO BANCO DE DESARROLLO", "BANCO ACTIVO C.A", "BANCA AMIGA BANCO MICROFINANCIERO", "BANCO BICENTENARIO BANCO UNIVERSAL C.A", "BANCO DE LA FUERZA ARMADA NACIONAL BOLIVARIANA", "BANCO NACIONAL DE CREDITO ", " " }));
-        BancoCB.setEnabled(false);
-
-        MODCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Propia", "Cuenta Nueva", "Cuenta Autorizada" }));
-        MODCB.setEnabled(false);
-        MODCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MODCBActionPerformed(evt);
-            }
-        });
-
-        MonedaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "$" }));
-        MonedaCB.setEnabled(false);
-
-        TCuentaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente", "Cuenta Maxima", "Cuenta Moneda Extranjera" }));
-        TCuentaCB.setEnabled(false);
-
-        IdCBaut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
-        IdCBaut.setEnabled(false);
-
-        javax.swing.GroupLayout PanelBancarioLayout = new javax.swing.GroupLayout(PanelBancario);
-        PanelBancario.setLayout(PanelBancarioLayout);
-        PanelBancarioLayout.setHorizontalGroup(
-            PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelBancarioLayout.createSequentialGroup()
-                .addComponent(LogoInformacionBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(PanelBancarioLayout.createSequentialGroup()
-                        .addComponent(NameBnfL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(NameBnftxt))
-                    .addGroup(PanelBancarioLayout.createSequentialGroup()
-                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(PanelBancarioLayout.createSequentialGroup()
-                                .addComponent(BancoL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BancoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelBancarioLayout.createSequentialGroup()
-                                .addComponent(IDL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(IDCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(IDtxt)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelBancarioLayout.createSequentialGroup()
-                                .addComponent(MailBnfL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(MailBNFtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
-                            .addGroup(PanelBancarioLayout.createSequentialGroup()
-                                .addComponent(NumCuentaL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(NumCuentatxt))))
-                    .addGroup(PanelBancarioLayout.createSequentialGroup()
-                        .addComponent(TCuentaL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TCuentaCB, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MODL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MonedaL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MonedaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelBancarioLayout.createSequentialGroup()
-                        .addComponent(NameAutL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(NameAuttxt))
-                    .addGroup(PanelBancarioLayout.createSequentialGroup()
-                        .addComponent(IDAutL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IdCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 10, Short.MAX_VALUE))
-            .addGroup(PanelBancarioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(InformacionBancariaL)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        PanelBancarioLayout.setVerticalGroup(
-            PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelBancarioLayout.createSequentialGroup()
-                .addComponent(InformacionBancariaL)
-                .addGap(7, 7, 7)
-                .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LogoInformacionBancaria)
-                    .addGroup(PanelBancarioLayout.createSequentialGroup()
-                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(NameBnfL)
-                            .addComponent(NameBnftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(IDCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(IDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MailBnfL)
-                            .addComponent(MailBNFtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(IDL))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BancoL)
-                            .addComponent(NumCuentaL)
-                            .addComponent(NumCuentatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BancoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(TCuentaL)
-                            .addComponent(MODL)
-                            .addComponent(MonedaL)
-                            .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MonedaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TCuentaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(NameAutL)
-                            .addComponent(NameAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(IDAutL)
-                            .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(IdCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(PanelBancario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -508,11 +507,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout PanelObservacionesLayout = new javax.swing.GroupLayout(PanelObservaciones);
-        PanelObservaciones.setLayout(PanelObservacionesLayout);
-        PanelObservacionesLayout.setHorizontalGroup(
-            PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelObservacionesLayout.createSequentialGroup()
+        javax.swing.GroupLayout PanelBotonesLayout = new javax.swing.GroupLayout(PanelBotones);
+        PanelBotones.setLayout(PanelBotonesLayout);
+        PanelBotonesLayout.setHorizontalGroup(
+            PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBotonesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(BuscarBT)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -527,14 +526,14 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        PanelObservacionesLayout.setVerticalGroup(
-            PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelObservacionesLayout.createSequentialGroup()
+        PanelBotonesLayout.setVerticalGroup(
+            PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBotonesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelObservacionesLayout.createSequentialGroup()
+                .addGroup(PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBotonesLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addGroup(PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                             .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BuscarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(HabilitarCambiosBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -544,22 +543,98 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        IdentificacionProveedor1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor1.setText("Tasas de pago");
+
+        IdentificacionProveedor2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor2.setText("MP");
+
+        MPCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TABLA", "ACORDADO" }));
+        MPCB.setEnabled(false);
+        MPCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MPCBActionPerformed(evt);
+            }
+        });
+
+        IdentificacionProveedor3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor3.setText("Cuadrilla");
+
+        Cuadrillatxt.setEditable(false);
+
+        IdentificacionProveedor4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor4.setText("Peaje");
+
+        Fletetxt.setEditable(false);
+
+        IdentificacionProveedor5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor5.setText("Flete");
+
+        Peajetxt.setEditable(false);
+        Peajetxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PeajetxtActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelDePagosLayout = new javax.swing.GroupLayout(PanelDePagos);
+        PanelDePagos.setLayout(PanelDePagosLayout);
+        PanelDePagosLayout.setHorizontalGroup(
+            PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDePagosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(IdentificacionProveedor1)
+                .addGap(27, 27, 27)
+                .addComponent(IdentificacionProveedor2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(IdentificacionProveedor3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(IdentificacionProveedor5)
+                .addGap(10, 10, 10)
+                .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(IdentificacionProveedor4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelDePagosLayout.setVerticalGroup(
+            PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDePagosLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IdentificacionProveedor1)
+                    .addComponent(IdentificacionProveedor2)
+                    .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdentificacionProveedor3)
+                    .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdentificacionProveedor4)
+                    .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdentificacionProveedor5)
+                    .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(PanelDeIdentificacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(PanelBancario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(PanelObservaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelDePagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(PanelDeIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(PanelBancario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(PanelDePagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(PanelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -577,7 +652,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         if (edicion == true && !(Codigotxt.getText().equals("")) && !(Identificaciontxt.getText().equals("")) && !(RazonSocialtxt.getText().equals(""))) {
             //Se almacenan todos los datos ingresados por el usuario
-            String codigo = Codigotxt.getText();
+            int codigo = Integer.parseInt(Codigotxt.getText());
             String identificacion = IdentificacionCB.getSelectedItem().toString();
             identificacion += Identificaciontxt.getText();
             String razon_social = RazonSocialtxt.getText();
@@ -594,13 +669,15 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             String num_cuenta = NumCuentatxt.getText();
             String tipo_cuenta = TCuentaCB.getSelectedItem().toString();
             String mod_cuenta = MODCB.getSelectedItem().toString();
-            String moneda = MonedaCB.getSelectedItem().toString();
             String nombre_autorizado = NameAuttxt.getText();
             String id_autorizado = IdCBaut.getSelectedItem().toString();
             id_autorizado += IDAuttxt.getText();
-            
+            String MP = MPCB.getSelectedItem().toString();
+            Float Cuadrilla = Float.parseFloat(Cuadrillatxt.getText());
+            Float Flete = Float.parseFloat(Fletetxt.getText());
+            int Peaje = Integer.parseInt(Peajetxt.getText());
             try {
-                p.updateProveedorCodigo(codigo, identificacion, razon_social, direccion, municipio, telefono, email, name_beneficiario, id_beneficiario, mail_beneficiario, banco, num_cuenta, tipo_cuenta, mod_cuenta, moneda, nombre_autorizado, id_autorizado);
+                p.updateProveedorCodigo(codigo, identificacion, razon_social, direccion, municipio, telefono, email, name_beneficiario, id_beneficiario, mail_beneficiario, banco, num_cuenta, tipo_cuenta, mod_cuenta, nombre_autorizado, id_autorizado, MP, Cuadrilla, Flete, Peaje);
                 JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
@@ -621,17 +698,17 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
 
     private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
         Object[] data;
-        String codigo;
+        int codigo;
         boolean encontrado = false;
         //Busqueda por codigo
         if (modo_busqueda == 0) {
-            codigo = Codigotxt.getText();
-            if (codigo.equals("")) {
+            codigo = Integer.parseInt(Codigotxt.getText());
+            if (Codigotxt.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
             } else {
-                if(codigo.length() != 11){
+                if(Codigotxt.getText().length() != 12){
                     JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);    
-                } else if(p.comprobacionIdentificacion(codigo)){
+                } else if(p.comprobacionIdentificacion(Codigotxt.getText())){
                     try{
                         encontrado = p.buscarCodigo(codigo);
                         if (encontrado == true) {
@@ -649,6 +726,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                             RazonSocialtxt.setText(data[2].toString());
                             escribirDatos(data);
                         } else if (!encontrado) {
+                            limpiar();
                             JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
                         }
                     }catch(SQLException ex){
@@ -673,7 +751,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     try{
                         encontrado = p.buscarIdentificacion2(identificacion);
                         if (encontrado) {
-                            data = p.conseguirDatos("", identificacion, "", 2);
+                            data = p.conseguirDatos(0, identificacion, "", 2);
                             limpiar();
                             //COLOCAR EL CODIGO Y LA RAZON SOCIAL
                             Codigotxt.setText(data[0].toString());
@@ -703,7 +781,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 try{
                     encontrado = p.buscarRazonSocial(RS);
                     if (encontrado == true) {
-                        data = p.conseguirDatos("", "", RS, 3);
+                        data = p.conseguirDatos(0, "", RS, 3);
                         limpiar();
                         //COLOCAR EL CODIGO Y LA IDENTIFICACION
                         Codigotxt.setText(data[0].toString());
@@ -758,17 +836,10 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         //IDENTIFICAR EL MODO DE CUENTA-------------------------------------------------
         String modo_cuenta = data[13].toString();                   //EL STRING COMPLETO DEL MOD
         MODCB.setSelectedIndex(p.indexmod_Cuenta(modo_cuenta));
-        //IDENTIFICAR EL TIPO DE MONEDA-------------------------------------------------
-        String moneda = data[14].toString();                        //EL STRING COMPLETO DE LA MONEDA
-        if (moneda.equals("BS")) {
-            MonedaCB.setSelectedIndex(0);
-        } else if (moneda.equals("$")) {
-            MonedaCB.setSelectedIndex(1);
-        }
         //-------------------------------------------------------------------------------
-        NameAuttxt.setText(data[15].toString());
+        NameAuttxt.setText(data[14].toString());
         //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
-        String identificacion3 = data[16].toString();               //SE OBTIENE LA CEDULA COMPLETA
+        String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
         if (!identificacion3.isEmpty()) {
             char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
             int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
@@ -776,7 +847,23 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             IDAuttxt.setText(identificacion3.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
         }
         //-------------------------------------------------------------------------------
-        String actividad = data[17].toString();
+        String MP = data[16].toString();
+        if(MP.equals("TABLA")){
+            MPCB.setSelectedIndex(0);
+        } else {
+            MPCB.setSelectedIndex(1);
+        }
+        
+        float Cuadrilla = Float.parseFloat(data[17].toString());
+        Cuadrillatxt.setText(String.valueOf(Cuadrilla));
+        
+        float Flete = Float.parseFloat(data[18].toString());
+        Fletetxt.setText(String.valueOf(Flete));
+        
+        int Peaje = Integer.parseInt(data[19].toString());
+        Peajetxt.setText(String.valueOf(Peaje));
+        
+        String actividad = data[20].toString();
         if (actividad.equals("Activo")) {
             ActividadCB.setSelectedIndex(0);
         } else if (actividad.equals("Inactivo")) {
@@ -816,8 +903,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             //EL INDEX = 1 REPRESENTA QUE NO DESEA ELIMINAR
             if (index == 0) {
                 //DESEA ELIMINAR
-                String codigo = Codigotxt.getText();
-                if (codigo.equals(this.ultimo_buscado)) {
+                int codigo = Integer.parseInt(Codigotxt.getText());
+                if (Codigotxt.getText().equals(this.ultimo_buscado)) {
                     try{
                         p.deleteProveedor(codigo);
                         JOptionPane.showMessageDialog(null, "SE HA INHABILITADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
@@ -861,8 +948,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             if (!(Codigotxt.getText().equals("")) && !(Identificaciontxt.getText().equals("")) && !(RazonSocialtxt.getText().equals(""))) {
                 //SI LA PERSONA INGRESÓ BUSCANDO POR CODIGO, ES LA MANERA DE VERIFICAR SI YA BUSCÓ
                 Codigotxt.setEnabled(false);         //SE DESHABILITA EL CODIGO, PARA QUE SE MANTENGA AHÍ DURANTE LA MODIFICACION, PARA QUE NO HAYA ERRORES
-                Identificaciontxt.setEditable(false); //SE DESHABILITA LA IDENTIFICACION, PARA QUE SE MANTENGA AHÍ DURANTE LA MODIFICACION
-
                 edicion = true;
                 //A PARTIR DE AQUÍ SE HABILITAN LOS CAMPOS EMPEZANDO POR LA RAZON SOCIAL
                 habilitarCampos();
@@ -928,8 +1013,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             //EL INDEX = 1 REPRESENTA QUE NO DESEA HABILITAR
             if (index == 0) {
                 //DESEA HABILITAR
-                String codigo = Codigotxt.getText();
-                if (codigo.equals(this.ultimo_buscado)) {
+                int codigo = Integer.parseInt(Codigotxt.getText());
+                if (Codigotxt.getText().equals(this.ultimo_buscado)) {
                     try{
                         p.habilitarProveedor(codigo);
                         JOptionPane.showMessageDialog(null, "SE HA HABILITADO CON EXITO EL PROVEEDOR", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
@@ -965,7 +1050,17 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_HabilitarBTActionPerformed
 
+    private void MPCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MPCBActionPerformed
+
+    private void PeajetxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PeajetxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PeajetxtActionPerformed
+
     public void habilitarCampos() {
+        Identificaciontxt.setEditable(true);
+        IdentificacionCB.setEnabled(true);
         RazonSocialtxt.setEditable(true);
         Direcciontxt.setEditable(true);
         TipoTlftxt.setEditable(true);
@@ -979,15 +1074,22 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         NumCuentatxt.setEditable(true);
         TCuentaCB.setEnabled(true);
         MODCB.setEnabled(true);
-        MonedaCB.setEnabled(true);
         if(MODCB.getSelectedItem().toString().equals("Cuenta Autorizada")){
             NameAuttxt.setEditable(true);
             IdCBaut.setEnabled(true);
             IDAuttxt.setEditable(true);
         }
+        MPCB.setEnabled(true);
+        Cuadrillatxt.setEditable(true);
+        Fletetxt.setEditable(true);
+        Peajetxt.setEditable(true);
     }
 
     public void deshabilitarCampos() {
+        if(!(modo_busqueda == 1)){
+            Identificaciontxt.setEditable(false);
+            IdentificacionCB.setEnabled(false);
+        }
         RazonSocialtxt.setEditable(false);
         Direcciontxt.setEditable(false);
         TipoTlftxt.setEditable(false);
@@ -1001,7 +1103,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         NumCuentatxt.setEditable(false);
         TCuentaCB.setEnabled(false);
         MODCB.setEnabled(false);
-        MonedaCB.setEnabled(false);
         NameAuttxt.setEditable(false);
         IDAuttxt.setEditable(false);
         IdCBaut.setEnabled(false);
@@ -1017,6 +1118,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             //Habilitar nuevamente el campo de RazonSocial
             RazonSocialtxt.setEditable(true);
         }
+        
+        MPCB.setEnabled(false);
+        Cuadrillatxt.setEditable(false);
+        Fletetxt.setEditable(false);
+        Peajetxt.setEditable(false);
     }
 
     public void limpiar() {
@@ -1036,7 +1142,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         NumCuentatxt.setText("");
         TCuentaCB.setSelectedIndex(0);
         MODCB.setSelectedIndex(0);
-        MonedaCB.setSelectedIndex(0);
         NameAuttxt.setText("");
         IDAuttxt.setText("");
     }
@@ -1087,9 +1192,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JButton CancelarBT;
     private javax.swing.JLabel CodigoL;
     private javax.swing.JTextField Codigotxt;
+    private javax.swing.JTextField Cuadrillatxt;
     private javax.swing.JLabel DireccionL;
     private javax.swing.JTextField Direcciontxt;
     private javax.swing.JButton EliminarBT;
+    private javax.swing.JTextField Fletetxt;
     private javax.swing.JLabel FotoIdentificacion;
     private javax.swing.JButton HabilitarBT;
     private javax.swing.JButton HabilitarCambiosBT;
@@ -1102,17 +1209,21 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> IdentificacionCB;
     private javax.swing.JLabel IdentificacionL;
     private javax.swing.JLabel IdentificacionProveedor;
+    private javax.swing.JLabel IdentificacionProveedor1;
+    private javax.swing.JLabel IdentificacionProveedor2;
+    private javax.swing.JLabel IdentificacionProveedor3;
+    private javax.swing.JLabel IdentificacionProveedor4;
+    private javax.swing.JLabel IdentificacionProveedor5;
     private javax.swing.JTextField Identificaciontxt;
     private javax.swing.JLabel InformacionBancariaL;
     private javax.swing.JLabel LogoInformacionBancaria;
     private javax.swing.JComboBox<String> MODCB;
     private javax.swing.JLabel MODL;
+    private javax.swing.JComboBox<String> MPCB;
     private javax.swing.JTextField MailBNFtxt;
     private javax.swing.JLabel MailBnfL;
     private javax.swing.JLabel MailL;
     private javax.swing.JTextField Mailtxt;
-    private javax.swing.JComboBox<String> MonedaCB;
-    private javax.swing.JLabel MonedaL;
     private javax.swing.JLabel MunicipioLB;
     private javax.swing.JTextField Municipiotxt;
     private javax.swing.JLabel NameAutL;
@@ -1122,8 +1233,10 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel NumCuentaL;
     private javax.swing.JTextField NumCuentatxt;
     private javax.swing.JPanel PanelBancario;
+    private javax.swing.JPanel PanelBotones;
     private javax.swing.JPanel PanelDeIdentificacion;
-    private javax.swing.JPanel PanelObservaciones;
+    private javax.swing.JPanel PanelDePagos;
+    private javax.swing.JTextField Peajetxt;
     private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
     private javax.swing.JComboBox<String> TCuentaCB;

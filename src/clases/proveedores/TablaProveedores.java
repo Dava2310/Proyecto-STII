@@ -76,7 +76,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -435,7 +435,7 @@ public class TablaProveedores extends javax.swing.JFrame {
     public void mostrarTodos(){
         //Objeto para almacenar datos;
         Object[][] data;
-        String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Moneda", "Nombre Autorizado" , "Cedula Autorizado", "Estado"};
+        String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Nombre Autorizado" , "Cedula Autorizado", "Materia Prima", "Cuadrilla", "Flete", "Peaje","Estado"};
         try {
             //se utiliza la funcion
             data = p.getDatos();
@@ -522,7 +522,6 @@ public class TablaProveedores extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> TipoCuentaCB;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables

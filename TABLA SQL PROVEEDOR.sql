@@ -3,23 +3,30 @@ USE proveedor;
 
 -- CREACION DE LA TABLA PROVEEDOR
 create table proveedor(
-	Codigo varchar(15) NOT NULL,
-    Identificacion varchar(20) UNIQUE NOT NULL,
-    Razon_Social varchar(30) NOT NULL,
-    Direccion varchar(30),
-    Municipio varchar(30),
+	-- INFORMACION DE PROVEEDOR
+	Codigo int NOT NULL,
+    Identificacion varchar(15) UNIQUE NOT NULL,
+    Razon_Social varchar(50) NOT NULL,
+    Direccion varchar(50),
+    Municipio varchar(20),
     Telefono varchar(11),
-    Email varchar(30),
-    Name_Beneficiario varchar(30),
+    Email varchar(40),
+    -- INFORMANCION BANCARIA
+    Name_Beneficiario varchar(50),
     ID_Beneficiario varchar(15),
-    Mail_Beneficiario varchar(30),
+    Mail_Beneficiario varchar(40),
     Banco varchar(40),
-    Num_cuenta varchar(25),
-    Tipo_cuenta varchar(20),
+    Num_cuenta varchar(21),
+    Tipo_cuenta varchar(30),
     MOD_Cuenta varchar(20),
-    Moneda varchar(2) Default 'BS',
     Nombre_Autorizado varchar(30),
     ID_Autorizado varchar(15),
+    -- TASAS DE PAGO
+    Materia_Prima varchar(10) NOT NULL,
+    Cuadrilla float NOT NULL,
+    Flete float NOT NULL,
+    Peaje int NOT NULL,
+    -- ESTADO DEL PROVEEDOR EN EL SISTEMA
     Estado_Actividad varchar(10) DEFAULT 'Activo',
 	PRIMARY KEY(Codigo)
 );
@@ -28,7 +35,14 @@ create table proveedor(
 SELECT * from proveedor;	-- MOSTRAR TODOS LOS DATOS DE LA TABLA PROVEEDOR
 DROP TABLE proveedor; 		-- ELIMINAR LA TABLA PROVEEDOR
 SELECT count(1) as total FROM proveedor;
+SELECT Codigo from proveedor Order By Codigo;
 -- EJEMPLO DE CREACION DE UN PROVEEDOR
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Materia_Prima, Cuadrilla, Flete, Peaje) VALUES (1, 'V29517648', 'Daniel Vetencourt', 'TABLA', 50,50,50);
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Materia_Prima, Cuadrilla, Flete, Peaje) VALUES (2, 'V29517648', 'Daniel Vetencourt', 'TABLA', 50,50,50);
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Materia_Prima, Cuadrilla, Flete, Peaje) VALUES (3, 'V29517648', 'Daniel Vetencourt', 'TABLA', 50,50,50);
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Materia_Prima, Cuadrilla, Flete, Peaje) VALUES (4, 'V29517648', 'Daniel Vetencourt', 'TABLA', 50,50,50);
+INSERT INTO proveedor(Identificacion, Razon_Social, Materia_Prima, Cuadrilla, Flete, Peaje) VALUES ('V29517648', 'Daniel Vetencourt', 'TABLA', 50,50,50);
+
 INSERT INTO proveedor VALUES('00029517648','V29517648','Daniel','Trinitarias','04167902535','dv@gmail.com','Daniel Vetencourt',
 							 '29517648','dvetencourt23@gmail.com','Mercantil','0000088888','Corriente','Cta. Propia','BS','','');
 

@@ -345,7 +345,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
         IDtxt.setText(identificacion);
         IDCB.setSelectedIndex(tipo_identificacion);
         try{
-            Object[] data = p.conseguirDatos("", identificacion_completa, "", 2);
+            Object[] data = p.conseguirDatos(0, identificacion_completa, "", 2);
             this.codigo_proveedor = data[0].toString();
             Codigotxt.setText(codigo_proveedor);
             String razon_social = data[2].toString();

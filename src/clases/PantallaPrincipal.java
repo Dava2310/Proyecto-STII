@@ -1,17 +1,11 @@
 package clases;
 
-import clases.anticipos.ConsultarAnticipo;
-import clases.transacciones.TransaccionesConsultarModificar;
-import clases.anticipos.ModificarAnticipo;
-import clases.boletos.BusquedaYModificicacionBoleto;
-import clases.boletos.CreacionBoleto;
-import clases.boletos.IdentificacionBoleto;
-import clases.transacciones.IdentificacionProveedorTransacciones;
-import clases.proveedores.ModificarEliminarProveedor;
-import clases.proveedores.TipoConsultaProveedor;
-import clases.proveedores.ConsultarProveedor;
-import clases.proveedores.IdentificacionProveedor;
-import clases.proveedores.TablaProveedores;
+import clases.proveedores.*;
+import clases.anticipos.*;
+import clases.boletos.*;
+import clases.transacciones.*;
+import clases.tarifa_estandar.*;
+
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -41,6 +35,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public IdentificacionBoleto IB;
     public BusquedaYModificicacionBoleto BYM;
     public TablaProveedores TP;
+    public CreacionTarifa CreacionT;
     conectate con;
     
     public PantallaPrincipal() {
@@ -89,6 +84,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         CrearBoleto = new javax.swing.JMenuItem();
         BuscarBoleto = new javax.swing.JMenuItem();
         ModificarBoleto = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        MI_CrearT = new javax.swing.JMenuItem();
+        MI_BuscarModificarT = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1200, 650));
@@ -281,6 +279,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         MenuBar.add(M_Boletos);
 
+        jMenu1.setText("Tarifa_Estandar");
+
+        MI_CrearT.setText("Añadir Tarifa");
+        MI_CrearT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_CrearTActionPerformed(evt);
+            }
+        });
+        jMenu1.add(MI_CrearT);
+
+        MI_BuscarModificarT.setText("Buscar y Modificar Tarifa");
+        jMenu1.add(MI_BuscarModificarT);
+
+        MenuBar.add(jMenu1);
+
         setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -398,6 +411,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         TP = new TablaProveedores();
         TP.setVisible(true);
     }//GEN-LAST:event_MI_MostrarProveedoresActionPerformed
+
+    private void MI_CrearTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_CrearTActionPerformed
+        CreacionT = new CreacionTarifa();
+        CreacionT.setVisible(true);
+    }//GEN-LAST:event_MI_CrearTActionPerformed
     
     public void cerrar(){
         try{
@@ -464,12 +482,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem CrearTransaccion;
     private javax.swing.JLabel FONDO;
     private javax.swing.JMenuItem MI_Agregar;
+    private javax.swing.JMenuItem MI_BuscarModificarT;
     private javax.swing.JMenuItem MI_Cerrar;
     private javax.swing.JMenuItem MI_CerrarTodo;
     private javax.swing.JMenuItem MI_Consultar;
     private javax.swing.JMenuItem MI_ConsultarA;
     private javax.swing.JMenu MI_ConsultarModificar;
     private javax.swing.JMenuItem MI_CrearA;
+    private javax.swing.JMenuItem MI_CrearT;
     private javax.swing.JMenuItem MI_Eliminar;
     private javax.swing.JMenuItem MI_Guardar;
     private javax.swing.JMenuItem MI_Modificar;
@@ -488,5 +508,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem SMI_BSUSD;
     private javax.swing.JMenuItem SMI_Precios;
     private javax.swing.JMenuItem TasaBSUSDCONSUlTAR;
+    private javax.swing.JMenu jMenu1;
     // End of variables declaration//GEN-END:variables
 }

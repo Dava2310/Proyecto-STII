@@ -5,6 +5,12 @@
  */
 package clases.tarifa_estandar;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import logica.Tarifa_Estandar;
+
 /**
  *
  * @author DANIEL
@@ -14,6 +20,8 @@ public class CreacionTarifa extends javax.swing.JFrame {
     /**
      * Creates new form CreacionTarifa
      */
+    public Tarifa_Estandar TE = new Tarifa_Estandar();
+    public CreacionTarifa CT;
     public CreacionTarifa() {
         initComponents();
     }
@@ -34,17 +42,24 @@ public class CreacionTarifa extends javax.swing.JFrame {
         CrearBT = new javax.swing.JButton();
         Cuadrillatxt = new javax.swing.JTextField();
         MPCB = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        Fletetxt = new javax.swing.JTextField();
+        Peajetxt = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         CancelarBT = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        Fecha_Itxt = new javax.swing.JTextField();
 
         jLabel3.setText("jLabel3");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen1_1.png"))); // NOI18N
 
@@ -72,13 +87,13 @@ public class CreacionTarifa extends javax.swing.JFrame {
         jLabel4.setText("MATERIA PRIMA");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel5.setText("CUADRILLA");
+        jLabel5.setText("CUADRILLA (*)");
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel6.setText("FLETE");
+        jLabel6.setText("FLETE (*)");
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel7.setText("PEAJE");
+        jLabel7.setText("PEAJE (*)");
 
         CancelarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         CancelarBT.setText("CANCELAR");
@@ -87,6 +102,11 @@ public class CreacionTarifa extends javax.swing.JFrame {
                 CancelarBTActionPerformed(evt);
             }
         });
+
+        jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel8.setText("FECHA DE INICIO");
+
+        Fecha_Itxt.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,33 +127,42 @@ public class CreacionTarifa extends javax.swing.JFrame {
                                 .addGap(49, 49, 49)
                                 .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(CrearBT)
-                                .addContainerGap())
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28))))
+                        .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(40, 40, 40)
                         .addComponent(jLabel5)
-                        .addGap(95, 95, 95)
+                        .addGap(82, 82, 82)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
-                        .addGap(101, 101, 101))))
+                        .addGap(101, 101, 101))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(Fecha_Itxt, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(CrearBT)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CrearBT, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(20, 20, 20)
@@ -146,13 +175,13 @@ public class CreacionTarifa extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(CrearBT, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel2))
+                            .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(Fecha_Itxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -168,19 +197,56 @@ public class CreacionTarifa extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CuadrillatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CuadrillatxtActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_CuadrillatxtActionPerformed
 
     private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
-        // TODO add your handling code here:
+        /*
+            LO PRIMERO QUE DEBEMOS HACER ES VERIFICAR QUE LOS CAMPOS DE
+            CUADRILLA, FLETE Y PEAJE NO ESTEN VACIOS
+        */
+        if(!Cuadrillatxt.getText().isEmpty() && !Fletetxt.getText().isEmpty() && !Peajetxt.getText().isEmpty()){
+            /*
+                UNA VEZ VERIFICADO QUE NINGUNO DE LOS CAMPOS ESTAN VACIOS
+                PROCEDEMOS A GUARDAR EN VARIABLES CADA UNO DE LOS DATOS
+            */
+            String MP = MPCB.getSelectedItem().toString();
+            float Cuadrilla = Float.parseFloat(Cuadrillatxt.getText());
+            float Flete = Float.parseFloat(Fletetxt.getText());
+            int Peaje = Integer.parseInt(Peajetxt.getText());
+            String Fecha_I = Fecha_Itxt.getText();
+            String Fecha_F = "";    //TENEMOS QUE HACER QUE LA FECHA DE INICIO NO TENGA VALOR, PORQUE SIEMPRE TENDRA VALIDEZ HASTA QUE SE CREE UNA NUEVA TARIFA
+            //LLAMAMOS ENTONCES A LA FUNCION DE DESHACER VIGENCIA
+            try{
+               TE.deshacerVigencia(Fecha_I);
+               // DESPUES DE QUE HACEMOS ESO, ES QUE PODEMOS DECIR QUE HAREMOS UNA NUEVA TARIFA
+               TE.crearTarifa(Cuadrilla, Flete, Peaje, MP, Fecha_I, Fecha_F);
+               JOptionPane.showMessageDialog(null, "CREACION EXITOSA", "CONFIRMACION DE CREAR", JOptionPane.INFORMATION_MESSAGE);
+               this.dispose();
+            }catch(SQLException e){
+                System.out.println(e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS OBLIGATORIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_CrearBTActionPerformed
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
         this.dispose();
     }//GEN-LAST:event_CancelarBTActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        Date fecha_Sistema = new Date();
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat formato = new SimpleDateFormat(pattern);
+        
+        String fecha = formato.format(fecha_Sistema);
+        Fecha_Itxt.setText(fecha);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -221,7 +287,10 @@ public class CreacionTarifa extends javax.swing.JFrame {
     private javax.swing.JButton CancelarBT;
     private javax.swing.JButton CrearBT;
     private javax.swing.JTextField Cuadrillatxt;
+    private javax.swing.JTextField Fecha_Itxt;
+    private javax.swing.JTextField Fletetxt;
     private javax.swing.JComboBox<String> MPCB;
+    private javax.swing.JTextField Peajetxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -229,8 +298,7 @@ public class CreacionTarifa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

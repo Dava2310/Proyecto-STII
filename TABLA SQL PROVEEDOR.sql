@@ -10,15 +10,17 @@ create table Tarifa_Estandar(
     Peaje int NOT NULL,
     Materia_Prima varchar(10) NOT NULL,
     Fecha_Inicio datetime,
-    Fecha_Final datetime,
+    Fecha_Final datetime default '0000-00-00',
     Estado varchar(12) default 'VIGENTE', -- VIGENTE O NO VIGENTE
     primary key(Cod_Tarifa)
 );
 
+INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Peaje, Materia_Prima, Fecha_Inicio) values(1,2,3,"TABLA",'2021-06-17');
+select * from Tarifa_Estandar;
+
 -- CREACION DE LA TABLA PROVEEDOR
 create table proveedor(
-	-- INFORMACION DE PROVEEDOR
-	Codigo int NOT NULL,
+	Codigo int NOT NULL, 
     Identificacion varchar(15) UNIQUE NOT NULL,
     Razon_Social varchar(50) NOT NULL,
     Direccion varchar(50),
@@ -38,6 +40,8 @@ create table proveedor(
     foreign key(Cod_Tarifa) references Tarifa_Estandar(Cod_Tarifa)
 );
 
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(1, 'V29517648', 'Daniel Vetencourt', 78,48,48, 'TABLA');
+
 -- CREACION DE LA TABLA BENEFICIARIOS
 create table beneficiarios(
 	Cod_Beneficiario int NOT NULL,
@@ -50,7 +54,9 @@ create table beneficiarios(
     MOD_Cuenta varchar(20) NOT NULL,
     Nombre_Autorizado varchar(30),
     ID_Autorizado varchar(15),
-	PRIMARY KEY(Cod_Beneficiario)
+    Cod_Proveedor int NOT NULL,
+	PRIMARY KEY(Cod_Beneficiario),
+    foreign key(Cod_Proveedor) references proveedor(Codigo)
 );
 
 -- CREACION DE LA TABLA ANTICIPO

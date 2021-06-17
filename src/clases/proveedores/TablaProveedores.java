@@ -18,10 +18,11 @@ import logica.proveedor;
 public class TablaProveedores extends javax.swing.JFrame {
 
     public int modo;
-    public proveedor p;
+    public proveedor p = new proveedor();
+    Object[][] data;
+    int fila = -1;
     public TablaProveedores() {
         initComponents();
-        p = new proveedor();
     }
 
     /**
@@ -444,6 +445,41 @@ public class TablaProveedores extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void updateTabla(){
+        String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Nombre Autorizado" , "Cedula Autorizado", "Materia Prima", "Cuadrilla", "Flete", "Peaje","Estado"};
+        try{
+            data = p.getDatos();
+            DefaultTableModel datos = new DefaultTableModel(data, columNames);
+            tabla.setModel(datos);
+        }catch(SQLException ex){
+            Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void nuevos(){
+        Codigotxt.setText("");
+        IdentificacionCB.setSelectedIndex(0);
+        Identificaciontxt.setText("");
+        RazonSocialtxt.setText("");
+        Direcciontxt.setText("");
+        Municipiotxt.setText("");
+        TLFtxt.setText("");
+        TLF2txt.setText("");
+        Correotxt.setText("");
+        NameBnftxt.setText("");
+        IDbnfCB.setSelectedIndex(0);
+        IDBnfTxt.setText("");
+        CorreoBnfTxt.setText("");
+        EntidadBancariaCB.setSelectedIndex(0);
+        NumCuentatxt.setText("");
+        TipoCuentaCB.setSelectedIndex(0);
+        MODCB.setSelectedIndex(0);
+        MonedaCB.setSelectedIndex(0);
+        NameAuttxt.setText("");
+        IDAutCB.setSelectedIndex(0);
+        IDAutorizadoTXT.setText("");
     }
     
     /**

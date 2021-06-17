@@ -36,6 +36,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public BusquedaYModificicacionBoleto BYM;
     public TablaProveedores TP;
     public CreacionTarifa CreacionT;
+    public TablaTarifas TablaT;
     conectate con;
     
     public PantallaPrincipal() {
@@ -290,6 +291,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jMenu1.add(MI_CrearT);
 
         MI_BuscarModificarT.setText("Buscar y Modificar Tarifa");
+        MI_BuscarModificarT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_BuscarModificarTActionPerformed(evt);
+            }
+        });
         jMenu1.add(MI_BuscarModificarT);
 
         MenuBar.add(jMenu1);
@@ -416,6 +422,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         CreacionT = new CreacionTarifa();
         CreacionT.setVisible(true);
     }//GEN-LAST:event_MI_CrearTActionPerformed
+
+    private void MI_BuscarModificarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_BuscarModificarTActionPerformed
+        TablaT = new TablaTarifas();
+        TablaT.setVisible(true);
+    }//GEN-LAST:event_MI_BuscarModificarTActionPerformed
     
     public void cerrar(){
         try{

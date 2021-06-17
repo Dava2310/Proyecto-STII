@@ -14,10 +14,13 @@ public class proveedor {
     //ESTA FUNCION NOS PERMITE CREAR UN NUEVO PROVEEDOR EN LA BASE DE DATOS
     public void NuevoProveedor(int codigo, String identificacion, String razon_social, String direccion, String municipio, String telefono, String email, String materia_prima, float cuadrilla, float flete, int peaje, int Cod_Tarifa, boolean tarifa) 
             throws SQLException{
+        System.out.println(codigo);
+        System.out.println(identificacion);
+        System.out.println(razon_social);
         if(tarifa){
             try{
                 PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                        " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Materia_Prima, Cuadrilla, Flete, Peaje, Cod_Tarifa)" + 
+                        " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Materia_Prima, Cuadrilla, Flete, Peaje, Cod_Tarifa)" + 
                         " values(?,?,?,?,?,?,?,?,?,?,?,?)");
                 pstm.setInt(1, codigo);
                 pstm.setString(2, identificacion);
@@ -39,7 +42,7 @@ public class proveedor {
         } else {
             try{
                 PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                        " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Materia_Prima, Cuadrilla, Flete, Peaje)" + 
+                        " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Materia_Prima, Cuadrilla, Flete, Peaje)" + 
                         " values(?,?,?,?,?,?,?,?,?,?,?)");
                 pstm.setInt(1, codigo);
                 pstm.setString(2, identificacion);

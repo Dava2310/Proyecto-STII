@@ -219,7 +219,7 @@ public class CreacionTarifa extends javax.swing.JFrame {
             float Flete = Float.parseFloat(Fletetxt.getText());
             int Peaje = Integer.parseInt(Peajetxt.getText());
             String Fecha_I = Fecha_Itxt.getText();
-            String Fecha_F = "";    //TENEMOS QUE HACER QUE LA FECHA DE INICIO NO TENGA VALOR, PORQUE SIEMPRE TENDRA VALIDEZ HASTA QUE SE CREE UNA NUEVA TARIFA
+            String Fecha_F = "0000-00-00";  //YYYY-MM-DD  //TENEMOS QUE HACER QUE LA FECHA DE INICIO NO TENGA VALOR, PORQUE SIEMPRE TENDRA VALIDEZ HASTA QUE SE CREE UNA NUEVA TARIFA
             //LLAMAMOS ENTONCES A LA FUNCION DE DESHACER VIGENCIA
             try{
                TE.deshacerVigencia(Fecha_I);

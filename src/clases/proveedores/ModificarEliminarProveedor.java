@@ -135,7 +135,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         IdentificacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IdentificacionL.setText("Identificación (*)");
 
-        IdentificacionCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        IdentificacionCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
         IdentificacionCB.setEnabled(false);
 
         Identificaciontxt.setEditable(false);
@@ -199,7 +199,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         IDL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IDL.setText("Identificación (*)");
 
-        IDCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        IDCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
         IDCB.setEnabled(false);
 
         MailBnfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N

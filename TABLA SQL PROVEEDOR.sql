@@ -41,10 +41,10 @@ create table proveedor(
 );
 
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(1, 'V29517648', 'Daniel Vetencourt', 78,48,48, 'TABLA');
-
+SELECT * from proveedor;
 -- CREACION DE LA TABLA BENEFICIARIOS
 create table beneficiarios(
-	Cod_Beneficiario int NOT NULL,
+	Cod_Beneficiario int auto_increment NOT NULL,
     Name_Beneficiario varchar(50) NOT NULL,
     ID_Beneficiario varchar(15) NOT NULL,
     Mail_Beneficiario varchar(40),
@@ -58,6 +58,8 @@ create table beneficiarios(
 	PRIMARY KEY(Cod_Beneficiario),
     foreign key(Cod_Proveedor) references proveedor(Codigo)
 );
+
+SELECT * FROM beneficiarios;
 
 -- CREACION DE LA TABLA ANTICIPO
 create table anticipos(

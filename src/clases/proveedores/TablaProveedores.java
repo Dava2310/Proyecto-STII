@@ -21,6 +21,7 @@ public class TablaProveedores extends javax.swing.JFrame {
     public proveedor p = new proveedor();
     Object[][] data;
     int fila = -1;
+    public ConsultarProveedor CP;
     public TablaProveedores() {
         initComponents();
     }
@@ -75,7 +76,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         IDAutCB = new javax.swing.JComboBox<>();
         IDAutorizadoTXT = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        SeleccionarBT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -130,6 +131,11 @@ public class TablaProveedores extends javax.swing.JFrame {
             }
         });
         tabla.getTableHeader().setReorderingAllowed(false);
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabla);
 
         CodigoLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -255,9 +261,14 @@ public class TablaProveedores extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton1.setText("CERRAR");
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setText("SELECCIONAR");
-        jButton2.setEnabled(false);
+        SeleccionarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        SeleccionarBT.setText("SELECCIONAR");
+        SeleccionarBT.setEnabled(false);
+        SeleccionarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SeleccionarBTActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -352,7 +363,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                         .addComponent(IDAutorizadoTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(SeleccionarBT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1)))
                 .addContainerGap())
@@ -416,7 +427,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(SeleccionarBT))
                 .addGap(0, 22, Short.MAX_VALUE))
         );
 
@@ -428,15 +439,57 @@ public class TablaProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_MODCBActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if(modo == 0){
-            mostrarTodos();
-        }
+        mostrarTodos();       
     }//GEN-LAST:event_formWindowOpened
+
+    private void SeleccionarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarBTActionPerformed
+        if(!Codigotxt.getText().isEmpty()){
+            if(modo == 0){
+                CP = new ConsultarProveedor();
+                CP.codigo = Integer.parseInt(Codigotxt.getText());
+            }
+        }
+        
+    }//GEN-LAST:event_SeleccionarBTActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        fila = tabla.rowAtPoint(evt.getPoint());
+        if(fila > -1){
+            Codigotxt.setText(String.valueOf(tabla.getValueAt(fila, 0)));
+            String identificacion = String.valueOf(tabla.getValueAt(fila, 1));
+            char tipoIdentificacion = identificacion.charAt(0);
+            int TipoID1 = p.indexIdentificacion(tipoIdentificacion);
+            IdentificacionCB.setSelectedIndex(TipoID1);
+            Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
+            RazonSocialtxt.setText(String.valueOf(tabla.getValueAt(fila,2)));
+            Direcciontxt.setText(String.valueOf(tabla.getValueAt(fila,3)));
+            Municipiotxt.setText(String.valueOf(tabla.getValueAt(fila,4)));
+            String telefono = String.valueOf(tabla.getValueAt(fila,5));
+            TLFtxt.setText(telefono.substring(0, 4));
+            TLF2txt.setText(telefono.substring(4, telefono.length()));
+            Correotxt.setText(String.valueOf(tabla.getValueAt(fila,6)));
+            NameBnftxt.setText(String.valueOf(tabla.getValueAt(fila,7)));
+            String identificacion2 = String.valueOf(tabla.getValueAt(fila,8));
+            char tipoIdentificaion2 = identificacion2.charAt(0);
+            int TIPOID2 = p.indexIdentificacion(tipoIdentificaion2);
+            IDbnfCB.setSelectedIndex(TIPOID2);
+            IDBnfTxt.setText(identificacion2.substring(1, identificacion2.length()));
+            CorreoBnfTxt.setText(String.valueOf(tabla.getValueAt(fila,9)));
+            String entidad_bancaria = String.valueOf(tabla.getValueAt(fila,10));
+            int index_banco = p.getindexBanco(entidad_bancaria);
+            EntidadBancariaCB.setSelectedIndex(index_banco);
+            NumCuentatxt.setText(String.valueOf(tabla.getValueAt(fila,11)));
+            String TipoCuenta = String.valueOf(tabla.getValueAt(fila, 12));
+            int index_tipo_cuenta = p.indexTipoCuenta(TipoCuenta);
+            TipoCuentaCB.setSelectedIndex(index_tipo_cuenta);
+            String modo_cuenta = String.valueOf(tabla.getValueAt(fila,13));
+        }
+    }//GEN-LAST:event_tablaMouseClicked
     
     public void mostrarTodos(){
         //Objeto para almacenar datos;
         Object[][] data;
-        String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Nombre Autorizado" , "Cedula Autorizado", "Materia Prima", "Cuadrilla", "Flete", "Peaje","Estado"};
+        String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Cuadrilla","Flete","Peaje","Materia Prima","Codigo Tarifa","Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Nombre Autorizado" , "Cedula Autorizado", "Estado"};
         try {
             //se utiliza la funcion
             data = p.getDatos();
@@ -448,7 +501,7 @@ public class TablaProveedores extends javax.swing.JFrame {
     }
     
     public void updateTabla(){
-        String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Nombre Autorizado" , "Cedula Autorizado", "Materia Prima", "Cuadrilla", "Flete", "Peaje","Estado"};
+        String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Cuadrilla","Flete","Peaje","Materia Prima","Codigo Tarifa","Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Nombre Autorizado" , "Cedula Autorizado", "Estado"};
         try{
             data = p.getDatos();
             DefaultTableModel datos = new DefaultTableModel(data, columNames);
@@ -552,12 +605,12 @@ public class TablaProveedores extends javax.swing.JFrame {
     private javax.swing.JTextField NumCuentatxt;
     private javax.swing.JLabel RazonSocialLB;
     private javax.swing.JTextField RazonSocialtxt;
+    private javax.swing.JButton SeleccionarBT;
     private javax.swing.JLabel TCuentaL;
     private javax.swing.JTextField TLF2txt;
     private javax.swing.JTextField TLFtxt;
     private javax.swing.JComboBox<String> TipoCuentaCB;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables

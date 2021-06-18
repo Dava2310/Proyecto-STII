@@ -20,7 +20,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
 
     int modo_busqueda = 0;
     proveedor p = new proveedor();
-
+    public int codigo;
     public ConsultarProveedor() {
         initComponents();
         setResizable(false);
@@ -268,7 +268,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         IDL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IDL.setText("Identificación (*)");
 
-        IDCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        IDCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
         IDCB.setEnabled(false);
 
         NameBnftxt.setEditable(false);
@@ -770,6 +770,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarBTActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        /*
         if (modo_busqueda == 0) {
             Codigotxt.setEditable(true);
             Codigotxt.setBackground(new Color(0, 0, 0));
@@ -783,7 +784,8 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             RazonSocialtxt.setEditable(true);
             RazonSocialtxt.setBackground(new Color(0, 0, 0));
             RazonSocialtxt.setForeground(Color.WHITE);
-        }
+        }*/
+        Codigotxt.setText(String.valueOf(this.codigo));
     }//GEN-LAST:event_formWindowOpened
 
     private void MPCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPCBActionPerformed

@@ -93,7 +93,7 @@ public class proveedor {
         } catch(SQLException e){
             System.out.println(e);
         }
-        Object[][] data = new Object[registros][13];
+        Object[][] data = new Object[registros][22];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " + 
                     " Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, Cod_Tarifa, Estado_Actividad " + 
@@ -586,9 +586,9 @@ public class proveedor {
             index = 0;
         } else if ('E' == tipo) {
             index = 1;
-        } else if ('P' == tipo) {
-            index = 2;
         } else if ('J' == tipo) {
+            index = 2;
+        } else if ('P' == tipo) {
             index = 3;
         } else if ('G' == tipo) {
             index = 4;

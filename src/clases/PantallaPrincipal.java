@@ -326,10 +326,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MI_GuardarActionPerformed
 
     private void MI_ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ConsultarActionPerformed
+        TP = new TablaProveedores();
+        TP.setVisible(true);
+        TP.modo = 0;
+        /*
         TCP = new TipoConsultaProveedor();
         TCP.setVisible(true);
         TCP.modo = 1;
-        
+        */
     }//GEN-LAST:event_MI_ConsultarActionPerformed
 
     private void MI_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_AgregarActionPerformed

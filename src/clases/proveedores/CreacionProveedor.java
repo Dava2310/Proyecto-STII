@@ -758,7 +758,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
                     //Llamar a la funcion de nuevo proveedor
                     
                     if(bancaria){
-                        b.NuevoBeneficiario(nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado, mod_cuenta);
+                        b.NuevoBeneficiario(nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado, codigo);
                     }
                     int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO PROVEEDOR?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
                     //si desea crear nuevo

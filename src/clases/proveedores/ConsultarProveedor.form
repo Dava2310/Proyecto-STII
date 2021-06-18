@@ -489,8 +489,8 @@
               <StringArray count="5">
                 <StringItem index="0" value="V"/>
                 <StringItem index="1" value="E"/>
-                <StringItem index="2" value="P"/>
-                <StringItem index="3" value="J"/>
+                <StringItem index="2" value="J"/>
+                <StringItem index="3" value="P"/>
                 <StringItem index="4" value="G"/>
               </StringArray>
             </Property>

@@ -5,7 +5,6 @@
  */
 package clases.proveedores;
 
-import clases.proveedores.TipoConsultaProveedor;
 import clases.proveedores.ConsultarProveedor;
 import javax.swing.JOptionPane;
 import java.awt.Color;
@@ -24,6 +23,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
      * Creates new form CreacionProveedor
      */
     public int modo_busqueda = 0;
+    public String identificacion;
     //MODO BUSQUEDA = 0 - CONSULTA POR CODIGO
     //MODO BUSQUEDA = 1 - CONSULTA POR IDENTIFICACION
     //MODO BUSQUEDA = 2 - CONSULTA POR RAZON SOCIAL
@@ -31,7 +31,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     public String ultimo_buscado = "";
     public ConsultarProveedor CP = new ConsultarProveedor();
     public boolean edicion = false;
-    public TipoConsultaProveedor TCP;
 
     public ModificarEliminarProveedor() {
         initComponents();
@@ -94,10 +93,10 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         PanelBotones = new javax.swing.JPanel();
         CancelarBT = new javax.swing.JButton();
         Actualizar = new javax.swing.JButton();
-        BuscarBT = new javax.swing.JButton();
         EliminarBT = new javax.swing.JButton();
         HabilitarCambiosBT = new javax.swing.JButton();
         HabilitarBT = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         PanelDePagos = new javax.swing.JPanel();
         IdentificacionProveedor1 = new javax.swing.JLabel();
         IdentificacionProveedor2 = new javax.swing.JLabel();
@@ -108,6 +107,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
         Fletetxt = new javax.swing.JTextField();
         IdentificacionProveedor5 = new javax.swing.JLabel();
         Peajetxt = new javax.swing.JTextField();
+        MP_Acordadotxt = new javax.swing.JTextField();
+        IdentificacionProveedor6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -313,7 +314,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         .addComponent(IdCBaut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(IDAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(PanelBancarioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(InformacionBancariaL)
@@ -412,7 +413,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(MailL)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(Mailtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE))))))
+                                        .addComponent(Mailtxt))))))
                     .addComponent(PanelBancario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -475,14 +476,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             }
         });
 
-        BuscarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BuscarBT.setText("Buscar");
-        BuscarBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarBTActionPerformed(evt);
-            }
-        });
-
         EliminarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         EliminarBT.setText("Inhabilitar");
         EliminarBT.addActionListener(new java.awt.event.ActionListener() {
@@ -507,22 +500,25 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton1.setText("REGRESAR");
+
         javax.swing.GroupLayout PanelBotonesLayout = new javax.swing.GroupLayout(PanelBotones);
         PanelBotones.setLayout(PanelBotonesLayout);
         PanelBotonesLayout.setHorizontalGroup(
             PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBotonesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(BuscarBT)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HabilitarCambiosBT)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(Actualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(EliminarBT)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(HabilitarBT)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -531,15 +527,15 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             .addGroup(PanelBotonesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBotonesLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                             .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BuscarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(HabilitarCambiosBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(EliminarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(HabilitarBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(EliminarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HabilitarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -577,6 +573,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             }
         });
 
+        MP_Acordadotxt.setEditable(false);
+
+        IdentificacionProveedor6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor6.setText("MP (Monto acordado):");
+
         javax.swing.GroupLayout PanelDePagosLayout = new javax.swing.GroupLayout(PanelDePagos);
         PanelDePagos.setLayout(PanelDePagosLayout);
         PanelDePagosLayout.setHorizontalGroup(
@@ -585,13 +586,19 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(IdentificacionProveedor1)
                 .addGap(27, 27, 27)
-                .addComponent(IdentificacionProveedor2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(IdentificacionProveedor3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelDePagosLayout.createSequentialGroup()
+                        .addComponent(IdentificacionProveedor6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MP_Acordadotxt))
+                    .addGroup(PanelDePagosLayout.createSequentialGroup()
+                        .addComponent(IdentificacionProveedor2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(IdentificacionProveedor3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(IdentificacionProveedor5)
                 .addGap(10, 10, 10)
@@ -600,7 +607,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 .addComponent(IdentificacionProveedor4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(218, 218, 218))
         );
         PanelDePagosLayout.setVerticalGroup(
             PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -616,7 +623,11 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                     .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(IdentificacionProveedor5)
                     .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IdentificacionProveedor6)
+                    .addComponent(MP_Acordadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -633,7 +644,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 .addComponent(PanelDeIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelDePagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -650,6 +661,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_RazonSocialtxtActionPerformed
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
+        /*
         if (edicion == true && !(Codigotxt.getText().equals("")) && !(Identificaciontxt.getText().equals("")) && !(RazonSocialtxt.getText().equals(""))) {
             //Se almacenan todos los datos ingresados por el usuario
             int codigo = Integer.parseInt(Codigotxt.getText());
@@ -689,55 +701,19 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "DEBE REALIZAR PRIMERO UNA BUSQUEDA DEL PROVEEDOR", "ACTUALIZACION DE DATOS", JOptionPane.ERROR_MESSAGE);
             }
         }
-
+        */
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
         this.dispose();
     }//GEN-LAST:event_CancelarBTActionPerformed
 
-    private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
+    public void codigoBuscar(){
         Object[] data;
         int codigo;
         boolean encontrado = false;
-        //Busqueda por codigo
-        if (modo_busqueda == 0) {
-            codigo = Integer.parseInt(Codigotxt.getText());
-            if (Codigotxt.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
-            } else {
-                if(Codigotxt.getText().length() != 12){
-                    JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);    
-                } else if(p.comprobacionIdentificacion(Codigotxt.getText())){
-                    try{
-                        encontrado = p.buscarCodigo(codigo);
-                        if (encontrado == true) {
-                            data = p.conseguirDatos(codigo, "", "", 1);
-                            limpiar();
-                            String nuevo_codigo = data[0].toString();
-                            Codigotxt.setText(nuevo_codigo);
-                            //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                            String identificacion = data[1].toString();
-                            char tipoidentificacion = identificacion.charAt(0);
-                            int TipoID1 = p.indexIdentificacion(tipoidentificacion);
-                            IdentificacionCB.setSelectedIndex(TipoID1);
-                            Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                            //-----------------------------------------------------------------------------
-                            RazonSocialtxt.setText(data[2].toString());
-                            escribirDatos(data);
-                        } else if (!encontrado) {
-                            limpiar();
-                            JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
-                        }
-                    }catch(SQLException ex){
-                        Logger.getLogger(ModificarEliminarProveedor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else{
-                    JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DEL CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            //Busqueda por identificacion
-        } else if (modo_busqueda == 1) {
+        //Busqueda por identificacion
+        if (modo_busqueda == 1) {
             String identificacion = IdentificacionCB.getSelectedItem().toString();
             identificacion += Identificaciontxt.getText();
             if (identificacion.equals("")) {
@@ -803,8 +779,8 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
             }
         }
         this.ultimo_buscado = Codigotxt.getText();
-    }//GEN-LAST:event_BuscarBTActionPerformed
-
+    }
+    
     //FUNCION PARA ESCRIBIR LOS DATOS DEL PROVEEDOR ENCONTRADO DESDE LA DIRECCION
     public void escribirDatos(Object[] data) {
         Direcciontxt.setText(data[3].toString());
@@ -878,6 +854,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_IdentificaciontxtActionPerformed
 
     private void EliminarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarBTActionPerformed
+        /*        
         //1-VERIFICAR QUE NO ESTEN HABILITADOS EL MODO DE MODIFICAR (DE ESTARLO, MANDAR UN MENSAJE DE NEGACION DE ACCION) ADEMAS DE VERIFICAR QUE HAYA UN PROVEEDOR BUSCADO
         //1.2-VERIFICAR QUE EL ESTADO DEL PROVEEDOR DE POR SI ESTE ACTIVO
         //2-PRIMERO DEBE PREGUNTAR SI EN VERDAD DESEA HABILITAR
@@ -917,6 +894,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                         //EL INDEX2 = 1 REPRESENTA QUE NO DESEA CAMBIAR DE TIPO DE BUSQUEDA
                         if (index2 == 0) {
                             //DESEA CAMBIAR DE TIPO DE BUSQUEDA
+                            
                             TCP = new TipoConsultaProveedor();
                             TCP.modo = 2;
                             TCP.setVisible(true);
@@ -938,6 +916,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "EL PROVEEDOR BUSCADO YA ESTA INHABILITADO", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
+        */
     }//GEN-LAST:event_EliminarBTActionPerformed
 
     private void HabilitarCambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarCambiosBTActionPerformed
@@ -997,6 +976,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
 
     //BOTON PARA HABILITAR EL ESTADO DEL PROVEEDOR
     private void HabilitarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarBTActionPerformed
+        /*
         String estado = ActividadCB.getSelectedItem().toString();
         boolean habilitar = false;
         if (estado.equals("Inactivo")) {
@@ -1048,6 +1028,7 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "EL PROVEEDOR BUSCADO YA ESTA HABILITADO", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
+        */
     }//GEN-LAST:event_HabilitarBTActionPerformed
 
     private void MPCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPCBActionPerformed
@@ -1188,7 +1169,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JButton Actualizar;
     private javax.swing.JComboBox<String> BancoCB;
     private javax.swing.JLabel BancoL;
-    private javax.swing.JButton BuscarBT;
     private javax.swing.JButton CancelarBT;
     private javax.swing.JLabel CodigoL;
     private javax.swing.JTextField Codigotxt;
@@ -1214,12 +1194,14 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel IdentificacionProveedor3;
     private javax.swing.JLabel IdentificacionProveedor4;
     private javax.swing.JLabel IdentificacionProveedor5;
+    private javax.swing.JLabel IdentificacionProveedor6;
     private javax.swing.JTextField Identificaciontxt;
     private javax.swing.JLabel InformacionBancariaL;
     private javax.swing.JLabel LogoInformacionBancaria;
     private javax.swing.JComboBox<String> MODCB;
     private javax.swing.JLabel MODL;
     private javax.swing.JComboBox<String> MPCB;
+    private javax.swing.JTextField MP_Acordadotxt;
     private javax.swing.JTextField MailBNFtxt;
     private javax.swing.JLabel MailBnfL;
     private javax.swing.JLabel MailL;
@@ -1244,5 +1226,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField TipoTlftxt;
     private javax.swing.JLabel TlfL;
     private javax.swing.JTextField Tlftxt;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

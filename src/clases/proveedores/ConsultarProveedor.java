@@ -18,9 +18,10 @@ import logica.proveedor;
  */
 public class ConsultarProveedor extends javax.swing.JFrame {
 
-    int modo_busqueda = 0;
-    proveedor p = new proveedor();
-    public int codigo;
+    public int modo_busqueda = 0;
+    public proveedor p = new proveedor();
+    public String identificacion;
+    public TablaProveedores TP;
     public ConsultarProveedor() {
         initComponents();
         setResizable(false);
@@ -81,7 +82,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         idCBaut = new javax.swing.JComboBox<>();
         PanelObservaciones = new javax.swing.JPanel();
         NuevoBT = new javax.swing.JButton();
-        BuscarBT = new javax.swing.JButton();
         CancelarBT = new javax.swing.JButton();
         PanelDePagos = new javax.swing.JPanel();
         IdentificacionProveedor1 = new javax.swing.JLabel();
@@ -93,6 +93,9 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         Fletetxt = new javax.swing.JTextField();
         IdentificacionProveedor5 = new javax.swing.JLabel();
         Peajetxt = new javax.swing.JTextField();
+        MP_Acordadotxt = new javax.swing.JTextField();
+        IdentificacionProveedor6 = new javax.swing.JLabel();
+        TarifaEstandarBT = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -433,14 +436,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             }
         });
 
-        BuscarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BuscarBT.setText("BUSCAR");
-        BuscarBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarBTActionPerformed(evt);
-            }
-        });
-
         CancelarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         CancelarBT.setText("CANCELAR");
         CancelarBT.addActionListener(new java.awt.event.ActionListener() {
@@ -457,8 +452,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(CancelarBT)
                 .addGap(18, 18, 18)
-                .addComponent(BuscarBT)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(NuevoBT, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -466,13 +459,10 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelObservacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelObservacionesLayout.createSequentialGroup()
-                        .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BuscarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NuevoBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(CancelarBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(PanelObservacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NuevoBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         IdentificacionProveedor1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -509,6 +499,15 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             }
         });
 
+        MP_Acordadotxt.setEditable(false);
+
+        IdentificacionProveedor6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor6.setText("MP (Monto acordado):");
+
+        TarifaEstandarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        TarifaEstandarBT.setSelected(true);
+        TarifaEstandarBT.setText("TARIFA ESTANDAR");
+
         javax.swing.GroupLayout PanelDePagosLayout = new javax.swing.GroupLayout(PanelDePagos);
         PanelDePagos.setLayout(PanelDePagosLayout);
         PanelDePagosLayout.setHorizontalGroup(
@@ -517,13 +516,19 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(IdentificacionProveedor1)
                 .addGap(27, 27, 27)
-                .addComponent(IdentificacionProveedor2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(IdentificacionProveedor3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelDePagosLayout.createSequentialGroup()
+                        .addComponent(IdentificacionProveedor6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MP_Acordadotxt))
+                    .addGroup(PanelDePagosLayout.createSequentialGroup()
+                        .addComponent(IdentificacionProveedor2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(IdentificacionProveedor3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(IdentificacionProveedor5)
                 .addGap(10, 10, 10)
@@ -532,12 +537,14 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                 .addComponent(IdentificacionProveedor4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(TarifaEstandarBT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         PanelDePagosLayout.setVerticalGroup(
             PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelDePagosLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(19, 19, 19)
                 .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(IdentificacionProveedor1)
                     .addComponent(IdentificacionProveedor2)
@@ -547,8 +554,13 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                     .addComponent(IdentificacionProveedor4)
                     .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(IdentificacionProveedor5)
-                    .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TarifaEstandarBT))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IdentificacionProveedor6)
+                    .addComponent(MP_Acordadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -568,7 +580,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
                 .addComponent(PanelBancario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(PanelDePagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -585,184 +597,10 @@ public class ConsultarProveedor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_RazonSocialtxtActionPerformed
 
-    private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
-        Object[] data;
-        int codigo;
-        boolean encontrado;
-        //Busqueda por codigo
-        if (modo_busqueda == 0) {
-            codigo = Integer.parseInt(Codigotxt.getText());
-            if (Codigotxt.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "INGRESE UN CODIGO DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
-            } else {
-                if(Codigotxt.getText().length() != 12){
-                    JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else if (p.comprobacionIdentificacion(Codigotxt.getText())){
-                    try { //V29517648
-                        encontrado = p.buscarCodigo(codigo);
-                        if (encontrado == true) {
-                            data = p.conseguirDatos(codigo, "", "", 1);
-                            limpiar();
-                            Codigotxt.setText(data[0].toString());
-                            //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                            String identificacion = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
-                            char tipoidentificacion = identificacion.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
-                            int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
-                            IdentificacionCB.setSelectedIndex(TipoID1);
-                            Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                            //-----------------------------------------------------------------------------
-                            RazonSocialtxt.setText(data[2].toString());
-                            escribirDatos(data);
-                        } else if (!encontrado) {
-                            JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTE CODIGO", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DEL CODIGO", "ERROR", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            //Busqueda por identificacion
-        } else if (modo_busqueda == 1) {
-            String identificacion = IdentificacionCB.getSelectedItem().toString();
-            identificacion += Identificaciontxt.getText();
-            if (identificacion.equals("")) {
-                JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
-            } else {
-                if(Identificaciontxt.getText().length() < 7 || Identificaciontxt.getText().length() > 8){
-                    JOptionPane.showMessageDialog(null, "INGRESE UN FORMATO VALIDO DE IDENTIFICACION", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else if(!p.comprobacionIdentificacion(Identificaciontxt.getText())){
-                    JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DE LA CEDULA", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    try {
-                        encontrado = p.buscarIdentificacion2(identificacion);
-                        if (encontrado == true) {
-                            data = p.conseguirDatos(0, identificacion, "", 2);
-                            limpiar();
-                            //COLOCAR EL CODIGO Y LA RAZON SOCIAL
-                            Codigotxt.setText(data[0].toString());
-                            //CONSEGUIR REPARTIR EL TEXTO DE LA IDENTIFICACION------------------------------
-                            String identificacion_nueva = data[1].toString();             //EL STRING COMPLETO DE LA IDENTIFICACION
-                                char tipoidentificacion = identificacion_nueva.charAt(0);     //AQUI EL TIPO DE IDENTIFICACION
-                                int TipoID1 = p.indexIdentificacion(tipoidentificacion);  //DEVOLVER EL INDEX SEGUN EL TIPO DE IDENTIFICACION PARA EL COMBOBOX
-                                IdentificacionCB.setSelectedIndex(TipoID1);
-                                Identificaciontxt.setText(identificacion_nueva.substring(1, identificacion.length()));
-                                //-----------------------------------------------------------------------------
-                            RazonSocialtxt.setText(data[2].toString());
-                            escribirDatos(data);
-                        } else if (encontrado == false) {
-                            JOptionPane.showMessageDialog(null, "NO EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-            //Busqueda por razon_social
-        } else if (modo_busqueda == 2) {
-            //DEBO COLOCAR EL CODIGO Y LA IDENTIFICACION
-            String RS = RazonSocialtxt.getText();
-            if (RS.equals("")) {
-                JOptionPane.showMessageDialog(null, "INGRESE UNA RAZON SOCIAL DE PROVEEDOR", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
-            } else {
-                try {
-                    encontrado = p.buscarRazonSocial(RS);
-                    if (encontrado == true) {
-                        data = p.conseguirDatos(0, "", RS, 3);
-                        limpiar();
-                        //COLOCAR EL CODIGO Y LA IDENTIFICACION
-                        Codigotxt.setText(data[0].toString());
-                        //CONSEGUIR REPARTIR LA IDENTIFICACION --------------------------------------------
-                        String identificacion = data[1].toString();
-                        char tipoidentificacion = identificacion.charAt(0);
-                        int TipoID1 = p.indexIdentificacion(tipoidentificacion);
-                        IdentificacionCB.setSelectedIndex(TipoID1);
-                        Identificaciontxt.setText(identificacion.substring(1, identificacion.length()));
-                        //----------------------------------------------------------------------------------
-                        RazonSocialtxt.setText(data[2].toString());
-                        escribirDatos(data);
-                    } else if (!encontrado) {
-                        JOptionPane.showMessageDialog(null, "NO EXISTE NINGUN PROVEEDOR CON ESTA RAZON SOCIAL", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-            }
-        }
-    }//GEN-LAST:event_BuscarBTActionPerformed
-
-    //FUNCION PARA ESCRIBIR LOS DATOS DEL PROVEEDOR ENCONTRADO DESDE LA DIRECCION
-    public void escribirDatos(Object[] data) {
-        Direcciontxt.setText(data[3].toString());
-        Municipiotxt.setText(data[4].toString());
-        //CONSEGUIR REPARTIR EL TEXTO DEL TELEFONO
-        String telefono = data[5].toString();               //EL STRING COMPLETO DE TELEFONO
-        String tipoNumero = telefono.substring(0, 4);       //RECIBES EL TIPO NUMERO (0412, etc)
-        TipoTlftxt.setText(tipoNumero);
-        Tlftxt.setText(telefono.substring(4, telefono.length())); //AQUI SE ESCRIBE TODO EL RESTO DEL NUMERO MENOS EL PREFIJO
-        //---------------------------------------------------------------------------
-        Mailtxt.setText(data[6].toString());
-        NameBnftxt.setText(data[7].toString());
-        //CONSEGUIR REPARTIR LA IDENTIFICACION DEL BENEFICIARIO----------------------
-        String identificacion2 = data[8].toString();                //LA CEDULA COMPLETA
-        char tipoIdentificacion2 = identificacion2.charAt(0);       //EL TIPO DE CEDULA 'V', etc
-        int TipoID2 = p.indexIdentificacion(tipoIdentificacion2);     //RECIBIR EL INDEX PARA EL CB SEGUN EL TIPO DE CEDULA
-        IDCB.setSelectedIndex(TipoID2);
-        IDtxt.setText(identificacion2.substring(1, identificacion2.length())); //LO QUE QUEDA DE CEDULA SIN EL TIPO
-        //----------------------------------------------------------------------------
-        MailBNFtxt.setText(data[9].toString());
-        //IDENTIFICAR EL TIPO DE BANCO
-        String banco = data[10].toString();                  //EL STRING COMPLETO DEL BANCO
-        BancoCB.setSelectedIndex(p.getindexBanco(banco));     //COLOCO SEGUN EL INDEX DE LO QUE CORRESPONDE AL BANCO EN EL COMBOBOX
-        //----------------------------------------------------------------------------
-        NumCuentatxt.setText(data[11].toString());
-        //IDENTIFICAR EL TIPO DE CUENTA DE BANCO
-        String tipoCuenta = data[12].toString();                    //EL STRING COMPLETO DEL TIPO DE CUENTA BANCARIA
-        TCuentaCB.setSelectedIndex(p.indexTipoCuenta(tipoCuenta));
-        //IDENTIFICAR EL MODO DE CUENTA-------------------------------------------------
-        String modo_cuenta = data[13].toString();                   //EL STRING COMPLETO DEL MOD
-        MODCB.setSelectedIndex(p.indexmod_Cuenta(modo_cuenta));
-        //-------------------------------------------------------------------------------
-        NameAuttxt.setText(data[14].toString());
-        //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
-        String identificacion3 = data[15].toString();               //SE OBTIENE LA CEDULA COMPLETA
-        if (!identificacion3.isEmpty()) {
-            char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
-            int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
-            idCBaut.setSelectedIndex(tipoID3);
-            IDAuttxt.setText(identificacion3.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
-        }
-
-        //--------------------------------------------------------------------------------
-        String MP = data[16].toString();
-        if(MP.equals("TABLA")){
-            MPCB.setSelectedIndex(0);
-        } else {
-            MPCB.setSelectedIndex(1);
-        }
-        
-        float Cuadrilla = Float.parseFloat(data[17].toString());
-        Cuadrillatxt.setText(String.valueOf(Cuadrilla));
-        
-        float Flete = Float.parseFloat(data[18].toString());
-        Fletetxt.setText(String.valueOf(Flete));
-        
-        int Peaje = Integer.parseInt(data[19].toString());
-        Peajetxt.setText(String.valueOf(Peaje));
-        
-        //SE AGREGA EL ESTATUS DEL PROVEEDOR----------------------------------------------
-        String actividad = data[20].toString();
-        if (actividad.equals("Activo")) {
-            ActividadCB.setSelectedIndex(0);
-        } else if (actividad.equals("Inactivo")) {
-            ActividadCB.setSelectedIndex(1);
-        }
-    }
-
     private void NuevoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoBTActionPerformed
-        limpiar();
+        TP = new TablaProveedores();
+        TP.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_NuevoBTActionPerformed
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
@@ -770,6 +608,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarBTActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        limpiar();
         /*
         if (modo_busqueda == 0) {
             Codigotxt.setEditable(true);
@@ -785,9 +624,95 @@ public class ConsultarProveedor extends javax.swing.JFrame {
             RazonSocialtxt.setBackground(new Color(0, 0, 0));
             RazonSocialtxt.setForeground(Color.WHITE);
         }*/
-        Codigotxt.setText(String.valueOf(this.codigo));
+        try {
+            /*
+            ESTA INTERFAZ ES LLAMADA DESPUES DE HABER SELECCIONADO A UN PROVEEDOR
+            DESDE LA TABLA COMPLETA
+            COMO YA TENEMOS EL CODIGO, HAY QUE IMPRIMIR LOS DATOS DEL PROVEEDOR
+            EN TODOS LOS CAMPOS CORRESPONDIENTES
+            */
+            Object[] data = p.conseguirDatos(0, identificacion, "", 2);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowOpened
-
+    
+    //FUNCION PARA ESCRIBIR LOS DATOS DEL PROVEEDOR ENCONTRADO DESDE LA DIRECCION
+    public void escribirDatos(Object[] data) {
+        Codigotxt.setText(data[0].toString());
+        Identificaciontxt.setText(data[1].toString());
+        RazonSocialtxt.setText(data[2].toString());
+        Direcciontxt.setText(data[3].toString());
+        Municipiotxt.setText(data[4].toString());
+        //CONSEGUIR REPARTIR EL TEXTO DEL TELEFONO
+        String telefono = data[5].toString();               //EL STRING COMPLETO DE TELEFONO
+        String tipoNumero = telefono.substring(0, 4);       //RECIBES EL TIPO NUMERO (0412, etc)
+        TipoTlftxt.setText(tipoNumero);
+        Tlftxt.setText(telefono.substring(4, telefono.length())); //AQUI SE ESCRIBE TODO EL RESTO DEL NUMERO MENOS EL PREFIJO
+        //---------------------------------------------------------------------------
+        Mailtxt.setText(data[6].toString());
+        //============================================= INFORMACION DE BENEFICIARIO =================================================
+        if(!data[13].toString().isEmpty() && !data[14].toString().isEmpty() && !data[15].toString().isEmpty() && !data[17].toString().isEmpty()){
+            NameBnftxt.setText(data[13].toString());
+            //CONSEGUIR REPARTIR LA IDENTIFICACION DEL BENEFICIARIO----------------------
+            String identificacion2 = data[14].toString();                //LA CEDULA COMPLETA
+            char tipoIdentificacion2 = identificacion2.charAt(0);       //EL TIPO DE CEDULA 'V', etc
+            int TipoID2 = p.indexIdentificacion(tipoIdentificacion2);     //RECIBIR EL INDEX PARA EL CB SEGUN EL TIPO DE CEDULA
+            IDCB.setSelectedIndex(TipoID2);
+            IDtxt.setText(identificacion2.substring(1, identificacion2.length())); //LO QUE QUEDA DE CEDULA SIN EL TIPO
+            //----------------------------------------------------------------------------
+            MailBNFtxt.setText(data[15].toString());
+            //IDENTIFICAR EL TIPO DE BANCO
+            String banco = data[16].toString();                  //EL STRING COMPLETO DEL BANCO
+            BancoCB.setSelectedIndex(p.getindexBanco(banco));     //COLOCO SEGUN EL INDEX DE LO QUE CORRESPONDE AL BANCO EN EL COMBOBOX
+            //----------------------------------------------------------------------------
+            NumCuentatxt.setText(data[17].toString());
+            //IDENTIFICAR EL TIPO DE CUENTA DE BANCO
+            String tipoCuenta = data[18].toString();                    //EL STRING COMPLETO DEL TIPO DE CUENTA BANCARIA
+            TCuentaCB.setSelectedIndex(p.indexTipoCuenta(tipoCuenta));
+            //IDENTIFICAR EL MODO DE CUENTA-------------------------------------------------
+            String modo_cuenta = data[19].toString();                   //EL STRING COMPLETO DEL MOD
+            MODCB.setSelectedIndex(p.indexmod_Cuenta(modo_cuenta));
+            //-------------------------------------------------------------------------------
+            NameAuttxt.setText(data[20].toString());
+            //CONSEGUIR REPARTIR LA IDENTIFACION DEL AUTORIZADO------------------------------
+            String identificacion3 = data[21].toString();               //SE OBTIENE LA CEDULA COMPLETA
+            if (!identificacion3.isEmpty()) {
+                char tipoidentificacion3 = identificacion3.charAt(0);       //TIPO DE CEDULA
+                int tipoID3 = p.indexIdentificacion(tipoidentificacion3);   //SE OBTIENE EL INDEX PARA EL COMBOBOX
+                idCBaut.setSelectedIndex(tipoID3);
+                IDAuttxt.setText(identificacion3.substring(1, identificacion3.length())); //LO QUE RESTA DE LA CEDULA
+            }
+        }
+        //--------------------------------------------------------------------------------
+        String MP = data[10].toString();
+        if(MP.equals("TABLA")){
+            MPCB.setSelectedIndex(0);
+            MP_Acordadotxt.setText("NO ACORDADO");
+        } else {
+            MPCB.setSelectedIndex(1);
+            float MP_acordado = Float.parseFloat(data[11].toString());
+            MP_Acordadotxt.setText(String.valueOf(MP_acordado));
+        }
+        float Cuadrilla = Float.parseFloat(data[7].toString());
+        Cuadrillatxt.setText(String.valueOf(Cuadrilla));
+        
+        float Flete = Float.parseFloat(data[8].toString());
+        Fletetxt.setText(String.valueOf(Flete));
+        
+        int Peaje = Integer.parseInt(data[9].toString());
+        Peajetxt.setText(String.valueOf(Peaje));
+        
+        //SE AGREGA EL ESTATUS DEL PROVEEDOR----------------------------------------------
+        String actividad = data[22].toString();
+        if (actividad.equals("Activo")) {
+            ActividadCB.setSelectedIndex(0);
+        } else if (actividad.equals("Inactivo")) {
+            ActividadCB.setSelectedIndex(1);
+        }
+    }
+    
     private void MPCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MPCBActionPerformed
@@ -865,7 +790,6 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel ActividadL;
     private javax.swing.JComboBox<String> BancoCB;
     private javax.swing.JLabel BancoL;
-    private javax.swing.JButton BuscarBT;
     private javax.swing.JButton CancelarBT;
     private javax.swing.JLabel CodigoL;
     private javax.swing.JTextField Codigotxt;
@@ -887,12 +811,14 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel IdentificacionProveedor3;
     private javax.swing.JLabel IdentificacionProveedor4;
     private javax.swing.JLabel IdentificacionProveedor5;
+    private javax.swing.JLabel IdentificacionProveedor6;
     private javax.swing.JTextField Identificaciontxt;
     private javax.swing.JLabel InformacionBancariaL;
     private javax.swing.JLabel LogoInformacionBancaria;
     private javax.swing.JComboBox<String> MODCB;
     private javax.swing.JLabel MODL;
     private javax.swing.JComboBox<String> MPCB;
+    private javax.swing.JTextField MP_Acordadotxt;
     private javax.swing.JTextField MailBNFtxt;
     private javax.swing.JLabel MailBnfL;
     private javax.swing.JLabel MailL;
@@ -915,6 +841,7 @@ public class ConsultarProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField RazonSocialtxt;
     private javax.swing.JComboBox<String> TCuentaCB;
     private javax.swing.JLabel TCuentaL;
+    private javax.swing.JToggleButton TarifaEstandarBT;
     private javax.swing.JTextField TipoTlftxt;
     private javax.swing.JLabel TlfL;
     private javax.swing.JTextField Tlftxt;

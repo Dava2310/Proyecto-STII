@@ -9,8 +9,12 @@ import clases.tarifa_estandar.*;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import logica.conectate;
 
 public class PantallaPrincipal extends javax.swing.JFrame {
@@ -28,7 +32,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public ModificarEliminarProveedor MEP;
     public ModificarAnticipo MA;
     public ConsultarAnticipo CA;
-    public TipoConsultaProveedor TCP;
     public IdentificacionProveedorTransacciones IPT;
     public TransaccionesConsultarModificar TCM;
     public CreacionBoleto CB;
@@ -327,13 +330,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void MI_ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ConsultarActionPerformed
         TP = new TablaProveedores();
+        TP.modo = 1;
         TP.setVisible(true);
-        TP.modo = 0;
-        /*
-        TCP = new TipoConsultaProveedor();
-        TCP.setVisible(true);
-        TCP.modo = 1;
-        */
+        
     }//GEN-LAST:event_MI_ConsultarActionPerformed
 
     private void MI_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_AgregarActionPerformed
@@ -342,15 +341,15 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MI_AgregarActionPerformed
 
     private void MI_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ModificarActionPerformed
-        TCP = new TipoConsultaProveedor();
-        TCP.setVisible(true);
-        TCP.modo = 2;
+        TP = new TablaProveedores();
+        TP.setVisible(true);
+        TP.modo = 2;
     }//GEN-LAST:event_MI_ModificarActionPerformed
 
     private void MI_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_EliminarActionPerformed
-        TCP = new TipoConsultaProveedor();
-        TCP.setVisible(true);
-        TCP.modo = 2;
+        TP = new TablaProveedores();
+        TP.setVisible(true);
+        TP.modo = 2;
         
     }//GEN-LAST:event_MI_EliminarActionPerformed
 
@@ -419,6 +418,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void MI_MostrarProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_MostrarProveedoresActionPerformed
         TP = new TablaProveedores();
+        TP.modo = 0;
         TP.setVisible(true);
     }//GEN-LAST:event_MI_MostrarProveedoresActionPerformed
 

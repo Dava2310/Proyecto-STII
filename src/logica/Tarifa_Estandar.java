@@ -21,10 +21,10 @@ public class Tarifa_Estandar {
         }catch(SQLException ex){
             Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Object[][] data = new Object[registros][8];
+        Object[][] data = new Object[registros][7];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " + 
-                    " Cod_Tarifa, Cuadrilla, Flete, Peaje, Materia_Prima, Fecha_Inicio, Fecha_Final, Estado " + 
+                    " Cod_Tarifa, Cuadrilla, Flete, Materia_Prima, Fecha_Inicio, Fecha_Final, Estado " + 
                     " FROM Tarifa_Estandar " +
                     " ORDER BY Cod_Tarifa");
             ResultSet res = pstm.executeQuery();
@@ -33,7 +33,6 @@ public class Tarifa_Estandar {
                 int estCod_Tarifa = res.getInt("Cod_Tarifa");
                 float estCuadrilla = res.getFloat("Cuadrilla");
                 float estFlete = res.getFloat("Flete");
-                int estPeaje = res.getInt("Peaje");
                 String estMateria_Prima = res.getString("Materia_Prima");
                 String estFecha_Inicio = res.getString("Fecha_Inicio");
                 String estFecha_Final = res.getString("Fecha_Final");
@@ -42,11 +41,10 @@ public class Tarifa_Estandar {
                 data[i][0] = estCod_Tarifa;
                 data[i][1] = estCuadrilla;
                 data[i][2] = estFlete;
-                data[i][3] = estPeaje;
-                data[i][4] = estMateria_Prima;
-                data[i][5] = estFecha_Inicio;
-                data[i][6] = estFecha_Final;
-                data[i][7] = estEstado;
+                data[i][3] = estMateria_Prima;
+                data[i][4] = estFecha_Inicio;
+                data[i][5] = estFecha_Final;
+                data[i][6] = estEstado;
                 i++;
             }
         }catch(SQLException ex){
@@ -55,15 +53,14 @@ public class Tarifa_Estandar {
         return data;
     }
     
-    public void crearTarifa(float Cuadrilla, float Flete, int Peaje, String Materia_Prima, String Fecha_I, String Fecha_F) throws SQLException{
+    public void crearTarifa(float Cuadrilla, float Flete, String Materia_Prima, String Fecha_I, String Fecha_F) throws SQLException{
         try {
-            PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Peaje, Materia_Prima, Fecha_Inicio, Fecha_Final) values(?,?,?,?,?,?)");
+            PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio, Fecha_Final) values(?,?,?,?,?)");
             pstm.setFloat(1, Cuadrilla);
             pstm.setFloat(2, Flete);
-            pstm.setInt(3, Peaje);
-            pstm.setString(4, Materia_Prima);
-            pstm.setString(5, Fecha_I);
-            pstm.setString(6, Fecha_F);
+            pstm.setString(3, Materia_Prima);
+            pstm.setString(4, Fecha_I);
+            pstm.setString(5, Fecha_F);
             pstm.execute();
             pstm.close();
         } catch (SQLException ex) {
@@ -90,21 +87,32 @@ public class Tarifa_Estandar {
     }
     
     public Object[] obtenerUltimaTarifa(){
-        Object[] data = new Object[4];
+        Object[] data = new Object[3];
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_Tarifa, Cuadrilla, Flete, Peaje FROM Tarifa_Estandar where Estado = ?");
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_Tarifa, Cuadrilla, Flete FROM Tarifa_Estandar where Estado = ?");
             pstm.setString(1, "VIGENTE");
             ResultSet res = pstm.executeQuery();
             while(res.next()){
                 data[0] = res.getInt("Cod_Tarifa");
                 data[1] = res.getFloat("Cuadrilla");
                 data[2] = res.getFloat("Flete");
-                data[3] = res.getInt("Peaje");
             }
             res.close();
         }catch(SQLException ex){
             Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
+    }
+    
+    public void updateTarifa(float Cuadrilla, float Flete){
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Tarifa_Estandar set Cuadrilla = ?, Flete = ? where Cod_Tarifa = ?");
+            pstm.setFloat(1, Cuadrilla);
+            pstm.setFloat(2, Flete);
+            pstm.execute();
+            pstm.close();
+        }catch(SQLException ex){
+            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

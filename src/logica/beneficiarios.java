@@ -1,5 +1,7 @@
 package logica;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author DANIEL
@@ -15,8 +17,8 @@ public class beneficiarios {
             String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String nombre_autorizado, String id_autorizado, int cod_proveedor)
     throws SQLException{
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO beneficiarios(Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Nombre_Autorizado, ID_Autorizado, Cod_Proveedor) " +
-                    " values(?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO beneficiarios(Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Nombre_Autorizado, ID_Autorizado) " +
+                    " values(?,?,?,?,?,?,?,?,?)");
             pstm.setString(1, name_beneficiario);
             pstm.setString(2, id_beneficiario);
             pstm.setString(3, mail_beneficiario);
@@ -26,11 +28,57 @@ public class beneficiarios {
             pstm.setString(7, mod_cuenta);
             pstm.setString(8, nombre_autorizado);
             pstm.setString(9, id_autorizado);
-            pstm.setInt(10, cod_proveedor);
             pstm.execute();
             pstm.close();
         }catch(SQLException e){
             System.out.println(e);
         }
+    }
+    
+    public boolean buscarBeneficiario(String identificacion){
+        boolean encontrado = false;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * FROM beneficiarios WHERE ID_Beneficiario = ?");
+            pstm.setString(1, identificacion);
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                encontrado = true;
+            }
+            res.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return encontrado;
+    }
+    
+    public int codigoSiguiente() throws SQLException{
+        int codigo = 1;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_Beneficiario from beneficiarios ORDER BY Cod_Beneficiario DESC");
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                codigo = res.getInt("Cod_Beneficiario");
+            }
+            res.close();
+        }catch(SQLException ex){
+            Logger.getLogger(beneficiarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return codigo;
+    }
+    
+    public int retornaCodigo(String identificacion){
+        int codigo = 0;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_Beneficiario FROM beneficiarios WHERE ID_Beneficiario = ?");
+            pstm.setString(1, identificacion);
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                codigo = res.getInt("Cod_Beneficiario");
+            }
+            res.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return codigo;
     }
 }

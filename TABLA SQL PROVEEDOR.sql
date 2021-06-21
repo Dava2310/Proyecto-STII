@@ -7,7 +7,6 @@ create table Tarifa_Estandar(
 	Cod_Tarifa int auto_increment NOT NULL,
     Cuadrilla float NOT NULL,
     Flete float NOT NULL,
-    Peaje int NOT NULL,
     Materia_Prima varchar(10) NOT NULL,
     Fecha_Inicio datetime,
     Fecha_Final datetime default '0000-00-00',
@@ -15,7 +14,7 @@ create table Tarifa_Estandar(
     primary key(Cod_Tarifa)
 );
 
-INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Peaje, Materia_Prima, Fecha_Inicio) values(1,2,3,"TABLA",'2021-06-17');
+INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio) values(1,2,"TABLA",'2021-06-17');
 select * from Tarifa_Estandar;
 
 -- CREACION DE LA TABLA PROVEEDOR
@@ -32,6 +31,7 @@ create table proveedor(
     Flete float NOT NULL,
     Peaje int NOT NULL,
     Materia_Prima varchar(10) NOT NULL,
+    MP_acordado float,
     -- LLAVES FORANEAS
     Cod_Tarifa int,
     -- ESTADO DEL PROVEEDOR EN EL SISTEMA
@@ -40,13 +40,13 @@ create table proveedor(
     foreign key(Cod_Tarifa) references Tarifa_Estandar(Cod_Tarifa)
 );
 
-INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(1, 'V29517648', 'Daniel Vetencourt', 78,48,48, 'TABLA');
+-- INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(1, 'V29517648', 'Daniel Vetencourt', 78,48,48, 'TABLA');
 SELECT * from proveedor;
 -- CREACION DE LA TABLA BENEFICIARIOS
 create table beneficiarios(
 	Cod_Beneficiario int auto_increment NOT NULL,
     Name_Beneficiario varchar(50) NOT NULL,
-    ID_Beneficiario varchar(15) NOT NULL,
+    ID_Beneficiario varchar(15) UNIQUE NOT NULL,
     Mail_Beneficiario varchar(40),
     Banco varchar(40) NOT NULL,
     Num_cuenta varchar(21) NOT NULL,
@@ -54,9 +54,7 @@ create table beneficiarios(
     MOD_Cuenta varchar(20) NOT NULL,
     Nombre_Autorizado varchar(30),
     ID_Autorizado varchar(15),
-    Cod_Proveedor int NOT NULL,
-	PRIMARY KEY(Cod_Beneficiario),
-    foreign key(Cod_Proveedor) references proveedor(Codigo)
+	PRIMARY KEY(Cod_Beneficiario)
 );
 
 SELECT * FROM beneficiarios;
@@ -137,6 +135,8 @@ create table Relacion_Proveedor_Beneficiario(
     foreign key(Cod_Bnf) references beneficiarios(Cod_Beneficiario),
     foreign key(Cod_Proveedor) references proveedor(Codigo)
 );
+
+SELECT * from Relacion_Proveedor_Beneficiario;
 
 create table ODP(
 	Cod_ODP int auto_increment NOT NULL,

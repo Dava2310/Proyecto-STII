@@ -8,6 +8,9 @@ package clases.proveedores;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import logica.proveedor;
 
@@ -18,10 +21,10 @@ import logica.proveedor;
 public class TablaProveedores extends javax.swing.JFrame {
 
     public int modo;
+    public boolean seleccionado = false;
     public proveedor p = new proveedor();
     Object[][] data;
     int fila = -1;
-    public ConsultarProveedor CP;
     public ModificarEliminarProveedor MEP;
     public TablaProveedores() {
         initComponents();
@@ -41,6 +44,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         PanelDeIdentificacion = new javax.swing.JPanel();
+        CerrarBT = new javax.swing.JButton();
         IdentificacionProveedor = new javax.swing.JLabel();
         FotoIdentificacionv = new javax.swing.JLabel();
         CodigoL = new javax.swing.JLabel();
@@ -98,8 +102,11 @@ public class TablaProveedores extends javax.swing.JFrame {
         TarifaEstandarBT = new javax.swing.JToggleButton();
         IdentificacionProveedor1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        SeleccionarBT = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        GuardarBT = new javax.swing.JButton();
+        HabilitarCambiosBT = new javax.swing.JToggleButton();
+        ActivarBT = new javax.swing.JButton();
+        DesactivarBT = new javax.swing.JButton();
+        SeleccionarBT = new javax.swing.JToggleButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -163,6 +170,16 @@ public class TablaProveedores extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tabla);
 
+        jScrollPane1.setBackground(new java.awt.Color(205, 240, 243));
+
+        CerrarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CerrarBT.setText("CERRAR");
+        CerrarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarBTActionPerformed(evt);
+            }
+        });
+
         IdentificacionProveedor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IdentificacionProveedor.setText("Identificación del Proveedor");
 
@@ -173,11 +190,6 @@ public class TablaProveedores extends javax.swing.JFrame {
 
         Codigotxt.setEditable(false);
         Codigotxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        Codigotxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CodigotxtActionPerformed(evt);
-            }
-        });
 
         IdentificacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IdentificacionL.setText("Identificación (*)");
@@ -193,11 +205,6 @@ public class TablaProveedores extends javax.swing.JFrame {
 
         RazonSocialtxt.setEditable(false);
         RazonSocialtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        RazonSocialtxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RazonSocialtxtActionPerformed(evt);
-            }
-        });
 
         DireccionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         DireccionL.setText("Dirección");
@@ -219,11 +226,6 @@ public class TablaProveedores extends javax.swing.JFrame {
 
         TipoTlftxt.setEditable(false);
         TipoTlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        TipoTlftxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TipoTlftxtActionPerformed(evt);
-            }
-        });
 
         MunicipioLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MunicipioLB.setText("Municipio");
@@ -280,11 +282,6 @@ public class TablaProveedores extends javax.swing.JFrame {
 
         CorreoBNF_txt.setEditable(false);
         CorreoBNF_txt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        CorreoBNF_txt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CorreoBNF_txtActionPerformed(evt);
-            }
-        });
 
         MailBnfL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MailBnfL6.setText("E-mail del beneficiario");
@@ -426,6 +423,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         CuadrillaLB.setText("Cuadrilla (*)");
 
         MPCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TABLA", "ACORDADO" }));
+        MPCB.setEnabled(false);
         MPCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MPCBActionPerformed(evt);
@@ -444,14 +442,8 @@ public class TablaProveedores extends javax.swing.JFrame {
         IdentificacionProveedor4.setText("Peaje (*)");
 
         Peajetxt.setEditable(false);
-        Peajetxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PeajetxtActionPerformed(evt);
-            }
-        });
 
         TarifaEstandarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        TarifaEstandarBT.setSelected(true);
         TarifaEstandarBT.setText("TARIFA ESTANDAR");
         TarifaEstandarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -532,17 +524,45 @@ public class TablaProveedores extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        GuardarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        GuardarBT.setText("GUARDAR CAMBIOS");
+        GuardarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarBTActionPerformed(evt);
+            }
+        });
+
+        HabilitarCambiosBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        HabilitarCambiosBT.setText("HABILITAR CAMBIOS");
+        HabilitarCambiosBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HabilitarCambiosBTActionPerformed(evt);
+            }
+        });
+
+        ActivarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ActivarBT.setText("RE-ACTIVAR");
+        ActivarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActivarBTActionPerformed(evt);
+            }
+        });
+
+        DesactivarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        DesactivarBT.setText("DESACTIVAR");
+        DesactivarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DesactivarBTActionPerformed(evt);
+            }
+        });
+
         SeleccionarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         SeleccionarBT.setText("SELECCIONAR");
-        SeleccionarBT.setEnabled(false);
         SeleccionarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SeleccionarBTActionPerformed(evt);
             }
         });
-
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setText("CERRAR");
 
         javax.swing.GroupLayout PanelDeIdentificacionLayout = new javax.swing.GroupLayout(PanelDeIdentificacion);
         PanelDeIdentificacion.setLayout(PanelDeIdentificacionLayout);
@@ -598,10 +618,18 @@ public class TablaProveedores extends javax.swing.JFrame {
             .addComponent(JPanelPagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDeIdentificacionLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(SeleccionarBT)
+                .addComponent(DesactivarBT)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(40, 40, 40))
+                .addComponent(ActivarBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(GuardarBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(HabilitarCambiosBT)
+                .addGap(12, 12, 12)
+                .addComponent(SeleccionarBT)
+                .addGap(18, 18, 18)
+                .addComponent(CerrarBT)
+                .addContainerGap())
         );
         PanelDeIdentificacionLayout.setVerticalGroup(
             PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -645,8 +673,12 @@ public class TablaProveedores extends javax.swing.JFrame {
                 .addComponent(JPanelPagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SeleccionarBT)
-                    .addComponent(jButton1))
+                    .addComponent(CerrarBT)
+                    .addComponent(GuardarBT)
+                    .addComponent(HabilitarCambiosBT)
+                    .addComponent(ActivarBT)
+                    .addComponent(DesactivarBT)
+                    .addComponent(SeleccionarBT))
                 .addContainerGap())
         );
 
@@ -671,34 +703,12 @@ public class TablaProveedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        mostrarTodos();
-        if(modo == 1 || modo == 2){
-            SeleccionarBT.setEnabled(true);
-        } else {
-            SeleccionarBT.setEnabled(false);
-        }       
+        mostrarTodos();      
     }//GEN-LAST:event_formWindowOpened
-
-    private void SeleccionarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarBTActionPerformed
-        if(!Codigotxt.getText().isEmpty()){
-            if(modo == 0){
-                CP = new ConsultarProveedor();
-                CP.identificacion = Codigotxt.getText();
-                CP.setVisible(true);
-                this.dispose();
-            } else if (modo == 1){
-                MEP = new ModificarEliminarProveedor();
-                MEP.identificacion = Codigotxt.getText();
-                MEP.setVisible(true);
-                this.dispose();
-            }
-        }
-        
-    }//GEN-LAST:event_SeleccionarBTActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         fila = tabla.rowAtPoint(evt.getPoint());
-        if(fila > -1){
+        if(fila > -1 && seleccionado == false){
             Codigotxt.setText(String.valueOf(tabla.getValueAt(fila, 0)));
             String identificacion = String.valueOf(tabla.getValueAt(fila, 1));
             char tipoIdentificacion = identificacion.charAt(0);
@@ -827,33 +837,46 @@ public class TablaProveedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MPCBActionPerformed
 
-    private void PeajetxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PeajetxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PeajetxtActionPerformed
-
     private void TarifaEstandarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TarifaEstandarBTActionPerformed
         
     }//GEN-LAST:event_TarifaEstandarBTActionPerformed
-
-    private void CodigotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CodigotxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CodigotxtActionPerformed
-
-    private void RazonSocialtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RazonSocialtxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RazonSocialtxtActionPerformed
 
     private void MOD_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOD_CBActionPerformed
         
     }//GEN-LAST:event_MOD_CBActionPerformed
 
-    private void CorreoBNF_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorreoBNF_txtActionPerformed
+    private void GuardarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarBTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CorreoBNF_txtActionPerformed
+    }//GEN-LAST:event_GuardarBTActionPerformed
 
-    private void TipoTlftxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoTlftxtActionPerformed
+    private void HabilitarCambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarCambiosBTActionPerformed
+        
+    }//GEN-LAST:event_HabilitarCambiosBTActionPerformed
+
+    private void ActivarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActivarBTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TipoTlftxtActionPerformed
+    }//GEN-LAST:event_ActivarBTActionPerformed
+
+    private void DesactivarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DesactivarBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DesactivarBTActionPerformed
+
+    private void CerrarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarBTActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_CerrarBTActionPerformed
+
+    private void SeleccionarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarBTActionPerformed
+        if(!Codigotxt.getText().isEmpty()){
+            if(seleccionado){
+            seleccionado = false;
+            } else {
+                seleccionado = true;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR EN LA TABLA A UN PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
+            SeleccionarBT.setSelected(false);
+        }
+    }//GEN-LAST:event_SeleccionarBTActionPerformed
     
     public void mostrarTodos(){
         //Objeto para almacenar datos;
@@ -939,20 +962,25 @@ public class TablaProveedores extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ActivarBT;
     private javax.swing.JComboBox<String> ActividadCB;
     private javax.swing.JLabel ActividadL;
     private javax.swing.JLabel BancoL6;
     private javax.swing.JComboBox<String> Banco_CB;
+    private javax.swing.JButton CerrarBT;
     private javax.swing.JLabel CodigoL;
     private javax.swing.JTextField Codigotxt;
     private javax.swing.JTextField CorreoBNF_txt;
     private javax.swing.JLabel CuadrillaLB;
     private javax.swing.JTextField Cuadrillatxt;
+    private javax.swing.JButton DesactivarBT;
     private javax.swing.JLabel DireccionL;
     private javax.swing.JTextField Direcciontxt;
     private javax.swing.JLabel FleteLB;
     private javax.swing.JTextField Fletetxt;
     private javax.swing.JLabel FotoIdentificacionv;
+    private javax.swing.JButton GuardarBT;
+    private javax.swing.JToggleButton HabilitarCambiosBT;
     private javax.swing.JComboBox<String> IDAUT_CB;
     private javax.swing.JTextField IDAUT_txt;
     private javax.swing.JLabel IDAutL6;
@@ -990,14 +1018,13 @@ public class TablaProveedores extends javax.swing.JFrame {
     private javax.swing.JTextField Peajetxt;
     private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
-    private javax.swing.JButton SeleccionarBT;
+    private javax.swing.JToggleButton SeleccionarBT;
     private javax.swing.JLabel TCuentaL6;
     private javax.swing.JComboBox<String> TCuenta_CB;
     private javax.swing.JToggleButton TarifaEstandarBT;
     private javax.swing.JTextField TipoTlftxt;
     private javax.swing.JLabel TlfL;
     private javax.swing.JTextField Tlftxt;
-    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

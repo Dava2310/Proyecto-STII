@@ -5,7 +5,11 @@
  */
 package clases;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -20,7 +24,7 @@ public class InicioUsuario extends javax.swing.JFrame {
     
     public InicioUsuario() {
         initComponents();
-        setResizable(false);
+        setResizable(false);        
     }
     public String user = "Diana";
     public String contra = "1234";

@@ -25,7 +25,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     //CREACION DE TODOS LAS INTERFACES
     
     public IdentificacionProveedor IP = new IdentificacionProveedor();
-    public ConsultarProveedor CP;
     public TasaDePrecios TDP;
     public TasaBsUSD TasaBSUSD;
     public TasaBsUSDConsultarModificar TasaBSUSDCM;

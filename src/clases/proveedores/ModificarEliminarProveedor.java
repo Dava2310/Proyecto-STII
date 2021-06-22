@@ -5,7 +5,6 @@
  */
 package clases.proveedores;
 
-import clases.proveedores.ConsultarProveedor;
 import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -29,7 +28,6 @@ public class ModificarEliminarProveedor extends javax.swing.JFrame {
     //MODO BUSQUEDA = 2 - CONSULTA POR RAZON SOCIAL
     public proveedor p = new proveedor();
     public String ultimo_buscado = "";
-    public ConsultarProveedor CP = new ConsultarProveedor();
     public boolean edicion = false;
 
     public ModificarEliminarProveedor() {

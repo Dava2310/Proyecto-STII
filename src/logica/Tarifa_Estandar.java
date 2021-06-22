@@ -63,6 +63,24 @@ public class Tarifa_Estandar {
             pstm.setString(5, Fecha_F);
             pstm.execute();
             pstm.close();
+            actualizarTarifas_Proveedores();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void actualizarTarifas_Proveedores(){
+        float Cuadrilla, Flete;
+        Object[] data = new Object[3];
+        try {
+            data = obtenerUltimaTarifa();
+            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Cuadrilla = ?, Flete = ?, Cod_Tarifa = ? where Cod_Tarifa != ?");
+            pstm.setFloat(1, Float.parseFloat(data[1].toString()));
+            pstm.setFloat(2, Float.parseFloat(data[2].toString()));
+            pstm.setInt(3, Integer.parseInt(data[0].toString()));
+            pstm.setInt(4, 0);
+            pstm.execute();
+            pstm.close();
         } catch (SQLException ex) {
             Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
         }

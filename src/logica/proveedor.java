@@ -44,7 +44,7 @@ public class proveedor {
             try{
                 PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
                         " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado)" + 
-                        " values(?,?,?,?,?,?,?,?,?,?,?)");
+                        " values(?,?,?,?,?,?,?,?,?,?,?,?)");
                 pstm.setInt(1, codigo);
                 pstm.setString(2, identificacion);
                 pstm.setString(3, razon_social);

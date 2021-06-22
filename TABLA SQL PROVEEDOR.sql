@@ -14,6 +14,7 @@ create table Tarifa_Estandar(
     primary key(Cod_Tarifa)
 );
 
+INSERT INTO Tarifa_Estandar(Cod_Tarifa, Cuadrilla, Flete, Materia_Prima, Fecha_Inicio) values(0,1,2,"TABLA",'2021-06-16');
 INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio) values(1,2,"TABLA",'2021-06-17');
 select * from Tarifa_Estandar;
 

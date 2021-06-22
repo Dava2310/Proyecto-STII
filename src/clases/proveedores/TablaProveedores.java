@@ -36,61 +36,72 @@ public class TablaProveedores extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCheckBox1 = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        CodigoLB = new javax.swing.JLabel();
-        Identificaciontxt = new javax.swing.JTextField();
-        CodigoLB1 = new javax.swing.JLabel();
-        IdentificacionCB = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        PanelDeIdentificacion = new javax.swing.JPanel();
+        IdentificacionProveedor = new javax.swing.JLabel();
+        FotoIdentificacionv = new javax.swing.JLabel();
+        CodigoL = new javax.swing.JLabel();
         Codigotxt = new javax.swing.JTextField();
-        RazonSocialLB = new javax.swing.JLabel();
+        IdentificacionL = new javax.swing.JLabel();
+        IdentificacionCB = new javax.swing.JComboBox<>();
+        Identificaciontxt = new javax.swing.JTextField();
+        RazonSocialL = new javax.swing.JLabel();
         RazonSocialtxt = new javax.swing.JTextField();
-        CodigoLB3 = new javax.swing.JLabel();
+        DireccionL = new javax.swing.JLabel();
         Direcciontxt = new javax.swing.JTextField();
-        CodigoLB4 = new javax.swing.JLabel();
+        TlfL = new javax.swing.JLabel();
+        Tlftxt = new javax.swing.JTextField();
+        MailL = new javax.swing.JLabel();
+        Mailtxt = new javax.swing.JTextField();
+        TipoTlftxt = new javax.swing.JTextField();
+        MunicipioLB = new javax.swing.JLabel();
         Municipiotxt = new javax.swing.JTextField();
-        CodigoLB5 = new javax.swing.JLabel();
-        TLFtxt = new javax.swing.JTextField();
-        TLF2txt = new javax.swing.JTextField();
-        CodigoLB6 = new javax.swing.JLabel();
-        Correotxt = new javax.swing.JTextField();
-        CodigoLB7 = new javax.swing.JLabel();
-        NameBnftxt = new javax.swing.JTextField();
-        CodigoLB8 = new javax.swing.JLabel();
-        IDbnfCB = new javax.swing.JComboBox<>();
-        IDBnfTxt = new javax.swing.JTextField();
-        CodigoLB9 = new javax.swing.JLabel();
-        CorreoBnfTxt = new javax.swing.JTextField();
-        EntidadBancariaCB = new javax.swing.JComboBox<>();
-        CodigoLB10 = new javax.swing.JLabel();
-        CodigoLB11 = new javax.swing.JLabel();
-        NumCuentatxt = new javax.swing.JTextField();
-        TCuentaL = new javax.swing.JLabel();
-        TipoCuentaCB = new javax.swing.JComboBox<>();
-        MODL = new javax.swing.JLabel();
-        MODCB = new javax.swing.JComboBox<>();
-        NameAutL = new javax.swing.JLabel();
-        NameAuttxt = new javax.swing.JTextField();
-        IDAutL = new javax.swing.JLabel();
-        IDAutCB = new javax.swing.JComboBox<>();
-        IDAutorizadoTXT = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        SeleccionarBT = new javax.swing.JButton();
-        PanelDePagos = new javax.swing.JPanel();
-        IdentificacionProveedor1 = new javax.swing.JLabel();
-        IdentificacionProveedor2 = new javax.swing.JLabel();
-        MPCB = new javax.swing.JComboBox<>();
-        IdentificacionProveedor3 = new javax.swing.JLabel();
-        Cuadrillatxt = new javax.swing.JTextField();
-        IdentificacionProveedor4 = new javax.swing.JLabel();
-        Fletetxt = new javax.swing.JTextField();
-        IdentificacionProveedor5 = new javax.swing.JLabel();
-        Peajetxt = new javax.swing.JTextField();
-        TarifaEstandarBT = new javax.swing.JToggleButton();
-        IdentificacionProveedor6 = new javax.swing.JLabel();
-        MP_Acordadotxt = new javax.swing.JTextField();
         ActividadL = new javax.swing.JLabel();
         ActividadCB = new javax.swing.JComboBox<>();
+        JPanelBancario = new javax.swing.JPanel();
+        IDAUT_txt = new javax.swing.JTextField();
+        IDAUT_CB = new javax.swing.JComboBox<>();
+        IDAutL6 = new javax.swing.JLabel();
+        NameAutL6 = new javax.swing.JLabel();
+        NombreAUT_txt = new javax.swing.JTextField();
+        TCuenta_CB = new javax.swing.JComboBox<>();
+        TCuentaL6 = new javax.swing.JLabel();
+        BancoL6 = new javax.swing.JLabel();
+        Banco_CB = new javax.swing.JComboBox<>();
+        MOD_CB = new javax.swing.JComboBox<>();
+        NumCuentaL6 = new javax.swing.JLabel();
+        NumCuenta_txt = new javax.swing.JTextField();
+        CorreoBNF_txt = new javax.swing.JTextField();
+        MailBnfL6 = new javax.swing.JLabel();
+        NombreBNF_txt = new javax.swing.JTextField();
+        IDBNF_txt = new javax.swing.JTextField();
+        NameBnfL6 = new javax.swing.JLabel();
+        IDL6 = new javax.swing.JLabel();
+        IDBNF_CB = new javax.swing.JComboBox<>();
+        LogoInformacionBancaria6 = new javax.swing.JLabel();
+        InformacionBancariaL6 = new javax.swing.JLabel();
+        MODL6 = new javax.swing.JLabel();
+        JPanelPagos = new javax.swing.JPanel();
+        MP_AcordadoLB = new javax.swing.JLabel();
+        MP_Acordadotxt = new javax.swing.JTextField();
+        Cuadrillatxt = new javax.swing.JTextField();
+        CuadrillaLB = new javax.swing.JLabel();
+        MPCB = new javax.swing.JComboBox<>();
+        MPLB = new javax.swing.JLabel();
+        FleteLB = new javax.swing.JLabel();
+        Fletetxt = new javax.swing.JTextField();
+        IdentificacionProveedor4 = new javax.swing.JLabel();
+        Peajetxt = new javax.swing.JTextField();
+        TarifaEstandarBT = new javax.swing.JToggleButton();
+        IdentificacionProveedor1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        SeleccionarBT = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+
+        jCheckBox1.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -152,137 +163,267 @@ public class TablaProveedores extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tabla);
 
-        CodigoLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB.setText("Codigo");
+        IdentificacionProveedor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor.setText("Identificación del Proveedor");
 
-        Identificaciontxt.setEditable(false);
-        Identificaciontxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        FotoIdentificacionv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen1.png"))); // NOI18N
 
-        CodigoLB1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB1.setText("Identificacion");
+        CodigoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CodigoL.setText("Código (*)");
+
+        Codigotxt.setEditable(false);
+        Codigotxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        Codigotxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CodigotxtActionPerformed(evt);
+            }
+        });
+
+        IdentificacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionL.setText("Identificación (*)");
 
         IdentificacionCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
         IdentificacionCB.setEnabled(false);
 
-        Codigotxt.setEditable(false);
-        Codigotxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        Identificaciontxt.setEditable(false);
+        Identificaciontxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
-        RazonSocialLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        RazonSocialLB.setText("Razon Social");
+        RazonSocialL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        RazonSocialL.setText("Razón Social (*)");
 
         RazonSocialtxt.setEditable(false);
-        RazonSocialtxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        RazonSocialtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        RazonSocialtxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RazonSocialtxtActionPerformed(evt);
+            }
+        });
 
-        CodigoLB3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB3.setText("Direccion");
+        DireccionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        DireccionL.setText("Dirección");
 
         Direcciontxt.setEditable(false);
-        Direcciontxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        Direcciontxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
-        CodigoLB4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB4.setText("Municipio");
+        TlfL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        TlfL.setText("Teléfono");
+
+        Tlftxt.setEditable(false);
+        Tlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        MailL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MailL.setText("E-mail");
+
+        Mailtxt.setEditable(false);
+        Mailtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        TipoTlftxt.setEditable(false);
+        TipoTlftxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        TipoTlftxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TipoTlftxtActionPerformed(evt);
+            }
+        });
+
+        MunicipioLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MunicipioLB.setText("Municipio");
 
         Municipiotxt.setEditable(false);
-        Municipiotxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        CodigoLB5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB5.setText("Telefono");
+        ActividadL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ActividadL.setText("Estado de actividad");
 
-        TLFtxt.setEditable(false);
-        TLFtxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        ActividadCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+        ActividadCB.setEnabled(false);
 
-        TLF2txt.setEditable(false);
-        TLF2txt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        IDAUT_txt.setEditable(false);
+        IDAUT_txt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
-        CodigoLB6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB6.setText("Correo");
+        IDAUT_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
+        IDAUT_CB.setEnabled(false);
 
-        Correotxt.setEditable(false);
-        Correotxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        IDAutL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IDAutL6.setText("Identificación del Autorizado (*)");
 
-        CodigoLB7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB7.setText("Nombre de Beneficiario");
+        NameAutL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        NameAutL6.setText("Nombre del Autorizado (*)");
 
-        NameBnftxt.setEditable(false);
-        NameBnftxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        NombreAUT_txt.setEditable(false);
+        NombreAUT_txt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
-        CodigoLB8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB8.setText("Identificacion de Beneficiario");
+        TCuenta_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente", "Cuenta Maxima", "Cuenta Moneda Extranjera" }));
+        TCuenta_CB.setEnabled(false);
 
-        IDbnfCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
-        IDbnfCB.setEnabled(false);
+        TCuentaL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        TCuentaL6.setText("Tipo de cuenta (*)");
 
-        IDBnfTxt.setEditable(false);
-        IDBnfTxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        BancoL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BancoL6.setText("Banco (*)");
 
-        CodigoLB9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB9.setText("Correo de Beneficiario");
+        Banco_CB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        Banco_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MERCANTIL BANCO UNIVERSAL", "BANCO DE VENEZUELA S.A BANCO UNIVERSAL", "VENEZOLANO DE CREDITO S.A BANCO UNIVERSAL", "BANCO PROVINCIAL S.A BANCO UNIVERSAL", "BANCO DEL CARIBE S.A C.A", "BANCO EXTERIOR S.A", "BANCO OCCIDENTAL DE DESCUENTO S.A C.A", "BANCO CARONI C.A BANCO UNIVERSAL", "BANESCO BANCO UNIVERSAL", "BANCO SOFITASA", "BANCO PLAZA", "BANCO DE COMERCIO EXTERIOR", "FONDO COMUN C.A BANCO UNIVERSAL", "100% BANCO, BANCO UNIVERSAL C.A", "DEL SUR BANCO UNIVERSAL, C.A", "BANCO DEL TESORO ", "BANCO AGRICOLA DE VENEZUELA C.A", "BANCRECER S.A BANCO MICROFINANCIERO", "MIBANCO BANCO DE DESARROLLO", "BANCO ACTIVO C.A", "BANCA AMIGA BANCO MICROFINANCIERO", "BANCO BICENTENARIO BANCO UNIVERSAL C.A", "BANCO DE LA FUERZA ARMADA NACIONAL BOLIVARIANA", "BANCO NACIONAL DE CREDITO " }));
+        Banco_CB.setEnabled(false);
 
-        CorreoBnfTxt.setEditable(false);
-        CorreoBnfTxt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        EntidadBancariaCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        EntidadBancariaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MERCANTIL BANCO UNIVERSAL", "BANCO DE VENEZUELA S.A BANCO UNIVERSAL", "VENEZOLANO DE CREDITO S.A BANCO UNIVERSAL", "BANCO PROVINCIAL S.A BANCO UNIVERSAL", "BANCO DEL CARIBE S.A C.A", "BANCO EXTERIOR S.A", "BANCO OCCIDENTAL DE DESCUENTO S.A C.A", "BANCO CARONI C.A BANCO UNIVERSAL", "BANESCO BANCO UNIVERSAL", "BANCO SOFITASA", "BANCO PLAZA", "BANCO DE COMERCIO EXTERIOR", "FONDO COMUN C.A BANCO UNIVERSAL", "100% BANCO, BANCO UNIVERSAL C.A", "DEL SUR BANCO UNIVERSAL, C.A", "BANCO DEL TESORO ", "BANCO AGRICOLA DE VENEZUELA C.A", "BANCRECER S.A BANCO MICROFINANCIERO", "MIBANCO BANCO DE DESARROLLO", "BANCO ACTIVO C.A", "BANCA AMIGA BANCO MICROFINANCIERO", "BANCO BICENTENARIO BANCO UNIVERSAL C.A", "BANCO DE LA FUERZA ARMADA NACIONAL BOLIVARIANA", "BANCO NACIONAL DE CREDITO " }));
-        EntidadBancariaCB.setEnabled(false);
-
-        CodigoLB10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB10.setText("Numero de Cuenta");
-
-        CodigoLB11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CodigoLB11.setText("Entidad Bancaria");
-
-        NumCuentatxt.setEditable(false);
-        NumCuentatxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-
-        TCuentaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        TCuentaL.setText("Tipo de cuenta");
-
-        TipoCuentaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente", "Cuenta Maxima", "Cuenta Moneda Extranjera" }));
-        TipoCuentaCB.setEnabled(false);
-
-        MODL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        MODL.setText("MOD (*)");
-
-        MODCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Propia", "Cuenta Nueva", "Cuenta Autorizada" }));
-        MODCB.setEnabled(false);
-        MODCB.addActionListener(new java.awt.event.ActionListener() {
+        MOD_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Propia", "Cuenta Nueva", "Cuenta Autorizada" }));
+        MOD_CB.setEnabled(false);
+        MOD_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MODCBActionPerformed(evt);
+                MOD_CBActionPerformed(evt);
             }
         });
 
-        NameAutL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        NameAutL.setText("Nombre del Autorizado (*)");
+        NumCuentaL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        NumCuentaL6.setText("Nº de Cuenta (*)");
 
-        NameAuttxt.setEditable(false);
-        NameAuttxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        NumCuenta_txt.setEditable(false);
+        NumCuenta_txt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
 
-        IDAutL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IDAutL.setText("Identificación del Autorizado (*)");
-
-        IDAutCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
-        IDAutCB.setEnabled(false);
-
-        IDAutorizadoTXT.setEditable(false);
-        IDAutorizadoTXT.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setText("CERRAR");
-
-        SeleccionarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        SeleccionarBT.setText("SELECCIONAR");
-        SeleccionarBT.setEnabled(false);
-        SeleccionarBT.addActionListener(new java.awt.event.ActionListener() {
+        CorreoBNF_txt.setEditable(false);
+        CorreoBNF_txt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        CorreoBNF_txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SeleccionarBTActionPerformed(evt);
+                CorreoBNF_txtActionPerformed(evt);
             }
         });
 
-        IdentificacionProveedor1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IdentificacionProveedor1.setText("Tasas de pago");
+        MailBnfL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MailBnfL6.setText("E-mail del beneficiario");
 
-        IdentificacionProveedor2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IdentificacionProveedor2.setText("MP");
+        NombreBNF_txt.setEditable(false);
+        NombreBNF_txt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        IDBNF_txt.setEditable(false);
+        IDBNF_txt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+
+        NameBnfL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        NameBnfL6.setText("Nombre del beneficiario (*)");
+
+        IDL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IDL6.setText("Identificación (*)");
+
+        IDBNF_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "P", "J", "G" }));
+        IDBNF_CB.setEnabled(false);
+
+        LogoInformacionBancaria6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen2.jpg"))); // NOI18N
+
+        InformacionBancariaL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        InformacionBancariaL6.setText("Información Bancaria");
+
+        MODL6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MODL6.setText("MOD (*)");
+
+        javax.swing.GroupLayout JPanelBancarioLayout = new javax.swing.GroupLayout(JPanelBancario);
+        JPanelBancario.setLayout(JPanelBancarioLayout);
+        JPanelBancarioLayout.setHorizontalGroup(
+            JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                .addGap(158, 158, 158)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addComponent(NameAutL6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(NombreAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addComponent(TCuentaL6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TCuenta_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MODL6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MOD_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                                .addComponent(BancoL6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Banco_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addComponent(NumCuentaL6))
+                            .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                                .addComponent(IDL6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(IDBNF_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(IDBNF_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(MailBnfL6)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(NumCuenta_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(CorreoBNF_txt)))
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addComponent(IDAutL6)
+                        .addGap(18, 18, 18)
+                        .addComponent(IDAUT_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(IDAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addComponent(NameBnfL6)
+                        .addGap(18, 18, 18)
+                        .addComponent(NombreBNF_txt)))
+                .addGap(38, 38, 38))
+            .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                    .addGap(5, 5, 5)
+                    .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(LogoInformacionBancaria6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(InformacionBancariaL6))
+                    .addContainerGap(796, Short.MAX_VALUE)))
+        );
+        JPanelBancarioLayout.setVerticalGroup(
+            JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                .addContainerGap(34, Short.MAX_VALUE)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NombreBNF_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NameBnfL6))
+                .addGap(8, 8, 8)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CorreoBNF_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MailBnfL6)
+                    .addComponent(IDBNF_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IDL6)
+                    .addComponent(IDBNF_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NumCuenta_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NumCuentaL6)
+                    .addComponent(BancoL6)
+                    .addComponent(Banco_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TCuentaL6)
+                    .addComponent(TCuenta_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MODL6)
+                    .addComponent(MOD_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NombreAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NameAutL6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IDAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IDAUT_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IDAutL6))
+                .addContainerGap())
+            .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(InformacionBancariaL6)
+                    .addGap(7, 7, 7)
+                    .addComponent(LogoInformacionBancaria6)
+                    .addContainerGap(61, Short.MAX_VALUE)))
+        );
+
+        MP_AcordadoLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MP_AcordadoLB.setText("MP (Monto acordado):");
+
+        MP_Acordadotxt.setEditable(false);
+
+        Cuadrillatxt.setEditable(false);
+
+        CuadrillaLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CuadrillaLB.setText("Cuadrilla (*)");
 
         MPCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TABLA", "ACORDADO" }));
         MPCB.addActionListener(new java.awt.event.ActionListener() {
@@ -291,18 +432,16 @@ public class TablaProveedores extends javax.swing.JFrame {
             }
         });
 
-        IdentificacionProveedor3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IdentificacionProveedor3.setText("Cuadrilla (*)");
+        MPLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        MPLB.setText("MP");
 
-        Cuadrillatxt.setEditable(false);
-
-        IdentificacionProveedor4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IdentificacionProveedor4.setText("Peaje (*)");
+        FleteLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        FleteLB.setText("Flete (*)");
 
         Fletetxt.setEditable(false);
 
-        IdentificacionProveedor5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IdentificacionProveedor5.setText("Flete (*)");
+        IdentificacionProveedor4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor4.setText("Peaje (*)");
 
         Peajetxt.setEditable(false);
         Peajetxt.addActionListener(new java.awt.event.ActionListener() {
@@ -320,246 +459,216 @@ public class TablaProveedores extends javax.swing.JFrame {
             }
         });
 
-        IdentificacionProveedor6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        IdentificacionProveedor6.setText("MP (Monto acordado):");
+        IdentificacionProveedor1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        IdentificacionProveedor1.setText("Tasas de pago");
 
-        MP_Acordadotxt.setEditable(false);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salario2.png"))); // NOI18N
 
-        javax.swing.GroupLayout PanelDePagosLayout = new javax.swing.GroupLayout(PanelDePagos);
-        PanelDePagos.setLayout(PanelDePagosLayout);
-        PanelDePagosLayout.setHorizontalGroup(
-            PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelDePagosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(IdentificacionProveedor1)
-                .addGap(27, 27, 27)
-                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(PanelDePagosLayout.createSequentialGroup()
-                        .addComponent(IdentificacionProveedor6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MP_Acordadotxt))
-                    .addGroup(PanelDePagosLayout.createSequentialGroup()
-                        .addComponent(IdentificacionProveedor2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout JPanelPagosLayout = new javax.swing.GroupLayout(JPanelPagos);
+        JPanelPagos.setLayout(JPanelPagosLayout);
+        JPanelPagosLayout.setHorizontalGroup(
+            JPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JPanelPagosLayout.createSequentialGroup()
+                .addGroup(JPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JPanelPagosLayout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel2))
+                    .addGroup(JPanelPagosLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(IdentificacionProveedor1)))
+                .addGap(40, 40, 40)
+                .addGroup(JPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(JPanelPagosLayout.createSequentialGroup()
+                        .addComponent(MPLB)
                         .addGap(18, 18, 18)
-                        .addComponent(IdentificacionProveedor3)
+                        .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(CuadrillaLB)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(FleteLB)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(IdentificacionProveedor5)
-                .addGap(10, 10, 10)
-                .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(IdentificacionProveedor4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Fletetxt))
+                    .addGroup(JPanelPagosLayout.createSequentialGroup()
+                        .addComponent(MP_AcordadoLB)
+                        .addGap(18, 18, 18)
+                        .addComponent(MP_Acordadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(IdentificacionProveedor4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(47, 47, 47)
                 .addComponent(TarifaEstandarBT)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(44, 44, 44))
         );
-        PanelDePagosLayout.setVerticalGroup(
-            PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelDePagosLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        JPanelPagosLayout.setVerticalGroup(
+            JPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JPanelPagosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(JPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(IdentificacionProveedor1)
-                    .addComponent(IdentificacionProveedor2)
-                    .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IdentificacionProveedor3)
-                    .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IdentificacionProveedor4)
-                    .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IdentificacionProveedor5)
-                    .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TarifaEstandarBT))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IdentificacionProveedor6)
-                    .addComponent(MP_Acordadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CuadrillaLB)
+                        .addComponent(FleteLB)
+                        .addComponent(MPLB)
+                        .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(JPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JPanelPagosLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(JPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(MP_AcordadoLB)
+                            .addComponent(MP_Acordadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IdentificacionProveedor4)))
+                    .addGroup(JPanelPagosLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2))
+                    .addGroup(JPanelPagosLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(TarifaEstandarBT)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        ActividadL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        ActividadL.setText("Estado de actividad");
+        SeleccionarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        SeleccionarBT.setText("SELECCIONAR");
+        SeleccionarBT.setEnabled(false);
+        SeleccionarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SeleccionarBTActionPerformed(evt);
+            }
+        });
 
-        ActividadCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
-        ActividadCB.setEnabled(false);
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton1.setText("CERRAR");
+
+        javax.swing.GroupLayout PanelDeIdentificacionLayout = new javax.swing.GroupLayout(PanelDeIdentificacion);
+        PanelDeIdentificacion.setLayout(PanelDeIdentificacionLayout);
+        PanelDeIdentificacionLayout.setHorizontalGroup(
+            PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                        .addComponent(FotoIdentificacionv, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(RazonSocialL)
+                                    .addComponent(DireccionL))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                        .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(MunicipioLB)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(Municipiotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(RazonSocialtxt)))
+                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                .addComponent(TlfL)
+                                .addGap(18, 18, 18)
+                                .addComponent(TipoTlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(MailL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Mailtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                .addComponent(CodigoL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Codigotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(IdentificacionL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(IdentificacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                                .addComponent(ActividadL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(IdentificacionProveedor))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(JPanelBancario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(JPanelPagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDeIdentificacionLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(SeleccionarBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(40, 40, 40))
+        );
+        PanelDeIdentificacionLayout.setVerticalGroup(
+            PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(IdentificacionProveedor)
+                .addGap(25, 25, 25)
+                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelDeIdentificacionLayout.createSequentialGroup()
+                        .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CodigoL)
+                            .addComponent(Codigotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IdentificacionL)
+                            .addComponent(IdentificacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(RazonSocialL)
+                            .addComponent(RazonSocialtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DireccionL)
+                            .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MunicipioLB)
+                            .addComponent(Municipiotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TlfL)
+                            .addComponent(Tlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MailL)
+                            .addComponent(Mailtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TipoTlftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ActividadL)
+                            .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(FotoIdentificacionv))
+                .addGap(18, 18, 18)
+                .addComponent(JPanelBancario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(JPanelPagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelDeIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SeleccionarBT)
+                    .addComponent(jButton1))
+                .addContainerGap())
+        );
+
+        jScrollPane1.setViewportView(PanelDeIdentificacion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(CodigoLB)
-                                .addGap(21, 21, 21)
-                                .addComponent(Codigotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
-                                .addComponent(CodigoLB1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(CodigoLB3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Direcciontxt)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(IdentificacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(RazonSocialLB)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(RazonSocialtxt))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(CodigoLB4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Municipiotxt, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CodigoLB5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TLFtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TLF2txt, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(CodigoLB6)
-                        .addGap(22, 22, 22)
-                        .addComponent(Correotxt))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(CodigoLB7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(NameBnftxt)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CodigoLB8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(IDbnfCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(IDBnfTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CodigoLB9)
-                            .addComponent(CodigoLB10, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(NumCuentatxt)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TCuentaL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TipoCuentaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(MODL)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(98, 98, 98))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(CorreoBnfTxt)
-                                .addGap(18, 18, 18)
-                                .addComponent(CodigoLB11, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(EntidadBancariaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(SeleccionarBT)
-                        .addGap(4, 4, 4)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(NameAutL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(NameAuttxt)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IDAutL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(IDAutCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(IDAutorizadoTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(98, 98, 98))
-                    .addComponent(PanelDePagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ActividadL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CodigoLB)
-                    .addComponent(Identificaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CodigoLB1)
-                    .addComponent(IdentificacionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Codigotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RazonSocialLB)
-                    .addComponent(RazonSocialtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CodigoLB3)
-                    .addComponent(Direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CodigoLB4)
-                    .addComponent(Municipiotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CodigoLB5)
-                    .addComponent(TLFtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TLF2txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CodigoLB6)
-                    .addComponent(Correotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NameBnftxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CodigoLB7)
-                    .addComponent(CodigoLB8)
-                    .addComponent(IDbnfCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IDBnfTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CodigoLB9)
-                    .addComponent(CorreoBnfTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EntidadBancariaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CodigoLB11))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CodigoLB10)
-                    .addComponent(NumCuentatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TCuentaL)
-                    .addComponent(TipoCuentaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MODL)
-                    .addComponent(MODCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NameAutL)
-                    .addComponent(NameAuttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IDAutL)
-                    .addComponent(IDAutCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IDAutorizadoTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ActividadL)
-                    .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PanelDePagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SeleccionarBT)
-                    .addComponent(jButton1))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void MODCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODCBActionPerformed
-       
-    }//GEN-LAST:event_MODCBActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         mostrarTodos();
@@ -615,18 +724,18 @@ public class TablaProveedores extends javax.swing.JFrame {
             
             String telefono = String.valueOf(tabla.getValueAt(fila,5));
             if(!telefono.equals("null") && !telefono.isEmpty()){
-                TLFtxt.setText(telefono.substring(0, 4));
-                TLF2txt.setText(telefono.substring(4, telefono.length()));
+                TipoTlftxt.setText(telefono.substring(0, 4));
+                Tlftxt.setText(telefono.substring(4, telefono.length()));
             } else {
-                TLFtxt.setText("");
-                TLF2txt.setText("");
+                TipoTlftxt.setText("");
+                Tlftxt.setText("");
             }
             
             String correo = String.valueOf(tabla.getValueAt(fila,6));
             if(!correo.equals("null")){
-                Correotxt.setText(correo);
+                Mailtxt.setText(correo);
             } else {
-                Correotxt.setText("");
+                Mailtxt.setText("");
             }
             
             //MONTOS DE PAGO
@@ -653,51 +762,52 @@ public class TablaProveedores extends javax.swing.JFrame {
             String num_cuenta = String.valueOf(tabla.getValueAt(fila,17));
             
             if(!Name_Bnf.equals("null") && !identificacion2.equals("null") && !num_cuenta.equals("null")){
-                NameBnftxt.setText(String.valueOf(tabla.getValueAt(fila,13)));
+                NombreBNF_txt.setText(String.valueOf(tabla.getValueAt(fila,13)));
                 char tipoIdentificacion2 = identificacion2.charAt(0);
                 int TIPOID2 = p.indexIdentificacion(tipoIdentificacion2);
-                IDbnfCB.setSelectedIndex(TIPOID2);
-                IDBnfTxt.setText(identificacion2.substring(1, identificacion2.length()));
+                IDBNF_CB.setSelectedIndex(TIPOID2);
+                IDBNF_txt.setText(identificacion2.substring(1, identificacion2.length()));
                 String correo_bnf = String.valueOf(tabla.getValueAt(fila,15));
                 if(!correo_bnf.equals("null")){
-                    CorreoBnfTxt.setText(correo_bnf);
+                    CorreoBNF_txt.setText(correo_bnf);
                 } else {
-                    CorreoBnfTxt.setText("");
+                    CorreoBNF_txt.setText("");
                 }
                 String entidad_bancaria = String.valueOf(tabla.getValueAt(fila,16));
                 int index_banco = p.getindexBanco(entidad_bancaria);
-                EntidadBancariaCB.setSelectedIndex(index_banco);
-                NumCuentatxt.setText(String.valueOf(tabla.getValueAt(fila,17)));
+                Banco_CB.setSelectedIndex(index_banco);
+                NumCuenta_txt.setText(String.valueOf(tabla.getValueAt(fila,17)));
                 String TipoCuenta = String.valueOf(tabla.getValueAt(fila, 18));
                 int index_tipo_cuenta = p.indexTipoCuenta(TipoCuenta);
-                TipoCuentaCB.setSelectedIndex(index_tipo_cuenta);
+                TCuenta_CB.setSelectedIndex(index_tipo_cuenta);
                 String modo_cuenta = String.valueOf(tabla.getValueAt(fila,19));
                 if(!String.valueOf(tabla.getValueAt(fila,20)).equals("null")){
-                    NameAuttxt.setText(String.valueOf(tabla.getValueAt(fila,20)));
+                    NombreAUT_txt.setText(String.valueOf(tabla.getValueAt(fila,20)));
                 } else {
-                    NameAuttxt.setText("");
+                    NombreAUT_txt.setText("");
                 }
                 if(!String.valueOf(tabla.getValueAt(fila,21)).equals("null") && !String.valueOf(tabla.getValueAt(fila,21)).isEmpty()){
                     String ID_Aut = String.valueOf(tabla.getValueAt(fila,21));
                     char tipoIdentificacion3 = ID_Aut.charAt(0);
                     int TipoID3 = p.indexIdentificacion(tipoIdentificacion3);
-                    IDAutCB.setSelectedIndex(TipoID3);
-                    IDAutorizadoTXT.setText(ID_Aut.substring(1, ID_Aut.length()));
+                    IDAUT_CB.setSelectedIndex(TipoID3);
+                    IDAUT_txt.setText(ID_Aut.substring(1, ID_Aut.length()));
                 } else {
-                    IDAutorizadoTXT.setText("");
+                    IDAUT_txt.setText("");
+                    IDAUT_CB.setSelectedIndex(0);
                 }
             } else {
-                NameBnftxt.setText("");
-                IDBnfTxt.setText("");
-                IDbnfCB.setSelectedIndex(0);
-                CorreoBnfTxt.setText("");
-                EntidadBancariaCB.setSelectedIndex(0);
-                NumCuentatxt.setText("");
-                TipoCuentaCB.setSelectedIndex(0);
-                MODCB.setSelectedIndex(0);
-                NameAuttxt.setText("");
-                IDAutCB.setSelectedIndex(0);
-                IDAutorizadoTXT.setText("");
+                NombreBNF_txt.setText("");
+                IDBNF_txt.setText("");
+                IDBNF_CB.setSelectedIndex(0);
+                CorreoBNF_txt.setText("");
+                Banco_CB.setSelectedIndex(0);
+                NumCuenta_txt.setText("");
+                TCuenta_CB.setSelectedIndex(0);
+                MOD_CB.setSelectedIndex(0);
+                NombreAUT_txt.setText("");
+                IDAUT_CB.setSelectedIndex(0);
+                IDAUT_txt.setText("");
             }
 
             String actividad = String.valueOf(tabla.getValueAt(fila,22));
@@ -724,6 +834,26 @@ public class TablaProveedores extends javax.swing.JFrame {
     private void TarifaEstandarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TarifaEstandarBTActionPerformed
         
     }//GEN-LAST:event_TarifaEstandarBTActionPerformed
+
+    private void CodigotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CodigotxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CodigotxtActionPerformed
+
+    private void RazonSocialtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RazonSocialtxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RazonSocialtxtActionPerformed
+
+    private void MOD_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOD_CBActionPerformed
+        
+    }//GEN-LAST:event_MOD_CBActionPerformed
+
+    private void CorreoBNF_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorreoBNF_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CorreoBNF_txtActionPerformed
+
+    private void TipoTlftxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoTlftxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TipoTlftxtActionPerformed
     
     public void mostrarTodos(){
         //Objeto para almacenar datos;
@@ -757,20 +887,20 @@ public class TablaProveedores extends javax.swing.JFrame {
         RazonSocialtxt.setText("");
         Direcciontxt.setText("");
         Municipiotxt.setText("");
-        TLFtxt.setText("");
-        TLF2txt.setText("");
-        Correotxt.setText("");
-        NameBnftxt.setText("");
-        IDbnfCB.setSelectedIndex(0);
-        IDBnfTxt.setText("");
-        CorreoBnfTxt.setText("");
-        EntidadBancariaCB.setSelectedIndex(0);
-        NumCuentatxt.setText("");
-        TipoCuentaCB.setSelectedIndex(0);
-        MODCB.setSelectedIndex(0);
-        NameAuttxt.setText("");
-        IDAutCB.setSelectedIndex(0);
-        IDAutorizadoTXT.setText("");
+        TipoTlftxt.setText("");
+        Tlftxt.setText("");
+        Mailtxt.setText("");
+        NombreBNF_txt.setText("");
+        IDBNF_CB.setSelectedIndex(0);
+        IDBNF_txt.setText("");
+        CorreoBNF_txt.setText("");
+        Banco_CB.setSelectedIndex(0);
+        NumCuenta_txt.setText("");
+        TCuenta_CB.setSelectedIndex(0);
+        MOD_CB.setSelectedIndex(0);
+        NombreAUT_txt.setText("");
+        IDAUT_CB.setSelectedIndex(0);
+        IDAUT_txt.setText("");
     }
     
     /**
@@ -811,57 +941,66 @@ public class TablaProveedores extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ActividadCB;
     private javax.swing.JLabel ActividadL;
-    private javax.swing.JLabel CodigoLB;
-    private javax.swing.JLabel CodigoLB1;
-    private javax.swing.JLabel CodigoLB10;
-    private javax.swing.JLabel CodigoLB11;
-    private javax.swing.JLabel CodigoLB3;
-    private javax.swing.JLabel CodigoLB4;
-    private javax.swing.JLabel CodigoLB5;
-    private javax.swing.JLabel CodigoLB6;
-    private javax.swing.JLabel CodigoLB7;
-    private javax.swing.JLabel CodigoLB8;
-    private javax.swing.JLabel CodigoLB9;
+    private javax.swing.JLabel BancoL6;
+    private javax.swing.JComboBox<String> Banco_CB;
+    private javax.swing.JLabel CodigoL;
     private javax.swing.JTextField Codigotxt;
-    private javax.swing.JTextField CorreoBnfTxt;
-    private javax.swing.JTextField Correotxt;
+    private javax.swing.JTextField CorreoBNF_txt;
+    private javax.swing.JLabel CuadrillaLB;
     private javax.swing.JTextField Cuadrillatxt;
+    private javax.swing.JLabel DireccionL;
     private javax.swing.JTextField Direcciontxt;
-    private javax.swing.JComboBox<String> EntidadBancariaCB;
+    private javax.swing.JLabel FleteLB;
     private javax.swing.JTextField Fletetxt;
-    private javax.swing.JComboBox<String> IDAutCB;
-    private javax.swing.JLabel IDAutL;
-    private javax.swing.JTextField IDAutorizadoTXT;
-    private javax.swing.JTextField IDBnfTxt;
-    private javax.swing.JComboBox<String> IDbnfCB;
+    private javax.swing.JLabel FotoIdentificacionv;
+    private javax.swing.JComboBox<String> IDAUT_CB;
+    private javax.swing.JTextField IDAUT_txt;
+    private javax.swing.JLabel IDAutL6;
+    private javax.swing.JComboBox<String> IDBNF_CB;
+    private javax.swing.JTextField IDBNF_txt;
+    private javax.swing.JLabel IDL6;
     private javax.swing.JComboBox<String> IdentificacionCB;
+    private javax.swing.JLabel IdentificacionL;
+    private javax.swing.JLabel IdentificacionProveedor;
     private javax.swing.JLabel IdentificacionProveedor1;
-    private javax.swing.JLabel IdentificacionProveedor2;
-    private javax.swing.JLabel IdentificacionProveedor3;
     private javax.swing.JLabel IdentificacionProveedor4;
-    private javax.swing.JLabel IdentificacionProveedor5;
-    private javax.swing.JLabel IdentificacionProveedor6;
     private javax.swing.JTextField Identificaciontxt;
-    private javax.swing.JComboBox<String> MODCB;
-    private javax.swing.JLabel MODL;
+    private javax.swing.JLabel InformacionBancariaL6;
+    private javax.swing.JPanel JPanelBancario;
+    private javax.swing.JPanel JPanelPagos;
+    private javax.swing.JLabel LogoInformacionBancaria6;
+    private javax.swing.JLabel MODL6;
+    private javax.swing.JComboBox<String> MOD_CB;
     private javax.swing.JComboBox<String> MPCB;
+    private javax.swing.JLabel MPLB;
+    private javax.swing.JLabel MP_AcordadoLB;
     private javax.swing.JTextField MP_Acordadotxt;
+    private javax.swing.JLabel MailBnfL6;
+    private javax.swing.JLabel MailL;
+    private javax.swing.JTextField Mailtxt;
+    private javax.swing.JLabel MunicipioLB;
     private javax.swing.JTextField Municipiotxt;
-    private javax.swing.JLabel NameAutL;
-    private javax.swing.JTextField NameAuttxt;
-    private javax.swing.JTextField NameBnftxt;
-    private javax.swing.JTextField NumCuentatxt;
-    private javax.swing.JPanel PanelDePagos;
+    private javax.swing.JLabel NameAutL6;
+    private javax.swing.JLabel NameBnfL6;
+    private javax.swing.JTextField NombreAUT_txt;
+    private javax.swing.JTextField NombreBNF_txt;
+    private javax.swing.JLabel NumCuentaL6;
+    private javax.swing.JTextField NumCuenta_txt;
+    private javax.swing.JPanel PanelDeIdentificacion;
     private javax.swing.JTextField Peajetxt;
-    private javax.swing.JLabel RazonSocialLB;
+    private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
     private javax.swing.JButton SeleccionarBT;
-    private javax.swing.JLabel TCuentaL;
-    private javax.swing.JTextField TLF2txt;
-    private javax.swing.JTextField TLFtxt;
+    private javax.swing.JLabel TCuentaL6;
+    private javax.swing.JComboBox<String> TCuenta_CB;
     private javax.swing.JToggleButton TarifaEstandarBT;
-    private javax.swing.JComboBox<String> TipoCuentaCB;
+    private javax.swing.JTextField TipoTlftxt;
+    private javax.swing.JLabel TlfL;
+    private javax.swing.JTextField Tlftxt;
     private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables

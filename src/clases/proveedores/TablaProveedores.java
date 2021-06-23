@@ -910,6 +910,48 @@ public class TablaProveedores extends javax.swing.JFrame {
             2- GUARDAR LOS CAMBIOS DE BENEFICIARIO O CREAR NUEVO BENEFICIARIO
             3- IDENTIFICAR SI YA NO PERTENECE A LA TARIFA ESTANDAR EL PROVEEDOR
         */
+        
+        //=======================GUARDANDO LOS CAMBIOS DE PROVEEDOR=============================\\
+        if(HabilitarCambiosBT.isSelected()){
+            int codigo = Integer.parseInt(Codigotxt.getText());
+            String identificacion = IdentificacionCB.getSelectedItem().toString();
+            identificacion += Identificaciontxt.getText();
+            String razonSocial = RazonSocialtxt.getText();
+            String direccion = Direcciontxt.getText();
+            String municipio = Municipiotxt.getText();
+            String telefono = TipoTlftxt.getText();
+            telefono += Tlftxt.getText();
+            String correo = Mailtxt.getText();
+            int peaje = Integer.parseInt(Peajetxt.getText());
+            float Cuadrilla = Float.parseFloat(Cuadrillatxt.getText());
+            float Flete = Float.parseFloat(Fletetxt.getText());
+            String materia_prima = MPCB.getSelectedItem().toString();
+            float MP_Acordado = 0;
+            if(MPCB.getSelectedItem().toString().equals("ACORDADO")){
+                MP_Acordado = Float.parseFloat(MP_Acordadotxt.getText());
+            }
+            
+            //RECOGIENDO SUS TARIFAS QUE PERTENECEN A LA ESTANDAR
+            Object[] data = new Object[3];
+            boolean tarifa_estandar = false;
+            int cod_tarifa = 0;
+            if(TarifaEstandarBT.isSelected()){
+                tarifa_estandar = true;
+                data = TE.obtenerUltimaTarifa();
+                cod_tarifa = Integer.parseInt(data[0].toString());
+            }
+            try {
+                p.updateProveedorCodigo(codigo, identificacion, razonSocial, direccion, municipio, telefono, correo, materia_prima, MP_Acordado, Cuadrilla, Flete, peaje, cod_tarifa, tarifa_estandar);
+                reestablecerPagina();
+                JOptionPane.showMessageDialog(null, "SE HAN GUARDADO LOS CAMBIOS CON EXITO", "EXITO EN LA ACCION", JOptionPane.PLAIN_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        updateTabla();
+        seleccionado = false;
+        SeleccionarBT.setSelected(false);
+        
     }//GEN-LAST:event_GuardarBTActionPerformed
 
     private void HabilitarCambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarCambiosBTActionPerformed
@@ -1069,7 +1111,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         seleccionado = false;
         cambiando_beneficiario = false;
         nuevo_beneficiario = false;
-        
+        tabla.setVisible(true);
         Codigotxt.setEditable(false); Codigotxt.setText("");
         IdentificacionCB.setEnabled(false); IdentificacionCB.setSelectedIndex(0);
         Identificaciontxt.setEditable(false); Identificaciontxt.setText("");
@@ -1089,21 +1131,22 @@ public class TablaProveedores extends javax.swing.JFrame {
         Peajetxt.setEditable(false); Peajetxt.setText("");
         MP_Acordadotxt.setEditable(false); MP_Acordadotxt.setText("");
         SeleccionarBT.setSelected(false);
+        HabilitarCambiosBT.setSelected(false);
     }
     
     private void SeleccionarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarBTActionPerformed
-        if(!Codigotxt.getText().isEmpty()){
-            if(seleccionado){
-            seleccionado = false;
-            } else {
-                seleccionado = true;
-            }
+        if(!Codigotxt.getText().isEmpty() && SeleccionarBT.isSelected()){
+            tabla.setVisible(false);
+            seleccionado = true;
         } else if(HabilitarCambiosBT.isSelected()){
             JOptionPane.showMessageDialog(null, "TIENE LA OPCION DE HABILITAR ACTIVADA, DESACTIVELA PRIMERO", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(true);
         } else if(!HabilitarCambiosBT.isSelected() && Codigotxt.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR EN LA TABLA A UN PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(false);
+        } else if(!SeleccionarBT.isSelected()){
+            tabla.setVisible(true);
+            seleccionado = false;
         }
     }//GEN-LAST:event_SeleccionarBTActionPerformed
 

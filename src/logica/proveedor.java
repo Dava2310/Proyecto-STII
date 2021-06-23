@@ -43,8 +43,8 @@ public class proveedor {
         } else {
             try{
                 PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                        " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado)" + 
-                        " values(?,?,?,?,?,?,?,?,?,?,?,?)");
+                        " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado, Cod_Tarifa)" + 
+                        " values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 pstm.setInt(1, codigo);
                 pstm.setString(2, identificacion);
                 pstm.setString(3, razon_social);
@@ -57,6 +57,7 @@ public class proveedor {
                 pstm.setInt(10, peaje);
                 pstm.setString(11, materia_prima);
                 pstm.setFloat(12, MP_acordado);
+                pstm.setInt(13,0);
                 pstm.execute();
                 pstm.close();
             }catch(SQLException e){
@@ -193,40 +194,74 @@ public class proveedor {
     }
     
     //FUNCION PARA ACTUALIZAR LOS DATOS DE UN PROVEEDOR
-    public void updateProveedorCodigo(int codigo, String identificacion, String razon_social, String direccion, String municipio, String telefono, String email, String materia_prima, float MP_acordado, float Cuadrilla, float Flete, int Peaje)
+    public void updateProveedorCodigo(int codigo, String identificacion, String razon_social, String direccion, String municipio, String telefono, String email, String materia_prima, float MP_acordado, float Cuadrilla, float Flete, int Peaje, int cod_tarifa, boolean tarifa)
     throws SQLException{
         
         //SE REALIZA LA QUERY EN SQL PARA ACTUALIZAR LOS DATOS DEL PROVEEDOR
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
-            " set Identificacion = ? ," +
-            " Razon_Social = ? , " + 
-            " Direccion = ? , " + 
-            " Municipio = ? , " +
-            " Telefono = ? , " +
-            " Email = ? , " + 
-            " Cuadrilla = ? , " +
-            " Flete = ? , " +
-            " Peaje = ? " +   
-            " Materia_Prima = ? , " +
-            " MP_acordado = ? , " +        
-            " where Codigo = ?");
-            pstm.setString(1, identificacion);
-            pstm.setString(2, razon_social);
-            pstm.setString(3, direccion);
-            pstm.setString(4, municipio);
-            pstm.setString(5, telefono);
-            pstm.setString(6, email);
-            pstm.setFloat(7, Cuadrilla);
-            pstm.setFloat(8, Flete);
-            pstm.setInt(9, Peaje);
-            pstm.setString(10, materia_prima);
-            pstm.setFloat(11, MP_acordado);
-            pstm.setInt(12, codigo);
-            pstm.execute();
-            pstm.close();
+            if(tarifa){
+                PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
+                " set Identificacion = ? ," +
+                " Razon_Social = ? , " + 
+                " Direccion = ? , " + 
+                " Municipio = ? , " +
+                " Telefono = ? , " +
+                " Email = ? , " + 
+                " Cuadrilla = ? , " +
+                " Flete = ? , " +
+                " Peaje = ? , " +   
+                " Materia_Prima = ? , " +
+                " MP_acordado = ? , " +   
+                " Cod_Tarifa = ?  " +        
+                " where Codigo = ?");
+                pstm.setString(1, identificacion);
+                pstm.setString(2, razon_social);
+                pstm.setString(3, direccion);
+                pstm.setString(4, municipio);
+                pstm.setString(5, telefono);
+                pstm.setString(6, email);
+                pstm.setFloat(7, Cuadrilla);
+                pstm.setFloat(8, Flete);
+                pstm.setInt(9, Peaje);
+                pstm.setString(10, materia_prima);
+                pstm.setFloat(11, MP_acordado);
+                pstm.setInt(12, cod_tarifa);
+                pstm.setInt(13, codigo);
+                pstm.execute();
+                pstm.close();
+            } else if(!tarifa){
+                PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
+                " set Identificacion = ? ," +
+                " Razon_Social = ? , " + 
+                " Direccion = ? , " + 
+                " Municipio = ? , " +
+                " Telefono = ? , " +
+                " Email = ? , " + 
+                " Cuadrilla = ? , " +
+                " Flete = ? , " +
+                " Peaje = ? , " +   
+                " Materia_Prima = ? , " +
+                " MP_acordado = ? , " +   
+                " Cod_Tarifa = ?  " +        
+                " where Codigo = ?");
+                pstm.setString(1, identificacion);
+                pstm.setString(2, razon_social);
+                pstm.setString(3, direccion);
+                pstm.setString(4, municipio);
+                pstm.setString(5, telefono);
+                pstm.setString(6, email);
+                pstm.setFloat(7, Cuadrilla);
+                pstm.setFloat(8, Flete);
+                pstm.setInt(9, Peaje);
+                pstm.setString(10, materia_prima);
+                pstm.setFloat(11, MP_acordado);
+                pstm.setInt(12, 0);
+                pstm.setInt(13, codigo);
+                pstm.execute();
+                pstm.close();
+            }
         }catch(SQLException e){
-            System.out.println(e);
+             Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     

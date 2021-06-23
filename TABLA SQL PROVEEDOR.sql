@@ -15,6 +15,8 @@ create table Tarifa_Estandar(
 );
 
 INSERT INTO Tarifa_Estandar(Cod_Tarifa, Cuadrilla, Flete, Materia_Prima, Fecha_Inicio) values(0,1,2,"TABLA",'2021-06-16');
+UPDATE Tarifa_Estandar set Cod_Tarifa = 0 where Cod_Tarifa = 1;
+UPDATE Tarifa_Estandar set Estado = "NO VIGENTE" where Cod_Tarifa = 0;
 INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio) values(1,2,"TABLA",'2021-06-17');
 select * from Tarifa_Estandar;
 
@@ -41,8 +43,11 @@ create table proveedor(
     foreign key(Cod_Tarifa) references Tarifa_Estandar(Cod_Tarifa)
 );
 
+UPDATE proveedor set Cod_Tarifa = 5;
+
 -- INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(1, 'V29517648', 'Daniel Vetencourt', 78,48,48, 'TABLA');
 SELECT * from proveedor;
+UPDATE proveedor set Cuadrilla = 10, Flete = 10 where Cod_Tarifa != 0;
 -- CREACION DE LA TABLA BENEFICIARIOS
 create table beneficiarios(
 	Cod_Beneficiario int auto_increment NOT NULL,

@@ -28,7 +28,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public TasaDePrecios TDP;
     public TasaBsUSD TasaBSUSD;
     public TasaBsUSDConsultarModificar TasaBSUSDCM;
-    public ModificarEliminarProveedor MEP;
     public ModificarAnticipo MA;
     public ConsultarAnticipo CA;
     public IdentificacionProveedorTransacciones IPT;
@@ -64,10 +63,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         MI_CerrarTodo = new javax.swing.JMenuItem();
         MI_Guardar = new javax.swing.JMenuItem();
         M_Proveedor = new javax.swing.JMenu();
-        MI_Consultar = new javax.swing.JMenuItem();
         MI_Agregar = new javax.swing.JMenuItem();
-        MI_Modificar = new javax.swing.JMenuItem();
-        MI_Eliminar = new javax.swing.JMenuItem();
         MI_MostrarProveedores = new javax.swing.JMenuItem();
         M_Transaccion = new javax.swing.JMenu();
         CrearTransaccion = new javax.swing.JMenuItem();
@@ -124,15 +120,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         M_Proveedor.setText("Proveedor");
 
-        MI_Consultar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        MI_Consultar.setText("Consultar");
-        MI_Consultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_ConsultarActionPerformed(evt);
-            }
-        });
-        M_Proveedor.add(MI_Consultar);
-
         MI_Agregar.setText("Agregar");
         MI_Agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,23 +128,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         });
         M_Proveedor.add(MI_Agregar);
 
-        MI_Modificar.setText("Modificar");
-        MI_Modificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_ModificarActionPerformed(evt);
-            }
-        });
-        M_Proveedor.add(MI_Modificar);
-
-        MI_Eliminar.setText("Eliminar");
-        MI_Eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_EliminarActionPerformed(evt);
-            }
-        });
-        M_Proveedor.add(MI_Eliminar);
-
-        MI_MostrarProveedores.setText("Mostrar Proveedores");
+        MI_MostrarProveedores.setText("Manejo de datos de Proveedores");
         MI_MostrarProveedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MI_MostrarProveedoresActionPerformed(evt);
@@ -327,30 +298,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_MI_GuardarActionPerformed
 
-    private void MI_ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ConsultarActionPerformed
-        TP = new TablaProveedores();
-        TP.modo = 1;
-        TP.setVisible(true);
-        
-    }//GEN-LAST:event_MI_ConsultarActionPerformed
-
     private void MI_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_AgregarActionPerformed
         IP.setVisible(true);
         IP.modo = 1;
     }//GEN-LAST:event_MI_AgregarActionPerformed
-
-    private void MI_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ModificarActionPerformed
-        TP = new TablaProveedores();
-        TP.setVisible(true);
-        TP.modo = 2;
-    }//GEN-LAST:event_MI_ModificarActionPerformed
-
-    private void MI_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_EliminarActionPerformed
-        TP = new TablaProveedores();
-        TP.setVisible(true);
-        TP.modo = 2;
-        
-    }//GEN-LAST:event_MI_EliminarActionPerformed
 
     private void MI_CrearAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_CrearAActionPerformed
         IP.setVisible(true);
@@ -499,14 +450,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MI_BuscarModificarT;
     private javax.swing.JMenuItem MI_Cerrar;
     private javax.swing.JMenuItem MI_CerrarTodo;
-    private javax.swing.JMenuItem MI_Consultar;
     private javax.swing.JMenuItem MI_ConsultarA;
     private javax.swing.JMenu MI_ConsultarModificar;
     private javax.swing.JMenuItem MI_CrearA;
     private javax.swing.JMenuItem MI_CrearT;
-    private javax.swing.JMenuItem MI_Eliminar;
     private javax.swing.JMenuItem MI_Guardar;
-    private javax.swing.JMenuItem MI_Modificar;
     private javax.swing.JMenuItem MI_ModificarA;
     private javax.swing.JMenuItem MI_MostrarProveedores;
     private javax.swing.JMenu M_Agregar;

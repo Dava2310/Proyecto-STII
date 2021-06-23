@@ -400,6 +400,8 @@
                   <Component id="InformacionBancariaL" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="BancariaBT" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="ListarBeneficiariosBT" min="-2" pref="397" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -410,6 +412,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="InformacionBancariaL" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="BancariaBT" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ListarBeneficiariosBT" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -717,6 +720,22 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BancariaBTActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JComboBox" name="ListarBeneficiariosBT">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="1">
+                <StringItem index="0" value="Nuevo"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ListarBeneficiariosBTActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="PanelBotones">
@@ -847,7 +866,7 @@
                       <Component id="IdentificacionProveedor6" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="MP_Acordadotxt" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="38" max="32767" attributes="0"/>
+                  <EmptySpace pref="42" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

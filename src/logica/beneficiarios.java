@@ -35,6 +35,67 @@ public class beneficiarios {
         }
     }
     
+    public int cantidadRegistros(){
+        int registros = 0;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM beneficiarios");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
+        }catch(SQLException ex){
+            Logger.getLogger(beneficiarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return registros;
+    }
+    
+    public Object[][] getDatos(){
+        int registros = 0;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM beneficiarios");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
+        }catch(SQLException ex){
+            Logger.getLogger(beneficiarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Object[][] data = new Object[registros][10];
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_Beneficiario, Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Nombre_Autorizado, ID_Autorizado " +
+                    " FROM beneficiarios " +
+                    " ORDER BY Cod_Beneficiario");
+            ResultSet res = pstm.executeQuery();
+            int i = 0;
+            while(res.next()){
+                int estCod_Beneficiario = res.getInt("Cod_Beneficiario");
+                String estName_Beneficiario = res.getString("Name_Beneficiario");
+                String estID_Beneficiario = res.getString("ID_Beneficiario");
+                String estMail_Beneficiario = res.getString("Mail_Beneficiario");
+                String estBanco = res.getString("Banco");
+                String estNum_Cuenta = res.getString("Num_Cuenta");
+                String estTipo_Cuenta = res.getString("Tipo_Cuenta");
+                String estMOD_Cuenta = res.getString("MOD_Cuenta");
+                String estNombre_Autorizado = res.getString("Nombre_Autorizado");
+                String estID_Autorizado = res.getString("ID_Autorizado");
+                data[i][0] = estCod_Beneficiario;
+                data[i][1] = estName_Beneficiario;
+                data[i][2] = estID_Beneficiario;
+                data[i][3] = estMail_Beneficiario;
+                data[i][4] = estBanco;
+                data[i][5] = estNum_Cuenta;
+                data[i][6] = estTipo_Cuenta;
+                data[i][7] = estMOD_Cuenta;
+                data[i][8] = estNombre_Autorizado;
+                data[i][9] = estID_Autorizado;
+                i++;
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(beneficiarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
+    }
+    
     public boolean buscarBeneficiario(String identificacion){
         boolean encontrado = false;
         try{

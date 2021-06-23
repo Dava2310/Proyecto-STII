@@ -29,7 +29,6 @@ public class TablaProveedores extends javax.swing.JFrame {
     public Tarifa_Estandar TE = new Tarifa_Estandar();
     Object[][] data;
     int fila = -1;
-    public ModificarEliminarProveedor MEP;
     public TablaProveedores() {
         initComponents();
     }
@@ -829,7 +828,6 @@ public class TablaProveedores extends javax.swing.JFrame {
             String num_cuenta = String.valueOf(tabla.getValueAt(fila,17));
             
             if(!Name_Bnf.equals("null") && !identificacion2.equals("null") && !num_cuenta.equals("null")){
-                InformacionBancaria_BT.setSelected(true);
                 NombreBNF_txt.setText(String.valueOf(tabla.getValueAt(fila,13)));
                 char tipoIdentificacion2 = identificacion2.charAt(0);
                 int TIPOID2 = p.indexIdentificacion(tipoIdentificacion2);
@@ -849,6 +847,8 @@ public class TablaProveedores extends javax.swing.JFrame {
                 int index_tipo_cuenta = p.indexTipoCuenta(TipoCuenta);
                 TCuenta_CB.setSelectedIndex(index_tipo_cuenta);
                 String modo_cuenta = String.valueOf(tabla.getValueAt(fila,19));
+                int index_mod = p.indexmod_Cuenta(modo_cuenta);
+                MOD_CB.setSelectedIndex(index_mod);
                 if(!String.valueOf(tabla.getValueAt(fila,20)).equals("null")){
                     NombreAUT_txt.setText(String.valueOf(tabla.getValueAt(fila,20)));
                 } else {

@@ -49,8 +49,6 @@ public class TablaTarifas extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         Fletetxt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        Peajetxt = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         FechaFinalLB = new javax.swing.JLabel();
         Fecha_Ftxt = new javax.swing.JTextField();
@@ -119,11 +117,6 @@ public class TablaTarifas extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("FLETE (*)");
 
-        Peajetxt.setEditable(false);
-
-        jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel7.setText("PEAJE (*)");
-
         jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton1.setText("SELECCIONAR TARIFA");
 
@@ -175,41 +168,40 @@ public class TablaTarifas extends javax.swing.JFrame {
                         .addGap(66, 66, 66)
                         .addComponent(jLabel10)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Codigotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(Fecha_Itxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(MPCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(40, 40, 40)
-                                        .addComponent(jLabel5)
-                                        .addGap(46, 46, 46)
-                                        .addComponent(jLabel6)
-                                        .addGap(153, 153, 153)
-                                        .addComponent(jLabel7))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(36, 36, 36)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(Fecha_Ftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(27, 27, 27)
-                                                .addComponent(Estadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(33, 33, 33)
-                                                .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                        .addContainerGap(160, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(MPCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(40, 40, 40)
+                                    .addComponent(jLabel5)
+                                    .addGap(46, 46, 46)
+                                    .addComponent(jLabel6)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGap(36, 36, 36)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(Fecha_Ftxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(27, 27, 27)
+                                            .addComponent(Estadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addContainerGap(385, Short.MAX_VALUE))))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(Codigotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Fecha_Itxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap(286, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(NuevoBT, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,14 +229,12 @@ public class TablaTarifas extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Cuadrillatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MPCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Peajetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Fletetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(FechaFinalLB)
@@ -297,10 +287,9 @@ public class TablaTarifas extends javax.swing.JFrame {
             Codigotxt.setText(String.valueOf(TABLA.getValueAt(fila, 0)));
             Cuadrillatxt.setText(String.valueOf(TABLA.getValueAt(fila, 1)));
             Fletetxt.setText(String.valueOf(TABLA.getValueAt(fila, 2)));
-            Peajetxt.setText(String.valueOf(TABLA.getValueAt(fila, 3)));
-            Fecha_Itxt.setText(String.valueOf(TABLA.getValueAt(fila, 5)));
-            Fecha_Ftxt.setText(String.valueOf(TABLA.getValueAt(fila, 6)));
-            Estadotxt.setText(String.valueOf(TABLA.getValueAt(fila, 7)));
+            Fecha_Itxt.setText(String.valueOf(TABLA.getValueAt(fila, 4)));
+            Fecha_Ftxt.setText(String.valueOf(TABLA.getValueAt(fila, 5)));
+            Estadotxt.setText(String.valueOf(TABLA.getValueAt(fila, 6)));
         }
     }//GEN-LAST:event_TABLAMouseClicked
 
@@ -311,7 +300,7 @@ public class TablaTarifas extends javax.swing.JFrame {
     public void mostrarTodos(){
         //MATRIZ OBJETO PARA ALMACENAR LOS DATOS DE LAS TARIFAS
         Object[][] data;
-        String[] columNames = {"Codigo_Tarifa","Cuadrilla","Flete","Peaje","Materia Prima","Fecha_Inicio","Fecha_Final","Estado"};
+        String[] columNames = {"Codigo_Tarifa","Cuadrilla","Flete","Materia Prima","Fecha_Inicio","Fecha_Final","Estado"};
         try{
             //LLAMAMOS A LA FUNCION GET DATOS DE LAS TARIFAS ESTANDAR
             data = TE.getDatos();
@@ -323,7 +312,7 @@ public class TablaTarifas extends javax.swing.JFrame {
     }
     
     private void updateTabla(){
-        String[] columNames = {"Codigo_Tarifa","Cuadrilla","Flete","Peaje","Materia Prima","Fecha_Inicio","Fecha_Final","Estado"};
+        String[] columNames = {"Codigo_Tarifa","Cuadrilla","Flete","Materia Prima","Fecha_Inicio","Fecha_Final","Estado"};
         try{
             //LLAMAMOS A LA FUNCION GET DATOS DE LAS TARIFAS ESTANDAR
             data = TE.getDatos();
@@ -339,7 +328,6 @@ public class TablaTarifas extends javax.swing.JFrame {
         MPCB.setSelectedIndex(0);
         Cuadrillatxt.setText("");
         Fletetxt.setText("");
-        Peajetxt.setText("");
         Fecha_Itxt.setText("");
         Fecha_Ftxt.setText("");
     }
@@ -388,7 +376,6 @@ public class TablaTarifas extends javax.swing.JFrame {
     private javax.swing.JTextField Fletetxt;
     private javax.swing.JComboBox<String> MPCB;
     private javax.swing.JButton NuevoBT;
-    private javax.swing.JTextField Peajetxt;
     private javax.swing.JTable TABLA;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -398,7 +385,6 @@ public class TablaTarifas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

@@ -64,7 +64,7 @@ create table beneficiarios(
 );
 
 SELECT * FROM beneficiarios;
-
+SELECT count(1) as total from beneficiarios;
 -- CREACION DE LA TABLA ANTICIPO
 create table anticipos(
 	Num_Anticipo int NOT NULL auto_increment, 

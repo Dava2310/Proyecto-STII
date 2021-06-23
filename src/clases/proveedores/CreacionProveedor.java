@@ -15,6 +15,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
     public proveedor p = new proveedor();
     public beneficiarios b = new beneficiarios();
     public Object[][] dtPer;
+    private Object[][] dataBeneficiarios;
     public Tarifa_Estandar TE = new Tarifa_Estandar();
     public String[] botones_confirmacionCrear = {"SI", "NO"};
     public String identificacion;
@@ -92,6 +93,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
         MODCB = new javax.swing.JComboBox<>();
         idCBaut = new javax.swing.JComboBox<>();
         BancariaBT = new javax.swing.JToggleButton();
+        ListarBeneficiariosBT = new javax.swing.JComboBox<>();
         PanelBotones = new javax.swing.JPanel();
         LimpiarBT = new javax.swing.JButton();
         CrearBT = new javax.swing.JButton();
@@ -345,6 +347,14 @@ public class CreacionProveedor extends javax.swing.JFrame {
             }
         });
 
+        ListarBeneficiariosBT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo" }));
+        ListarBeneficiariosBT.setEnabled(false);
+        ListarBeneficiariosBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListarBeneficiariosBTActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelBancarioLayout = new javax.swing.GroupLayout(PanelBancario);
         PanelBancario.setLayout(PanelBancarioLayout);
         PanelBancarioLayout.setHorizontalGroup(
@@ -410,6 +420,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
                 .addComponent(InformacionBancariaL)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BancariaBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ListarBeneficiariosBT, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelBancarioLayout.setVerticalGroup(
@@ -417,7 +429,8 @@ public class CreacionProveedor extends javax.swing.JFrame {
             .addGroup(PanelBancarioLayout.createSequentialGroup()
                 .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(InformacionBancariaL)
-                    .addComponent(BancariaBT))
+                    .addComponent(BancariaBT)
+                    .addComponent(ListarBeneficiariosBT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(PanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LogoInformacionBancaria)
@@ -605,7 +618,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
                 .addGroup(PanelDePagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(IdentificacionProveedor6)
                     .addComponent(MP_Acordadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -659,12 +672,24 @@ public class CreacionProveedor extends javax.swing.JFrame {
         ActualizarCamposTarifa();
     }//GEN-LAST:event_formWindowOpened
 
+    private void cargarDatosBeneficiarios(){
+        
+        int registros = b.cantidadRegistros();
+        dataBeneficiarios = b.getDatos();
+        for(int i = 0; i <= registros - 1; i++){
+            String item = dataBeneficiarios[i][1].toString();
+            item += "   -   " + dataBeneficiarios[i][2].toString();
+            ListarBeneficiariosBT.addItem(item);
+        }
+    }
+    
     public void ActualizarCamposTarifa(){
         // IMPRIMIR LOS DATOS DE LA TARIFA ESTANDAR
         Object[] data = TE.obtenerUltimaTarifa();
         Cuadrillatxt.setText(String.valueOf(data[1]));
         Fletetxt.setText(String.valueOf(data[2]));
         cod_tarifa = Integer.parseInt(data[0].toString());
+        MPCB.setEnabled(false);
     }
     
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -690,7 +715,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
             String telefono = TipoTlftxt.getText();
             telefono += Tlftxt.getText();
             String mail = Mailtxt.getText();
-            //DESPUES SE TOMA LA INFORMACION BANCIA, PRIMERO SE INICIALIZAN LAS VARIABLES Y DESPUES SE VERIFICA SI EL USUARIO HABILITO ESTA INFORMACION
+            //DESPUES SE TOMA LA INFORMACION BANCARIA, PRIMERO SE INICIALIZAN LAS VARIABLES Y DESPUES SE VERIFICA SI EL USUARIO HABILITO ESTA INFORMACION
             String nombre_beneficiario = "";
             String id_beneficiario = "";
             String mail_bnf = "";
@@ -777,7 +802,6 @@ public class CreacionProveedor extends javax.swing.JFrame {
                     if(bancaria){
                         boolean beneficiario_encontrado = b.buscarBeneficiario(id_beneficiario);
                         if(!beneficiario_encontrado){
-                            System.out.println("hola");
                             b.NuevoBeneficiario(nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado, codigo);
                             int codigo_beneficiario = b.codigoSiguiente();
                             PB.crear_relacion(codigo, codigo_beneficiario);
@@ -835,19 +859,22 @@ public class CreacionProveedor extends javax.swing.JFrame {
             CUANDO SEA VERDADERA, SI LOS GUARDAREMOS
             PERO TENDREMOS QUE HACER ENTONCES VERIFICACIONES DE QUE LOS CAMPOS NO ESTEN VACIOS
         */
-        if(bancaria == false){
+        if(BancariaBT.isSelected()){
             /*
                 LA INFORMACION BANCARIA VIENE DE POR SI DESHABILITADA
                 POR TANTO, COMO LE ESTAN PRESIONANDO EL BOTON, DEBO HABILITAR CAMPOS BANCARIOS
             */
             habilitarCamposBancarios();
+            ListarBeneficiariosBT.setEnabled(true);
             bancaria = true;
-        } else if(bancaria) {
+            cargarDatosBeneficiarios();
+        } else if(!BancariaBT.isSelected()) {
             /*
                 EN ESTE MOMENTO, LA INFORMACION BANCARIA ESTABA HABILITADA
                 SI LO VOLVIERON A PRESIONAR, QUIERE DECIR QUE DEBO DESHABILITAR ESOS CAMPOS
             */
             desHabilitarCamposBancarios();
+            ListarBeneficiariosBT.setEnabled(false);
             bancaria = false;
         }
     }//GEN-LAST:event_BancariaBTActionPerformed
@@ -865,14 +892,14 @@ public class CreacionProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_MPCBActionPerformed
 
     private void TarifaEstandarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TarifaEstandarBTActionPerformed
-        if(tarifa){
+        if(!TarifaEstandarBT.isSelected()){
             //PASARLO A FALSE
             //HABILITAR LOS CAMPOS
             tarifa = false;
             MPCB.setEnabled(true);
             Cuadrillatxt.setEditable(true);
             Fletetxt.setEditable(true);
-        } else if(!tarifa){
+        } else if(TarifaEstandarBT.isSelected()){
             //PASARLO A TRUE
             //DESHABILITAR LOS CAMPOS
             tarifa = true;
@@ -889,6 +916,59 @@ public class CreacionProveedor extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosing
+
+    private void ListarBeneficiariosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarBeneficiariosBTActionPerformed
+        if(ListarBeneficiariosBT.getSelectedItem().toString().equals("Nuevo")){
+            NameBnftxt.setText("");
+            IDtxt.setText("");
+            IDCB.setSelectedIndex(0);
+            MailBnftxt.setText("");
+            BancoCB.setSelectedIndex(0);
+            NumCuentatxt.setText("");
+            TCuentaCB.setSelectedIndex(0);
+            MODCB.setSelectedIndex(0);
+            NameAuttxt.setText("");
+            idCBaut.setSelectedIndex(0);
+            IDAuttxt.setText("");
+            habilitarCamposBancarios();
+        } else {
+            int index = ListarBeneficiariosBT.getSelectedIndex();
+            imprimirDatosBeneficiario(index);
+            desHabilitarCamposBancarios();
+        }
+    }//GEN-LAST:event_ListarBeneficiariosBTActionPerformed
+    
+    public void imprimirDatosBeneficiario(int index){
+        index--;
+        String Name_Autorizado = dataBeneficiarios[index][1].toString();
+        NameBnftxt.setText(Name_Autorizado);
+        
+        String ID_Beneficiario = dataBeneficiarios[index][2].toString();
+        char char_id = ID_Beneficiario.charAt(0);
+        int index_id = p.indexIdentificacion(char_id);
+        IDCB.setSelectedIndex(index_id);
+        IDtxt.setText(ID_Beneficiario.substring(1, ID_Beneficiario.length()));
+        
+        MailBnftxt.setText(dataBeneficiarios[index][3].toString());
+        BancoCB.setSelectedIndex(p.getindexBanco(dataBeneficiarios[index][4].toString()));
+        NumCuentatxt.setText(dataBeneficiarios[index][5].toString());
+        TCuentaCB.setSelectedIndex(p.indexTipoCuenta(dataBeneficiarios[index][6].toString()));
+        MODCB.setSelectedIndex(p.indexmod_Cuenta(dataBeneficiarios[index][7].toString()));
+        if(dataBeneficiarios[index][7].toString().equals("Cuenta Autorizada")){
+            NameAuttxt.setText(dataBeneficiarios[index][8].toString());
+            String ID_autorizado = dataBeneficiarios[index][9].toString();
+            System.out.println(ID_autorizado);
+            char char_autorizado = ID_autorizado.charAt(0);
+            int index_autorizado = p.indexIdentificacion(char_autorizado);
+            idCBaut.setSelectedIndex(index_autorizado);
+            IDAuttxt.setText(ID_autorizado.substring(1, ID_autorizado.length()));
+        } else {
+            idCBaut.setSelectedIndex(0);
+            IDAuttxt.setText("");
+            NameAuttxt.setText("");
+        }
+
+    }
     
     public void habilitarCamposBancarios(){
         NameBnftxt.setEditable(true);
@@ -1012,6 +1092,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField Identificaciontxt;
     private javax.swing.JLabel InformacionBancariaL;
     private javax.swing.JButton LimpiarBT;
+    private javax.swing.JComboBox<String> ListarBeneficiariosBT;
     private javax.swing.JLabel LogoInformacionBancaria;
     private javax.swing.JComboBox<String> MODCB;
     private javax.swing.JLabel MODL;

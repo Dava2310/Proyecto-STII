@@ -14,7 +14,7 @@ public class beneficiarios {
     }
     
     public void NuevoBeneficiario(String name_beneficiario, String id_beneficiario,
-            String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String nombre_autorizado, String id_autorizado, int cod_proveedor)
+            String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String nombre_autorizado, String id_autorizado)
     throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO beneficiarios(Name_Beneficiario, ID_Beneficiario, Mail_Beneficiario, Banco, Num_Cuenta, Tipo_Cuenta, MOD_Cuenta, Nombre_Autorizado, ID_Autorizado) " +
@@ -141,5 +141,36 @@ public class beneficiarios {
             System.out.println(e);
         }
         return codigo;
+    }
+    
+    public void updateBeneficiario(int Cod_Beneficiario, String name_beneficiario, String id_beneficiario,
+            String mail_beneficiario, String banco, String num_cuenta, String tipo_cuenta, String mod_cuenta, String nombre_autorizado, String id_autorizado){
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE beneficiarios " + 
+                    " set Name_Beneficiario = ? , " + 
+                    " ID_Beneficiario = ? , " + 
+                    " Mail_Beneficiario = ? , " + 
+                    " Banco = ? , " + 
+                    " Num_Cuenta = ? , " + 
+                    " Tipo_Cuenta = ? , " + 
+                    " MOD_Cuenta = ? , " +
+                    " Nombre_Autorizado = ? , " + 
+                    " ID_Autorizado = ? " + 
+                    " where Cod_Beneficiario = ?");
+            pstm.setString(1, name_beneficiario);
+            pstm.setString(2, id_beneficiario);
+            pstm.setString(3, mail_beneficiario);
+            pstm.setString(4, banco);
+            pstm.setString(5, num_cuenta);
+            pstm.setString(6, tipo_cuenta);
+            pstm.setString(7, mod_cuenta);
+            pstm.setString(8, nombre_autorizado);
+            pstm.setString(9, id_autorizado);
+            pstm.setInt(10, Cod_Beneficiario);
+            pstm.execute();
+            pstm.close();
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
     }
 }

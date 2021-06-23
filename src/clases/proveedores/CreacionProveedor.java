@@ -802,7 +802,7 @@ public class CreacionProveedor extends javax.swing.JFrame {
                     if(bancaria){
                         boolean beneficiario_encontrado = b.buscarBeneficiario(id_beneficiario);
                         if(!beneficiario_encontrado){
-                            b.NuevoBeneficiario(nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado, codigo);
+                            b.NuevoBeneficiario(nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado);
                             int codigo_beneficiario = b.codigoSiguiente();
                             PB.crear_relacion(codigo, codigo_beneficiario);
                         } else {

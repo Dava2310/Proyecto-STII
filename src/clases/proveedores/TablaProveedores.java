@@ -12,7 +12,9 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import logica.Proveedor_Beneficiario;
 import logica.Tarifa_Estandar;
+import logica.beneficiarios;
 import logica.proveedor;
 
 /**
@@ -26,7 +28,9 @@ public class TablaProveedores extends javax.swing.JFrame {
     public boolean cambiando_beneficiario = false;
     public boolean nuevo_beneficiario = false;
     public proveedor p = new proveedor();
+    private beneficiarios b = new beneficiarios();
     public Tarifa_Estandar TE = new Tarifa_Estandar();
+    private Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
     Object[][] data;
     int fila = -1;
     public TablaProveedores() {
@@ -427,11 +431,14 @@ public class TablaProveedores extends javax.swing.JFrame {
                     .addComponent(TCuenta_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(MODL6)
                     .addComponent(MOD_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NombreAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NameAutL6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(NameAutL6))
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(NombreAUT_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(IDAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(IDAUT_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -864,6 +871,9 @@ public class TablaProveedores extends javax.swing.JFrame {
                     IDAUT_txt.setText("");
                     IDAUT_CB.setSelectedIndex(0);
                 }
+                NombreAUT_txt.setEditable(false);
+                IDAUT_txt.setEditable(false);
+                IDAUT_CB.setEnabled(false);
             } else {
                 limpiarDatosBeneficiario();
             }
@@ -942,16 +952,89 @@ public class TablaProveedores extends javax.swing.JFrame {
             }
             try {
                 p.updateProveedorCodigo(codigo, identificacion, razonSocial, direccion, municipio, telefono, correo, materia_prima, MP_Acordado, Cuadrilla, Flete, peaje, cod_tarifa, tarifa_estandar);
-                reestablecerPagina();
                 JOptionPane.showMessageDialog(null, "SE HAN GUARDADO LOS CAMBIOS CON EXITO", "EXITO EN LA ACCION", JOptionPane.PLAIN_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
             }
+            /*================================= GUARDAR CAMBIOS DE BENEFICIARIO===========================\\*/
+            String nombre_beneficiario = "";
+                String id_beneficiario = "";
+                String mail_bnf = "";
+                String banco = "";
+                String num_cuenta = "";
+                String Tipo_cuenta = "";
+                String mod_cuenta = "";
+                String name_autorizado = "";
+                String ID_autorizado = "";
+                int codigo_bnf = 0;
+                System.out.println(NombreBNF_txt.getText());
+                System.out.println(IDBNF_txt.getText());
+                System.out.println(NumCuenta_txt.getText());
+                if(!NombreBNF_txt.getText().isEmpty() && !IDBNF_txt.getText().isEmpty() && !NumCuenta_txt.getText().isEmpty()){
+
+                            nombre_beneficiario = NombreBNF_txt.getText();
+                            mail_bnf = CorreoBNF_txt.getText();
+                            banco = Banco_CB.getSelectedItem().toString();
+                            num_cuenta = NumCuenta_txt.getText();
+                            if(!IDBNF_txt.getText().isEmpty()){
+                                if(IDBNF_txt.getText().length() < 7 || IDBNF_txt.getText().length() > 8){
+                                    JOptionPane.showMessageDialog(null, "DEBE COLOCAR UN BUEN FORMATO DE LA CEDULA", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                } else {
+                                    id_beneficiario = IDBNF_CB.getSelectedItem().toString();
+                                    id_beneficiario += IDBNF_txt.getText();
+                                } 
+                            }
+                            codigo_bnf = b.retornaCodigo(id_beneficiario);
+                            Tipo_cuenta = TCuenta_CB.getSelectedItem().toString();
+                            mod_cuenta = MOD_CB.getSelectedItem().toString();
+                            //PRIMERO VERIFICAMOS SI LA CUENTA ESTA EN MODO AUTORIZADA
+                            if(MOD_CB.getSelectedItem().toString().equals("Cuenta Autorizada")){
+                                //DESPUES SI QUEREMOS RECOGER ESTOS DATOS, AJURO AMBOS CAMPOS NO PUEDEN ESTAR VACIOS
+                                if(!NombreAUT_txt.getText().isEmpty() && !IDAUT_txt.getText().isEmpty()){
+                                    //Y ADEMAS DE ESO, DEBEMO VERIFICAR QUE LA CEDULA SEA CORRECTA
+                                    if(IDAUT_txt.getText().length() < 7 || IDAUT_txt.getText().length() > 8){
+                                    } else {
+                                        name_autorizado = NombreAUT_txt.getText();
+                                        ID_autorizado = IDAUT_CB.getSelectedItem().toString();
+                                        ID_autorizado += IDAUT_txt.getText();
+                                    }
+                                } else {
+                                    //SI EL CAMPO DE CUENTA AUTORIZADA ESTA SELECCIONADO PERO LOS CAMPOS VACIOS
+                                    JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS DE AUTORIZADO", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                    } else {
+                        System.out.println("hola");
+                        JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS OBLIGATORIOS DE BANCO Y EN SU DEBIDO FORMATO", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+            if(InformacionBancaria_BT.isSelected()){
+                //CAMBIAR LOS DATOS AL BENEFICIARIO
+                b.updateBeneficiario(codigo_bnf, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado);
+
+            } else if (NuevoBeneficiario_BT.isSelected()){
+                try {
+                    //GUARDAR TODOS LOS DATOS EN VARIABLES
+                    //Y CREAR UN NUEVO BENEFICIARIO
+                    //CREAR LA RELACION
+                    System.out.println(id_beneficiario);
+                    b.NuevoBeneficiario(nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado);
+                    int codigo_bnf2 = b.retornaCodigo(id_beneficiario);
+                    boolean proveedorEncontrado = PB.encontrarProveedor(Integer.parseInt(Codigotxt.getText()));
+                    if(!proveedorEncontrado){
+                        PB.crear_relacion(Integer.parseInt(Codigotxt.getText()), codigo_bnf2);
+                    } else {
+                        //HACER UNA UPDATE DE LA RELACION
+                        PB.updateRelacion(Integer.parseInt(Codigotxt.getText()), codigo_bnf2);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            updateTabla();
+            seleccionado = false;
+            SeleccionarBT.setSelected(false);
+            reestablecerPagina();
         }
-        updateTabla();
-        seleccionado = false;
-        SeleccionarBT.setSelected(false);
-        
     }//GEN-LAST:event_GuardarBTActionPerformed
 
     private void HabilitarCambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarCambiosBTActionPerformed
@@ -973,7 +1056,12 @@ public class TablaProveedores extends javax.swing.JFrame {
             TipoTlftxt.setEditable(true);
             Tlftxt.setEditable(true);
             Mailtxt.setEditable(true);
-            InformacionBancaria_BT.setEnabled(true);
+            if(!NombreBNF_txt.getText().isEmpty()){
+                InformacionBancaria_BT.setEnabled(true);
+            } else {
+                InformacionBancaria_BT.setEnabled(false);
+            }
+            
             NuevoBeneficiario_BT.setEnabled(true);
             TarifaEstandarBT.setEnabled(true);
             
@@ -1138,6 +1226,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         if(!Codigotxt.getText().isEmpty() && SeleccionarBT.isSelected()){
             tabla.setVisible(false);
             seleccionado = true;
+            System.out.println(NombreBNF_txt.getText());
         } else if(HabilitarCambiosBT.isSelected()){
             JOptionPane.showMessageDialog(null, "TIENE LA OPCION DE HABILITAR ACTIVADA, DESACTIVELA PRIMERO", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(true);
@@ -1169,6 +1258,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                 IDAUT_CB.setEnabled(true);
             }
             cambiando_beneficiario = true;
+            NuevoBeneficiario_BT.setEnabled(false);
         } else if(!InformacionBancaria_BT.isSelected() && !NuevoBeneficiario_BT.isSelected()){
             NombreBNF_txt.setEditable(false);
             IDBNF_CB.setEnabled(false);
@@ -1182,8 +1272,10 @@ public class TablaProveedores extends javax.swing.JFrame {
                 IDAUT_txt.setEditable(false);
                 IDAUT_CB.setEnabled(false);
             cambiando_beneficiario = false;
+            NuevoBeneficiario_BT.setEnabled(true);
         } else if(NuevoBeneficiario_BT.isSelected()){
             JOptionPane.showMessageDialog(null, "NO PUEDE CAMBIAR LA INFORMACION DE UN BENEFICIARIO CON LA OPCION DE NUEVO BENEFICIARIO ACTIVA", "ERROR", JOptionPane.ERROR_MESSAGE);
+            
         }
     }//GEN-LAST:event_InformacionBancaria_BTActionPerformed
 
@@ -1193,15 +1285,35 @@ public class TablaProveedores extends javax.swing.JFrame {
         } else{
             if(!NuevoBeneficiario_BT.isSelected()){
                 imprimirDatosBeneficiario();
+                NombreAUT_txt.setEditable(false);
+                IDAUT_txt.setEditable(false);
+                IDAUT_CB.setEnabled(false);
+                InformacionBancaria_BT.setEnabled(true);
             } else {
                 limpiarDatosBeneficiario();
+                habilitarCamposBancarios();
+                InformacionBancaria_BT.setEnabled(false);
             }
         }
            
         
     }//GEN-LAST:event_NuevoBeneficiario_BTActionPerformed
     
-    public void limpiarDatosBeneficiario(){
+    private void habilitarCamposBancarios(){
+                NombreBNF_txt.setEditable(true);
+                IDBNF_txt.setEditable(true);
+                IDBNF_CB.setEnabled(true);
+                CorreoBNF_txt.setEditable(true);
+                Banco_CB.setEnabled(true);
+                NumCuenta_txt.setEditable(true);
+                TCuenta_CB.setEnabled(true);
+                MOD_CB.setEnabled(true);
+                NombreAUT_txt.setEditable(true);
+                IDAUT_CB.setEnabled(true);
+                IDAUT_txt.setEditable(true);
+    }
+    
+    private void limpiarDatosBeneficiario(){
         InformacionBancaria_BT.setSelected(false);
                 NombreBNF_txt.setText("");
                 IDBNF_txt.setText("");
@@ -1216,7 +1328,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                 IDAUT_txt.setText("");
     }
     
-    public void mostrarTodos(){
+    private void mostrarTodos(){
         //Objeto para almacenar datos;
         Object[][] data;
         String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Cuadrilla","Flete","Peaje","Materia Prima", "MP_Acordado","Codigo Tarifa","Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Nombre Autorizado" , "Cedula Autorizado", "Estado"};
@@ -1230,7 +1342,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         }
     }
     
-    public void updateTabla(){
+    private void updateTabla(){
         String[] columNames = {"Codigo", "Identificacion", "Razon Social", "Direccion", "Municipio", "Telefono", "Email", "Cuadrilla","Flete","Peaje","Materia Prima","MP_Acordado","Codigo Tarifa","Nombre de Beneficiario", "Cedula Beneficiario", "Correo Beneficiario", "Entidad Bancaria", "Numero Cuenta", "Tipo de Cuenta", "Modo de Cuenta", "Nombre Autorizado" , "Cedula Autorizado", "Estado"};
         try{
             data = p.getDatos();

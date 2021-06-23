@@ -318,8 +318,8 @@ public class ConsultarAnticipo extends javax.swing.JFrame {
         //SEGUN LA CLAVE FORANEA DEL ANTICIPO
         //Y SE COLOCAN LOS 3 DATOS PRINCIPALES DEL PROVEEDOR
         //REALIZANDO BUSQUEDA POR CODIGO
-        String num_anticipo = NroAnticipotxt.getText();
-        if (!num_anticipo.isEmpty()) {
+        int num_anticipo = Integer.parseInt(NroAnticipotxt.getText());
+        if (!NroAnticipotxt.getText().isEmpty()) {
             boolean encontrado = false;
             try {
                 encontrado = a.buscarAnticipo(num_anticipo);

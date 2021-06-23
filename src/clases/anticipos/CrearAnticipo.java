@@ -10,7 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -78,6 +80,10 @@ public class CrearAnticipo extends javax.swing.JFrame {
         MotivoCB = new javax.swing.JComboBox<>();
         DescuentoODPCB = new javax.swing.JLabel();
         DescontarCB = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        Moneda_LB = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        Semana_txt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -131,6 +137,11 @@ public class CrearAnticipo extends javax.swing.JFrame {
         NroAnticipo.setText("Anticipo Nº");
 
         NroAnticipotxt.setEditable(false);
+        NroAnticipotxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NroAnticipotxtActionPerformed(evt);
+            }
+        });
 
         MotivoAnticipoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MotivoAnticipoL.setText("Motivo del Anticipo");
@@ -195,6 +206,21 @@ public class CrearAnticipo extends javax.swing.JFrame {
         DescontarCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         DescontarCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"SI", "NO" }));
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "$" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        Moneda_LB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        Moneda_LB.setText("Moneda a Ingresar");
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setText("Semana");
+
+        Semana_txt.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -203,65 +229,75 @@ public class CrearAnticipo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InfoProveedorL)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(IconoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(CodigoL)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Codigotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(IDL)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(IDCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(IDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(RazonSocialL)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(RazonSocialtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(infoAnticipoL)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(IconAnticipo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(NroAnticipo)
-                                        .addGap(70, 70, 70)
-                                        .addComponent(NroAnticipotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(MotivoAnticipoL)
-                                            .addComponent(MontoBSL)
-                                            .addComponent(AprobacionL)
-                                            .addComponent(DescuentoODPCB))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(MontoBStxt, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                                                    .addComponent(MotivoCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(MontoDS)
-                                                    .addComponent(FechaL))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(Fechatxt)
-                                                    .addComponent(MontoDStxt)))
-                                            .addComponent(Aprobaciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(DescontarCB, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(ObservacionL))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(CrearBT)
                         .addGap(18, 18, 18)
-                        .addComponent(CancelarBT)))
+                        .addComponent(CancelarBT))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(IconoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(CodigoL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Codigotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(IDL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(IDCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(IDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RazonSocialL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(RazonSocialtxt))))
+                    .addComponent(InfoProveedorL)
+                    .addComponent(infoAnticipoL)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(IconAnticipo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(NroAnticipo)
+                                .addGap(70, 70, 70)
+                                .addComponent(NroAnticipotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(Moneda_LB)
+                                    .addGap(12, 12, 12)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(MontoBSL)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(MontoBStxt, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(MontoDS)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(MontoDStxt, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(MotivoAnticipoL)
+                                        .addComponent(AprobacionL)
+                                        .addComponent(DescuentoODPCB))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(DescontarCB, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, Short.MAX_VALUE))
+                                        .addComponent(Aprobaciontxt)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(MotivoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(FechaL)
+                                                .addComponent(jLabel1))
+                                            .addGap(14, 14, 14)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(Semana_txt)
+                                                .addComponent(Fechatxt))))))))
+                    .addComponent(ObservacionL))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -293,22 +329,24 @@ public class CrearAnticipo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(NroAnticipo)
-                            .addComponent(NroAnticipotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(NroAnticipotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(Semana_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Fechatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Fechatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(MotivoAnticipoL)
-                                .addComponent(FechaL)
-                                .addComponent(MotivoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(MotivoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(FechaL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(MontoBSL)
-                                    .addComponent(MontoDS))
-                                .addComponent(MontoDStxt, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
-                            .addComponent(MontoBStxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(MontoDStxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MontoDS)
+                            .addComponent(MontoBSL)
+                            .addComponent(Moneda_LB)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MontoBStxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AprobacionL)
@@ -319,13 +357,13 @@ public class CrearAnticipo extends javax.swing.JFrame {
                             .addComponent(DescontarCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ObservacionL)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CrearBT)
                     .addComponent(CancelarBT))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -357,6 +395,18 @@ public class CrearAnticipo extends javax.swing.JFrame {
             SimpleDateFormat formatoFecha=new SimpleDateFormat("dd/MM/YYYY");
             String nuevaFecha = formatoFecha.format(fecha);
             Fechatxt.setText(nuevaFecha);
+            
+            Date anio = new Date();
+            SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
+            String anioActual = formatoAnio.format(anio);
+            
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(fecha);
+            Semana_txt.setText((calendar.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
+            
+            
+            int codigo = a.codigoSiguiente();
+            NroAnticipotxt.setText(String.valueOf(codigo));
         }catch(SQLException ex){
             Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -395,15 +445,16 @@ public class CrearAnticipo extends javax.swing.JFrame {
             //RECOGIDA DE DATOS:
             String motivo_anticipo = MotivoCB.getSelectedItem().toString();
             String fecha = Fechatxt.getText();
-            String monto_bs = MontoBStxt.getText();
-            String monto_ds = MontoDStxt.getText();
+            float monto_bs = Float.parseFloat(MontoBStxt.getText());
+            float monto_ds = Float.parseFloat(MontoDStxt.getText());
             String aprobacion = Aprobaciontxt.getText();
             String descontarODP = DescontarCB.getSelectedItem().toString();
             String observaciones = Observaciontxt.getText();
-            String codigo_proveedor = Codigotxt.getText();
+            int codigo_proveedor = Integer.parseInt(Codigotxt.getText());
+            String semana = Semana_txt.getText();
             //LLAMADA DE LA FUNCION CREAR ANTICIPO:
             try{
-                a.NuevoAnticipo(motivo_anticipo, fecha, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, "SI");
+                a.NuevoAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor);
                 creado = true;
                 //DEBEMOS MANDAR UN MENSAJE DE CONFIRMACION-------------
 
@@ -416,15 +467,10 @@ public class CrearAnticipo extends javax.swing.JFrame {
                 Observaciontxt.setEnabled(false);
                 MotivoCB.setEnabled(false);
 
-                //COLOCAMOS EL CODIGO DEL ANTICIPO CREADO EN EL TXT
-                String num_anticipo = a.codigo_RecienCreado();
-                //YA PODEMOS PASAR EL ESTADO DE RECIEN CREADO DE SI A NO EN EL ANTICIPO
-                NroAnticipotxt.setText(num_anticipo);
-                a.updateEstado(num_anticipo);
+                
             
                 //AQUI HAY QUE DEJAR UN MENSAJE DICIENDO QUE REVISE EL NRO DEL ANTICIPO QUE ESTA, COLOCADO EN EL TEXTFIELD
                 JOptionPane.showMessageDialog(null, "LA CREACION DE SU ANTICIPO HA SIDO EXITOSA", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
-                JOptionPane.showMessageDialog(null, "VERIFIQUE EL NUMERO DEL ANTICIPO GENERADO POR EL SISTEMA ANTES DE CERRAR", "AVISO", JOptionPane.PLAIN_MESSAGE);
                 //CAMBIANDO EL TEXTO DEL BOTON DE CANCELAR POR CERRAR
                 CancelarBT.setText("CERRAR");
             }catch(SQLException ex){
@@ -451,6 +497,14 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private void MotivoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MotivoCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MotivoCBActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void NroAnticipotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NroAnticipotxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NroAnticipotxtActionPerformed
     
     //SE CREA UNA FUNCION QUE PERMITA OBTENER LA FECHA ACTUAL DEL SISTEMA
     public static String fechaActual(){
@@ -537,6 +591,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private javax.swing.JLabel IconAnticipo;
     private javax.swing.JLabel IconoProveedor;
     private javax.swing.JLabel InfoProveedorL;
+    private javax.swing.JLabel Moneda_LB;
     private javax.swing.JLabel MontoBSL;
     private javax.swing.JTextField MontoBStxt;
     private javax.swing.JLabel MontoDS;
@@ -549,7 +604,10 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private javax.swing.JTextArea Observaciontxt;
     private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
+    private javax.swing.JTextField Semana_txt;
     private javax.swing.JLabel infoAnticipoL;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

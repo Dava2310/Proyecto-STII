@@ -337,8 +337,8 @@ public class ModificarAnticipo extends javax.swing.JFrame {
         Object[] dataAnticipo;
         Object[] dataProveedor;
 
-        String num_anticipo = NroAnticipotxt.getText();
-        if (!num_anticipo.isEmpty()) {
+        int num_anticipo = Integer.parseInt(NroAnticipotxt.getText());
+        if (!NroAnticipotxt.getText().isEmpty()) {
             try{
                 boolean encontrado = a.buscarAnticipo(num_anticipo);
                 if (encontrado) {
@@ -363,16 +363,16 @@ public class ModificarAnticipo extends javax.swing.JFrame {
         if (!(Codigotxt.getText().equals("")) && !(IDtxt.getText().equals("")) && !(RazonSocialtxt.getText().equals("")) && !(NroAnticipotxt.getText().isEmpty())) {
             String motivo_anticipo = MotivoAnticipoCB.getSelectedItem().toString();
             String fecha = Fechatxt.getText();
-            String monto_bs = MontoBStxt.getText();
-            String monto_ds = MontoDStxt.getText();
+            float monto_bs = Float.parseFloat(MontoBStxt.getText());
+            float monto_ds = Float.parseFloat(MontoDStxt.getText());
             String aprobacion = Aprobaciontxt.getText();
             String descontarODP = DescontarCB.getSelectedItem().toString();
             String observaciones = Observaciontxt.getText();
             String codigo_proveedor = Codigotxt.getText();
             String num_anticipo = NroAnticipotxt.getText();
-
+            String semana = "";
             try {
-                a.updateAnticipo(motivo_anticipo, fecha, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, num_anticipo);
+                a.updateAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, num_anticipo);
                 JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(ModificarAnticipo.class.getName()).log(Level.SEVERE, null, ex);

@@ -189,9 +189,9 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                         CA.setVisible(true);
                         procedio = true;
                     } else if (!p.buscarProveedorActivo(identificacion_completa) && p.buscarIdentificacion(identificacion_completa)){
-                        JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO ESTA ACTIVO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO ESTA ACTIVO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
                     } else if (!p.buscarIdentificacion(identificacion_completa)){
-                        JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO SE ENCUENTRA REGISTRADO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO SE ENCUENTRA REGISTRADO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(IdentificacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
@@ -200,7 +200,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
             if (procedio) {
                 this.dispose();
             } else if (!digitos) {
-                JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DE LA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DE LA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
             }
         }
 

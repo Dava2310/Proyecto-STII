@@ -38,7 +38,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public TablaProveedores TP;
     public CreacionTarifa CreacionT;
     public TablaTarifas TablaT;
-    conectate con;
+    public TablaAnticipos TablaA;
+    public conectate con;
     
     public PantallaPrincipal() {
         initComponents();
@@ -73,6 +74,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         MI_CrearA = new javax.swing.JMenuItem();
         MI_ModificarA = new javax.swing.JMenuItem();
         MI_ConsultarA = new javax.swing.JMenuItem();
+        MI_ManejoAnticipos = new javax.swing.JMenuItem();
         M_Valores = new javax.swing.JMenu();
         M_Agregar = new javax.swing.JMenu();
         SMI_BSUSD = new javax.swing.JMenuItem();
@@ -186,6 +188,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
         M_Anticipos.add(MI_ConsultarA);
+
+        MI_ManejoAnticipos.setText("Manejo de Anticipos");
+        MI_ManejoAnticipos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ManejoAnticiposActionPerformed(evt);
+            }
+        });
+        M_Anticipos.add(MI_ManejoAnticipos);
 
         MenuBar.add(M_Anticipos);
 
@@ -381,6 +391,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         TablaT = new TablaTarifas();
         TablaT.setVisible(true);
     }//GEN-LAST:event_MI_BuscarModificarTActionPerformed
+
+    private void MI_ManejoAnticiposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ManejoAnticiposActionPerformed
+        TablaA = new TablaAnticipos();
+        TablaA.setVisible(true);
+    }//GEN-LAST:event_MI_ManejoAnticiposActionPerformed
     
     public void cerrar(){
         try{
@@ -455,6 +470,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MI_CrearA;
     private javax.swing.JMenuItem MI_CrearT;
     private javax.swing.JMenuItem MI_Guardar;
+    private javax.swing.JMenuItem MI_ManejoAnticipos;
     private javax.swing.JMenuItem MI_ModificarA;
     private javax.swing.JMenuItem MI_MostrarProveedores;
     private javax.swing.JMenu M_Agregar;

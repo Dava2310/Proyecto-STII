@@ -71,8 +71,8 @@ create table anticipos(
     Motivo_Anticipo varchar(40) NOT NULL,
     Fecha varchar(10) NOT NULL,
     Semana varchar(10) NOT NULL,
-    Monto_BS varchar(20) NOT NULL,
-    Monto_DS varchar(20) NOT NULL,
+    Monto_BS float NOT NULL,
+    Monto_DS float NOT NULL,
     Aprobacion varchar(40),
     Observaciones varchar(150), -- LAS OBSERVACIONES SON INFORMACION ADICIONAL
     DescontarODP varchar(2),
@@ -80,6 +80,8 @@ create table anticipos(
     foreign key(Codigo_Proveedor) REFERENCES proveedor(Codigo),
     PRIMARY KEY(Num_Anticipo)
 );
+
+SELECT * from anticipos;
 
 -- CREACION DE LA TABLA BOLETO
 create table boleto(

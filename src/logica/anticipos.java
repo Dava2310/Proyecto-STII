@@ -13,21 +13,21 @@ public class anticipos {
     }
     
     //
-    public void NuevoAnticipo(String motivo_anticipo, String fecha, String monto_bs, String monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String recien_creado)
+    public void NuevoAnticipo(String motivo_anticipo, String fecha, String semana, float monto_bs, float monto_ds, String aprobacion, String observaciones, String DescontarODP, int codigo_proveedor)
     throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                    " anticipos(Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Recien_Creado)" + 
+                    " anticipos(Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor)" + 
                     " values(?,?,?,?,?,?,?,?,?)");
             pstm.setString(1, motivo_anticipo);
             pstm.setString(2, fecha);
-            pstm.setString(3, monto_bs);
-            pstm.setString(4, monto_ds);
-            pstm.setString(5, aprobacion);
-            pstm.setString(6, observaciones);
-            pstm.setString(7, DescontarODP);
-            pstm.setString(8, codigo_proveedor);
-            pstm.setString(9, recien_creado);
+            pstm.setString(3, semana);
+            pstm.setFloat(4, monto_bs);
+            pstm.setFloat(5, monto_ds);
+            pstm.setString(6, aprobacion);
+            pstm.setString(7, observaciones);
+            pstm.setString(8, DescontarODP);
+            pstm.setInt(9, codigo_proveedor);
             pstm.execute();
             pstm.close();
         }catch(SQLException e){
@@ -47,10 +47,10 @@ public class anticipos {
         }catch(SQLException e){
             System.out.println(e);
         }
-        Object[][] data = new String[registros][10];
+        Object[][] data = new Object[registros][13];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " +
-                    " Num_Anticipo, Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Recien_Creado " +
+                    " Num_Anticipo, Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor " +
                     " FROM anticipos "+
                     " ORDER BY Num_Anticipo");
             ResultSet res = pstm.executeQuery();
@@ -59,30 +59,58 @@ public class anticipos {
                 String estNum_Anticipo = res.getString("Num_Anticipo");
                 String estMotivo_Anticipo = res.getString("Motivo_Anticipo");
                 String estFecha = res.getString("Fecha");
+                String estSemana = res.getString("Semana");
                 String estMonto_BS = res.getString("Monto_BS");
                 String estMonto_DS = res.getString("Monto_DS");
                 String estAprobacion = res.getString("Aprobacion");
                 String estObservaciones = res.getString("Observaciones");
                 String estDescontarODP = res.getString("DescontarODP");
-                String estCodigo_Proveedor = res.getString("Codigo_Proveedor");
-                String estRecien_Creado = res.getString("Recien_Creado");
+                int estCodigo_Proveedor = res.getInt("Codigo_Proveedor");
+                PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT proveedor.Razon_Social, proveedor.Identificacion, proveedor.Codigo " +
+                        " FROM anticipos, proveedor " + 
+                        " WHERE proveedor.Codigo = " + estCodigo_Proveedor);
+                ResultSet res2 = pstm2.executeQuery();
                 //SE INGRESAN LOS DATOS EN LA POSICION i del vector
                 //TODAS LAS DEMAS POSICIONES REPRESENTAN LOS DATOS DE LOS PROVEEDORES
                 data[i][0] = estNum_Anticipo;
                 data[i][1] = estMotivo_Anticipo;
                 data[i][2] = estFecha;
-                data[i][3] = estMonto_BS;
-                data[i][4] = estMonto_DS;
-                data[i][5] = estAprobacion;
-                data[i][6] = estObservaciones;
-                data[i][7] = estDescontarODP;
-                data[i][8] = estCodigo_Proveedor;       
-                data[i][9] = estRecien_Creado;
+                data[i][3] = estSemana;
+                data[i][4] = estMonto_BS;
+                data[i][5] = estMonto_DS;
+                data[i][6] = estAprobacion;
+                data[i][7] = estObservaciones;
+                data[i][8] = estDescontarODP;
+                data[i][9] = estCodigo_Proveedor;  
+                if(res2.next()){
+                    String estRazon_Social = res2.getString("Razon_Social");
+                    String estIdentificacion = res2.getString("Identificacion");
+                    int estCodigo_Proveedor2 = res2.getInt("Codigo");
+                    data[i][10] = estRazon_Social;
+                    data[i][11] = estIdentificacion;
+                    data[i][12] = estCodigo_Proveedor2;
+                }
+                i++;
             }
         }catch(SQLException e){
             System.out.println(e);
         }
         return data;
+    }
+    
+    public int codigoSiguiente() throws SQLException{
+        int codigo = 1;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Num_Anticipo from anticipos ORDER BY Num_Anticipo DESC");
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                codigo = res.getInt("Num_Anticipo");
+                codigo++;
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return codigo;
     }
     
     
@@ -97,68 +125,37 @@ public class anticipos {
         }
     }
     
-    //FUNCION PARA RETORNAR EL CODIGO DEL ANTICIPO RECIEN CREADO
-    public String codigo_RecienCreado() throws SQLException{
-        String num_anticipo = "";
-        try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Num_Anticipo, Recien_Creado FROM anticipos" + 
-                    " WHERE Recien_Creado = ?");
-            pstm.setString(1,"SI");
-            ResultSet res = pstm.executeQuery();
-            while(res.next()){
-                num_anticipo = res.getString("Num_Anticipo");
-            }
-        }catch(SQLException e){
-            System.out.println(e);
-            //System.out.println("Aqui fue el error");
-        }
-        return num_anticipo;
-    }
-    
     //FUNCION PARA ACTUALIZAR DATOS DE ANTICIPO
-    public void updateAnticipo (String motivo_anticipo, String fecha, String monto_bs, String monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String num_anticipo)
+    public void updateAnticipo (String motivo_anticipo, String fecha, String semana, float monto_bs, float monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String num_anticipo)
     throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos" +
-                    " set anticipos(Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Recien_Creado)" + 
-                    " values(?,?,?,?,?,?,?,?,?)" + "where Num_anticipo = ?");
+                    " set anticipos(Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor)" + 
+                    " values(?,?,?,?,?,?,?,?,?,?)" + "where Num_anticipo = ?");
             pstm.setString(1, motivo_anticipo);
             pstm.setString(2, fecha);
-            pstm.setString(3, monto_bs);
-            pstm.setString(4, monto_ds);
-            pstm.setString(5, aprobacion);
-            pstm.setString(6, observaciones);
-            pstm.setString(7, DescontarODP);
-            pstm.setString(8, codigo_proveedor);
-            pstm.setString(9, num_anticipo);
+            pstm.setString(3, semana);
+            pstm.setFloat(4, monto_bs);
+            pstm.setFloat(5, monto_ds);
+            pstm.setString(6, aprobacion);
+            pstm.setString(7, observaciones);
+            pstm.setString(8, DescontarODP);
+            pstm.setString(9, codigo_proveedor);
+            pstm.setString(10, num_anticipo);
             pstm.execute();
             pstm.close();
         }catch(SQLException e){
-            System.out.println(e);
-        }
-    }
-    
-    //FUNCION PARA CAMBIAR EL ESTADO DEL ANTICIPO DE RECIEN CREADO
-    public void updateEstado(String num_anticipo) throws SQLException{
-        try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos set Recien_Creado = ? WHERE Num_Anticipo = ?");
-            pstm.setString(1, "NO");
-            pstm.setString(2, num_anticipo);
-            pstm.execute();
-            pstm.close();
-        }catch(SQLException e){
-            System.out.println("Aqui fue el error 2");
             System.out.println(e);
         }
     }
     
     //FUNCION PARA REALIZAR UNA BUSQUEDA DEL ANTICIPO
     //UNICAMENTE DEVUELVE UN TRUE O FALSE DEPENDIENDO SI CONSIGUIO EL ANTICIPO
-    public boolean buscarAnticipo(String num_anticipo) throws SQLException{
+    public boolean buscarAnticipo(int num_anticipo) throws SQLException{
         boolean encontrado = false;
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * FROM anticipos where Num_Anticipo = ?");
-            pstm.setString(1, num_anticipo);
+            pstm.setInt(1, num_anticipo);
             ResultSet res = pstm.executeQuery();
             if(res.next()){
                 encontrado = true;
@@ -174,18 +171,18 @@ public class anticipos {
     }
     
     //ESTA FUNCION ES PARA RETORNAR LOS DATOS DEL ANTICIPO EN ESPECIFICO
-    public Object[] conseguirDatos(String num_anticipo) throws SQLException{
-        Object[] data = new Object[10];
-        Object[] data2 = new Object[10];
+    public Object[] conseguirDatos(int num_anticipo) throws SQLException{
+        Object[] data = new Object[13];
+        Object[] data2 = new Object[13];
         PreparedStatement pstm;
         ResultSet res;
         try{
             //CONSEGUIR LOS DATOS A TRAVES DEL NUM_ANTICIPO
             pstm = con.getConnection().prepareStatement("SELECT " + 
-            " Num_Anticipo, Motivo_Anticipo, Fecha, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Recien_Creado " +
+            " Num_Anticipo, Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor " +
             " FROM anticipos " +
             " WHERE Num_Anticipo = ?");
-            pstm.setString(1, num_anticipo);
+            pstm.setInt(1, num_anticipo);
             res = pstm.executeQuery();
             data2 = informacion(res, data);
             res.close();
@@ -201,24 +198,36 @@ public class anticipos {
                 String estNum_Anticipo = res.getString("Num_Anticipo");
                 String estMotivo_Anticipo = res.getString("Motivo_Anticipo");
                 String estFecha = res.getString("Fecha");
+                String estSemana = res.getString("Semana");
                 String estMonto_BS = res.getString("Monto_BS");
                 String estMonto_DS = res.getString("Monto_DS");
                 String estAprobacion = res.getString("Aprobacion");
                 String estObservaciones = res.getString("Observaciones");
                 String estDescontarODP = res.getString("DescontarODP");
                 String estCodigo_Proveedor = res.getString("Codigo_Proveedor");
-                String estRecien_Creado = res.getString("Recien_Creado");
                 //INGRESANDO TODOS LOS DATOS EN EL VECTOR DATA[]
                 data[0] = estNum_Anticipo;
                 data[1] = estMotivo_Anticipo;
                 data[2] = estFecha;
-                data[3] = estMonto_BS;
-                data[4] = estMonto_DS;
-                data[5] = estAprobacion;
-                data[6] = estObservaciones;
-                data[7] = estDescontarODP;
-                data[8] = estCodigo_Proveedor;
-                data[9] = estRecien_Creado;
+                data[3] = estSemana;
+                data[4] = estMonto_BS;
+                data[5] = estMonto_DS;
+                data[6] = estAprobacion;
+                data[7] = estObservaciones;
+                data[8] = estDescontarODP;
+                data[9] = estCodigo_Proveedor;
+                PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT proveedor.Razon_Social, proveedor.Identificacion, proveedor.Codigo " +
+                        " FROM anticipos, proveedor " + 
+                        " WHERE proveedor.Codigo = " + estCodigo_Proveedor);
+                ResultSet res2 = pstm2.executeQuery();
+                if(res2.next()){
+                    String estRazon_Social = res2.getString("Razon_Social");
+                    String estIdentificacion = res2.getString("Identificacion");
+                    int estCodigo_Proveedor2 = res2.getInt("Codigo");
+                    data[10] = estRazon_Social;
+                    data[11] = estIdentificacion;
+                    data[12] = estCodigo_Proveedor2;
+                }
             }
         }catch(SQLException e){
             System.out.println(e);

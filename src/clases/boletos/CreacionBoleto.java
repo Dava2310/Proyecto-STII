@@ -95,6 +95,11 @@ public class CreacionBoleto extends javax.swing.JFrame {
                 FechatxtFocusLost(evt);
             }
         });
+        Fechatxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FechatxtActionPerformed(evt);
+            }
+        });
 
         SemanaLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         SemanaLB.setText("Semana");
@@ -329,6 +334,10 @@ public class CreacionBoleto extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         NumBoletotxt.setText(Num_Boleto);
     }//GEN-LAST:event_formWindowOpened
+
+    private void FechatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechatxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FechatxtActionPerformed
 
     
     

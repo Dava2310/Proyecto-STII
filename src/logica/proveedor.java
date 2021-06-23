@@ -441,7 +441,7 @@ public class proveedor {
                         " beneficiarios.Name_Beneficiario, beneficiarios.ID_Beneficiario, beneficiarios.Mail_Beneficiario, beneficiarios.Banco, beneficiarios.Num_Cuenta, beneficiarios.Tipo_Cuenta, beneficiarios.MOD_Cuenta, beneficiarios.Nombre_Autorizado, beneficiarios.ID_Autorizado " +
                         " FROM beneficiarios, Relacion_Proveedor_Beneficiario " +
                         " WHERE Relacion_Proveedor_Beneficiario.Cod_Proveedor = " + estCodigo + 
-                        "");
+                        " AND beneficiarios.Cod_Beneficiario = Relacion_Proveedor_Beneficiario.Cod_Bnf");
                 ResultSet res2 = pstm2.executeQuery();
                 //Ingresando todos los datos
                 data[0] = estCodigo;

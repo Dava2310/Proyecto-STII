@@ -24,6 +24,7 @@ import logica.proveedor;
 public class TablaProveedores extends javax.swing.JFrame {
 
     public int modo;
+    private int registros;
     public boolean tiene_proveedor = false;
     public boolean seleccionado = false;
     public boolean cambiando_beneficiario = false;
@@ -33,6 +34,7 @@ public class TablaProveedores extends javax.swing.JFrame {
     public Tarifa_Estandar TE = new Tarifa_Estandar();
     private Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
     private Object[][] dataBeneficiarios;
+    private String[] cedulaBeneficiarios;
     Object[][] data;
     int fila = -1;
     public TablaProveedores() {
@@ -761,7 +763,8 @@ public class TablaProveedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        mostrarTodos();      
+        mostrarTodos(); 
+        cargarDatosBeneficiarios();
     }//GEN-LAST:event_formWindowOpened
     
     //ESTA ES LA FUNCION QUE PERMITE COLOCAR EN PANTALLA LOS DATOS DEL PROVEEDOR, BENEFICIARIO Y SU TARIFA
@@ -891,6 +894,12 @@ public class TablaProveedores extends javax.swing.JFrame {
                 NombreAUT_txt.setEditable(false);
                 IDAUT_txt.setEditable(false);
                 IDAUT_CB.setEnabled(false);
+                
+                for(int i = 0; i < registros; i++){
+                if(identificacion2.equals(cedulaBeneficiarios[i])){
+                    ListarBeneficiariosBT.setSelectedIndex(i + 1);
+                }
+            }
             } else {
                 limpiarDatosBeneficiario();
             }
@@ -1020,37 +1029,53 @@ public class TablaProveedores extends javax.swing.JFrame {
                                     JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS DE AUTORIZADO", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 }
                             }
-                    } else {
+                } else {
                         System.out.println("hola");
                         JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS OBLIGATORIOS DE BANCO Y EN SU DEBIDO FORMATO", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
-            if(InformacionBancaria_BT.isSelected()){
-                //CAMBIAR LOS DATOS AL BENEFICIARIO
-                b.updateBeneficiario(codigo_bnf, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado);
-
-            } else if (NuevoBeneficiario_BT.isSelected()){
-                try {
-                    //GUARDAR TODOS LOS DATOS EN VARIABLES
-                    //Y CREAR UN NUEVO BENEFICIARIO
-                    //CREAR LA RELACION
-                    System.out.println(id_beneficiario);
-                    b.NuevoBeneficiario(nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado);
-                    int codigo_bnf2 = b.retornaCodigo(id_beneficiario);
-                    boolean proveedorEncontrado = PB.encontrarProveedor(Integer.parseInt(Codigotxt.getText()));
-                    if(!proveedorEncontrado){
-                        PB.crear_relacion(Integer.parseInt(Codigotxt.getText()), codigo_bnf2);
-                    } else {
-                        //HACER UNA UPDATE DE LA RELACION
-                        PB.updateRelacion(Integer.parseInt(Codigotxt.getText()), codigo_bnf2);
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            updateTabla();
-            seleccionado = false;
-            SeleccionarBT.setSelected(false);
-            reestablecerPagina();
+                if(InformacionBancaria_BT.isSelected() && !NuevoBeneficiario_BT.isSelected()){
+                    //CAMBIAR LOS DATOS AL BENEFICIARIO
+                    b.updateBeneficiario(codigo_bnf, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado);
+
+                } else if (NuevoBeneficiario_BT.isSelected() && !InformacionBancaria_BT.isSelected()){
+                    try {
+                        //GUARDAR TODOS LOS DATOS EN VARIABLES
+                        //Y CREAR UN NUEVO BENEFICIARIO
+                        //CREAR LA RELACION
+                        if(ListarBeneficiariosBT.getSelectedItem().toString().equals("Nuevo")){
+                            b.NuevoBeneficiario(nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado);
+                            int codigo_bnf2 = b.retornaCodigo(id_beneficiario);
+                            boolean proveedorEncontrado = PB.encontrarProveedor(Integer.parseInt(Codigotxt.getText()));
+                            if(!proveedorEncontrado){
+                                PB.crear_relacion(Integer.parseInt(Codigotxt.getText()), codigo_bnf2);
+                            } else {
+                                //HACER UNA UPDATE DE LA RELACION
+                                PB.updateRelacion(Integer.parseInt(Codigotxt.getText()), codigo_bnf2);
+                            }
+                        } else {
+                            boolean proveedorEncontrado = PB.encontrarProveedor(Integer.parseInt(Codigotxt.getText()));
+                            //SI ESTO ES CIERTO, TENGO QUE HACER UN UPDATE DE LA RELACION
+                            int index = ListarBeneficiariosBT.getSelectedIndex();
+                            index--;
+                            int cod_bnf = b.retornaCodigo(id_beneficiario);
+                            if(proveedorEncontrado){
+                                //HACER LA UPDATE
+                                PB.updateRelacion(Integer.parseInt(Codigotxt.getText()), cod_bnf);
+                            } else if(!proveedorEncontrado){
+                                //TENGO QUE CREAR LA RELACION
+                                PB.crear_relacion(Integer.parseInt(Codigotxt.getText()), cod_bnf);
+                            }
+                        }          
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else if(!NuevoBeneficiario_BT.isSelected() && !InformacionBancaria_BT.isSelected()){
+                    JOptionPane.showMessageDialog(null, "NO SE CAMBIO LA INFORMACION DE BENEFICIARIO, PORQUE NINGUNA DE LAS OPCIONES SE HABILITARON", "ERROR", JOptionPane.PLAIN_MESSAGE);
+                }
+                updateTabla();
+                seleccionado = false;
+                SeleccionarBT.setSelected(false);
+                reestablecerPagina();
         }
     }//GEN-LAST:event_GuardarBTActionPerformed
 
@@ -1103,6 +1128,7 @@ public class TablaProveedores extends javax.swing.JFrame {
             Mailtxt.setEditable(false);
             InformacionBancaria_BT.setEnabled(false); InformacionBancaria_BT.setSelected(false);
             NuevoBeneficiario_BT.setEnabled(false); NuevoBeneficiario_BT.setSelected(false);
+            ListarBeneficiariosBT.setEnabled(false);
             TarifaEstandarBT.setEnabled(false);
             
             
@@ -1118,7 +1144,7 @@ public class TablaProveedores extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR EN LA TABLA A UN PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
             HabilitarCambiosBT.setSelected(false);    
         }
-        cargarDatosBeneficiarios();
+        
     }//GEN-LAST:event_HabilitarCambiosBTActionPerformed
 
     private void ActivarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActivarBTActionPerformed
@@ -1240,6 +1266,15 @@ public class TablaProveedores extends javax.swing.JFrame {
         HabilitarCambiosBT.setSelected(false);
     }
     
+    /*
+    private void reestablecerListaBeneficiarios(){
+        
+        ListarBeneficiariosBT.removeAllItems();
+        ListarBeneficiariosBT.addItem("Nuevo");
+        ListarBeneficiariosBT.setEnabled(false);
+    }
+    */
+    
     private void SeleccionarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarBTActionPerformed
         if(!Codigotxt.getText().isEmpty() && SeleccionarBT.isSelected()){
             tabla.setVisible(false);
@@ -1321,7 +1356,7 @@ public class TablaProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_NuevoBeneficiario_BTActionPerformed
 
     private void ListarBeneficiariosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarBeneficiariosBTActionPerformed
-        if(ListarBeneficiariosBT.getSelectedItem().toString().equals("Nuevo")){
+        if(ListarBeneficiariosBT.getSelectedItem().toString().equals("Nuevo") && ListarBeneficiariosBT.isEnabled()){
             NombreBNF_txt.setText("");
             IDBNF_txt.setText("");
             IDBNF_CB.setSelectedIndex(0);
@@ -1336,8 +1371,10 @@ public class TablaProveedores extends javax.swing.JFrame {
             habilitarCamposBancarios();
         } else {
             int index = ListarBeneficiariosBT.getSelectedIndex();
-            imprimirDatosBeneficiario(index);
-            desHabilitarCamposBancarios();
+            if(index != 0){
+                imprimirDatosBeneficiario(index);
+                desHabilitarCamposBancarios();
+            }
         }
     }//GEN-LAST:event_ListarBeneficiariosBTActionPerformed
     
@@ -1365,6 +1402,8 @@ public class TablaProveedores extends javax.swing.JFrame {
             int index_autorizado = p.indexIdentificacion(char_autorizado);
             IDAUT_CB.setSelectedIndex(index_autorizado);
             IDAUT_txt.setText(ID_autorizado.substring(1, ID_autorizado.length()));
+            
+            
         } else {
             IDAUT_CB.setSelectedIndex(0);
             IDAUT_txt.setText("");
@@ -1375,12 +1414,14 @@ public class TablaProveedores extends javax.swing.JFrame {
     
     private void cargarDatosBeneficiarios(){
         
-        int registros = b.cantidadRegistros();
+        registros = b.cantidadRegistros();
+        cedulaBeneficiarios = new String[registros];
         dataBeneficiarios = b.getDatos();
         for(int i = 0; i <= registros - 1; i++){
             String item = dataBeneficiarios[i][1].toString();
             item += "   -   " + dataBeneficiarios[i][2].toString();
             ListarBeneficiariosBT.addItem(item);
+            cedulaBeneficiarios[i] = dataBeneficiarios[i][2].toString();
         }
     }
     
@@ -1425,6 +1466,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                 NombreAUT_txt.setText("");
                 IDAUT_CB.setSelectedIndex(0);
                 IDAUT_txt.setText("");
+                ListarBeneficiariosBT.setSelectedIndex(0);
     }
     
     private void mostrarTodos(){

@@ -371,12 +371,14 @@ public class ModificarAnticipo extends javax.swing.JFrame {
             String codigo_proveedor = Codigotxt.getText();
             String num_anticipo = NroAnticipotxt.getText();
             String semana = "";
+            /*
             try {
                 a.updateAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, num_anticipo);
                 JOptionPane.showMessageDialog(null, "LOS CAMBIOS HAN SIDO GUARDADOS EXITOSAMENTE", "ACTUALIZACION DE DATOS", JOptionPane.PLAIN_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(ModificarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
             }
+            */
         } else {
             JOptionPane.showMessageDialog(null, "DEBE REALIZAR PRIMERO UNA BUSQUEDA DEL PROVEEDOR", "ACTUALIZACION DE DATOS", JOptionPane.ERROR_MESSAGE);
 

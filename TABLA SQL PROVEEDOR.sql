@@ -46,7 +46,11 @@ create table proveedor(
 -- UPDATE proveedor set Cod_Tarifa = 5;
 
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(1, 'V29517648', 'Daniel Vetencourt', 78,48,48, 'TABLA');
-
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(2, 'V28216052', 'Gabriel Antuarez', 78,48,48, 'TABLA');
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(3, 'V27578138', 'Jennifer Sucre', 78,48,48, 'TABLA');
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(4, 'V22111589', 'MasterGAP', 78,48,48, 'TABLA');
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(5, 'V7383981', 'Carlos Vetencourt', 78,48,48, 'TABLA');
+INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(6, 'V7418673', 'Dorys Alvarez', 78,48,48, 'TABLA');
 -- CREACION DE LA TABLA BENEFICIARIOS
 create table beneficiarios(
 	Cod_Beneficiario int auto_increment NOT NULL,

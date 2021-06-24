@@ -554,6 +554,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
         if(MontoBStxt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             double Monto_BS = Double.parseDouble(MontoBStxt.getText());
             double monto_total = Monto_BS / monto;
+            monto_total = (double) Math.round(monto_total * 100d) / 100;
             MontoDStxt.setText(String.valueOf(monto_total));
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -564,6 +565,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
         if(!Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             int index = Tasa_CB.getSelectedIndex() - 1;
             monto = Double.parseDouble(dataTasas[index][4].toString());
+            monto = (double) Math.round(monto * 100d) / 100;
         }
     }//GEN-LAST:event_Tasa_CBActionPerformed
 
@@ -576,6 +578,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
         if(MontoDStxt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             double Monto_DS = Double.parseDouble(MontoDStxt.getText());
             double monto_total = Monto_DS * monto;
+            monto_total = (double) Math.round(monto_total * 100d) / 100;
             MontoBStxt.setText(String.valueOf(monto_total));
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);

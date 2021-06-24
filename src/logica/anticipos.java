@@ -56,7 +56,7 @@ public class anticipos {
             ResultSet res = pstm.executeQuery();
             int i = 0;
             while(res.next()){
-                String estNum_Anticipo = res.getString("Num_Anticipo");
+                int estNum_Anticipo = res.getInt("Num_Anticipo");
                 String estMotivo_Anticipo = res.getString("Motivo_Anticipo");
                 String estFecha = res.getString("Fecha");
                 String estSemana = res.getString("Semana");
@@ -124,12 +124,12 @@ public class anticipos {
     }
     
     //FUNCION PARA ACTUALIZAR DATOS DE ANTICIPO
-    public void updateAnticipo (String motivo_anticipo, String fecha, String semana, double monto_bs, double monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String num_anticipo)
+    public void updateAnticipo (String motivo_anticipo, String fecha, String semana, double monto_bs, double monto_ds, String aprobacion, String observaciones, String DescontarODP, int codigo_proveedor, int num_anticipo)
     throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos" +
                     " set anticipos(Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor)" + 
-                    " values(?,?,?,?,?,?,?,?,?,?)" + "where Num_anticipo = ?");
+                    " values(?,?,?,?,?,?,?,?,?,?)" + " where Num_anticipo = ?");
             pstm.setString(1, motivo_anticipo);
             pstm.setString(2, fecha);
             pstm.setString(3, semana);
@@ -138,8 +138,8 @@ public class anticipos {
             pstm.setString(6, aprobacion);
             pstm.setString(7, observaciones);
             pstm.setString(8, DescontarODP);
-            pstm.setString(9, codigo_proveedor);
-            pstm.setString(10, num_anticipo);
+            pstm.setInt(9, codigo_proveedor);
+            pstm.setInt(10, num_anticipo);
             pstm.execute();
             pstm.close();
         }catch(SQLException e){
@@ -193,7 +193,7 @@ public class anticipos {
     public Object[] informacion(ResultSet res, Object[] data){
         try{
             while(res.next()){
-                String estNum_Anticipo = res.getString("Num_Anticipo");
+                int estNum_Anticipo = res.getInt("Num_Anticipo");
                 String estMotivo_Anticipo = res.getString("Motivo_Anticipo");
                 String estFecha = res.getString("Fecha");
                 String estSemana = res.getString("Semana");

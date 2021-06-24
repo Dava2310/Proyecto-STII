@@ -8,8 +8,10 @@ package clases.anticipos;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.anticipos;
+import logica.proveedor;
 
 /**
  *
@@ -20,6 +22,9 @@ public class TablaAnticipos extends javax.swing.JFrame {
     /**
      * Creates new form TablaAnticipos
      */
+    private int fila = -1;
+    private Object[][] data;
+    private proveedor p = new proveedor();
     private anticipos anticipo = new anticipos();
     public TablaAnticipos() {
         initComponents();
@@ -63,11 +68,17 @@ public class TablaAnticipos extends javax.swing.JFrame {
         MontoDS_txt = new javax.swing.JTextField();
         AprobacionLB = new javax.swing.JLabel();
         Aprobacion_txt = new javax.swing.JTextField();
-        DescuentoODPCB = new javax.swing.JLabel();
+        DescuentoODPLB = new javax.swing.JLabel();
         DescontarCB = new javax.swing.JComboBox<>();
         ObservacionL = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         Observaciontxt = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        Semana_txt = new javax.swing.JTextField();
+        Cerrar_BT = new javax.swing.JButton();
+        Seleccionar_BT = new javax.swing.JToggleButton();
+        Edicion_BT = new javax.swing.JToggleButton();
+        Guardar_BT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -87,6 +98,11 @@ public class TablaAnticipos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
 
         TituloProveedorLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -105,6 +121,7 @@ public class TablaAnticipos extends javax.swing.JFrame {
         IdentificacionProveedor_txt.setEditable(false);
 
         IdentificacionProveedor_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
+        IdentificacionProveedor_CB.setEnabled(false);
 
         RazonSocial_LB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         RazonSocial_LB.setText("Razon Social");
@@ -143,6 +160,11 @@ public class TablaAnticipos extends javax.swing.JFrame {
 
         Moneda_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "$" }));
         Moneda_CB.setEnabled(false);
+        Moneda_CB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Moneda_CBActionPerformed(evt);
+            }
+        });
 
         MontoBS_LB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MontoBS_LB.setText("Monto en BS");
@@ -159,11 +181,12 @@ public class TablaAnticipos extends javax.swing.JFrame {
 
         Aprobacion_txt.setEditable(false);
 
-        DescuentoODPCB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        DescuentoODPCB.setText("Descontar en ODP");
+        DescuentoODPLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        DescuentoODPLB.setText("Descontar en ODP");
 
         DescontarCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         DescontarCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"SI", "NO" }));
+        DescontarCB.setEnabled(false);
 
         ObservacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ObservacionL.setText("Observaciones");
@@ -173,6 +196,38 @@ public class TablaAnticipos extends javax.swing.JFrame {
         Observaciontxt.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         Observaciontxt.setRows(5);
         jScrollPane3.setViewportView(Observaciontxt);
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setText("Semana");
+
+        Semana_txt.setEditable(false);
+
+        Cerrar_BT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        Cerrar_BT.setText("CERRAR");
+        Cerrar_BT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Cerrar_BTActionPerformed(evt);
+            }
+        });
+
+        Seleccionar_BT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        Seleccionar_BT.setText("SELECCIONAR");
+        Seleccionar_BT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Seleccionar_BTActionPerformed(evt);
+            }
+        });
+
+        Edicion_BT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        Edicion_BT.setText("HABILITAR EDICION");
+        Edicion_BT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Edicion_BTActionPerformed(evt);
+            }
+        });
+
+        Guardar_BT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        Guardar_BT.setText("GUARDAR CAMBIOS");
 
         javax.swing.GroupLayout PanelInformacionLayout = new javax.swing.GroupLayout(PanelInformacion);
         PanelInformacion.setLayout(PanelInformacionLayout);
@@ -216,15 +271,21 @@ public class TablaAnticipos extends javax.swing.JFrame {
                                             .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addComponent(MotivoCB, 0, 214, Short.MAX_VALUE)
                                                 .addComponent(NumAnticipo_txt))
-                                            .addGap(15, 15, 15)
-                                            .addComponent(Fecha_LB)
                                             .addGap(18, 18, 18)
-                                            .addComponent(Fecha_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addGroup(PanelInformacionLayout.createSequentialGroup()
+                                                    .addComponent(Fecha_LB)
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(Fecha_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(PanelInformacionLayout.createSequentialGroup()
+                                                    .addComponent(jLabel1)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(Semana_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addGroup(PanelInformacionLayout.createSequentialGroup()
                                             .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(Moneda_LB)
                                                 .addComponent(AprobacionLB)
-                                                .addComponent(DescuentoODPCB))
+                                                .addComponent(DescuentoODPLB))
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addGroup(PanelInformacionLayout.createSequentialGroup()
@@ -241,7 +302,16 @@ public class TablaAnticipos extends javax.swing.JFrame {
                                                 .addComponent(DescontarCB, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                             .addComponent(ObservacionL))
                         .addGap(0, 19, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelInformacionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(Guardar_BT)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Edicion_BT)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Seleccionar_BT)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Cerrar_BT)))
                 .addContainerGap())
         );
         PanelInformacionLayout.setVerticalGroup(
@@ -273,7 +343,9 @@ public class TablaAnticipos extends javax.swing.JFrame {
                     .addGroup(PanelInformacionLayout.createSequentialGroup()
                         .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(NumAnticipo_LB)
-                            .addComponent(NumAnticipo_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(NumAnticipo_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(Semana_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Motivo_LB)
@@ -294,13 +366,19 @@ public class TablaAnticipos extends javax.swing.JFrame {
                             .addComponent(Aprobacion_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(DescuentoODPCB)
+                    .addComponent(DescuentoODPLB)
                     .addComponent(DescontarCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addComponent(ObservacionL)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Cerrar_BT)
+                    .addComponent(Seleccionar_BT)
+                    .addComponent(Edicion_BT)
+                    .addComponent(Guardar_BT))
+                .addGap(21, 21, 21))
         );
 
         jScrollPane2.setViewportView(PanelInformacion);
@@ -330,11 +408,91 @@ public class TablaAnticipos extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         mostrarTodos();
     }//GEN-LAST:event_formWindowOpened
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        int index;
+        fila = tabla.rowAtPoint(evt.getPoint());
+        if(fila > -1){
+            NumAnticipo_txt.setText(String.valueOf(tabla.getValueAt(fila,0)));
+            String motivo_anticipo = String.valueOf(tabla.getValueAt(fila,1));
+            index = anticipo.motivoAnticipo(motivo_anticipo);
+            MotivoCB.setSelectedIndex(index);
+            Fecha_txt.setText(String.valueOf(tabla.getValueAt(fila,2)));
+            Semana_txt.setText(String.valueOf(tabla.getValueAt(fila,3)));
+            MontoBS_txt.setText(String.valueOf(tabla.getValueAt(fila,4)));
+            MontoDS_txt.setText(String.valueOf(tabla.getValueAt(fila,5)));
+            Aprobacion_txt.setText(String.valueOf(tabla.getValueAt(fila,6)));
+            Observaciontxt.setText(String.valueOf(tabla.getValueAt(fila,7)));
+            String descontarODP = String.valueOf(tabla.getValueAt(fila,8));
+            index = anticipo.descontarODP(descontarODP);
+            DescontarCB.setSelectedIndex(index);
+            CodigoProveedor_txt.setText(String.valueOf(tabla.getValueAt(fila,9)));
+            RazonSocial_txt.setText(String.valueOf(tabla.getValueAt(fila,10)));
+            String identificacion = String.valueOf(tabla.getValueAt(fila,11));
+            char tipo_cedula = identificacion.charAt(0);
+            index = p.indexIdentificacion(tipo_cedula);
+            IdentificacionProveedor_txt.setText(identificacion.substring(1, identificacion.length()));
+            IdentificacionProveedor_CB.setSelectedIndex(index);
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void Cerrar_BTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cerrar_BTActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_Cerrar_BTActionPerformed
+
+    private void Seleccionar_BTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccionar_BTActionPerformed
+        if(!CodigoProveedor_txt.getText().isEmpty() && Seleccionar_BT.isSelected()){
+            tabla.setVisible(false);
+        } else if(!CodigoProveedor_txt.getText().isEmpty() && !Seleccionar_BT.isSelected()){
+            tabla.setVisible(true);
+        } else if(Edicion_BT.isSelected() && !CodigoProveedor_txt.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "NO DESELECCIONE MIENTRAS ESTA HACIENDO CAMBIOS AL ANTICIPO", "ERROR", JOptionPane.ERROR_MESSAGE);
+            if(Seleccionar_BT.isSelected()){
+                Seleccionar_BT.setSelected(false);
+            } else {
+                Seleccionar_BT.setSelected(true);
+            }
+        } else if(CodigoProveedor_txt.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "DEBE PRESIONAR EN LA TABLA PARA MOSTRAR A UN ANTICIPO ANTES DE SELECCIONAR", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_Seleccionar_BTActionPerformed
+
+    private void Edicion_BTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edicion_BTActionPerformed
+        /*
+            PUEDO DEJAR QUE SE CAMBIEN LOS SIGUIENTES DATOS
+            1- Motivo del Anticipo
+            2- La fecha dejemosla asi
+            3- Aprobado por
+            4- Si se descontara en ODP
+            5- El monto
+        */
+        //HABILITANDO
+        if(Edicion_BT.isSelected()){
+            MotivoCB.setEnabled(true);
+            Aprobacion_txt.setEditable(true);
+            DescontarCB.setEnabled(true);
+            Moneda_CB.setEnabled(true);
+            MontoBS_txt.setEditable(true);
+        } else {
+            MotivoCB.setEnabled(false);
+            Aprobacion_txt.setEditable(false);
+            DescontarCB.setEnabled(false);
+            Moneda_CB.setEnabled(false);
+        }
+    }//GEN-LAST:event_Edicion_BTActionPerformed
+
+    private void Moneda_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Moneda_CBActionPerformed
+        /*
+            AQUI LO QUE TENGO QUE HACER ES DEPENDIENDO DE DONDE SE ENCUENTRE
+            DEJO ESCRIBIR EN ESA MONEDA
+            Y LA PASO POR CONVERSION A LA CONTRARIA
+        */
+    }//GEN-LAST:event_Moneda_CBActionPerformed
     
     private void mostrarTodos(){
         //Objeto para almacenar datos
         Object[][] data;
-        String[] columNames = {"Numero", "Motivo", "Fecha", "Semana", "Monto_BS", "Monto_DS", "Aprobado Por", "Observaciones", "Descontar en ODP", "Nombre del Proveedor", "Identificacion del Proveedor", "Codigo del Proveedor"};
+        String[] columNames = {"Numero", "Motivo", "Fecha", "Semana", "Monto_BS", "Monto_DS", "Aprobado Por", "Observaciones", "Descontar en ODP", "Codigo_Proveedor", "Nombre_Proveedor", "Identificacion_Proveedor"};
         try{
             data = anticipo.getDatos();
             DefaultTableModel datos = new DefaultTableModel(data, columNames);
@@ -382,12 +540,15 @@ public class TablaAnticipos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AprobacionLB;
     private javax.swing.JTextField Aprobacion_txt;
+    private javax.swing.JButton Cerrar_BT;
     private javax.swing.JLabel CodigoProveedor_LB;
     private javax.swing.JTextField CodigoProveedor_txt;
     private javax.swing.JComboBox<String> DescontarCB;
-    private javax.swing.JLabel DescuentoODPCB;
+    private javax.swing.JLabel DescuentoODPLB;
+    private javax.swing.JToggleButton Edicion_BT;
     private javax.swing.JLabel Fecha_LB;
     private javax.swing.JTextField Fecha_txt;
+    private javax.swing.JButton Guardar_BT;
     private javax.swing.JLabel IconoProveedorLB;
     private javax.swing.JComboBox<String> IdentificacionProveedor_CB;
     private javax.swing.JTextField IdentificacionProveedor_txt;
@@ -407,7 +568,10 @@ public class TablaAnticipos extends javax.swing.JFrame {
     private javax.swing.JPanel PanelInformacion;
     private javax.swing.JLabel RazonSocial_LB;
     private javax.swing.JTextField RazonSocial_txt;
+    private javax.swing.JToggleButton Seleccionar_BT;
+    private javax.swing.JTextField Semana_txt;
     private javax.swing.JLabel TituloProveedorLB;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;

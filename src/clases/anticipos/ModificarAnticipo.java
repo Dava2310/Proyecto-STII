@@ -363,8 +363,8 @@ public class ModificarAnticipo extends javax.swing.JFrame {
         if (!(Codigotxt.getText().equals("")) && !(IDtxt.getText().equals("")) && !(RazonSocialtxt.getText().equals("")) && !(NroAnticipotxt.getText().isEmpty())) {
             String motivo_anticipo = MotivoAnticipoCB.getSelectedItem().toString();
             String fecha = Fechatxt.getText();
-            float monto_bs = Float.parseFloat(MontoBStxt.getText());
-            float monto_ds = Float.parseFloat(MontoDStxt.getText());
+            Double monto_bs = Double.parseDouble(MontoBStxt.getText());
+            Double monto_ds = Double.parseDouble(MontoDStxt.getText());
             String aprobacion = Aprobaciontxt.getText();
             String descontarODP = DescontarCB.getSelectedItem().toString();
             String observaciones = Observaciontxt.getText();

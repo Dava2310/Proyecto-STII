@@ -24,6 +24,7 @@ import logica.proveedor;
 public class TablaProveedores extends javax.swing.JFrame {
 
     public int modo;
+    public boolean tiene_proveedor = false;
     public boolean seleccionado = false;
     public boolean cambiando_beneficiario = false;
     public boolean nuevo_beneficiario = false;
@@ -31,6 +32,7 @@ public class TablaProveedores extends javax.swing.JFrame {
     private beneficiarios b = new beneficiarios();
     public Tarifa_Estandar TE = new Tarifa_Estandar();
     private Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
+    private Object[][] dataBeneficiarios;
     Object[][] data;
     int fila = -1;
     public TablaProveedores() {
@@ -97,6 +99,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         MODL6 = new javax.swing.JLabel();
         InformacionBancaria_BT = new javax.swing.JToggleButton();
         NuevoBeneficiario_BT = new javax.swing.JToggleButton();
+        ListarBeneficiariosBT = new javax.swing.JComboBox<>();
         JPanelPagos = new javax.swing.JPanel();
         MP_AcordadoLB = new javax.swing.JLabel();
         MP_Acordadotxt = new javax.swing.JTextField();
@@ -336,6 +339,14 @@ public class TablaProveedores extends javax.swing.JFrame {
             }
         });
 
+        ListarBeneficiariosBT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo" }));
+        ListarBeneficiariosBT.setEnabled(false);
+        ListarBeneficiariosBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListarBeneficiariosBTActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout JPanelBancarioLayout = new javax.swing.GroupLayout(JPanelBancario);
         JPanelBancario.setLayout(JPanelBancarioLayout);
         JPanelBancarioLayout.setHorizontalGroup(
@@ -391,8 +402,12 @@ public class TablaProveedores extends javax.swing.JFrame {
                         .addGap(177, 177, 177)
                         .addComponent(InformacionBancaria_BT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(NuevoBeneficiario_BT)))
-                .addGap(38, 38, 38))
+                        .addComponent(ListarBeneficiariosBT, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPanelBancarioLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(NuevoBeneficiario_BT)
+                .addGap(84, 84, 84))
             .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(JPanelBancarioLayout.createSequentialGroup()
                     .addGap(5, 5, 5)
@@ -404,10 +419,11 @@ public class TablaProveedores extends javax.swing.JFrame {
         JPanelBancarioLayout.setVerticalGroup(
             JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPanelBancarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(NuevoBeneficiario_BT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(InformacionBancaria_BT)
-                    .addComponent(NuevoBeneficiario_BT))
+                    .addComponent(ListarBeneficiariosBT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NombreBNF_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -835,6 +851,7 @@ public class TablaProveedores extends javax.swing.JFrame {
             String num_cuenta = String.valueOf(tabla.getValueAt(fila,17));
             
             if(!Name_Bnf.equals("null") && !identificacion2.equals("null") && !num_cuenta.equals("null")){
+                tiene_proveedor = true;
                 NombreBNF_txt.setText(String.valueOf(tabla.getValueAt(fila,13)));
                 char tipoIdentificacion2 = identificacion2.charAt(0);
                 int TIPOID2 = p.indexIdentificacion(tipoIdentificacion2);
@@ -1101,6 +1118,7 @@ public class TablaProveedores extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR EN LA TABLA A UN PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
             HabilitarCambiosBT.setSelected(false);    
         }
+        cargarDatosBeneficiarios();
     }//GEN-LAST:event_HabilitarCambiosBTActionPerformed
 
     private void ActivarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActivarBTActionPerformed
@@ -1226,7 +1244,6 @@ public class TablaProveedores extends javax.swing.JFrame {
         if(!Codigotxt.getText().isEmpty() && SeleccionarBT.isSelected()){
             tabla.setVisible(false);
             seleccionado = true;
-            System.out.println(NombreBNF_txt.getText());
         } else if(HabilitarCambiosBT.isSelected()){
             JOptionPane.showMessageDialog(null, "TIENE LA OPCION DE HABILITAR ACTIVADA, DESACTIVELA PRIMERO", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(true);
@@ -1288,16 +1305,98 @@ public class TablaProveedores extends javax.swing.JFrame {
                 NombreAUT_txt.setEditable(false);
                 IDAUT_txt.setEditable(false);
                 IDAUT_CB.setEnabled(false);
-                InformacionBancaria_BT.setEnabled(true);
+                if(tiene_proveedor){
+                    InformacionBancaria_BT.setEnabled(true);
+                }
+                
+                ListarBeneficiariosBT.setEnabled(false);
             } else {
                 limpiarDatosBeneficiario();
                 habilitarCamposBancarios();
                 InformacionBancaria_BT.setEnabled(false);
+                ListarBeneficiariosBT.setEnabled(true);
             }
         }
-           
         
     }//GEN-LAST:event_NuevoBeneficiario_BTActionPerformed
+
+    private void ListarBeneficiariosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarBeneficiariosBTActionPerformed
+        if(ListarBeneficiariosBT.getSelectedItem().toString().equals("Nuevo")){
+            NombreBNF_txt.setText("");
+            IDBNF_txt.setText("");
+            IDBNF_CB.setSelectedIndex(0);
+            CorreoBNF_txt.setText("");
+            Banco_CB.setSelectedIndex(0);
+            NumCuenta_txt.setText("");
+            TCuenta_CB.setSelectedIndex(0);
+            MOD_CB.setSelectedIndex(0);
+            NombreAUT_txt.setText("");
+            IDAUT_CB.setSelectedIndex(0);
+            IDAUT_txt.setText("");
+            habilitarCamposBancarios();
+        } else {
+            int index = ListarBeneficiariosBT.getSelectedIndex();
+            imprimirDatosBeneficiario(index);
+            desHabilitarCamposBancarios();
+        }
+    }//GEN-LAST:event_ListarBeneficiariosBTActionPerformed
+    
+    public void imprimirDatosBeneficiario(int index){
+        index--;
+        String Name_Autorizado = dataBeneficiarios[index][1].toString();
+        NombreBNF_txt.setText(Name_Autorizado);
+        
+        String ID_Beneficiario = dataBeneficiarios[index][2].toString();
+        char char_id = ID_Beneficiario.charAt(0);
+        int index_id = p.indexIdentificacion(char_id);
+        IDBNF_CB.setSelectedIndex(index_id);
+        IDBNF_txt.setText(ID_Beneficiario.substring(1, ID_Beneficiario.length()));
+        
+        CorreoBNF_txt.setText(dataBeneficiarios[index][3].toString());
+        Banco_CB.setSelectedIndex(p.getindexBanco(dataBeneficiarios[index][4].toString()));
+        NumCuenta_txt.setText(dataBeneficiarios[index][5].toString());
+        TCuenta_CB.setSelectedIndex(p.indexTipoCuenta(dataBeneficiarios[index][6].toString()));
+        MOD_CB.setSelectedIndex(p.indexmod_Cuenta(dataBeneficiarios[index][7].toString()));
+        if(dataBeneficiarios[index][7].toString().equals("Cuenta Autorizada")){
+            NombreAUT_txt.setText(dataBeneficiarios[index][8].toString());
+            String ID_autorizado = dataBeneficiarios[index][9].toString();
+            System.out.println(ID_autorizado);
+            char char_autorizado = ID_autorizado.charAt(0);
+            int index_autorizado = p.indexIdentificacion(char_autorizado);
+            IDAUT_CB.setSelectedIndex(index_autorizado);
+            IDAUT_txt.setText(ID_autorizado.substring(1, ID_autorizado.length()));
+        } else {
+            IDAUT_CB.setSelectedIndex(0);
+            IDAUT_txt.setText("");
+            NombreAUT_txt.setText("");
+        }
+
+    }
+    
+    private void cargarDatosBeneficiarios(){
+        
+        int registros = b.cantidadRegistros();
+        dataBeneficiarios = b.getDatos();
+        for(int i = 0; i <= registros - 1; i++){
+            String item = dataBeneficiarios[i][1].toString();
+            item += "   -   " + dataBeneficiarios[i][2].toString();
+            ListarBeneficiariosBT.addItem(item);
+        }
+    }
+    
+    public void desHabilitarCamposBancarios(){
+        NombreBNF_txt.setEditable(false);
+                IDBNF_txt.setEditable(false);
+                IDBNF_CB.setEnabled(false);
+                CorreoBNF_txt.setEditable(false);
+                Banco_CB.setEnabled(false);
+                NumCuenta_txt.setEditable(false);
+                TCuenta_CB.setEnabled(false);
+                MOD_CB.setEnabled(false);
+                NombreAUT_txt.setEditable(false);
+                IDAUT_CB.setEnabled(false);
+                IDAUT_txt.setEditable(false);
+    }
     
     private void habilitarCamposBancarios(){
                 NombreBNF_txt.setEditable(true);
@@ -1447,6 +1546,7 @@ public class TablaProveedores extends javax.swing.JFrame {
     private javax.swing.JToggleButton InformacionBancaria_BT;
     private javax.swing.JPanel JPanelBancario;
     private javax.swing.JPanel JPanelPagos;
+    private javax.swing.JComboBox<String> ListarBeneficiariosBT;
     private javax.swing.JLabel LogoInformacionBancaria6;
     private javax.swing.JLabel MODL6;
     private javax.swing.JComboBox<String> MOD_CB;

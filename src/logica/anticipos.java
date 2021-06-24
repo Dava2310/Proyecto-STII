@@ -13,7 +13,7 @@ public class anticipos {
     }
     
     //
-    public void NuevoAnticipo(String motivo_anticipo, String fecha, String semana, float monto_bs, float monto_ds, String aprobacion, String observaciones, String DescontarODP, int codigo_proveedor)
+    public void NuevoAnticipo(String motivo_anticipo, String fecha, String semana, double monto_bs, double monto_ds, String aprobacion, String observaciones, String DescontarODP, int codigo_proveedor)
     throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
@@ -22,8 +22,8 @@ public class anticipos {
             pstm.setString(1, motivo_anticipo);
             pstm.setString(2, fecha);
             pstm.setString(3, semana);
-            pstm.setFloat(4, monto_bs);
-            pstm.setFloat(5, monto_ds);
+            pstm.setDouble(4, monto_bs);
+            pstm.setDouble(5, monto_ds);
             pstm.setString(6, aprobacion);
             pstm.setString(7, observaciones);
             pstm.setString(8, DescontarODP);
@@ -47,7 +47,7 @@ public class anticipos {
         }catch(SQLException e){
             System.out.println(e);
         }
-        Object[][] data = new Object[registros][13];
+        Object[][] data = new Object[registros][12];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " +
                     " Num_Anticipo, Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor " +
@@ -60,8 +60,8 @@ public class anticipos {
                 String estMotivo_Anticipo = res.getString("Motivo_Anticipo");
                 String estFecha = res.getString("Fecha");
                 String estSemana = res.getString("Semana");
-                String estMonto_BS = res.getString("Monto_BS");
-                String estMonto_DS = res.getString("Monto_DS");
+                double estMonto_BS = res.getDouble("Monto_BS");
+                double estMonto_DS = res.getDouble("Monto_DS");
                 String estAprobacion = res.getString("Aprobacion");
                 String estObservaciones = res.getString("Observaciones");
                 String estDescontarODP = res.getString("DescontarODP");
@@ -85,10 +85,8 @@ public class anticipos {
                 if(res2.next()){
                     String estRazon_Social = res2.getString("Razon_Social");
                     String estIdentificacion = res2.getString("Identificacion");
-                    int estCodigo_Proveedor2 = res2.getInt("Codigo");
                     data[i][10] = estRazon_Social;
                     data[i][11] = estIdentificacion;
-                    data[i][12] = estCodigo_Proveedor2;
                 }
                 i++;
             }
@@ -126,7 +124,7 @@ public class anticipos {
     }
     
     //FUNCION PARA ACTUALIZAR DATOS DE ANTICIPO
-    public void updateAnticipo (String motivo_anticipo, String fecha, String semana, float monto_bs, float monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String num_anticipo)
+    public void updateAnticipo (String motivo_anticipo, String fecha, String semana, double monto_bs, double monto_ds, String aprobacion, String observaciones, String DescontarODP, String codigo_proveedor, String num_anticipo)
     throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos" +
@@ -135,8 +133,8 @@ public class anticipos {
             pstm.setString(1, motivo_anticipo);
             pstm.setString(2, fecha);
             pstm.setString(3, semana);
-            pstm.setFloat(4, monto_bs);
-            pstm.setFloat(5, monto_ds);
+            pstm.setDouble(4, monto_bs);
+            pstm.setDouble(5, monto_ds);
             pstm.setString(6, aprobacion);
             pstm.setString(7, observaciones);
             pstm.setString(8, DescontarODP);
@@ -172,8 +170,8 @@ public class anticipos {
     
     //ESTA FUNCION ES PARA RETORNAR LOS DATOS DEL ANTICIPO EN ESPECIFICO
     public Object[] conseguirDatos(int num_anticipo) throws SQLException{
-        Object[] data = new Object[13];
-        Object[] data2 = new Object[13];
+        Object[] data = new Object[12];
+        Object[] data2 = new Object[12];
         PreparedStatement pstm;
         ResultSet res;
         try{
@@ -223,10 +221,8 @@ public class anticipos {
                 if(res2.next()){
                     String estRazon_Social = res2.getString("Razon_Social");
                     String estIdentificacion = res2.getString("Identificacion");
-                    int estCodigo_Proveedor2 = res2.getInt("Codigo");
                     data[10] = estRazon_Social;
                     data[11] = estIdentificacion;
-                    data[12] = estCodigo_Proveedor2;
                 }
             }
         }catch(SQLException e){

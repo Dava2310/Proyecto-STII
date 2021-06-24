@@ -6,6 +6,7 @@
 package clases.anticipos;
 
 import clases.proveedores.IdentificacionProveedor;
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import logica.Tasa_USD;
 import logica.anticipos;
 import logica.proveedor;
 
@@ -26,6 +28,7 @@ import logica.proveedor;
  */
 public class CrearAnticipo extends javax.swing.JFrame {
 
+    private double monto = 0;
     public String identificacion;
     public int tipo_identificacion;
     public String codigo_proveedor;
@@ -36,6 +39,8 @@ public class CrearAnticipo extends javax.swing.JFrame {
     public String num_anticipo = "";
     public boolean creado = false;
     public IdentificacionProveedor IP;
+    private Tasa_USD tasas = new Tasa_USD();
+    private Object[][] dataTasas;
     public CrearAnticipo() {
         initComponents();
         cerrar();
@@ -80,19 +85,15 @@ public class CrearAnticipo extends javax.swing.JFrame {
         MotivoCB = new javax.swing.JComboBox<>();
         DescuentoODPCB = new javax.swing.JLabel();
         DescontarCB = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        Moneda_CB = new javax.swing.JComboBox<>();
         Moneda_LB = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         Semana_txt = new javax.swing.JTextField();
+        Tasa_CB = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -137,11 +138,6 @@ public class CrearAnticipo extends javax.swing.JFrame {
         NroAnticipo.setText("Anticipo Nº");
 
         NroAnticipotxt.setEditable(false);
-        NroAnticipotxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NroAnticipotxtActionPerformed(evt);
-            }
-        });
 
         MotivoAnticipoL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MotivoAnticipoL.setText("Motivo del Anticipo");
@@ -150,9 +146,21 @@ public class CrearAnticipo extends javax.swing.JFrame {
         MontoBSL.setText("Monto en BS");
 
         MontoBStxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        MontoBStxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                MontoBStxtFocusLost(evt);
+            }
+        });
 
         MontoDS.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         MontoDS.setText("Monto en $");
+
+        MontoDStxt.setEditable(false);
+        MontoDStxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                MontoDStxtFocusLost(evt);
+            }
+        });
 
         FechaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         FechaL.setText("Fecha");
@@ -206,10 +214,10 @@ public class CrearAnticipo extends javax.swing.JFrame {
         DescontarCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         DescontarCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"SI", "NO" }));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "$" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        Moneda_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "$" }));
+        Moneda_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                Moneda_CBActionPerformed(evt);
             }
         });
 
@@ -220,6 +228,16 @@ public class CrearAnticipo extends javax.swing.JFrame {
         jLabel1.setText("Semana");
 
         Semana_txt.setEditable(false);
+
+        Tasa_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SIN TASA" }));
+        Tasa_CB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Tasa_CBActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setText("Escoje la tasa en $");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -259,15 +277,11 @@ public class CrearAnticipo extends javax.swing.JFrame {
                         .addComponent(IconAnticipo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(NroAnticipo)
-                                .addGap(70, 70, 70)
-                                .addComponent(NroAnticipotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(Moneda_LB)
                                     .addGap(12, 12, 12)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Moneda_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(MontoBSL)
                                     .addGap(18, 18, 18)
@@ -296,7 +310,14 @@ public class CrearAnticipo extends javax.swing.JFrame {
                                             .addGap(14, 14, 14)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(Semana_txt)
-                                                .addComponent(Fechatxt))))))))
+                                                .addComponent(Fechatxt))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(NroAnticipo)
+                                .addGap(70, 70, 70)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Tasa_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NroAnticipotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)))))
                     .addComponent(ObservacionL))
                 .addContainerGap())
         );
@@ -305,7 +326,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(InfoProveedorL)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(IconoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -320,9 +341,13 @@ public class CrearAnticipo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(RazonSocialL)
-                            .addComponent(RazonSocialtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(RazonSocialtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(infoAnticipoL)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(infoAnticipoL)
+                    .addComponent(Tasa_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(IconAnticipo)
@@ -340,13 +365,14 @@ public class CrearAnticipo extends javax.swing.JFrame {
                                 .addComponent(MotivoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(FechaL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(MontoDStxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MontoDS)
-                            .addComponent(MontoBSL)
-                            .addComponent(Moneda_LB)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MontoBStxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(MontoBStxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(MontoDStxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(MontoDS)
+                                .addComponent(MontoBSL)
+                                .addComponent(Moneda_LB)
+                                .addComponent(Moneda_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AprobacionL)
@@ -409,11 +435,28 @@ public class CrearAnticipo extends javax.swing.JFrame {
             NroAnticipotxt.setText(String.valueOf(codigo));
         }catch(SQLException ex){
             Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            ActualizarTasas();
         }
         
         
     }//GEN-LAST:event_formWindowOpened
 
+    private void ActualizarTasas(){
+        int registros = tasas.obtenerRegistros();
+        try {
+            dataTasas = tasas.getDatos();
+            for(int i = 0; i <= registros - 1; i++){
+                //21-2021 - Monto
+                String item = dataTasas[i][3].toString();
+                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][4].toString()));
+                Tasa_CB.addItem(item);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CrearAnticipo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     String[] botones = {"ACEPTAR","CANCELAR"};
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
         if(creado){
@@ -445,8 +488,8 @@ public class CrearAnticipo extends javax.swing.JFrame {
             //RECOGIDA DE DATOS:
             String motivo_anticipo = MotivoCB.getSelectedItem().toString();
             String fecha = Fechatxt.getText();
-            float monto_bs = Float.parseFloat(MontoBStxt.getText());
-            float monto_ds = Float.parseFloat(MontoDStxt.getText());
+            double monto_bs = Double.parseDouble(MontoBStxt.getText());
+            double monto_ds = Double.parseDouble(MontoDStxt.getText());
             String aprobacion = Aprobaciontxt.getText();
             String descontarODP = DescontarCB.getSelectedItem().toString();
             String observaciones = Observaciontxt.getText();
@@ -456,23 +499,16 @@ public class CrearAnticipo extends javax.swing.JFrame {
             try{
                 a.NuevoAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor);
                 creado = true;
-                //DEBEMOS MANDAR UN MENSAJE DE CONFIRMACION-------------
-
-                //DESHABILITAR EL BOTON DE CREACION:
-                CrearBT.setEnabled(false);
-                //DESHABILITAR CADA CAMPO DE LA INTERFAZ
-                MontoBStxt.setEnabled(false);
-                MontoDStxt.setEnabled(false);
-                Aprobaciontxt.setEnabled(false);
-                Observaciontxt.setEnabled(false);
-                MotivoCB.setEnabled(false);
-
-                
-            
-                //AQUI HAY QUE DEJAR UN MENSAJE DICIENDO QUE REVISE EL NRO DEL ANTICIPO QUE ESTA, COLOCADO EN EL TEXTFIELD
-                JOptionPane.showMessageDialog(null, "LA CREACION DE SU ANTICIPO HA SIDO EXITOSA", "CONFIRMACION", JOptionPane.PLAIN_MESSAGE);
-                //CAMBIANDO EL TEXTO DEL BOTON DE CANCELAR POR CERRAR
-                CancelarBT.setText("CERRAR");
+                String[] botones_confirmacionHabilitar = {"ACEPTAR", "CANCELAR"};
+                int index = JOptionPane.showOptionDialog(null, "¿DESEA CREAR UN NUEVO ANTICIPO?", "CONFIRMACION DE CAMBIO DE ESTADO", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionHabilitar, botones_confirmacionHabilitar[0]);
+                if(index == 0){
+                    IP = new IdentificacionProveedor();
+                    IP.modo = 2;
+                    IP.setVisible(true);
+                    this.dispose();
+                } else {
+                    this.dispose();
+                }
             }catch(SQLException ex){
                 Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -480,14 +516,6 @@ public class CrearAnticipo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "INGRESE POR FAVOR LOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
         }  
     }//GEN-LAST:event_CrearBTActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-
-    }//GEN-LAST:event_formWindowClosed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
-    }//GEN-LAST:event_formWindowClosing
 
     private void FechatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechatxtActionPerformed
         // TODO add your handling code here:
@@ -498,13 +526,61 @@ public class CrearAnticipo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_MotivoCBActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void Moneda_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Moneda_CBActionPerformed
+        /*
+            AQUI LO QUE TENGO QUE HACER ES DEPENDIENDO DE DONDE SE ENCUENTRE
+            DEJO ESCRIBIR EN ESA MONEDA
+            Y LA PASO POR CONVERSION A LA CONTRARIA
+        */
+        if(Moneda_CB.getSelectedItem().toString().equals("BS")){
+            MontoBStxt.setEditable(true);
+            MontoDStxt.setEditable(false);
+            MontoBStxt.setText("");
+            MontoDStxt.setText("");
+        } else {
+            MontoBStxt.setEditable(false);
+            MontoDStxt.setEditable(true);
+            MontoBStxt.setText("");
+            MontoDStxt.setText("");
+        }
+    }//GEN-LAST:event_Moneda_CBActionPerformed
 
-    private void NroAnticipotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NroAnticipotxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NroAnticipotxtActionPerformed
+    private void MontoBStxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_MontoBStxtFocusLost
+        /*
+            DESPUES DE QUE DEJAN DE ESCRIBIR EN EL MONTO TXT
+            TENGO QUE DIVIDIRLO POR LA TASA
+            E IMPRIMIRLO EN EL MONTODSTXT
+        */
+        if(MontoBStxt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
+            double Monto_BS = Double.parseDouble(MontoBStxt.getText());
+            double monto_total = Monto_BS / monto;
+            MontoDStxt.setText(String.valueOf(monto_total));
+        } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
+            JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_MontoBStxtFocusLost
+
+    private void Tasa_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Tasa_CBActionPerformed
+        if(!Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
+            int index = Tasa_CB.getSelectedIndex() - 1;
+            monto = Double.parseDouble(dataTasas[index][4].toString());
+        }
+    }//GEN-LAST:event_Tasa_CBActionPerformed
+
+    private void MontoDStxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_MontoDStxtFocusLost
+        /*
+            DESPUES DE QUE DEJAN DE ESCRIBIR EN EL MONTO TXT
+            TENGO QUE MULTIPLICARLO POR LA TASA
+            E IMPRIMIRLO EN EL MONTOBSTXT
+        */
+        if(MontoDStxt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
+            double Monto_DS = Double.parseDouble(MontoDStxt.getText());
+            double monto_total = Monto_DS * monto;
+            MontoBStxt.setText(String.valueOf(monto_total));
+        } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
+            JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_MontoDStxtFocusLost
     
     //SE CREA UNA FUNCION QUE PERMITA OBTENER LA FECHA ACTUAL DEL SISTEMA
     public static String fechaActual(){
@@ -591,6 +667,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private javax.swing.JLabel IconAnticipo;
     private javax.swing.JLabel IconoProveedor;
     private javax.swing.JLabel InfoProveedorL;
+    private javax.swing.JComboBox<String> Moneda_CB;
     private javax.swing.JLabel Moneda_LB;
     private javax.swing.JLabel MontoBSL;
     private javax.swing.JTextField MontoBStxt;
@@ -605,9 +682,10 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
     private javax.swing.JTextField Semana_txt;
+    private javax.swing.JComboBox<String> Tasa_CB;
     private javax.swing.JLabel infoAnticipoL;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

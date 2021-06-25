@@ -10,6 +10,8 @@ import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -480,6 +482,16 @@ public class CrearAnticipo extends javax.swing.JFrame {
             //RECOGIDA DE DATOS:
             String motivo_anticipo = MotivoCB.getSelectedItem().toString();
             String fecha = Fechatxt.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date data;
+                    String dateFinal = "";
+                    try {
+                        data = sdf.parse(fecha);
+                        dateFinal = output.format(data);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(CrearAnticipo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
             double monto_bs = Double.parseDouble(MontoBStxt.getText());
             double monto_ds = Double.parseDouble(MontoDStxt.getText());
             String aprobacion = Aprobaciontxt.getText();
@@ -490,7 +502,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
             int cod_tasa = this.cod_tasa;
             //LLAMADA DE LA FUNCION CREAR ANTICIPO:
             try{
-                a.NuevoAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, cod_tasa);
+                a.NuevoAnticipo(motivo_anticipo, dateFinal, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, cod_tasa);
                 creado = true;
                 String[] botones_confirmacionHabilitar = {"ACEPTAR", "CANCELAR"};
                 int index = JOptionPane.showOptionDialog(null, "¿DESEA CREAR UN NUEVO ANTICIPO?", "CONFIRMACION DE CAMBIO DE ESTADO", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionHabilitar, botones_confirmacionHabilitar[0]);
@@ -539,7 +551,9 @@ public class CrearAnticipo extends javax.swing.JFrame {
             double Monto_BS = Double.parseDouble(MontoBStxt.getText());
             double monto_total = Monto_BS / monto;
             monto_total = (double) Math.round(monto_total * 100d) / 100;
-            MontoDStxt.setText(String.valueOf(monto_total));
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(10);
+            MontoDStxt.setText(String.valueOf(df.format(monto_total)));
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -565,7 +579,9 @@ public class CrearAnticipo extends javax.swing.JFrame {
             double Monto_DS = Double.parseDouble(MontoDStxt.getText());
             double monto_total = Monto_DS * monto;
             monto_total = (double) Math.round(monto_total * 100d) / 100;
-            MontoBStxt.setText(String.valueOf(monto_total));
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(10);
+            MontoBStxt.setText(String.valueOf(df.format(monto_total)));
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
         }

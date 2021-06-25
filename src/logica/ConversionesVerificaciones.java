@@ -1,5 +1,6 @@
 package logica;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,9 +22,19 @@ public class ConversionesVerificaciones {
                         Logger.getLogger(TasaBsUSD.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
-                    System.out.println(dateFinal);
+                    
                     String semana = Semanatxt.getText();
         */
+        return "";
+    }
+    
+    public String conversionDecimalFormat(){
+        
+        double estMonto = 0111000;
+        DecimalFormat df = new DecimalFormat("#");
+        df.setMaximumFractionDigits(10);
+        String monto = df.format(estMonto);
+        
         return "";
     }
     

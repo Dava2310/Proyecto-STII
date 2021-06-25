@@ -424,7 +424,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
            
            
        }else{
-           JOptionPane.showMessageDialog(null, "ASEGURESE DE NO TENER NINGUNA TAZA SELECCIONADA PARA AGREGAR UNA NUEVA", "ERROR", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(null, "ASEGURESE DE NO TENER NINGUNA TASA SELECCIONADA PARA AGREGAR UNA NUEVA", "ERROR", JOptionPane.ERROR_MESSAGE);
            NuevaTazaBT.setSelected(false);
        }
            

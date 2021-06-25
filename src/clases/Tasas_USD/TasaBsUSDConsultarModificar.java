@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases;
+package clases.Tasas_USD;
 
 /**
  *
  * @author usuario
  */
-public class TasaBsUSD extends javax.swing.JFrame {
+public class TasaBsUSDConsultarModificar extends javax.swing.JFrame {
 
     /**
      * Creates new form TasaBsUSD
      */
-    public TasaBsUSD() {
+    public TasaBsUSDConsultarModificar() {
         initComponents();
     }
 
@@ -29,19 +29,25 @@ public class TasaBsUSD extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TasaBSUSDT = new javax.swing.JTable();
+        BSUSDT = new javax.swing.JTable();
         BSUSDL = new javax.swing.JLabel();
         FechaL = new javax.swing.JLabel();
+        SemanaL = new javax.swing.JLabel();
+        FechaDesdeL = new javax.swing.JLabel();
+        FechaDesdetxt = new javax.swing.JTextField();
+        FechaHastaL = new javax.swing.JLabel();
+        FechaHastatxt = new javax.swing.JTextField();
+        BuscarBT = new javax.swing.JButton();
+        ModificarBT = new javax.swing.JButton();
         CancelarBT = new javax.swing.JButton();
-        AgregarBT = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        TasaBSUSDT.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        TasaBSUSDT.setModel(new javax.swing.table.DefaultTableModel(
+        BSUSDT.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        BSUSDT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -147,12 +153,20 @@ public class TasaBsUSD extends javax.swing.JFrame {
             new String [] {
                 "Desde", "Hasta", ""
             }
-        ));
-        jScrollPane1.setViewportView(TasaBSUSDT);
-        if (TasaBSUSDT.getColumnModel().getColumnCount() > 0) {
-            TasaBSUSDT.getColumnModel().getColumn(0).setResizable(false);
-            TasaBSUSDT.getColumnModel().getColumn(1).setResizable(false);
-            TasaBSUSDT.getColumnModel().getColumn(2).setResizable(false);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(BSUSDT);
+        if (BSUSDT.getColumnModel().getColumnCount() > 0) {
+            BSUSDT.getColumnModel().getColumn(0).setResizable(false);
+            BSUSDT.getColumnModel().getColumn(1).setResizable(false);
+            BSUSDT.getColumnModel().getColumn(2).setResizable(false);
         }
 
         BSUSDL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -161,11 +175,32 @@ public class TasaBsUSD extends javax.swing.JFrame {
         FechaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         FechaL.setText("Fecha");
 
+        SemanaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        SemanaL.setText("Semana");
+
+        FechaDesdeL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        FechaDesdeL.setText("Desde");
+
+        FechaDesdetxt.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
+        FechaHastaL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        FechaHastaL.setText("Hasta");
+
+        FechaHastatxt.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
+        BuscarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        BuscarBT.setText("Buscar");
+
+        ModificarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ModificarBT.setText("Modificar");
+        ModificarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarBTActionPerformed(evt);
+            }
+        });
+
         CancelarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         CancelarBT.setText("Cancelar");
-
-        AgregarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        AgregarBT.setText("Agregar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,17 +208,28 @@ public class TasaBsUSD extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(162, 162, 162)
+                .addGap(153, 153, 153)
                 .addComponent(FechaL)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BSUSDL)
-                .addGap(58, 58, 58))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(AgregarBT)
-                .addGap(29, 29, 29)
+                .addGap(62, 62, 62))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(FechaDesdeL)
+                    .addComponent(FechaHastaL))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(SemanaL)
+                    .addComponent(FechaDesdetxt, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                    .addComponent(FechaHastatxt))
+                .addGap(81, 81, 81)
+                .addComponent(BuscarBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ModificarBT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CancelarBT)
-                .addGap(160, 160, 160))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,17 +239,36 @@ public class TasaBsUSD extends javax.swing.JFrame {
                     .addComponent(FechaL)
                     .addComponent(BSUSDL))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CancelarBT)
-                    .addComponent(AgregarBT))
-                .addGap(31, 31, 31))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(SemanaL)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(FechaDesdeL)
+                            .addComponent(FechaDesdetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(FechaHastatxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(FechaHastaL))
+                        .addContainerGap(24, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BuscarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ModificarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CancelarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39))))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ModificarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ModificarBTActionPerformed
 
     /**
      * @param args the command line arguments
@@ -222,31 +287,39 @@ public class TasaBsUSD extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TasaBsUSD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TasaBsUSDConsultarModificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TasaBsUSD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TasaBsUSDConsultarModificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TasaBsUSD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TasaBsUSDConsultarModificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TasaBsUSD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TasaBsUSDConsultarModificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TasaBsUSD().setVisible(true);
+                new TasaBsUSDConsultarModificar().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AgregarBT;
     private javax.swing.JLabel BSUSDL;
+    private javax.swing.JTable BSUSDT;
+    private javax.swing.JButton BuscarBT;
     private javax.swing.JButton CancelarBT;
+    private javax.swing.JLabel FechaDesdeL;
+    private javax.swing.JTextField FechaDesdetxt;
+    private javax.swing.JLabel FechaHastaL;
+    private javax.swing.JTextField FechaHastatxt;
     private javax.swing.JLabel FechaL;
-    private javax.swing.JTable TasaBSUSDT;
+    private javax.swing.JButton ModificarBT;
+    private javax.swing.JLabel SemanaL;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

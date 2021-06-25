@@ -51,6 +51,8 @@ INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Pe
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(4, 'V22111589', 'MasterGAP', 78,48,48, 'TABLA');
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(5, 'V7383981', 'Carlos Vetencourt', 78,48,48, 'TABLA');
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(6, 'V7418673', 'Dorys Alvarez', 78,48,48, 'TABLA');
+
+SELECT * from proveedor order by Codigo desc;
 -- CREACION DE LA TABLA BENEFICIARIOS
 create table beneficiarios(
 	Cod_Beneficiario int auto_increment NOT NULL,
@@ -66,9 +68,24 @@ create table beneficiarios(
 	PRIMARY KEY(Cod_Beneficiario)
 );
 
+
+
 SELECT * FROM beneficiarios;
 SELECT count(1) as total from beneficiarios;
 -- CREACION DE LA TABLA ANTICIPO
+
+create table Tasa_USD(
+	Cod_Tasa int auto_increment NOT NULL,
+    Fecha_I datetime,
+    Semana varchar(10),
+    Monto double not null,
+    Primary Key(Cod_Tasa)
+);
+
+-- DROP TABLE Tasa_USD;
+INSERT INTO Tasa_USD(Fecha_I, Fecha_F, Semana, Monto) values('2021-06-23','2021-06-25','25-2021',3182893.37);
+SELECT * from Tasa_USD;
+
 create table anticipos(
 	Num_Anticipo int NOT NULL auto_increment, 
     Motivo_Anticipo varchar(40) NOT NULL,
@@ -80,7 +97,9 @@ create table anticipos(
     Observaciones varchar(150), -- LAS OBSERVACIONES SON INFORMACION ADICIONAL
     DescontarODP varchar(2),
     Codigo_Proveedor int,
+    Codigo_Tasa int,
     foreign key(Codigo_Proveedor) REFERENCES proveedor(Codigo),
+    foreign key(Codigo_Tasa) REFERENCES Tasa_USD(Cod_Tasa),
     PRIMARY KEY(Num_Anticipo)
 );
 
@@ -122,19 +141,6 @@ create table transacciones(
     foreign key(Num_Boleto) references boleto(Codigo_Boleto),
     primary key(ID_Transaccion)
 );
-
-create table Tasa_USD(
-	Cod_Tasa int auto_increment NOT NULL,
-    Fecha_I datetime,
-    Fecha_F datetime,
-    Semana varchar(10),
-    Monto double not null,
-    Primary Key(Cod_Tasa)
-);
-
--- DROP TABLE Tasa_USD;
-INSERT INTO Tasa_USD(Fecha_I, Fecha_F, Semana, Monto) values('2021-06-23','2021-06-25','25-2021',3182893.37);
-SELECT * from Tasa_USD;
 
 create table Variables(
 	Cod_Tarifa int auto_increment NOT NULL,

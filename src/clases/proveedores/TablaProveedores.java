@@ -756,7 +756,8 @@ public class TablaProveedores extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -1257,6 +1258,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         InformacionBancaria_BT.setEnabled(false); InformacionBancaria_BT.setSelected(false);
         NuevoBeneficiario_BT.setEnabled(false); NuevoBeneficiario_BT.setSelected(false);
         limpiarDatosBeneficiario();
+        desHabilitarCamposBancarios();
         MPCB.setEnabled(false); MPCB.setSelectedIndex(0);
         Cuadrillatxt.setEditable(false); Cuadrillatxt.setText("");
         Fletetxt.setEditable(false); Fletetxt.setText("");
@@ -1437,6 +1439,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                 NombreAUT_txt.setEditable(false);
                 IDAUT_CB.setEnabled(false);
                 IDAUT_txt.setEditable(false);
+                ListarBeneficiariosBT.setEnabled(false);
     }
     
     private void habilitarCamposBancarios(){
@@ -1457,7 +1460,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         InformacionBancaria_BT.setSelected(false);
                 NombreBNF_txt.setText("");
                 IDBNF_txt.setText("");
-                IDBNF_CB.setSelectedIndex(0);
+                IDBNF_CB.setSelectedIndex(0); 
                 CorreoBNF_txt.setText("");
                 Banco_CB.setSelectedIndex(0);
                 NumCuenta_txt.setText("");
@@ -1467,6 +1470,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                 IDAUT_CB.setSelectedIndex(0);
                 IDAUT_txt.setText("");
                 ListarBeneficiariosBT.setSelectedIndex(0);
+                
     }
     
     private void mostrarTodos(){

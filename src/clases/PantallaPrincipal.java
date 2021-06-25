@@ -1,5 +1,7 @@
 package clases;
 
+import clases.Tasas_USD.TasaBsUSDConsultarModificar;
+import clases.Tasas_USD.TasaBsUSD;
 import clases.proveedores.*;
 import clases.anticipos.*;
 import clases.boletos.*;

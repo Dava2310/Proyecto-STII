@@ -29,6 +29,7 @@ public class TablaAnticipos extends javax.swing.JFrame {
     private proveedor p = new proveedor();
     private anticipos anticipo = new anticipos();
     private Object[][] dataTasas;
+    private int cod_tasa = 0;
     private Tasa_USD tasas = new Tasa_USD();
     public TablaAnticipos() {
         initComponents();
@@ -329,8 +330,9 @@ public class TablaAnticipos extends javax.swing.JFrame {
                                                     .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                         .addGroup(PanelInformacionLayout.createSequentialGroup()
                                                             .addComponent(Fecha_LB)
-                                                            .addGap(18, 18, 18)
-                                                            .addComponent(Fecha_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                            .addComponent(Fecha_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addGap(14, 14, 14))
                                                         .addGroup(PanelInformacionLayout.createSequentialGroup()
                                                             .addComponent(jLabel1)
                                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -456,8 +458,8 @@ public class TablaAnticipos extends javax.swing.JFrame {
             dataTasas = tasas.getDatos();
             for(int i = 0; i <= registros - 1; i++){
                 //21-2021 - Monto
-                String item = dataTasas[i][3].toString();
-                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][4].toString()));
+                String item = dataTasas[i][1].toString();
+                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][3].toString()));
                 Tasa_CB.addItem(item);
             }
         } catch (SQLException ex) {
@@ -567,7 +569,9 @@ public class TablaAnticipos extends javax.swing.JFrame {
     }//GEN-LAST:event_Moneda_CBActionPerformed
 
     private void Guardar_BTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Guardar_BTActionPerformed
-        if(Edicion_BT.isSelected()){
+        int index = Tasa_CB.getSelectedIndex();
+        
+        if(Edicion_BT.isSelected() && index != 0 ){
             String motivo_anticipo = MotivoCB.getSelectedItem().toString();
             String fecha = Fecha_txt.getText();
             String semana = Semana_txt.getText();
@@ -578,9 +582,10 @@ public class TablaAnticipos extends javax.swing.JFrame {
             String DescontarODP = DescontarCB.getSelectedItem().toString();
             int codigo_proveedor = Integer.parseInt(CodigoProveedor_txt.getText());
             int num_anticipo = Integer.parseInt(NumAnticipo_txt.getText());
+            int cod_tasa = this.cod_tasa;
             if(!MontoBS_txt.getText().isEmpty() && !MontoDS_txt.getText().isEmpty()){
                 try {
-                    anticipo.updateAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, DescontarODP, codigo_proveedor, num_anticipo);
+                    anticipo.updateAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, DescontarODP, codigo_proveedor, cod_tasa, num_anticipo);
                 } catch (SQLException ex) {
                     Logger.getLogger(TablaAnticipos.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -590,6 +595,10 @@ public class TablaAnticipos extends javax.swing.JFrame {
             updateTabla();
             Seleccionar_BT.setSelected(false);
             reestablecerPagina();
+        }else if (!Edicion_BT.isSelected() && index != 0){
+            JOptionPane.showMessageDialog(null, "BOTON DE EDICION DESHABILIDATO", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }else if(index == 0){
+            JOptionPane.showMessageDialog(null, "SELECCIONE UNA TAZA", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_Guardar_BTActionPerformed
 
@@ -604,8 +613,8 @@ public class TablaAnticipos extends javax.swing.JFrame {
             double monto_total = Monto_BS / monto;
             monto_total = (double) Math.round(monto_total * 100d) / 100;
             MontoDS_txt.setText(String.valueOf(monto_total));
-        } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
-            JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA") && MontoBS_txt.isEditable()){
+            MontoDS_txt.setText("Seleccionar una tasa");
         }
     }//GEN-LAST:event_MontoBS_txtFocusLost
 
@@ -620,16 +629,28 @@ public class TablaAnticipos extends javax.swing.JFrame {
             double monto_total = Monto_DS * monto;
             monto_total = (double) Math.round(monto_total * 100d) / 100;
             MontoBS_txt.setText(String.valueOf(monto_total));
-        } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
-            JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA") && MontoDS_txt.isEditable()){
+            MontoBS_txt.setText("Seleccionar una tasa");
         }
     }//GEN-LAST:event_MontoDS_txtFocusLost
 
     private void Tasa_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Tasa_CBActionPerformed
         if(!Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             int index = Tasa_CB.getSelectedIndex() - 1;
-            monto = Double.parseDouble(dataTasas[index][4].toString());
+            monto = Double.parseDouble(dataTasas[index][3].toString());
             monto = (double) Math.round(monto * 100d) / 100;
+            cod_tasa = Integer.parseInt(dataTasas[index][0].toString());
+            if(MontoBS_txt.isEditable() && !MontoBS_txt.getText().isEmpty()){
+                double Monto_BS = Double.parseDouble(MontoBS_txt.getText());
+                double monto_total = Monto_BS / monto;
+                monto_total = (double) Math.round(monto_total * 100d) / 100;
+                MontoDS_txt.setText(String.valueOf(monto_total));
+            }else if(MontoDS_txt.isEditable() && !MontoDS_txt.getText().isEmpty()){
+                double Monto_DS = Double.parseDouble(MontoDS_txt.getText());
+                double monto_total = Monto_DS * monto;
+                monto_total = (double) Math.round(monto_total * 100d) / 100;
+                MontoBS_txt.setText(String.valueOf(monto_total));
+            }
         }
     }//GEN-LAST:event_Tasa_CBActionPerformed
     
@@ -638,7 +659,7 @@ public class TablaAnticipos extends javax.swing.JFrame {
     private void mostrarTodos(){
         //Objeto para almacenar datos
         Object[][] data;
-        String[] columNames = {"Numero", "Motivo", "Fecha", "Semana", "Monto_BS", "Monto_DS", "Aprobado Por", "Observaciones", "Descontar en ODP", "Codigo_Proveedor", "Nombre_Proveedor", "Identificacion_Proveedor"};
+        String[] columNames = {"Numero", "Motivo", "Fecha", "Semana", "Monto_BS", "Monto_DS", "Aprobado Por", "Observaciones", "Descontar en ODP", "Codigo_Proveedor", "Codigo_Tasa" ,"Nombre_Proveedor", "Identificacion_Proveedor"};
         try{
             data = anticipo.getDatos();
             DefaultTableModel datos = new DefaultTableModel(data, columNames);
@@ -649,7 +670,7 @@ public class TablaAnticipos extends javax.swing.JFrame {
     }
     
     private void updateTabla(){
-        String[] columNames = {"Numero", "Motivo", "Fecha", "Semana", "Monto_BS", "Monto_DS", "Aprobado Por", "Observaciones", "Descontar en ODP", "Codigo_Proveedor", "Nombre_Proveedor", "Identificacion_Proveedor"};
+        String[] columNames = {"Numero", "Motivo", "Fecha", "Semana", "Monto_BS", "Monto_DS", "Aprobado Por", "Observaciones", "Descontar en ODP", "Codigo_Proveedor", "Codigo_Tasa", "Nombre_Proveedor", "Identificacion_Proveedor"};
         try {
             data = anticipo.getDatos();
             DefaultTableModel datos = new DefaultTableModel(data, columNames);
@@ -660,7 +681,52 @@ public class TablaAnticipos extends javax.swing.JFrame {
     }
     
     private void reestablecerPagina(){
-    
+        CodigoProveedor_txt.setText("");
+        CodigoProveedor_txt.setEditable(false);
+        
+        IdentificacionProveedor_CB.setEnabled(false);
+        IdentificacionProveedor_CB.setSelectedIndex(0);
+        
+        IdentificacionProveedor_txt.setEditable(false);
+        IdentificacionProveedor_txt.setText("");
+        
+        RazonSocial_txt.setEditable(false);
+        RazonSocial_txt.setText("");
+        
+        Tasa_CB.setSelectedIndex(0);
+        Tasa_CB.setEnabled(false);
+        
+        NumAnticipo_txt.setEditable(false);
+        NumAnticipo_txt.setText("");
+        
+        Semana_txt.setText("");
+        Semana_txt.setEditable(false);
+        
+        MotivoCB.setSelectedIndex(0);
+        MotivoCB.setEnabled(false);
+        
+        Fecha_txt.setEditable(false);
+        Fecha_txt.setText("");
+        
+        Moneda_CB.setSelectedIndex(0);
+        Moneda_CB.setEnabled(false);
+        
+        MontoBS_txt.setEditable(false);
+        MontoBS_txt.setText("");
+        
+        MontoDS_txt.setEditable(false);
+        MontoDS_txt.setText("");
+        
+        Aprobacion_txt.setEditable(false);
+        Aprobacion_txt.setText("");
+        
+        DescontarCB.setEnabled(false);
+        DescontarCB.setSelectedIndex(0);
+        
+        Observaciontxt.setEditable(false);
+        Observaciontxt.setText("");
+        
+        
     }
     /**
      * @param args the command line arguments

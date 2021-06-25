@@ -148,8 +148,9 @@
                                                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                                               <Group type="102" attributes="0">
                                                                   <Component id="Fecha_LB" min="-2" max="-2" attributes="0"/>
-                                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                  <EmptySpace max="-2" attributes="0"/>
                                                                   <Component id="Fecha_txt" min="-2" pref="151" max="-2" attributes="0"/>
+                                                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                                               </Group>
                                                               <Group type="102" attributes="0">
                                                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>

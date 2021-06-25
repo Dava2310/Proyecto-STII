@@ -29,6 +29,7 @@ import logica.proveedor;
 public class CrearAnticipo extends javax.swing.JFrame {
 
     private double monto = 0;
+    private int cod_tasa = 0;
     public String identificacion;
     public int tipo_identificacion;
     public String codigo_proveedor;
@@ -167,11 +168,6 @@ public class CrearAnticipo extends javax.swing.JFrame {
 
         Fechatxt.setEditable(false);
         Fechatxt.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        Fechatxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FechatxtActionPerformed(evt);
-            }
-        });
 
         AprobacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         AprobacionL.setText("Aprobado por");
@@ -202,11 +198,6 @@ public class CrearAnticipo extends javax.swing.JFrame {
 
         MotivoCB.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         MotivoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Materia Prima", "Adicional", "Peaje", "Otros" }));
-        MotivoCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MotivoCBActionPerformed(evt);
-            }
-        });
 
         DescuentoODPCB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         DescuentoODPCB.setText("Descontar en ODP");
@@ -447,9 +438,10 @@ public class CrearAnticipo extends javax.swing.JFrame {
         try {
             dataTasas = tasas.getDatos();
             for(int i = 0; i <= registros - 1; i++){
-                //21-2021 - Monto
-                String item = dataTasas[i][3].toString();
-                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][4].toString()));
+                //10/23/2021 - 3.000.000
+                String item = dataTasas[i][1].toString();
+                cod_tasa = Integer.parseInt(dataTasas[i][0].toString());
+                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][3].toString()));
                 Tasa_CB.addItem(item);
             }
         } catch (SQLException ex) {
@@ -484,7 +476,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
         //HAY QUE HACER UNA VALIDACION DE QUE SE INGRESEN LOS DATOS NECESARIOS
         //MOTIVO DEL ANTICIPO, FECHA, MONTOBS, MONTODS
         if (!(MotivoCB.getSelectedItem().toString().isEmpty()) && !(Fechatxt.getText().isEmpty())
-                && !(MontoBStxt.getText().isEmpty()) && !(MontoDStxt.getText().isEmpty())) {
+                && !(MontoBStxt.getText().isEmpty()) && !(MontoDStxt.getText().isEmpty()) && Tasa_CB.getSelectedIndex() != 0) {
             //RECOGIDA DE DATOS:
             String motivo_anticipo = MotivoCB.getSelectedItem().toString();
             String fecha = Fechatxt.getText();
@@ -495,9 +487,10 @@ public class CrearAnticipo extends javax.swing.JFrame {
             String observaciones = Observaciontxt.getText();
             int codigo_proveedor = Integer.parseInt(Codigotxt.getText());
             String semana = Semana_txt.getText();
+            int cod_tasa = this.cod_tasa;
             //LLAMADA DE LA FUNCION CREAR ANTICIPO:
             try{
-                a.NuevoAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor);
+                a.NuevoAnticipo(motivo_anticipo, fecha, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, cod_tasa);
                 creado = true;
                 String[] botones_confirmacionHabilitar = {"ACEPTAR", "CANCELAR"};
                 int index = JOptionPane.showOptionDialog(null, "¿DESEA CREAR UN NUEVO ANTICIPO?", "CONFIRMACION DE CAMBIO DE ESTADO", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionHabilitar, botones_confirmacionHabilitar[0]);
@@ -516,15 +509,6 @@ public class CrearAnticipo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "INGRESE POR FAVOR LOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
         }  
     }//GEN-LAST:event_CrearBTActionPerformed
-
-    private void FechatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechatxtActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_FechatxtActionPerformed
-
-    private void MotivoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MotivoCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MotivoCBActionPerformed
 
     private void Moneda_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Moneda_CBActionPerformed
         /*
@@ -564,9 +548,11 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private void Tasa_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Tasa_CBActionPerformed
         if(!Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             int index = Tasa_CB.getSelectedIndex() - 1;
-            monto = Double.parseDouble(dataTasas[index][4].toString());
+            monto = Double.parseDouble(dataTasas[index][3].toString());
             monto = (double) Math.round(monto * 100d) / 100;
+            cod_tasa = Integer.parseInt(dataTasas[index][0].toString());
         }
+        
     }//GEN-LAST:event_Tasa_CBActionPerformed
 
     private void MontoDStxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_MontoDStxtFocusLost

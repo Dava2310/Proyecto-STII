@@ -7,6 +7,11 @@ package clases.Tasas_USD;
 
 import clases.anticipos.CrearAnticipo;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -226,6 +231,11 @@ public class TasaBsUSD extends javax.swing.JFrame {
                 DiaTXTFocusGained(evt);
             }
         });
+        DiaTXT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DiaTXTActionPerformed(evt);
+            }
+        });
 
         SemanaLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         SemanaLB.setText("Semana");
@@ -398,10 +408,11 @@ public class TasaBsUSD extends javax.swing.JFrame {
     private void NuevaTazaBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevaTazaBTActionPerformed
        CambiatMontoBT.setEnabled(false);
        AgregarBT.setEnabled(true);
+       SeleccionarBT.setEnabled(false);
        int codigo = 0;
        if(!SeleccionarBT.isSelected() && CodTazatxt.getText().isEmpty()){
            DiaTXT.setEditable(true);
-           DiaTXT.setText("YYYY-MM-DD");
+           DiaTXT.setText("DD/MM/YYYY");
            Montotxt.setEditable(true);
            try {
                codigo = tasaObjeto.codigoSiguiente();
@@ -421,6 +432,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
            CambiatMontoBT.setEnabled(true);
            Montotxt.setEditable(false);
            AgregarBT.setEnabled(false);
+           SeleccionarBT.setEnabled(true);
        }
         
     }//GEN-LAST:event_NuevaTazaBTActionPerformed
@@ -430,6 +442,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
             tabla.setVisible(false);
             seleccionado = true;
             CambiatMontoBT.setEnabled(true);
+            NuevaTazaBT.setEnabled(false);
         }else if(CambiatMontoBT.isSelected()){
             JOptionPane.showMessageDialog(null, "TIENE LA OPCION DE HABILITAR EDICION ACTIVADA, DESACTIVELA PRIMERO", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(true);
@@ -437,11 +450,13 @@ public class TasaBsUSD extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "TIENE LA OPCION DE HABILITAR CREACION ACTIVADA, DESACTIVELA PRIMERO", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(false);
         }else if(CodTazatxt.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "SELECCION UN ELEMENTO DE LA TABLA", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "SELECCIONE UN ELEMENTO DE LA TABLA", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(false);
         }else if(!SeleccionarBT.isSelected()){
             tabla.setVisible(true);
             seleccionado = false;
+            CambiatMontoBT.setEnabled(false);
+            NuevaTazaBT.setEnabled(true);
         }    
     }//GEN-LAST:event_SeleccionarBTActionPerformed
 
@@ -449,8 +464,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
         if(NuevaTazaBT.isSelected()){
             String fecha = DiaTXT.getText();
             char letra = fecha.charAt(0);
-            System.out.println(letra);
-            if (letra == 'Y'){
+            if (letra == 'D'){
             DiaTXT.setText("");
             }
         }
@@ -461,8 +475,20 @@ public class TasaBsUSD extends javax.swing.JFrame {
         if(NuevaTazaBT.isSelected()){
             String fecha = DiaTXT.getText();
             if (DiaTXT.getText().isEmpty()){ 
-            DiaTXT.setText("YYYY-MM-DD");
-            } 
+                DiaTXT.setText("DD/MM/YYYY");
+            } else {
+                Date anio = new Date();
+                SimpleDateFormat formatoAnio = new SimpleDateFormat("YYYY");
+                String anioActual = formatoAnio.format(anio);
+                try{
+                    Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
+                    Calendar calendar = new GregorianCalendar();
+                    calendar.setTime(date1);
+                    Semanatxt.setText((calendar.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
+                }catch(ParseException ex){
+                    JOptionPane.showMessageDialog(null, "INGRESE LA FECHA EN EL FORMATO CORRESPONDIENTE: DD/MM/YYYY", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
         
     }//GEN-LAST:event_DiaTXTFocusLost
@@ -479,6 +505,17 @@ public class TasaBsUSD extends javax.swing.JFrame {
         }
     }
     
+    private void updateTabla(){
+        String[] columName = {"Codigo", "fechaI", "semana", "monto"};
+        try {
+            dataTasas = tasaObjeto.getDatos();
+            DefaultTableModel datos = new DefaultTableModel(dataTasas, columName);
+            tabla.setModel(datos);
+        } catch (SQLException ex) {
+            Logger.getLogger(TasaBsUSD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void AgregarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarBTActionPerformed
         if(CambiatMontoBT.isSelected()){
             //SE AGREGA ALERTA DE GUARDADO + OPCION YES/NO
@@ -491,8 +528,8 @@ public class TasaBsUSD extends javax.swing.JFrame {
                    int codigo = Integer.parseInt(CodTazatxt.getText());
                    double monto = Double.parseDouble(Montotxt.getText());
                    tasaObjeto.UpdateTasa(monto,codigo);
-                   System.out.println(monto);
-                   System.out.println(codigo);
+                   //System.out.println(monto);
+                   //System.out.println(codigo);
                 }else{
                    JOptionPane.showMessageDialog(null, "CAMPO DE MONTO VACIO", "ERROR", JOptionPane.ERROR_MESSAGE);              
                  }
@@ -508,16 +545,30 @@ public class TasaBsUSD extends javax.swing.JFrame {
             //SI LA RESPUESTA ES "YES"
             if(resp == JOptionPane.YES_OPTION){
               //VERIFICAR SI LOS CAMPOS ESTAN VACIOS
-                if(!Montotxt.getText().isEmpty() && !DiaTXT.getText().isEmpty()){
-                   String fecha = DiaTXT.getText();
-                   String semana = Semanatxt.getText();
-                   double monto = Double.parseDouble(Montotxt.getText());
-                   monto = (double)Math.round(monto*100d)/100;
-                   try {
-                      tasaObjeto.NuevaTasa(fecha, semana, monto);
-                    } catch (Exception ex) {
-                      Logger.getLogger(TasaBsUSD.class.getName()).log(Level.SEVERE, null, ex);
+                if(!Montotxt.getText().isEmpty() && !DiaTXT.getText().isEmpty() && DiaTXT.getText().charAt(0) != 'D' && !Semanatxt.getText().isEmpty()){
+                    String fecha = DiaTXT.getText();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date data;
+                    String dateFinal = "";
+                    try {
+                        data = sdf.parse(fecha);
+                        dateFinal = output.format(data);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(TasaBsUSD.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    
+                    System.out.println(dateFinal);
+                    String semana = Semanatxt.getText();
+                    double monto = Double.parseDouble(Montotxt.getText());
+                    monto = (double)Math.round(monto*100d)/100;
+                    
+                    try{
+                        tasaObjeto.NuevaTasa(dateFinal, semana, monto);
+                    } catch (Exception ex) {
+                        Logger.getLogger(TasaBsUSD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }else{
                    JOptionPane.showMessageDialog(null, "ASEGURESE DE TENER TODOS LOS CAMPOS LLENOS", "ERROR", JOptionPane.ERROR_MESSAGE); 
                 }    
@@ -525,6 +576,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
                                 
             }
         }
+        reestablecerPagina();
     }//GEN-LAST:event_AgregarBTActionPerformed
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
@@ -532,17 +584,28 @@ public class TasaBsUSD extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarBTActionPerformed
 
     private void LimpiarbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarbtActionPerformed
+        reestablecerPagina();
+    }//GEN-LAST:event_LimpiarbtActionPerformed
+
+    private void DiaTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiaTXTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DiaTXTActionPerformed
+    
+    private void reestablecerPagina(){
         CodTazatxt.setText("");
         DiaTXT.setText("");
         Semanatxt.setText("");
         Montotxt.setText("");
+        SeleccionarBT.setEnabled(true);
+        AgregarBT.setEnabled(false);
         SeleccionarBT.setSelected(false);
+        CambiatMontoBT.setSelected(false);
         AgregarBT.setSelected(false);
         NuevaTazaBT.setSelected(false);
-        
-    }//GEN-LAST:event_LimpiarbtActionPerformed
-    
-  
+        NuevaTazaBT.setEnabled(true);
+        tabla.setVisible(true);
+        updateTabla();
+    }
     /**
      * @param args the command line arguments
      */

@@ -48,7 +48,7 @@ public class anticipos {
         }catch(SQLException e){
             System.out.println(e);
         }
-        Object[][] data = new Object[registros][12];
+        Object[][] data = new Object[registros][13];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " +
                     " Num_Anticipo, Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Codigo_Tasa " +

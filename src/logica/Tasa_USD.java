@@ -3,6 +3,7 @@ package logica;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
+import java.text.DecimalFormat;
 public class Tasa_USD {
     conectate con;
     public Tasa_USD(){
@@ -90,10 +91,14 @@ public class Tasa_USD {
                 String estFecha_I = res.getString("Fecha_I");
                 String estSemana = res.getString("Semana");
                 double estMonto = res.getDouble("Monto");
+                DecimalFormat df = new DecimalFormat("#");
+                df.setMaximumFractionDigits(10);
+                String monto = df.format(estMonto);
+                System.out.println(monto);
                 data[i][0] = estCod_Tasa;
                 data[i][1] = estFecha_I;
                 data[i][2] = estSemana;
-                data[i][3] = estMonto;
+                data[i][3] = monto;
                 i++;
             }
         }catch(SQLException ex){

@@ -1,5 +1,6 @@
 package clases;
 
+import clases.Tasa_Precios.TasaDePrecios;
 import clases.Tasas_USD.TasaBsUSDConsultarModificar;
 import clases.Tasas_USD.TasaBsUSD;
 import clases.proveedores.*;

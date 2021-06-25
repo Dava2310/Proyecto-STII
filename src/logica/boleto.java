@@ -18,7 +18,7 @@ public class boleto {
     throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into "
-                    + "boleto(Codigo, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Cantidad_Transacciones, Observaciones) " +
+                    + "boleto(Codigo_Boleto, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Cantidad_Transacciones, Observaciones) " +
                       " values(?,?,?,?,?,?,?,?,?)");
             pstm.setString(1, codigo);
             pstm.setString(2, fecha);
@@ -52,13 +52,13 @@ public class boleto {
         Object[][] data = new String[registros][9];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " +
-                    "Codigo, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Cantidad_Transacciones, Observaciones " +
+                    "Codigo_Boleto, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Cantidad_Transacciones, Observaciones " +
                     " FROM boleto " +
-                    " ORDER BY Codigo");
+                    " ORDER BY Codigo_Boleto");
             ResultSet res = pstm.executeQuery();
             int i = 0;
             while(res.next()){
-                String estCodigo = res.getString("Codigo");
+                String estCodigo = res.getString("Codigo_Boleto");
                 String estFecha = res.getString("Fecha");
                 String estSemana = res.getString("Semana");
                 int estKg_Brutos = res.getInt("Kg_Brutos");
@@ -92,7 +92,7 @@ public class boleto {
         boolean encontrado = false;
         
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * from boleto where Codigo = ?");
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * from boleto where Codigo_Boleto = ?");
             pstm.setString(1, codigo);
             ResultSet res = pstm.executeQuery();
             if(res.next()){
@@ -111,7 +111,7 @@ public class boleto {
     public int cantidadTransacciones_Boleto(String codigo) throws SQLException{
         int cantidad_Transacciones = 0;
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cantidad_Transacciones from boleto where Codigo = ?");
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cantidad_Transacciones from boleto where Codigo_Boleto = ?");
             pstm.setString(1, codigo);
             ResultSet res = pstm.executeQuery();
             res.next();
@@ -133,7 +133,7 @@ public class boleto {
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE boleto " + 
                     " set Cantidad_Transacciones = ? " +
-                    " where Codigo = ?");
+                    " where Codigo_Boleto = ?");
             pstm.setInt(1, cantidad_transacciones);
             pstm.setString(2, codigo);
             pstm.execute();
@@ -157,7 +157,7 @@ public class boleto {
                     " Materia_S = ? , " +
                     " Impurezas = ? , " + 
                     " Observaciones = ? " + 
-                    " where Codigo = ?");
+                    " where Codigo_Boleto = ?");
             pstm.setString(1, fecha);
             pstm.setString(2, semana);
             pstm.setFloat(3, KgBrutos);
@@ -182,9 +182,9 @@ public class boleto {
         ResultSet res;
         try{
             pstm = con.getConnection().prepareStatement("SELECT " +
-                    " Codigo, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Cantidad_Transacciones, Observaciones " + 
+                    " Codigo_Boleto, Fecha, Semana, Kg_Brutos, Kg_Netos, Materia_S, Impurezas, Cantidad_Transacciones, Observaciones " + 
                     " FROM boleto " +
-                    " WHERE Codigo = ?");
+                    " WHERE Codigo_Boleto = ?");
             pstm.setString(1, codigo);
             res = pstm.executeQuery();
             res.next();
@@ -198,7 +198,7 @@ public class boleto {
     
     private Object[] informacion(ResultSet res, Object[] data) throws SQLException{
         try{
-            String estCodigo = res.getString("Codigo");
+            String estCodigo = res.getString("Codigo_Boleto");
                 String estFecha = res.getString("Fecha");
                 String estSemana = res.getString("Semana");
                 float estKg_Brutos = res.getFloat("Kg_Brutos");

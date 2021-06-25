@@ -18,7 +18,7 @@ INSERT INTO Tarifa_Estandar(Cod_Tarifa, Cuadrilla, Flete, Materia_Prima, Fecha_I
 UPDATE Tarifa_Estandar set Cod_Tarifa = 0 where Cod_Tarifa = 1;
 UPDATE Tarifa_Estandar set Estado = "NO VIGENTE" where Cod_Tarifa = 0;
 INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio) values(1,2,"TABLA",'2021-06-17');
--- select * from Tarifa_Estandar;
+select * from Tarifa_Estandar;
 
 -- CREACION DE LA TABLA PROVEEDOR
 create table proveedor(
@@ -83,13 +83,13 @@ create table Tasa_USD(
 );
 
 -- DROP TABLE Tasa_USD;
-INSERT INTO Tasa_USD(Fecha_I, Fecha_F, Semana, Monto) values('2021-06-23','2021-06-25','25-2021',3182893.37);
+INSERT INTO Tasa_USD(Fecha_I, Semana, Monto) values('2021-06-23','25-2021',3182893.37);
 SELECT * from Tasa_USD;
 
 create table anticipos(
 	Num_Anticipo int NOT NULL auto_increment, 
     Motivo_Anticipo varchar(40) NOT NULL,
-    Fecha varchar(10) NOT NULL,
+    Fecha datetime NOT NULL,
     Semana varchar(10) NOT NULL,
     Monto_BS double NOT NULL,
     Monto_DS double NOT NULL,
@@ -109,7 +109,7 @@ SELECT * from anticipos;
 create table boleto(
 	Codigo_Boleto varchar(10) not null,
     Nombre varchar(40) not null,
-    Fecha varchar(10) not null,
+    Fecha datetime not null,
     Semana varchar(10) not null,
     Kg_Brutos float not null,			-- ESTO ES FLOAT
     Kg_Netos float not null,			-- ESTO ES FLOAT
@@ -142,9 +142,9 @@ create table transacciones(
     primary key(ID_Transaccion)
 );
 
-create table Variables(
+create table Tasa_Precios(
 	Cod_Tarifa int auto_increment NOT NULL,
-    Materia_Seca int not null,
+    Materia_Seca int not null UNIQUE,
     En_Planta float not null,
     En_Corte float not null,
     primary key(Cod_Tarifa)
@@ -161,7 +161,7 @@ SELECT * from Relacion_Proveedor_Beneficiario;
 
 create table ODP(
 	Cod_ODP int auto_increment NOT NULL,
-    Fecha varchar(11),
+    Fecha datetime,
     Moneda varchar(2), 
     Observaciones varchar(150),
     Acumulado_MP float,

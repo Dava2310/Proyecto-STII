@@ -255,6 +255,7 @@
       <Events>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="DiaTXTFocusLost"/>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="DiaTXTFocusGained"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DiaTXTActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="SemanaLB">

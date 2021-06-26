@@ -149,6 +149,30 @@ create table Tasa_Precios(
     En_Corte float not null,
     primary key(Cod_Tarifa)
 );
+select * from Tasa_Precios;
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(0,0,0);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(21,38.40,23.40);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(22,41.60,26.60);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(23,44.80,29.80);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(24,48.00,33.00);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(25,51.20,36.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(26,54.40,39.40);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(27,57.60,42.60);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(28,60.80,45.80);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(29,64.00,49.00);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(30,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(31,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(32,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(33,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(34,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(35,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(36,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(37,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(38,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(39,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(40,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(41,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(42,67.20,52.20);
 
 create table Relacion_Proveedor_Beneficiario(
     Cod_Bnf int,

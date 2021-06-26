@@ -389,18 +389,16 @@ public class TasaBsUSD extends javax.swing.JFrame {
          AgregarBT.setEnabled(true);
          NuevaTazaBT.setEnabled(false);
          Montotxt.setEditable(true);
-            if(!CambiatMontoBT.isSelected()){
-            NuevaTazaBT.setEnabled(true);
-            Montotxt.setEditable(false);
-            } 
         }else{
-          JOptionPane.showMessageDialog(null, "ASEGURESE DE HABER SELECIONADO UNA TAZA A MODIFICAR", "ERROR", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(null, "ASEGURESE DE HABER SELECIONADO UNA TASA A MODIFICAR", "ERROR", JOptionPane.ERROR_MESSAGE);
           CambiatMontoBT.setSelected(false);
           AgregarBT.setEnabled(false);
           
         }
         if(!CambiatMontoBT.isSelected()){
           AgregarBT.setEnabled(false);
+          NuevaTazaBT.setEnabled(true);
+          Montotxt.setEditable(false);
         }
        
     }//GEN-LAST:event_CambiatMontoBTActionPerformed

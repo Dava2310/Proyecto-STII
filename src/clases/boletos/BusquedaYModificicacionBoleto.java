@@ -63,11 +63,13 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ObservacionestTXT = new javax.swing.JTextArea();
         CancelarBT = new javax.swing.JButton();
-        BuscarBT = new javax.swing.JButton();
-        ModificarBT = new javax.swing.JButton();
+        GuardarBT = new javax.swing.JButton();
         CantidadTransaccionesLB = new javax.swing.JLabel();
         CantidadTransaccionesTXT = new javax.swing.JTextField();
-        CambiarBT = new javax.swing.JToggleButton();
+        CambiosBT = new javax.swing.JToggleButton();
+        SeleccionarBT = new javax.swing.JToggleButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Tabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,7 +78,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("Informacion del Boleto");
 
-        NumBoletotxt.setBackground(new java.awt.Color(0, 0, 0));
+        NumBoletotxt.setBackground(new java.awt.Color(240, 240, 240));
         NumBoletotxt.setForeground(new java.awt.Color(255, 255, 255));
         NumBoletotxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,19 +141,12 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
             }
         });
 
-        BuscarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BuscarBT.setText("BUSCAR");
-        BuscarBT.addActionListener(new java.awt.event.ActionListener() {
+        GuardarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        GuardarBT.setText("GUARDAR");
+        GuardarBT.setEnabled(false);
+        GuardarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarBTActionPerformed(evt);
-            }
-        });
-
-        ModificarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        ModificarBT.setText("GUARDAR CAMBIOS");
-        ModificarBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ModificarBTActionPerformed(evt);
+                GuardarBTActionPerformed(evt);
             }
         });
 
@@ -160,13 +155,17 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
 
         CantidadTransaccionesTXT.setEditable(false);
 
-        CambiarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        CambiarBT.setText("HABILITAR CAMBIOS");
-        CambiarBT.addActionListener(new java.awt.event.ActionListener() {
+        CambiosBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        CambiosBT.setText("HABILITAR CAMBIOS");
+        CambiosBT.setEnabled(false);
+        CambiosBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CambiarBTActionPerformed(evt);
+                CambiosBTActionPerformed(evt);
             }
         });
+
+        SeleccionarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        SeleccionarBT.setText("SELECCIONAR");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -175,6 +174,9 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -219,16 +221,12 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
                                         .addComponent(CantidadTransaccionesTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(CambiarBT)
+                        .addComponent(GuardarBT)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CambiosBT)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SeleccionarBT)
                         .addGap(18, 18, 18)
-                        .addComponent(ModificarBT)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BuscarBT)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(CancelarBT)))
                 .addContainerGap())
         );
@@ -266,30 +264,45 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CantidadTransaccionesLB, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CantidadTransaccionesTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(ObservacionesLB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CancelarBT)
-                    .addComponent(BuscarBT)
-                    .addComponent(ModificarBT)
-                    .addComponent(CambiarBT))
+                    .addComponent(GuardarBT)
+                    .addComponent(CambiosBT)
+                    .addComponent(SeleccionarBT))
                 .addContainerGap())
         );
+
+        Tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(Tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -299,43 +312,6 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
     private void NumBoletotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumBoletotxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NumBoletotxtActionPerformed
-
-    private void BuscarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBTActionPerformed
-        /*
-            DEBO RECOLECTAR Y VERIFICAR EL NUM BOLETO
-        */
-        String num_boleto = NumBoletotxt.getText();
-        if(!num_boleto.isEmpty()){
-            boletoBueno = "";
-            for (int i = 0; i < num_boleto.length(); i++) {
-                if (num_boleto.charAt(i) != ' ' && num_boleto.charAt(i) != '\n') {
-                    boletoBueno = boletoBueno + num_boleto.charAt(i);
-                }
-            }
-            /*
-                LLAMAR A LA FUNCION BUSQUEDA DE BOLETO
-                CON LA VARIABLE "boletoBueno"
-            */
-            try{
-                boolean encontrado = boleto.buscarBoleto(boletoBueno);
-                //AHORA ME TOCA IDENTIFICAR SI LO ENCONTRAMOS O NO
-                if(encontrado){
-                    /*
-                        COMO SI SE ENCONTRO, ME TOCA IMPRIMIR TODOS LOS DATOS DEL BOLETO EN PANTALLA
-                    */
-                    Object[] data = boleto.conseguirDatos(boletoBueno);
-                    num_boleto_buscado = boletoBueno;
-                    imprimirDatos(data);
-                } else {
-                JOptionPane.showMessageDialog(null, "BOLETO NO ENCONTRADO", "ERROR", JOptionPane.ERROR_MESSAGE);
-                }
-            }catch(SQLException ex){
-                Logger.getLogger(BusquedaYModificicacionBoleto.class.getName()).log(Level.SEVERE, null, ex);
-            }     
-        } else {
-            JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DE BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_BuscarBTActionPerformed
     
     /*
         FUNCION PARA ESCRIBIR LOS DATOS POR PANTALLA DEL BOLETO
@@ -352,7 +328,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         ObservacionestTXT.setText(data[8].toString());
     }
     
-    private void ModificarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarBTActionPerformed
+    private void GuardarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarBTActionPerformed
         if(!NumBoletotxt.getText().isEmpty()){
             if(num_boleto_buscado.equals(NumBoletotxt.getText())){
                 if(modificacion){
@@ -375,7 +351,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "NO SE PUDO REALIZAR LA MODIFICACION DEL BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                    CambiarBT.setSelected(false);
+                    CambiosBT.setSelected(false);
                     modificacion = false;
                     deshabilitarCampos();
                 } else {
@@ -387,13 +363,13 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         } else{
             JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DE BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_ModificarBTActionPerformed
+    }//GEN-LAST:event_GuardarBTActionPerformed
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CancelarBTActionPerformed
 
-    private void CambiarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarBTActionPerformed
+    private void CambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiosBTActionPerformed
         if(!modificacion){
             if(!NumBoletotxt.getText().isEmpty()){
                 if(num_boleto_buscado.equals(NumBoletotxt.getText())){
@@ -417,7 +393,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
                 }
             } 
         }
-    }//GEN-LAST:event_CambiarBTActionPerformed
+    }//GEN-LAST:event_CambiosBTActionPerformed
     
     public void deshabilitarCampos(){
         Fechatxt.setEditable(false);
@@ -501,13 +477,13 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BuscarBT;
-    private javax.swing.JToggleButton CambiarBT;
+    private javax.swing.JToggleButton CambiosBT;
     private javax.swing.JButton CancelarBT;
     private javax.swing.JLabel CantidadTransaccionesLB;
     private javax.swing.JTextField CantidadTransaccionesTXT;
     private javax.swing.JLabel FechaLB;
     private javax.swing.JTextField Fechatxt;
+    private javax.swing.JButton GuardarBT;
     private javax.swing.JLabel ImpurezasLB;
     private javax.swing.JTextField Impurezastxt;
     private javax.swing.JLabel KgBrutosLB;
@@ -516,16 +492,18 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
     private javax.swing.JTextField KgNetostxt;
     private javax.swing.JLabel MSlb;
     private javax.swing.JTextField MStxt;
-    private javax.swing.JButton ModificarBT;
     private javax.swing.JLabel NumBoletoLB;
     private javax.swing.JTextField NumBoletotxt;
     private javax.swing.JLabel ObservacionesLB;
     private javax.swing.JTextArea ObservacionestTXT;
+    private javax.swing.JToggleButton SeleccionarBT;
     private javax.swing.JLabel SemanaLB;
     private javax.swing.JTextField Semanatxt;
+    private javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

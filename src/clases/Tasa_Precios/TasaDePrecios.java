@@ -17,7 +17,7 @@ public class TasaDePrecios extends javax.swing.JFrame {
 
     private int fila = -1;
     public boolean seleccionado = false;
-    private Object[][] dataTasas;
+    private Object[][] dataPrecios;
     private Tasa_Precios tasaObjeto = new Tasa_Precios();
     public TasaDePrecios() {
         initComponents();
@@ -121,6 +121,11 @@ public class TasaDePrecios extends javax.swing.JFrame {
         ModificarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ModificarBT.setText("Modificar");
         ModificarBT.setEnabled(false);
+        ModificarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarBTActionPerformed(evt);
+            }
+        });
 
         SeleccionarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         SeleccionarBT.setText("Seleccionar");
@@ -226,7 +231,8 @@ public class TasaDePrecios extends javax.swing.JFrame {
         }else if(MateriaSecatxt.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "SELECCIONE UN ELEMENTO DE LA TABLA", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(false);
-        }else if (!SeleccionarBT.isSelected()){
+        }
+        if (!SeleccionarBT.isSelected()){
             Tabla.setVisible(true);
             seleccionado = false;
             NuevoBT.setEnabled(true);
@@ -271,7 +277,7 @@ public class TasaDePrecios extends javax.swing.JFrame {
     private void AgregarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarBTActionPerformed
         if(NuevoBT.isSelected()){
             int resp = JOptionPane.showConfirmDialog(null, "SE VA A PROCEDER A CREAR UNA NUEVA TAZA\n"+"¿ESTA SEGURO?",
-            "CREACION DE MONTO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE/*El tipo de ventana, en este caso WARNING*/);
+            "CREACION DE TASA", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE/*El tipo de ventana, en este caso WARNING*/);
             
             if(resp == JOptionPane.YES_OPTION){
                 
@@ -291,22 +297,86 @@ public class TasaDePrecios extends javax.swing.JFrame {
                 }
             }     
         }else if(ModificarBT.isSelected()){
+            int resp = JOptionPane.showConfirmDialog(null, "SE VA A PROCEDER A MODIFICAR LA TASA\n"+"¿ESTA SEGURO?",
+            "MODIFICACION DE TASA", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE/*El tipo de ventana, en este caso WARNING*/);
             
+            if(resp == JOptionPane.YES_OPTION){
+                
+                if(!Plantatxt.getText().isEmpty() && !Cortetxt.getText().isEmpty()){
+                
+                    float planta = Float.parseFloat(Plantatxt.getText());
+                    float corte = Float.parseFloat(Cortetxt.getText());
+                    int materiaS = Integer.parseInt(MateriaSecatxt.getText());
+                    try {
+                        tasaObjeto.updateTasaPrecios(planta, corte, materiaS);
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "CAMPOS VACIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
+        reestablecerPagina();
     }//GEN-LAST:event_AgregarBTActionPerformed
 
+    private void reestablecerPagina(){
+        updateTabla();
+        MateriaSecatxt.setEditable(false); MateriaSecatxt.setText("");
+        Cortetxt.setEditable(false); Cortetxt.setText("");
+        Plantatxt.setEditable(false); Plantatxt.setText("");
+        SeleccionarBT.setEnabled(true); SeleccionarBT.setSelected(false);
+        CancelarBt.setEnabled(true);
+        AgregarBT.setEnabled(false);
+        NuevoBT.setEnabled(true); NuevoBT.setSelected(false);
+        ModificarBT.setEnabled(false); ModificarBT.setSelected(false);
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         mostrartodo();
     }//GEN-LAST:event_formWindowOpened
 
-    public void mostrartodo(){
+    private void ModificarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarBTActionPerformed
+        if(seleccionado){
+            NuevoBT.setEnabled(false);
+            AgregarBT.setEnabled(true);
+            Plantatxt.setEditable(true);
+            Cortetxt.setEditable(true);
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "ASEGURESE DE HABER SELECIONADO UNA TASA A MODIFICAR", "ERROR", JOptionPane.ERROR_MESSAGE);
+            ModificarBT.setSelected(false);
+            AgregarBT.setEnabled(false);
+           
+        }
+        if(!ModificarBT.isSelected()){
+            AgregarBT.setEnabled(false);
+            NuevoBT.setEnabled(true);
+            Cortetxt.setEditable(false);
+            Plantatxt.setEditable(false);
+        }
+    }//GEN-LAST:event_ModificarBTActionPerformed
+
+    private void mostrartodo(){
         Object[][] dataTabla;
-        String[] columname = {"materiaSeca", "EnPlanta", "EnCorte"};
+        String[] columName = {"En Raices de Yuca % Materia Seca", "En Planta BSF / TM", "En el Corte BSF / TM"};
         try {
             dataTabla = tasaObjeto.getDatos();
-            DefaultTableModel datos = new DefaultTableModel(dataTabla, columname);
+            DefaultTableModel datos = new DefaultTableModel(dataTabla, columName);
             Tabla.setModel(datos);
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Logger.getLogger(TasaDePrecios.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
+    private void updateTabla(){
+        String[] columName = {"En Raices de Yuca % Materia Seca", "En Planta BSF / TM", "En el Corte BSF / TM"};
+        try{
+            dataPrecios = tasaObjeto.getDatos();
+            DefaultTableModel datos = new DefaultTableModel(dataPrecios, columName);
+            Tabla.setModel(datos);
+        } catch(SQLException e){
             Logger.getLogger(TasaDePrecios.class.getName()).log(Level.SEVERE, null, e);
         }
     }

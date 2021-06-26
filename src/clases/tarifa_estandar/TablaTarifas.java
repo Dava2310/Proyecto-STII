@@ -330,6 +330,7 @@ public class TablaTarifas extends javax.swing.JFrame {
         Fletetxt.setText("");
         Fecha_Itxt.setText("");
         Fecha_Ftxt.setText("");
+        Estadotxt.setText("");
     }
     /**
      * @param args the command line arguments

@@ -124,44 +124,22 @@
             <Property name="text" type="java.lang.String" value="Valores"/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="M_Agregar">
+            <MenuItem class="javax.swing.JMenuItem" name="MI_TasaUSD">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar"/>
+                <Property name="text" type="java.lang.String" value="Tasa USD"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="SMI_BSUSD">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Tasa Bs/Usd"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SMI_BSUSDActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="SMI_Precios">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Tasa de precios"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SMI_PreciosActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
-            <Menu class="javax.swing.JMenu" name="MI_ConsultarModificar">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_TasaUSDActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MI_TasaDePrecios">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Consultar/Modificar"/>
+                <Property name="text" type="java.lang.String" value="Tasa de Precios"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="TasaBSUSDCONSUlTAR">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Tasa BS/USD"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TasaBSUSDCONSUlTARActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_TasaDePreciosActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="M_Boletos">

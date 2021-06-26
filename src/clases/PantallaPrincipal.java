@@ -1,7 +1,6 @@
 package clases;
 
 import clases.Tasa_Precios.TasaDePrecios;
-import clases.Tasas_USD.TasaBsUSDConsultarModificar;
 import clases.Tasas_USD.TasaBsUSD;
 import clases.proveedores.*;
 import clases.anticipos.*;
@@ -29,8 +28,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     
     public IdentificacionProveedor IP = new IdentificacionProveedor();
     public TasaDePrecios TDP;
-    public TasaBsUSD TasaBSUSD;
-    public TasaBsUSDConsultarModificar TasaBSUSDCM;
     public ModificarAnticipo MA;
     public ConsultarAnticipo CA;
     public IdentificacionProveedorTransacciones IPT;
@@ -43,6 +40,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public TablaTarifas TablaT;
     public TablaAnticipos TablaA;
     public conectate con;
+    public TasaDePrecios TasaPrecios;
+    public TasaBsUSD TasaUSD;
     
     public PantallaPrincipal() {
         initComponents();
@@ -79,11 +78,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         MI_ConsultarA = new javax.swing.JMenuItem();
         MI_ManejoAnticipos = new javax.swing.JMenuItem();
         M_Valores = new javax.swing.JMenu();
-        M_Agregar = new javax.swing.JMenu();
-        SMI_BSUSD = new javax.swing.JMenuItem();
-        SMI_Precios = new javax.swing.JMenuItem();
-        MI_ConsultarModificar = new javax.swing.JMenu();
-        TasaBSUSDCONSUlTAR = new javax.swing.JMenuItem();
+        MI_TasaUSD = new javax.swing.JMenuItem();
+        MI_TasaDePrecios = new javax.swing.JMenuItem();
         M_Boletos = new javax.swing.JMenu();
         CrearBoleto = new javax.swing.JMenuItem();
         BuscarBoleto = new javax.swing.JMenuItem();
@@ -204,37 +200,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         M_Valores.setText("Valores");
 
-        M_Agregar.setText("Agregar");
-
-        SMI_BSUSD.setText("Tasa Bs/Usd");
-        SMI_BSUSD.addActionListener(new java.awt.event.ActionListener() {
+        MI_TasaUSD.setText("Tasa USD");
+        MI_TasaUSD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SMI_BSUSDActionPerformed(evt);
+                MI_TasaUSDActionPerformed(evt);
             }
         });
-        M_Agregar.add(SMI_BSUSD);
+        M_Valores.add(MI_TasaUSD);
 
-        SMI_Precios.setText("Tasa de precios");
-        SMI_Precios.addActionListener(new java.awt.event.ActionListener() {
+        MI_TasaDePrecios.setText("Tasa de Precios");
+        MI_TasaDePrecios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SMI_PreciosActionPerformed(evt);
+                MI_TasaDePreciosActionPerformed(evt);
             }
         });
-        M_Agregar.add(SMI_Precios);
-
-        M_Valores.add(M_Agregar);
-
-        MI_ConsultarModificar.setText("Consultar/Modificar");
-
-        TasaBSUSDCONSUlTAR.setText("Tasa BS/USD");
-        TasaBSUSDCONSUlTAR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TasaBSUSDCONSUlTARActionPerformed(evt);
-            }
-        });
-        MI_ConsultarModificar.add(TasaBSUSDCONSUlTAR);
-
-        M_Valores.add(MI_ConsultarModificar);
+        M_Valores.add(MI_TasaDePrecios);
 
         MenuBar.add(M_Valores);
 
@@ -339,11 +319,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         con.desconectar();
     }//GEN-LAST:event_formWindowClosing
 
-    private void TasaBSUSDCONSUlTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TasaBSUSDCONSUlTARActionPerformed
-        TasaBSUSDCM = new TasaBsUSDConsultarModificar();
-        TasaBSUSDCM.setVisible(true);
-    }//GEN-LAST:event_TasaBSUSDCONSUlTARActionPerformed
-
     private void CrearTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearTransaccionActionPerformed
         IPT = new IdentificacionProveedorTransacciones();
         IPT.setVisible(true);
@@ -353,16 +328,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         TCM = new TransaccionesConsultarModificar();
         TCM.setVisible(true);
     }//GEN-LAST:event_ConsultarModificarTransaccionActionPerformed
-
-    private void SMI_BSUSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SMI_BSUSDActionPerformed
-        TasaBSUSD = new TasaBsUSD();
-        TasaBSUSD.setVisible(true);
-    }//GEN-LAST:event_SMI_BSUSDActionPerformed
-
-    private void SMI_PreciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SMI_PreciosActionPerformed
-        TDP = new TasaDePrecios();
-        TDP.setVisible(true);
-    }//GEN-LAST:event_SMI_PreciosActionPerformed
 
     private void CrearBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBoletoActionPerformed
         IB = new IdentificacionBoleto();
@@ -399,6 +364,16 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         TablaA = new TablaAnticipos();
         TablaA.setVisible(true);
     }//GEN-LAST:event_MI_ManejoAnticiposActionPerformed
+
+    private void MI_TasaDePreciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_TasaDePreciosActionPerformed
+        TasaPrecios = new TasaDePrecios();
+        TasaPrecios.setVisible(true);
+    }//GEN-LAST:event_MI_TasaDePreciosActionPerformed
+
+    private void MI_TasaUSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_TasaUSDActionPerformed
+        TasaUSD = new TasaBsUSD();
+        TasaUSD.setVisible(true);
+    }//GEN-LAST:event_MI_TasaUSDActionPerformed
     
     public void cerrar(){
         try{
@@ -469,14 +444,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MI_Cerrar;
     private javax.swing.JMenuItem MI_CerrarTodo;
     private javax.swing.JMenuItem MI_ConsultarA;
-    private javax.swing.JMenu MI_ConsultarModificar;
     private javax.swing.JMenuItem MI_CrearA;
     private javax.swing.JMenuItem MI_CrearT;
     private javax.swing.JMenuItem MI_Guardar;
     private javax.swing.JMenuItem MI_ManejoAnticipos;
     private javax.swing.JMenuItem MI_ModificarA;
     private javax.swing.JMenuItem MI_MostrarProveedores;
-    private javax.swing.JMenu M_Agregar;
+    private javax.swing.JMenuItem MI_TasaDePrecios;
+    private javax.swing.JMenuItem MI_TasaUSD;
     private javax.swing.JMenu M_Anticipos;
     private javax.swing.JMenu M_Archivo;
     private javax.swing.JMenu M_Boletos;
@@ -486,9 +461,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu M_Valores;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenuItem ModificarBoleto;
-    private javax.swing.JMenuItem SMI_BSUSD;
-    private javax.swing.JMenuItem SMI_Precios;
-    private javax.swing.JMenuItem TasaBSUSDCONSUlTAR;
     private javax.swing.JMenu jMenu1;
     // End of variables declaration//GEN-END:variables
 }

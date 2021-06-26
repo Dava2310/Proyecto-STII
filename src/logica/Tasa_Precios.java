@@ -26,8 +26,8 @@ public class Tasa_Precios {
     }
     public void updateTasaPrecios(float Planta, float Corte, int Materia_Seca) throws SQLException{
         try {
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Tasa_Precios" +
-                    " set Tasa_Precios(En_Planta, En_Corte)" + " values(?,?)" + " where Materia_Seca");
+            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Tasa_Precios " +
+                    " set En_Planta = ?, En_Corte = ? WHERE Materia_Seca = ?");
             pstm.setFloat(1, Planta);
             pstm.setFloat(2, Corte);
             pstm.setInt(3, Materia_Seca);
@@ -51,7 +51,7 @@ public class Tasa_Precios {
             Logger.getLogger(Tasa_Precios.class.getName()).log(Level.SEVERE,null,e);    
         }
         
-        Object[][] data = new Object[registro][4];
+        Object[][] data = new Object[registro][3];
         try {
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " +
                     " Materia_Seca, En_Planta, En_Corte " +
@@ -63,9 +63,9 @@ public class Tasa_Precios {
                 int estMateria_Seca = res.getInt("Materia_Seca");
                 float estEn_Planta = res.getFloat("En_Planta");
                 float estEn_Corte = res.getFloat("En_Corte");
-                data[i][1] = estMateria_Seca;
-                data[i][2] = estEn_Planta;
-                data[i][3] = estEn_Corte;
+                data[i][0] = estMateria_Seca;
+                data[i][1] = estEn_Planta;
+                data[i][2] = estEn_Corte;
                 i++;
             }
                

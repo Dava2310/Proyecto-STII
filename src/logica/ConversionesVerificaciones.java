@@ -16,7 +16,7 @@ public class ConversionesVerificaciones {
                     Date data;
                     String dateFinal = "";
                     try {
-                        data = sdf.parse(fecha);
+                        data = sdf.parse(Fecha);
                         dateFinal = output.format(data);
                     } catch (ParseException ex) {
                         Logger.getLogger(TasaBsUSD.class.getName()).log(Level.SEVERE, null, ex);

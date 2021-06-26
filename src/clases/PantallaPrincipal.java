@@ -81,9 +81,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         MI_TasaUSD = new javax.swing.JMenuItem();
         MI_TasaDePrecios = new javax.swing.JMenuItem();
         M_Boletos = new javax.swing.JMenu();
-        CrearBoleto = new javax.swing.JMenuItem();
-        BuscarBoleto = new javax.swing.JMenuItem();
-        ModificarBoleto = new javax.swing.JMenuItem();
+        MI_CrearBoleto = new javax.swing.JMenuItem();
+        MI_ManejoBoletos = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         MI_CrearT = new javax.swing.JMenuItem();
         MI_BuscarModificarT = new javax.swing.JMenuItem();
@@ -220,29 +219,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         M_Boletos.setText("Boletos");
 
-        CrearBoleto.setText("Crear Boleto");
-        CrearBoleto.addActionListener(new java.awt.event.ActionListener() {
+        MI_CrearBoleto.setText("Crear Boleto");
+        MI_CrearBoleto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CrearBoletoActionPerformed(evt);
+                MI_CrearBoletoActionPerformed(evt);
             }
         });
-        M_Boletos.add(CrearBoleto);
+        M_Boletos.add(MI_CrearBoleto);
 
-        BuscarBoleto.setText("Buscar Boleto");
-        BuscarBoleto.addActionListener(new java.awt.event.ActionListener() {
+        MI_ManejoBoletos.setText("Manejo de Boletos");
+        MI_ManejoBoletos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarBoletoActionPerformed(evt);
+                MI_ManejoBoletosActionPerformed(evt);
             }
         });
-        M_Boletos.add(BuscarBoleto);
-
-        ModificarBoleto.setText("Modificar Boleto");
-        ModificarBoleto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ModificarBoletoActionPerformed(evt);
-            }
-        });
-        M_Boletos.add(ModificarBoleto);
+        M_Boletos.add(MI_ManejoBoletos);
 
         MenuBar.add(M_Boletos);
 
@@ -329,20 +320,15 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         TCM.setVisible(true);
     }//GEN-LAST:event_ConsultarModificarTransaccionActionPerformed
 
-    private void CrearBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBoletoActionPerformed
+    private void MI_CrearBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_CrearBoletoActionPerformed
         IB = new IdentificacionBoleto();
         IB.setVisible(true);
-    }//GEN-LAST:event_CrearBoletoActionPerformed
+    }//GEN-LAST:event_MI_CrearBoletoActionPerformed
 
-    private void BuscarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBoletoActionPerformed
+    private void MI_ManejoBoletosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ManejoBoletosActionPerformed
         BYM = new BusquedaYModificicacionBoleto();
         BYM.setVisible(true);
-    }//GEN-LAST:event_BuscarBoletoActionPerformed
-
-    private void ModificarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarBoletoActionPerformed
-        BYM = new BusquedaYModificicacionBoleto();
-        BYM.setVisible(true);
-    }//GEN-LAST:event_ModificarBoletoActionPerformed
+    }//GEN-LAST:event_MI_ManejoBoletosActionPerformed
 
     private void MI_MostrarProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_MostrarProveedoresActionPerformed
         TP = new TablaProveedores();
@@ -434,9 +420,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem BuscarBoleto;
     private javax.swing.JMenuItem ConsultarModificarTransaccion;
-    private javax.swing.JMenuItem CrearBoleto;
     private javax.swing.JMenuItem CrearTransaccion;
     private javax.swing.JLabel FONDO;
     private javax.swing.JMenuItem MI_Agregar;
@@ -445,9 +429,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MI_CerrarTodo;
     private javax.swing.JMenuItem MI_ConsultarA;
     private javax.swing.JMenuItem MI_CrearA;
+    private javax.swing.JMenuItem MI_CrearBoleto;
     private javax.swing.JMenuItem MI_CrearT;
     private javax.swing.JMenuItem MI_Guardar;
     private javax.swing.JMenuItem MI_ManejoAnticipos;
+    private javax.swing.JMenuItem MI_ManejoBoletos;
     private javax.swing.JMenuItem MI_ModificarA;
     private javax.swing.JMenuItem MI_MostrarProveedores;
     private javax.swing.JMenuItem MI_TasaDePrecios;
@@ -460,7 +446,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu M_Transaccion;
     private javax.swing.JMenu M_Valores;
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenuItem ModificarBoleto;
     private javax.swing.JMenu jMenu1;
     // End of variables declaration//GEN-END:variables
 }

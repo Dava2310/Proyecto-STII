@@ -62,7 +62,15 @@ public class TasaDePrecios extends javax.swing.JFrame {
             new String [] {
                 "<html>En Raices de Yuca % Materia Seca<html>", "<html>En Planta BSF/TM<html>", "<html>En el corte BSF/TM<html>"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Tabla.getTableHeader().setResizingAllowed(false);
         Tabla.getTableHeader().setReorderingAllowed(false);
         Tabla.addMouseListener(new java.awt.event.MouseAdapter() {

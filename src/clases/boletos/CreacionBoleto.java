@@ -64,6 +64,8 @@ public class CreacionBoleto extends javax.swing.JFrame {
         ObservacionestTXT = new javax.swing.JTextArea();
         CancelarBT = new javax.swing.JButton();
         CrearBT = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        Nombretxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -137,6 +139,9 @@ public class CreacionBoleto extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setText("Nombre");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -157,13 +162,16 @@ public class CreacionBoleto extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(NumBoletotxt)
-                                            .addComponent(Fechatxt, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
-                                        .addGap(10, 10, 10)
-                                        .addComponent(SemanaLB)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(Semanatxt, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(NumBoletotxt, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                            .addComponent(Fechatxt))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(SemanaLB))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Semanatxt)
+                                            .addComponent(Nombretxt)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(KgBrutostxt, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,7 +213,9 @@ public class CreacionBoleto extends javax.swing.JFrame {
                         .addGap(46, 46, 46)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(NumBoletotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NumBoletoLB, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(NumBoletoLB, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(Nombretxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(FechaLB)
@@ -272,7 +282,18 @@ public class CreacionBoleto extends javax.swing.JFrame {
             GUARDAMOS EN VARIAS VARIABLES LOS DATOS
         */
         String num_boleto = NumBoletotxt.getText();
+        String nombre = Nombretxt.getText();
         String Fecha = Fechatxt.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date data;
+        String dateFinal = "";
+        try {
+            data = sdf.parse(Fecha);
+            dateFinal = output.format(data);
+        } catch (ParseException ex) {
+            Logger.getLogger(CreacionBoleto.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String Semana = Semanatxt.getText();
         float Kg_Brutos = Float.parseFloat(KgBrutostxt.getText());
         float Kg_Netos = Float.parseFloat(KgNetostxt.getText());
@@ -280,7 +301,7 @@ public class CreacionBoleto extends javax.swing.JFrame {
         int impurezas = Integer.parseInt(Impurezastxt.getText());
         String observaciones = ObservacionestTXT.getText();
         
-        if(!num_boleto.isEmpty() && !Fecha.isEmpty() && !Semana.isEmpty() && !KgBrutostxt.getText().isEmpty() 
+        if(!num_boleto.isEmpty() && !Fecha.isEmpty() && !nombre.isEmpty() && !Semana.isEmpty() && !KgBrutostxt.getText().isEmpty() 
                 && !KgNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()){
             
             try {
@@ -288,7 +309,7 @@ public class CreacionBoleto extends javax.swing.JFrame {
                 ESTO SIGNIFICA QUE TODOS Y ABSOLUTAMENTE TODOS ESTAN LLENOS
                 COMO YA TENEMOS LOS DATOS AQUI, SOLAMENTE PROCEDEMOS A LLAMAR A LA FUNCION CON LAS VARIABLES
                 */
-                boleto.NuevoBoleto(num_boleto, Fecha, Semana, Kg_Brutos, Kg_Netos, MS, impurezas, 0, observaciones);
+                boleto.NuevoBoleto(num_boleto, nombre, dateFinal, Semana, Kg_Brutos, Kg_Netos, MS, impurezas, 0, observaciones);
                 // EL ULTIMO DATO DEL BOLETO ES 0, QUE SIGNIFICA LA CANTIDAD DE TRANSACCIONES
                 // COMO ESTE BOLETO, ESTA CREANDOSE A PENAS, NO TIENE NIGUNA TRANSACCION
                 int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
@@ -380,6 +401,7 @@ public class CreacionBoleto extends javax.swing.JFrame {
     private javax.swing.JTextField KgNetostxt;
     private javax.swing.JTextField MStxt;
     private javax.swing.JLabel MsLB;
+    private javax.swing.JTextField Nombretxt;
     private javax.swing.JLabel NumBoletoLB;
     private javax.swing.JTextField NumBoletotxt;
     private javax.swing.JLabel ObservacionesLB;
@@ -388,6 +410,7 @@ public class CreacionBoleto extends javax.swing.JFrame {
     private javax.swing.JTextField Semanatxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

@@ -586,6 +586,7 @@ public class TablaProveedores extends javax.swing.JFrame {
 
         GuardarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         GuardarBT.setText("GUARDAR CAMBIOS");
+        GuardarBT.setEnabled(false);
         GuardarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GuardarBTActionPerformed(evt);
@@ -594,6 +595,7 @@ public class TablaProveedores extends javax.swing.JFrame {
 
         HabilitarCambiosBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         HabilitarCambiosBT.setText("HABILITAR CAMBIOS");
+        HabilitarCambiosBT.setEnabled(false);
         HabilitarCambiosBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 HabilitarCambiosBTActionPerformed(evt);
@@ -602,6 +604,7 @@ public class TablaProveedores extends javax.swing.JFrame {
 
         ActivarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ActivarBT.setText("RE-ACTIVAR");
+        ActivarBT.setEnabled(false);
         ActivarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActivarBTActionPerformed(evt);
@@ -610,6 +613,7 @@ public class TablaProveedores extends javax.swing.JFrame {
 
         DesactivarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         DesactivarBT.setText("DESACTIVAR");
+        DesactivarBT.setEnabled(false);
         DesactivarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DesactivarBTActionPerformed(evt);
@@ -1115,8 +1119,10 @@ public class TablaProveedores extends javax.swing.JFrame {
                 Peajetxt.setEditable(true);
                 MP_Acordadotxt.setEditable(true);
             }
-            
+            GuardarBT.setEnabled(true);
             Peajetxt.setEditable(true);
+            ActivarBT.setEnabled(false);
+            DesactivarBT.setEnabled(false);
         } else if(seleccionado && !HabilitarCambiosBT.isSelected()){
             //DESHABILITAR LOS CAMBIOS
             IdentificacionCB.setEnabled(false);
@@ -1139,8 +1145,13 @@ public class TablaProveedores extends javax.swing.JFrame {
                 Peajetxt.setEditable(false);
                 MP_Acordadotxt.setEditable(false);
             
-            
+            GuardarBT.setEnabled(false);
             Peajetxt.setEditable(false);
+            if(ActividadCB.getSelectedItem().toString().equals("Activo")){
+                DesactivarBT.setEnabled(true);
+            } else {
+                ActivarBT.setEnabled(true);
+            }
         } else if(!seleccionado){
             JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR EN LA TABLA A UN PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
             HabilitarCambiosBT.setSelected(false);    
@@ -1266,6 +1277,9 @@ public class TablaProveedores extends javax.swing.JFrame {
         MP_Acordadotxt.setEditable(false); MP_Acordadotxt.setText("");
         SeleccionarBT.setSelected(false);
         HabilitarCambiosBT.setSelected(false);
+        GuardarBT.setEnabled(false);
+        DesactivarBT.setEnabled(false);
+        ActivarBT.setEnabled(false);
     }
     
     /*
@@ -1281,6 +1295,12 @@ public class TablaProveedores extends javax.swing.JFrame {
         if(!Codigotxt.getText().isEmpty() && SeleccionarBT.isSelected()){
             tabla.setVisible(false);
             seleccionado = true;
+            HabilitarCambiosBT.setEnabled(true);
+            if(ActividadCB.getSelectedItem().toString().equals("Activo")){
+                DesactivarBT.setEnabled(true);
+            } else {
+                ActivarBT.setEnabled(true);
+            }
         } else if(HabilitarCambiosBT.isSelected()){
             JOptionPane.showMessageDialog(null, "TIENE LA OPCION DE HABILITAR ACTIVADA, DESACTIVELA PRIMERO", "ERROR", JOptionPane.ERROR_MESSAGE);
             SeleccionarBT.setSelected(true);
@@ -1290,6 +1310,9 @@ public class TablaProveedores extends javax.swing.JFrame {
         } else if(!SeleccionarBT.isSelected()){
             tabla.setVisible(true);
             seleccionado = false;
+            HabilitarCambiosBT.setEnabled(false);
+            DesactivarBT.setEnabled(false);
+            ActivarBT.setEnabled(false);
         }
     }//GEN-LAST:event_SeleccionarBTActionPerformed
 

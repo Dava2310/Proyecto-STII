@@ -29,7 +29,6 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
     public String num_boleto_buscado = "";
     public String boletoBueno;
     public boleto boleto = new boleto();
-    public boolean modificacion = false;
     private Object[][] datos;
     private int fila = -1;
     public BusquedaYModificicacionBoleto() {
@@ -88,6 +87,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("Informacion del Boleto");
 
+        NumBoletotxt.setEditable(false);
         NumBoletotxt.setBackground(new java.awt.Color(240, 240, 240));
         NumBoletotxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -381,8 +381,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "NO SE PUDO REALIZAR LA MODIFICACION DEL BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 CambiosBT.setSelected(false);
-                modificacion = false;
-                deshabilitarCampos();
+                reestablecerPagina();
             } else {
                 JOptionPane.showMessageDialog(null, "HABILITE LA OPCION DE HACER CAMBIOS PARA PODER GUARDARLOS", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -397,42 +396,55 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
 
     private void CambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiosBTActionPerformed
         if(!CambiosBT.isSelected()){
-            if(num_boleto_buscado.equals(NumBoletotxt.getText())){
-                /*
-                    AQUI LO QUE DEBEMOS HACER ES DARLE PASO A PODER MODIFICAR TODOS LOS CAMPOS EXCEPTO EL CODIGO
-                */
-                deshabilitarCampos();
-            }
+            /*
+                AQUI LO QUE DEBEMOS HACER ES DARLE PASO A PODER MODIFICAR TODOS LOS CAMPOS EXCEPTO EL CODIGO
+            */
+            GuardarBT.setEnabled(false);
+            deshabilitarCampos();
+            
         } else if(CambiosBT.isSelected()){ 
-            if(num_boleto_buscado.equals(NumBoletotxt.getText())){
-                /*
-                    AQUI LO QUE DEBEMOS HACER ES DARLE PASO A PODER MODIFICAR TODOS LOS CAMPOS EXCEPTO EL CODIGO
-                */
-                habilitarCampos();
-            }
+            /*
+                AQUI LO QUE DEBEMOS HACER ES DARLE PASO A PODER MODIFICAR TODOS LOS CAMPOS EXCEPTO EL CODIGO
+            */
+            habilitarCampos();
+            GuardarBT.setEnabled(true);
         }
     }//GEN-LAST:event_CambiosBTActionPerformed
     
-    public void deshabilitarCampos(){
+    private void reestablecerPagina(){
+        updateTabla();
         Fechatxt.setEditable(false);
         KgBrutostxt.setEditable(false);
         KgNetostxt.setEditable(false);
         MStxt.setEditable(false);
         Impurezastxt.setEditable(false);
         ObservacionestTXT.setEditable(false);
+        GuardarBT.setEnabled(false);
+        CambiosBT.setEnabled(false);
+        CambiosBT.setSelected(false);
+        SeleccionarBT.setSelected(false);
+    }
+    
+    public void deshabilitarCampos(){
+        KgBrutostxt.setEditable(false);
+        KgNetostxt.setEditable(false);
+        MStxt.setEditable(false);
+        Impurezastxt.setEditable(false);
+        ObservacionestTXT.setEditable(false);
+        Nombretxt.setEditable(false);
     }
     
     public void habilitarCampos(){
-        Fechatxt.setEditable(true);
         KgBrutostxt.setEditable(true);
         KgNetostxt.setEditable(true);
         MStxt.setEditable(true);
         Impurezastxt.setEditable(true);
         ObservacionestTXT.setEditable(true);
+        Nombretxt.setEditable(true);
     }
     
     private void FechatxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FechatxtFocusLost
-        if(modificacion){
+        if(CambiosBT.isSelected() && Fechatxt.isEditable()){
                 if(Fechatxt.getText().length() == 10){
                 String date2 = Fechatxt.getText();
                 Date anio = new Date();
@@ -454,16 +466,17 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
 
     private void SeleccionarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarBTActionPerformed
         if(!NumBoletotxt.getText().isEmpty()){
-          if(SeleccionarBT.isSelected()){
-              Tabla.setVisible(false);
-              CambiosBT.setEnabled(true);
-          } else {
-              Tabla.setVisible(true);
-              CambiosBT.setEnabled(false);
-              GuardarBT.setEnabled(false);
-          }
+            if(SeleccionarBT.isSelected()){
+                Tabla.setVisible(false);
+                CambiosBT.setEnabled(true);
+            } else {
+                Tabla.setVisible(true);
+                CambiosBT.setEnabled(false);
+                GuardarBT.setEnabled(false);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "SELECCIONE UN ELEMENTO DE LA TABLA", "ERROR", JOptionPane.ERROR_MESSAGE);    
+            SeleccionarBT.setSelected(false);
         }
     }//GEN-LAST:event_SeleccionarBTActionPerformed
 
@@ -484,8 +497,6 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
             Impurezastxt.setText(String.valueOf(Tabla.getValueAt(fila, 7)));
             CantidadTransaccionesTXT.setText(String.valueOf(Tabla.getValueAt(fila, 8)));
             ObservacionestTXT.setText(String.valueOf(Tabla.getValueAt(fila, 9)));
-            
-            
         }
                
     }//GEN-LAST:event_TablaMouseClicked

@@ -13,23 +13,24 @@ public class transacciones {
         con = new conectate();
     }
     
-    public void NuevaTransaccion(String Num_Boleto,
+    public void NuevaTransaccion(String Num_Boleto, String semana,
             String Materia_Prima, String Cuadrilla, String Flete, String Peaje, String Estado_Transaccion,  
             String Observaciones, String Codigo_Proveedor) throws SQLException {
         
         //INICIO DE LA FUNCION Y QUERY
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                    " transacciones(Num_Boleto, Materia_Prima, Cuadrilla, Flete, Peaje, Estado_Transaccion, Observaciones, Codigo_Proveedor)" + 
-                    " values(?,?,?,?,?,?,?,?)");
+                    " transacciones(Num_Boleto, Semana, Materia_Prima, Cuadrilla, Flete, Peaje, Estado_Transaccion, Observaciones, Codigo_Proveedor)" + 
+                    " values(?,?,?,?,?,?,?,?,?)");
             pstm.setString(1, Num_Boleto);
-            pstm.setString(2, Materia_Prima);
-            pstm.setString(3, Cuadrilla);
-            pstm.setString(4, Flete);
-            pstm.setString(5, Peaje);
-            pstm.setString(6, Estado_Transaccion);
-            pstm.setString(7, Observaciones);
-            pstm.setString(8, Codigo_Proveedor);
+            pstm.setString(2, semana);
+            pstm.setString(3, Materia_Prima);
+            pstm.setString(4, Cuadrilla);
+            pstm.setString(5, Flete);
+            pstm.setString(6, Peaje);
+            pstm.setString(7, Estado_Transaccion);
+            pstm.setString(8, Observaciones);
+            pstm.setString(9, Codigo_Proveedor);
             pstm.execute();
             pstm.close();
         }catch(SQLException e){
@@ -50,16 +51,17 @@ public class transacciones {
         }catch(SQLException e){
             System.out.println(e);
         }
-        Object[][] data = new String[registros][8];
+        Object[][] data = new String[registros][9];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " + 
-                    " Num_Boleto, Materia_Prima, Cuadrilla, Flete, Peaje, Estado_Transaccion, Observaciones, Codigo_Proveedor " + 
+                    " Num_Boleto, Semana, Materia_Prima, Cuadrilla, Flete, Peaje, Estado_Transaccion, Observaciones, Codigo_Proveedor " + 
                     " FROM transacciones " + 
                     " ORDER BY Num_Boleto");
             ResultSet res = pstm.executeQuery();
             int i = 0;
             while(res.next()){
                 String estNum_Transaccion = res.getString("Num_Boleto");
+                String estSemana = res.getString("Semana");
                 String estMateria_Prima = res.getString("Materia_Prima");
                 String estCuadrilla = res.getString("Cuadrilla");
                 String estFlete = res.getString("Flete");
@@ -69,13 +71,14 @@ public class transacciones {
                 String estCodigo_Proveedor = res.getString("Codigo_Proveedor");
                 //Ingresando todos los datos en el object[][] data.
                 data[i][0] = estNum_Transaccion;
-                data[i][1] = estMateria_Prima;
-                data[i][2] = estCuadrilla;
-                data[i][3] = estFlete;
-                data[i][4] = estPeaje;
-                data[i][5] = estEstado;
-                data[i][6] = estObservaciones;
-                data[i][7] = estCodigo_Proveedor;
+                data[i][1] = estSemana;
+                data[i][2] = estMateria_Prima;
+                data[i][3] = estCuadrilla;
+                data[i][4] = estFlete;
+                data[i][5] = estPeaje;
+                data[i][6] = estEstado;
+                data[i][7] = estObservaciones;
+                data[i][8] = estCodigo_Proveedor;
                 i++;
             }
         }catch(SQLException e){
@@ -118,8 +121,8 @@ public class transacciones {
     throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
-        Object[] data = new Object[9];
-        Object[] data2 = new Object[9];
+        Object[] data = new Object[10];
+        Object[] data2 = new Object[10];
         try{
             //Podemos usar primero una busqueda por el Numero de Boleto para saber si hay alguno
             pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where Num_Boleto = ?");
@@ -137,7 +140,7 @@ public class transacciones {
                 pstm = con.getConnection().prepareStatement("SELECT * FROM transacciones where" +
                         " Num_Boleto = ? and" +
                         " Fecha = ? and" +
-                        " Semana = ? and"+
+                        " Semana = ? and "+
                         " Codigo_Proveedor = ?");
                 pstm.setString(1, Num_Boleto);
                 pstm.setString(2, Fecha_Boleto);
@@ -163,6 +166,7 @@ public class transacciones {
             while(res.next()){
                 String estID_Transaccion = res.getString("ID_Transaccion");
                 String estNum_Transaccion = res.getString("Num_Boleto");
+                String estSemana = res.getString("Semana");
                 String estMateria_Prima = res.getString("Materia_Prima");
                 String estCuadrilla = res.getString("Cuadrilla");
                 String estFlete = res.getString("Flete");
@@ -173,13 +177,14 @@ public class transacciones {
                 //INGRESANDO TODOS LOS DATOS EN EL VECTOR DATA[]
                 data[0] = estID_Transaccion;
                 data[1] = estNum_Transaccion;
-                data[2] = estMateria_Prima;
-                data[3] = estCuadrilla;
-                data[4] = estFlete;
-                data[5] = estPeaje;
-                data[6] = estEstado;
-                data[7] = estObservaciones;
-                data[8] = estCodigo_Proveedor;
+                data[2] = estSemana;
+                data[3] = estMateria_Prima;
+                data[4] = estCuadrilla;
+                data[5] = estFlete;
+                data[6] = estPeaje;
+                data[7] = estEstado;
+                data[8] = estObservaciones;
+                data[9] = estCodigo_Proveedor;
             }
         }catch(SQLException ex){
             Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);

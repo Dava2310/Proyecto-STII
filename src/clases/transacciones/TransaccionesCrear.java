@@ -42,8 +42,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     public boolean Cuadrilla = false;
     public boolean Flete = false;
     public boolean Peaje = false;
-    transacciones t = new transacciones();
-    boleto b = new boleto();
+    private transacciones t = new transacciones();
+    private boleto b = new boleto();
     IdentificacionProveedorTransacciones IPT = new IdentificacionProveedorTransacciones();
 
     public TransaccionesCrear() {
@@ -598,7 +598,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                         AQUI SIEMPRE DIREMOS QUE LA TRANSACCION COMO SE ESTA CREANDO NO HA SIDO PAGADA
                         POR CONVENIENCIA ESTETICA, SE MUESTRA IGUAL UN COMBO BOX QUE MUESTRA EL TIPO DE LA TRANSACCION
                     */
-                    
+                    String semana = Semanatxt.getText();
                     String estado = EstadoCB.getSelectedItem().toString();
                     //SOLO DE AQUI VERIFICAMOS POR SI ACASO, QUE SEA NO PROCESADA
                     if(estado.equals("No Procesada")){
@@ -614,7 +614,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                     /*===================================================================================================================\\
                     ||==================================LLAMADA DE LA FUNCION CREAR TRANSACCION==========================================||
                     //===================================================================================================================*/
-                    t.NuevaTransaccion(num_transaccion, materiaPrima2, Cuadrilla2, Flete2, peaje2, estado, observaciones, codigoProveedor);
+                    t.NuevaTransaccion(num_transaccion, semana, materiaPrima2, Cuadrilla2, Flete2, peaje2, estado, observaciones, codigoProveedor);
                     
                         /*
                         A PARTIR DE AQUI PUEDEN PASAR DOS ESCENARIOS:

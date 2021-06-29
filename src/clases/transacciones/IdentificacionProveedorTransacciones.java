@@ -253,14 +253,14 @@ public class IdentificacionProveedorTransacciones extends javax.swing.JFrame {
 
                                 PARA ESO ENTONCES RECOGEMOS LOS DATOS DEL BOLETO, Y VAMOS METIENDO CADA DATO DEL VECTOR EN ESAS VARIABLES
                             */
-                            Object[] informacionBoleto = new Object[8];
+                            Object[] informacionBoleto = new Object[10];
                             informacionBoleto = b.conseguirDatos(boletoBueno);
-                            TC.fecha = informacionBoleto[1].toString();
-                            TC.semana = informacionBoleto[2].toString();
-                            TC.Kg_Brutos = Float.parseFloat(informacionBoleto[3].toString());
-                            TC.Kg_Netos = Float.parseFloat(informacionBoleto[4].toString());
-                            TC.MS = Integer.parseInt(informacionBoleto[5].toString());
-                            TC.Impurezas = Integer.parseInt(informacionBoleto[6].toString());
+                            TC.fecha = informacionBoleto[2].toString();
+                            TC.semana = informacionBoleto[3].toString();
+                            TC.Kg_Brutos = Float.parseFloat(informacionBoleto[4].toString());
+                            TC.Kg_Netos = Float.parseFloat(informacionBoleto[5].toString());
+                            TC.MS = Integer.parseInt(informacionBoleto[6].toString());
+                            TC.Impurezas = Integer.parseInt(informacionBoleto[7].toString());
 
                             //VARIABLES BOOLEANAS DE CADA TIPO DE TRANSACCION PARA LA SIGUIENTE SECCION
                             boolean Cuadrilla = false;

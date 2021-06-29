@@ -1,5 +1,7 @@
 package logica;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class Tarifa_Estandar {

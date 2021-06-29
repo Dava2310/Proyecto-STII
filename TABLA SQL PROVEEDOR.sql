@@ -132,7 +132,7 @@ create table transacciones(
     Flete varchar(3),
     Peaje varchar(3),
     -- Estado de la transaccion.
-    Estado_Transaccion varchar(2),
+    Estado_Transaccion varchar(15),
 	-- Informacion adicional de la transaccion
     Observaciones varchar(150),
     -- Foreign Key referente al proveedor
@@ -141,6 +141,10 @@ create table transacciones(
     foreign key(Num_Boleto) references boleto(Codigo_Boleto),
     primary key(ID_Transaccion)
 );
+
+SELECT * FROM transacciones;
+
+SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Semana = '26-2021' AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'NO' AND transacciones.Num_Boleto = boleto.Codigo_Boleto;
 
 create table Tasa_Precios(
 	Cod_Tarifa int auto_increment NOT NULL,

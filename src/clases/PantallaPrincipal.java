@@ -28,10 +28,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     
     public IdentificacionProveedor IP = new IdentificacionProveedor();
     public TasaDePrecios TDP;
-    public ModificarAnticipo MA;
-    public ConsultarAnticipo CA;
     public IdentificacionProveedorTransacciones IPT;
-    public TransaccionesConsultarModificar TCM;
+    public TransaccionesConsultarModificar1 TCM;
     public CreacionBoleto CB;
     public IdentificacionBoleto IB;
     public BusquedaYModificicacionBoleto BYM;
@@ -74,8 +72,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         M_ODP = new javax.swing.JMenu();
         M_Anticipos = new javax.swing.JMenu();
         MI_CrearA = new javax.swing.JMenuItem();
-        MI_ModificarA = new javax.swing.JMenuItem();
-        MI_ConsultarA = new javax.swing.JMenuItem();
         MI_ManejoAnticipos = new javax.swing.JMenuItem();
         M_Valores = new javax.swing.JMenu();
         MI_TasaUSD = new javax.swing.JMenuItem();
@@ -170,22 +166,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
         M_Anticipos.add(MI_CrearA);
-
-        MI_ModificarA.setText("Modificar");
-        MI_ModificarA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_ModificarAActionPerformed(evt);
-            }
-        });
-        M_Anticipos.add(MI_ModificarA);
-
-        MI_ConsultarA.setText("Consultar");
-        MI_ConsultarA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_ConsultarAActionPerformed(evt);
-            }
-        });
-        M_Anticipos.add(MI_ConsultarA);
 
         MI_ManejoAnticipos.setText("Manejo de Anticipos");
         MI_ManejoAnticipos.addActionListener(new java.awt.event.ActionListener() {
@@ -292,16 +272,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         IP.modo = 2;
     }//GEN-LAST:event_MI_CrearAActionPerformed
 
-    private void MI_ConsultarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ConsultarAActionPerformed
-        CA = new ConsultarAnticipo();
-        CA.setVisible(true);
-    }//GEN-LAST:event_MI_ConsultarAActionPerformed
-
-    private void MI_ModificarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ModificarAActionPerformed
-        MA = new ModificarAnticipo();
-        MA.setVisible(true);
-    }//GEN-LAST:event_MI_ModificarAActionPerformed
-
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         con.desconectar();
     }//GEN-LAST:event_formWindowClosed
@@ -316,7 +286,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_CrearTransaccionActionPerformed
 
     private void ConsultarModificarTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarModificarTransaccionActionPerformed
-        TCM = new TransaccionesConsultarModificar();
+        TCM = new TransaccionesConsultarModificar1();
         TCM.setVisible(true);
     }//GEN-LAST:event_ConsultarModificarTransaccionActionPerformed
 
@@ -427,14 +397,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MI_BuscarModificarT;
     private javax.swing.JMenuItem MI_Cerrar;
     private javax.swing.JMenuItem MI_CerrarTodo;
-    private javax.swing.JMenuItem MI_ConsultarA;
     private javax.swing.JMenuItem MI_CrearA;
     private javax.swing.JMenuItem MI_CrearBoleto;
     private javax.swing.JMenuItem MI_CrearT;
     private javax.swing.JMenuItem MI_Guardar;
     private javax.swing.JMenuItem MI_ManejoAnticipos;
     private javax.swing.JMenuItem MI_ManejoBoletos;
-    private javax.swing.JMenuItem MI_ModificarA;
     private javax.swing.JMenuItem MI_MostrarProveedores;
     private javax.swing.JMenuItem MI_TasaDePrecios;
     private javax.swing.JMenuItem MI_TasaUSD;

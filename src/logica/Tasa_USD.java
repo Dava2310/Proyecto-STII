@@ -9,6 +9,7 @@ public class Tasa_USD {
     public Tasa_USD(){
         con = new conectate();
     }
+    
     public void NuevaTasa(String Fecha_I, String Semana, double Monto ) throws SQLException{
         try {
             PreparedStatement pstm = con.getConnection().prepareStatement("insert into" + 
@@ -20,10 +21,24 @@ public class Tasa_USD {
             pstm.close();
         } catch (SQLException e) {
             System.out.println(e);
-        }
-        
-        
+        }    
     }
+    
+    public double valorUltimaTasa(){
+        double valor = 0;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * FROM Tasa_USD ORDER BY Cod_Tasa DESC");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            valor = res.getDouble("Monto");
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        return valor;
+    }
+    
+    
+    
     public void UpdateTasa(double Monto, int Cod_Tasa){
         try {
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Tasa_USD set Monto = ? where Cod_Tasa = ?");

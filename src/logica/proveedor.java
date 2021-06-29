@@ -543,6 +543,33 @@ public class proveedor {
         return codigo;
     }
     
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //SE BUSCA INFO PRINCIAL A PARTIR DEL CODIGO
+    public Object[] InfoPrincipalXcodigo(int codigo) throws SQLException{
+        Object[] data = new Object[3];
+        Object[] data2 = new Object[3];
+        PreparedStatement pstm;
+        ResultSet res;
+        
+        try {
+            pstm = con.getConnection().prepareStatement("SELECT " + 
+                    " Codigo, Identificacion, Razon_Social" +
+                    " FROM proveedor " +
+                    " WHERE Codigo = ?");
+            pstm.setInt(1, codigo);
+            res = pstm.executeQuery();
+            data2 = informacionPrincipal(res, data);
+            res.close();
+            
+        } catch (SQLException e) {
+            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return data2;
+    }
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    
     /*  FUNCION QUE LE SIRVE a conseguirDatosPrincipales() PARA DEVOVLER CADA UNO DE LOS DATOS
         SE LE INGRESA EL OBJETO VECTOR DATA PARA GUARDAR ALLÍ LOS DATOS
         Y LA RESULTSET QUE ES DONDE SE GUARDA EL RESULTADO DE LA QUERY DE SQL

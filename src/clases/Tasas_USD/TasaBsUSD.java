@@ -530,8 +530,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
                    //System.out.println(codigo);
                 }else{
                    JOptionPane.showMessageDialog(null, "CAMPO DE MONTO VACIO", "ERROR", JOptionPane.ERROR_MESSAGE);              
-                 }
-             
+                }
                 //SI LA RESPUESTA ES "NO"
             }else if(resp == JOptionPane.NO_OPTION){
             

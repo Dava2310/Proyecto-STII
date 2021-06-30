@@ -853,7 +853,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tablaMouseClicked
     
-    public void imprimirDatosBeneficiario(){
+    private void imprimirDatosBeneficiario(){
         String Name_Bnf = String.valueOf(tabla.getValueAt(fila,13));
             String identificacion2 = String.valueOf(tabla.getValueAt(fila,14));
             String num_cuenta = String.valueOf(tabla.getValueAt(fila,17));
@@ -901,10 +901,10 @@ public class TablaProveedores extends javax.swing.JFrame {
                 IDAUT_CB.setEnabled(false);
                 
                 for(int i = 0; i < registros; i++){
-                if(identificacion2.equals(cedulaBeneficiarios[i])){
-                    ListarBeneficiariosBT.setSelectedIndex(i + 1);
+                    if(identificacion2.equals(cedulaBeneficiarios[i])){
+                        ListarBeneficiariosBT.setSelectedIndex(i + 1);
+                    }
                 }
-            }
             } else {
                 limpiarDatosBeneficiario();
             }
@@ -1403,7 +1403,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ListarBeneficiariosBTActionPerformed
     
-    public void imprimirDatosBeneficiario(int index){
+    private void imprimirDatosBeneficiario(int index){
         index--;
         String Name_Autorizado = dataBeneficiarios[index][1].toString();
         NombreBNF_txt.setText(Name_Autorizado);
@@ -1450,7 +1450,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         }
     }
     
-    public void desHabilitarCamposBancarios(){
+    private void desHabilitarCamposBancarios(){
         NombreBNF_txt.setEditable(false);
                 IDBNF_txt.setEditable(false);
                 IDBNF_CB.setEnabled(false);

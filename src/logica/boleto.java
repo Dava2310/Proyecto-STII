@@ -192,8 +192,9 @@ public class boleto {
                     " WHERE Codigo_Boleto = ?");
             pstm.setString(1, codigo);
             res = pstm.executeQuery();
-            res.next();
-            data2 = informacion(res, data);
+            if(res.next()){
+                data2 = informacion(res, data);
+            }
             res.close();
         }catch(SQLException ex){
             Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);

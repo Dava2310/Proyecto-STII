@@ -601,9 +601,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                     String semana = Semanatxt.getText();
                     String estado = EstadoCB.getSelectedItem().toString();
                     //SOLO DE AQUI VERIFICAMOS POR SI ACASO, QUE SEA NO PROCESADA
-                    if(estado.equals("No Procesada")){
-                        estado = "NO"; // HACEMOS ESTO PORQUE EN LA TABLA SQL, ESE DATO ES SI/NO
-                    }
                     //DE AQUI NOS QUEDARIA GUARDAR EN UNA VARIABLE TAMBIEN EL CODIGO DE PROVEEDOR
                     String codigoProveedor = CODtxt.getText();
                     

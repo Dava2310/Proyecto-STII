@@ -120,6 +120,38 @@ create table boleto(
     primary key(Codigo_Boleto)
 );
 
+create table Tasa_Precios(
+	Cod_Tarifa int auto_increment NOT NULL,
+    Materia_Seca int not null UNIQUE,
+    En_Planta float not null,
+    En_Corte float not null,
+    primary key(Cod_Tarifa)
+);
+
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(0,0,0);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(21,38.40,23.40);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(22,41.60,26.60);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(23,44.80,29.80);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(24,48.00,33.00);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(25,51.20,36.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(26,54.40,39.40);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(27,57.60,42.60);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(28,60.80,45.80);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(29,64.00,49.00);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(30,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(31,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(32,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(33,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(34,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(35,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(36,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(37,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(38,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(39,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(40,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(41,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(42,67.20,52.20);
+
 -- CREACION DE LA TABLA TRANSACCIONES
 create table transacciones(
 	ID_Transaccion int auto_increment,
@@ -144,39 +176,11 @@ create table transacciones(
 
 SELECT * FROM transacciones;
 
-SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Semana = '26-2021' AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'NO' AND transacciones.Num_Boleto = boleto.Codigo_Boleto;
+SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Semana = '26-2021' AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto GROUP BY proveedor.Codigo;
 
-create table Tasa_Precios(
-	Cod_Tarifa int auto_increment NOT NULL,
-    Materia_Seca int not null UNIQUE,
-    En_Planta float not null,
-    En_Corte float not null,
-    primary key(Cod_Tarifa)
-);
+
 select * from Tasa_Precios;
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(0,0,0);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(21,38.40,23.40);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(22,41.60,26.60);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(23,44.80,29.80);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(24,48.00,33.00);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(25,51.20,36.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(26,54.40,39.40);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(27,57.60,42.60);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(28,60.80,45.80);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(29,64.00,49.00);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(30,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(31,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(32,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(33,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(34,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(35,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(36,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(37,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(38,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(39,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(40,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(41,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(42,67.20,52.20);
+
 
 create table Relacion_Proveedor_Beneficiario(
     Cod_Bnf int,

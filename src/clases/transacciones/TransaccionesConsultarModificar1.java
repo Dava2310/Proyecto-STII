@@ -8,6 +8,7 @@ package clases.transacciones;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.boleto;
 import logica.proveedor;
@@ -20,11 +21,13 @@ import logica.transacciones;
 public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
 
     private int fila = -1;
+    private int COD_Transaccion = 0;
     private Object[][] DataTransacciones;
+    private Object[][] DataProveedores;
     private transacciones TransaccionesObject = new transacciones();
     private proveedor Proveedor = new proveedor();
     private boleto B = new boleto();
-    
+    private int registros = 0;
     public TransaccionesConsultarModificar1() {
         initComponents();
     }
@@ -73,12 +76,13 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         USDdiaL1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Observacionestxt = new javax.swing.JTextArea();
-        ModificarBT = new javax.swing.JButton();
+        GuardarBT = new javax.swing.JButton();
         CancelarBT = new javax.swing.JButton();
-        SELECCIONAR = new javax.swing.JToggleButton();
+        SeleccionarBT = new javax.swing.JToggleButton();
         HabilitarcambiosBT = new javax.swing.JToggleButton();
         jLabel4 = new javax.swing.JLabel();
         EstadoCB = new javax.swing.JComboBox<>();
+        ProveedoresCB = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
 
@@ -106,11 +110,6 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         tipoIDProveedorCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tipoIDProveedorCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
         tipoIDProveedorCB.setEnabled(false);
-        tipoIDProveedorCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoIDProveedorCBActionPerformed(evt);
-            }
-        });
 
         IDtxt.setEditable(false);
         IDtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
@@ -131,11 +130,6 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
 
         NroBoletotxt.setEditable(false);
         NroBoletotxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        NroBoletotxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NroBoletotxtActionPerformed(evt);
-            }
-        });
 
         Fechatxt.setEditable(false);
         Fechatxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
@@ -180,11 +174,6 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         PeajeCB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         PeajeCB.setText("Peaje");
         PeajeCB.setEnabled(false);
-        PeajeCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PeajeCBActionPerformed(evt);
-            }
-        });
 
         CuadrillaCB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         CuadrillaCB.setText("Cuadrilla");
@@ -205,12 +194,12 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         Observacionestxt.setRows(5);
         jScrollPane1.setViewportView(Observacionestxt);
 
-        ModificarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        ModificarBT.setText("MODIFICAR");
-        ModificarBT.setEnabled(false);
-        ModificarBT.addActionListener(new java.awt.event.ActionListener() {
+        GuardarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        GuardarBT.setText("GUARDAR");
+        GuardarBT.setEnabled(false);
+        GuardarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ModificarBTActionPerformed(evt);
+                GuardarBTActionPerformed(evt);
             }
         });
 
@@ -222,24 +211,37 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
             }
         });
 
-        SELECCIONAR.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        SELECCIONAR.setText("SELECCIONAR");
-        SELECCIONAR.addActionListener(new java.awt.event.ActionListener() {
+        SeleccionarBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        SeleccionarBT.setText("SELECCIONAR");
+        SeleccionarBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SELECCIONARActionPerformed(evt);
+                SeleccionarBTActionPerformed(evt);
             }
         });
 
         HabilitarcambiosBT.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         HabilitarcambiosBT.setText("HABILITAR CAMBIOS");
         HabilitarcambiosBT.setEnabled(false);
+        HabilitarcambiosBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HabilitarcambiosBTActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setText("Estado de la Transaccion");
 
         EstadoCB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        EstadoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Procesadas", "Procesadas", " " }));
+        EstadoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Procesadas", "Procesadas" }));
         EstadoCB.setEnabled(false);
+
+        ProveedoresCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        ProveedoresCB.setEnabled(false);
+        ProveedoresCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProveedoresCBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PaneldeInfoLayout = new javax.swing.GroupLayout(PaneldeInfo);
         PaneldeInfo.setLayout(PaneldeInfoLayout);
@@ -321,17 +323,20 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(PaneldeInfoLayout.createSequentialGroup()
                                 .addGroup(PaneldeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
                                     .addComponent(InfoBoletoL)
-                                    .addComponent(USDdiaL1))
+                                    .addComponent(USDdiaL1)
+                                    .addGroup(PaneldeInfoLayout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(ProveedoresCB, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(PaneldeInfoLayout.createSequentialGroup()
-                        .addComponent(ModificarBT)
+                        .addComponent(GuardarBT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(HabilitarcambiosBT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SELECCIONAR)
+                        .addComponent(SeleccionarBT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CancelarBT)
                         .addGap(12, 12, 12))))
@@ -339,8 +344,10 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         PaneldeInfoLayout.setVerticalGroup(
             PaneldeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PaneldeInfoLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(PaneldeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(ProveedoresCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(PaneldeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PaneldeInfoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -406,11 +413,11 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(PaneldeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ModificarBT)
+                    .addComponent(GuardarBT)
                     .addComponent(HabilitarcambiosBT)
-                    .addComponent(SELECCIONAR)
+                    .addComponent(SeleccionarBT)
                     .addComponent(CancelarBT))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jScrollPane3.setViewportView(PaneldeInfo);
@@ -455,17 +462,39 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
     /*================================ ACCIONES AL CREARSE AL PANTALLA =====================================================*/
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         mostrarTodo();
+        cargarInformacionBeneficiarios();
     }//GEN-LAST:event_formWindowOpened
 
    
+    private void cargarInformacionBeneficiarios(){
+        try {
+            registros = Proveedor.cantidadProveedores();
+            DataProveedores = Proveedor.conseguirDatosPrincipales_Total();
+            for(int i = 0; i <= registros - 1; i++){
+                
+                String item = DataProveedores[i][1].toString();
+                item += "   -   " + DataProveedores[i][2].toString();
+                ProveedoresCB.addItem(item);
+                
+                //System.out.println(DataProveedores[i][1]);
+                //System.out.println(DataProveedores[i][2]);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaccionesConsultarModificar1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+    
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
         // TODO add your handling code here:
         fila = Tabla.rowAtPoint(evt.getPoint());
-        if(fila > -1 && !SELECCIONAR.isSelected()){
+        if(fila > -1 && !SeleccionarBT.isSelected()){
            //SE OBTIENE LA INFO DEL BOLETO 
-           String codBoleto = String.valueOf(Tabla.getValueAt(fila, 0));  
+           COD_Transaccion = Integer.parseInt(String.valueOf(Tabla.getValueAt(fila, 0)));
+           String codBoleto = String.valueOf(Tabla.getValueAt(fila, 1));  
            NroBoletotxt.setText(codBoleto);
-           Semanatxt.setText(String.valueOf(Tabla.getValueAt(fila, 1)));
+           Semanatxt.setText(String.valueOf(Tabla.getValueAt(fila, 2)));
            Object[] InfoBoleto = new Object[10];
             try {
                 InfoBoleto = B.conseguirDatos(codBoleto);
@@ -479,52 +508,49 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
                 KGNetostxt.setText(String.valueOf(KGNetos));
                 MStxt.setText(String.valueOf(ms));
                 Impurezastxt.setText(String.valueOf(impurezas));
-                
-                
             } catch (SQLException e) {
-                 Logger.getLogger(TransaccionesConsultarModificar1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(TransaccionesConsultarModificar1.class.getName()).log(Level.SEVERE, null, e);
             }
            
-           
-           String materiaprima = String.valueOf(Tabla.getValueAt(fila, 2));
+            String materiaprima = String.valueOf(Tabla.getValueAt(fila, 3));
             if (materiaprima.equals("SI")) {
                 MPCB.setSelected(true);
             } else {
                 MPCB.setSelected(false);
             }
             
-           String Cuadriilla = String.valueOf(Tabla.getValueAt(fila, 3));
+            String Cuadriilla = String.valueOf(Tabla.getValueAt(fila, 4));
             if (Cuadriilla.equals("SI")) {
                 CuadrillaCB.setSelected(true);
             } else {
                 CuadrillaCB.setSelected(false);
             }
             
-           String Flete = String.valueOf(Tabla.getValueAt(fila, 4));
+            String Flete = String.valueOf(Tabla.getValueAt(fila, 5));
             if (Flete.equals("SI")) {
                 FleteCB.setSelected(true);
             } else {
                 FleteCB.setSelected(false);
             }
             
-            String Peaje = String.valueOf(Tabla.getValueAt(fila, 5));
+            String Peaje = String.valueOf(Tabla.getValueAt(fila, 6));
             if (Peaje.equals("SI")) {
                 PeajeCB.setSelected(true);
             } else {
                 PeajeCB.setSelected(false);
             }
             
-            String Status = String.valueOf(Tabla.getValueAt(fila, 6));
+            String Status = String.valueOf(Tabla.getValueAt(fila, 7));
             if (Status.equals("No Procesada")) {
                 EstadoCB.setSelectedIndex(0);
             } else {
                 EstadoCB.setSelectedIndex(1);
             }
             
-            Observacionestxt.setText(String.valueOf(Tabla.getValueAt(fila, 7)));
+            Observacionestxt.setText(String.valueOf(Tabla.getValueAt(fila, 8)));
             
             //SE OBTIENEN LA INFORMACION DEL PROVEEDOR A PARTIR SW SU CODIGO
-            String codigo = String.valueOf(Tabla.getValueAt(fila, 8));
+            String codigo = String.valueOf(Tabla.getValueAt(fila, 9));
             
             int cod = Integer.parseInt(codigo);
             Object[] DataInfo = new Object[3];
@@ -544,17 +570,16 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
                 IDtxt.setText(IDcompleto.substring(1, IDcompleto.length()));
                 RazonSocialtxt.setText(DataInfo[2].toString());
                 
+                for(int i = 0; i < registros; i++){
+                    if(IDcompleto.equals(DataProveedores[i][1])){
+                        ProveedoresCB.setSelectedIndex(i + 1);
+                    }
+                }
+                
             } catch (SQLException e) {
                 Logger.getLogger(TransaccionesConsultarModificar1.class.getName()).log(Level.SEVERE, null, e);
 
             }
-            
-            
-            
-            
-            
-           
-         
         }
     }//GEN-LAST:event_TablaMouseClicked
 
@@ -562,29 +587,139 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_CancelarBTActionPerformed
 
-    private void ModificarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarBTActionPerformed
+    private void GuardarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarBTActionPerformed
+        if(HabilitarcambiosBT.isSelected() && EstadoCB.getSelectedItem().toString().equals("No Procesadas")){
+            //PROCEDEMOS PRIMERO A GUARDAR TODOS LOS CAMPOS
+            /*
+                LOS CAMPOS QUE PUEDO GUARDAR PARA CAMBIAR SON:
+                - LAS TRANSACCIONES
+                - EL CODIGO DE PROVEEDOR
+            */
+            int Codigo_Proveedor = Integer.parseInt(CODtxt.getText());
+            String MP = "";
+            String Cuadrilla = "";
+            String Flete = "";
+            String Peaje = "";
+            
+            if(MPCB.isSelected()){
+                MP = "SI";
+            } else {
+                MP = "NO";
+            }
+            
+            if(CuadrillaCB.isSelected()){
+                Cuadrilla = "SI";
+            } else {
+                Cuadrilla = "NO";
+            }
+            
+            if(FleteCB.isSelected()){
+                Flete = "SI";
+            } else {
+                Flete = "NO";
+            }
+            
+            if(PeajeCB.isSelected()){
+                Peaje = "SI";
+            } else {
+                Peaje = "NO";
+            }
+            
+            int COD_Transaccion = this.COD_Transaccion;
+            try {
+                int resp = JOptionPane.showConfirmDialog(null, "SE VA A PROCEDER A MODIFICAR LOS DATOS DE LA TRANSACCION\n"+"¿ESTA SEGURO?",
+                "MODIFICACION DE TRANSACCION", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE/*El tipo de ventana, en este caso WARNING*/);
+                if(resp == JOptionPane.YES_OPTION){
+                    TransaccionesObject.updateTransaccion(Codigo_Proveedor, MP, Cuadrilla, Flete, Peaje, COD_Transaccion);
+                    ReestablecerPag();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(TransaccionesConsultarModificar1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_GuardarBTActionPerformed
 
-    }//GEN-LAST:event_ModificarBTActionPerformed
+    
+    
+    private void SeleccionarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarBTActionPerformed
+        if(!NroBoletotxt.getText().isEmpty() && SeleccionarBT.isSelected()){
+            Tabla.setVisible(false);
+            if(EstadoCB.getSelectedItem().toString().equals("No Procesadas")){
+                HabilitarcambiosBT.setEnabled(true);
+            }
+        } else if(HabilitarcambiosBT.isSelected()){
+            JOptionPane.showMessageDialog(null, "TIENE LA OPCION DE HABILITAR ACTIVADA, DESACTIVELA PRIMERO", "ERROR", JOptionPane.ERROR_MESSAGE);
+            SeleccionarBT.setSelected(true);
+        } else if(!HabilitarcambiosBT.isSelected() && NroBoletotxt.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR EN LA TABLA A UN PROVEEDOR", "ERROR", JOptionPane.ERROR_MESSAGE);
+            SeleccionarBT.setSelected(false);
+        } else if(!SeleccionarBT.isSelected()){
+            Tabla.setVisible(true);
+            HabilitarcambiosBT.setEnabled(false);
+            
+        }
+    }//GEN-LAST:event_SeleccionarBTActionPerformed
 
-    private void PeajeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PeajeCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PeajeCBActionPerformed
+    private void HabilitarcambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarcambiosBTActionPerformed
+        /*
+            LOS DATOS A HABILITAR DEL BOLETO SON UNICAMENTE
+            QUE TIPO DE TRANSACCION REALIZA
+            Y CAMBIAR AL PROVEEDOR
+            UNICAMENTE CUANDO SU CAMPO DE ESTADO ES NO PROCESADA
+        */
+        if(HabilitarcambiosBT.isSelected()){
+            habilitarTransaccionesYproveedor();
+            GuardarBT.setEnabled(true);
+        } else if(!HabilitarcambiosBT.isSelected()){
+            GuardarBT.setEnabled(false);
+            deshabilitarTransaccionesYProveedor();
+        }
+    }//GEN-LAST:event_HabilitarcambiosBTActionPerformed
 
-    private void NroBoletotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NroBoletotxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NroBoletotxtActionPerformed
-
-    private void tipoIDProveedorCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoIDProveedorCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipoIDProveedorCBActionPerformed
-
-    private void SELECCIONARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SELECCIONARActionPerformed
-                 
-    }//GEN-LAST:event_SELECCIONARActionPerformed
-
-     private void mostrarTodo(){
+    private void ProveedoresCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProveedoresCBActionPerformed
+        if(ProveedoresCB.getSelectedIndex() == 0 && HabilitarcambiosBT.isSelected()){
+            CODtxt.setText("");
+            IDtxt.setText("");
+            tipoIDProveedorCB.setSelectedIndex(0);
+            RazonSocialtxt.setText("");
+        } else {
+            int index = ProveedoresCB.getSelectedIndex();
+            if(index != 0){
+                imprimirDatosProveedor(index);
+            }
+        }
+    }//GEN-LAST:event_ProveedoresCBActionPerformed
+    
+    private void imprimirDatosProveedor(int index){
+        index--;
+        CODtxt.setText(DataProveedores[index][0].toString());
+        String identificacion = DataProveedores[index][1].toString();
+        char caracter = identificacion.charAt(0);
+        int index2 = Proveedor.indexIdentificacion(caracter);
+        tipoIDProveedorCB.setSelectedIndex(index2);
+        IDtxt.setText(identificacion.substring(1, identificacion.length()));
+        RazonSocialtxt.setText(DataProveedores[index][2].toString());
+    }
+    
+    private void habilitarTransaccionesYproveedor(){
+        ProveedoresCB.setEnabled(true);
+        MPCB.setEnabled(true);
+        CuadrillaCB.setEnabled(true);
+        FleteCB.setEnabled(true);
+        PeajeCB.setEnabled(true);
+    }
+    
+    private void deshabilitarTransaccionesYProveedor(){
+        ProveedoresCB.setEnabled(false);
+        MPCB.setEnabled(false);
+        CuadrillaCB.setEnabled(false);
+        FleteCB.setEnabled(false);
+        PeajeCB.setEnabled(false);
+    }
+    
+    private void mostrarTodo(){
         Object[][] datatabla;
-        String[] columName = {"Num# Boleto","Semana","MP","Cuadrilla","Flete","Peaje","Estatus","Observaciones","Cod.Proveedor"};
+        String[] columName = {"ID_Transaccion","Num# Boleto","Semana","MP","Cuadrilla","Flete","Peaje","Estatus","Observaciones","Cod.Proveedor"};
         try {
             datatabla = TransaccionesObject.getDatos();
             DefaultTableModel datos = new DefaultTableModel(datatabla, columName);
@@ -595,7 +730,7 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
     }
      
     private void updateTabla(){
-        String[] columName = {"Num# Boleto","Semana","MP","Cuadrilla","Flete","Peaje","Estatus","Observaciones","Cod.Proveedor"};
+        String[] columName = {"ID_Transaccion","Num# Boleto","Semana","MP","Cuadrilla","Flete","Peaje","Estatus","Observaciones","Cod.Proveedor"};
         try {
             DataTransacciones = TransaccionesObject.getDatos();
             DefaultTableModel datos = new DefaultTableModel(DataTransacciones,columName);
@@ -605,6 +740,8 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         }
     }
     private void ReestablecerPag(){
+        updateTabla();
+        Tabla.setVisible(true);
         CODtxt.setText("");
         IDtxt.setText("");
         Fechatxt.setText("");
@@ -616,12 +753,13 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         RazonSocialtxt.setText("");
         Semanatxt.setText("");
         Observacionestxt.setText("");
-        SELECCIONAR.setEnabled(true);
-        SELECCIONAR.setSelected(false);
-        ModificarBT.setEnabled(false);
+        SeleccionarBT.setEnabled(true);
+        SeleccionarBT.setSelected(false);
+        GuardarBT.setEnabled(false);
         HabilitarcambiosBT.setSelected(false);
         HabilitarcambiosBT.setEnabled(false);    
-  }
+        deshabilitarTransaccionesYProveedor();
+    }
     /**
      * @param args the command line arguments
      */
@@ -681,6 +819,7 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
     private javax.swing.JLabel FechaL1;
     private javax.swing.JTextField Fechatxt;
     private javax.swing.JCheckBox FleteCB;
+    private javax.swing.JButton GuardarBT;
     private javax.swing.JToggleButton HabilitarcambiosBT;
     private javax.swing.JLabel IDL;
     private javax.swing.JTextField IDtxt;
@@ -694,15 +833,15 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
     private javax.swing.JCheckBox MPCB;
     private javax.swing.JLabel MSL;
     private javax.swing.JTextField MStxt;
-    private javax.swing.JButton ModificarBT;
     private javax.swing.JLabel NroBoletoL;
     private javax.swing.JTextField NroBoletotxt;
     private javax.swing.JTextArea Observacionestxt;
     private javax.swing.JPanel PaneldeInfo;
     private javax.swing.JCheckBox PeajeCB;
+    private javax.swing.JComboBox<String> ProveedoresCB;
     private javax.swing.JLabel RazonSocialL;
     private javax.swing.JTextField RazonSocialtxt;
-    private javax.swing.JToggleButton SELECCIONAR;
+    private javax.swing.JToggleButton SeleccionarBT;
     private javax.swing.JLabel SemanaL;
     private javax.swing.JTextField Semanatxt;
     private javax.swing.JTable Tabla;

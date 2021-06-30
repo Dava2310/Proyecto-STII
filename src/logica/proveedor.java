@@ -168,6 +168,39 @@ public class proveedor {
         return data;
     }
     
+    public Object[][] conseguirDatosPrincipales_Total(){
+        int registros = 0;
+        int codigo;
+        //obtenemos la cantidad de registros existentes en la tabla
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM proveedor");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
+        } catch(SQLException e){
+            System.out.println(e);
+        }
+        Object[][] data = new Object[registros][3];
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo, Razon_Social, Identificacion FROM proveedor");
+            ResultSet res = pstm.executeQuery();
+            int i = 0;
+            while(res.next()){
+                int estCodido = res.getInt("Codigo");
+                String estIdentificacion = res.getString("Identificacion");
+                String estRazon_Social = res.getString("Razon_Social");
+                data[i][0] = estCodido;
+                data[i][1] = estIdentificacion;
+                data[i][2] = estRazon_Social;
+                i++;
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return data;
+    }
+    
     //FUNCION PARA INHABILITAR AL PROVEEDOR
     public void deleteProveedor(int cod) throws SQLException{       
         try{

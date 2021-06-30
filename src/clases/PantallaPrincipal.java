@@ -1,5 +1,6 @@
 package clases;
 
+import clases.Odp.SemanaODP;
 import clases.Tasa_Precios.TasaDePrecios;
 import clases.Tasas_USD.TasaBsUSD;
 import clases.proveedores.*;
@@ -26,20 +27,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      */
     //CREACION DE TODOS LAS INTERFACES
     
-    public IdentificacionProveedor IP = new IdentificacionProveedor();
-    public TasaDePrecios TDP;
-    public IdentificacionProveedorTransacciones IPT;
-    public TransaccionesConsultarModificar1 TCM;
-    public CreacionBoleto CB;
-    public IdentificacionBoleto IB;
-    public BusquedaYModificicacionBoleto BYM;
-    public TablaProveedores TP;
-    public CreacionTarifa CreacionT;
-    public TablaTarifas TablaT;
-    public TablaAnticipos TablaA;
-    public conectate con;
-    public TasaDePrecios TasaPrecios;
-    public TasaBsUSD TasaUSD;
+    private IdentificacionProveedor IP = new IdentificacionProveedor();
+    private TasaDePrecios TDP;
+    private IdentificacionProveedorTransacciones IPT;
+    private TransaccionesConsultarModificar1 TCM;
+    private CreacionBoleto CB;
+    private IdentificacionBoleto IB;
+    private BusquedaYModificicacionBoleto BYM;
+    private TablaProveedores TP;
+    private CreacionTarifa CreacionT;
+    private TablaTarifas TablaT;
+    private TablaAnticipos TablaA;
+    private conectate con;
+    private TasaDePrecios TasaPrecios;
+    private TasaBsUSD TasaUSD;
+    private SemanaODP pantallaSemana;
     
     public PantallaPrincipal() {
         initComponents();
@@ -67,9 +69,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         MI_Agregar = new javax.swing.JMenuItem();
         MI_MostrarProveedores = new javax.swing.JMenuItem();
         M_Transaccion = new javax.swing.JMenu();
-        CrearTransaccion = new javax.swing.JMenuItem();
-        ConsultarModificarTransaccion = new javax.swing.JMenuItem();
+        MI_CrearTransaccion = new javax.swing.JMenuItem();
+        MI_ConsultarModificarTransaccion = new javax.swing.JMenuItem();
         M_ODP = new javax.swing.JMenu();
+        MI_GenerarReporte = new javax.swing.JMenuItem();
+        MI_GenerarODP = new javax.swing.JMenuItem();
         M_Anticipos = new javax.swing.JMenu();
         MI_CrearA = new javax.swing.JMenuItem();
         MI_ManejoAnticipos = new javax.swing.JMenuItem();
@@ -136,25 +140,42 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         M_Transaccion.setText("Transacción");
 
-        CrearTransaccion.setText("Crear");
-        CrearTransaccion.addActionListener(new java.awt.event.ActionListener() {
+        MI_CrearTransaccion.setText("Crear");
+        MI_CrearTransaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CrearTransaccionActionPerformed(evt);
+                MI_CrearTransaccionActionPerformed(evt);
             }
         });
-        M_Transaccion.add(CrearTransaccion);
+        M_Transaccion.add(MI_CrearTransaccion);
 
-        ConsultarModificarTransaccion.setText("Consultar/Modificar");
-        ConsultarModificarTransaccion.addActionListener(new java.awt.event.ActionListener() {
+        MI_ConsultarModificarTransaccion.setText("Consultar/Modificar");
+        MI_ConsultarModificarTransaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ConsultarModificarTransaccionActionPerformed(evt);
+                MI_ConsultarModificarTransaccionActionPerformed(evt);
             }
         });
-        M_Transaccion.add(ConsultarModificarTransaccion);
+        M_Transaccion.add(MI_ConsultarModificarTransaccion);
 
         MenuBar.add(M_Transaccion);
 
         M_ODP.setText("ODP");
+
+        MI_GenerarReporte.setText("Generar Reporte");
+        MI_GenerarReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_GenerarReporteActionPerformed(evt);
+            }
+        });
+        M_ODP.add(MI_GenerarReporte);
+
+        MI_GenerarODP.setText("Generar ODP");
+        MI_GenerarODP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_GenerarODPActionPerformed(evt);
+            }
+        });
+        M_ODP.add(MI_GenerarODP);
+
         MenuBar.add(M_ODP);
 
         M_Anticipos.setText("Anticipos");
@@ -280,15 +301,15 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         con.desconectar();
     }//GEN-LAST:event_formWindowClosing
 
-    private void CrearTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearTransaccionActionPerformed
+    private void MI_CrearTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_CrearTransaccionActionPerformed
         IPT = new IdentificacionProveedorTransacciones();
         IPT.setVisible(true);
-    }//GEN-LAST:event_CrearTransaccionActionPerformed
+    }//GEN-LAST:event_MI_CrearTransaccionActionPerformed
 
-    private void ConsultarModificarTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarModificarTransaccionActionPerformed
+    private void MI_ConsultarModificarTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ConsultarModificarTransaccionActionPerformed
         TCM = new TransaccionesConsultarModificar1();
         TCM.setVisible(true);
-    }//GEN-LAST:event_ConsultarModificarTransaccionActionPerformed
+    }//GEN-LAST:event_MI_ConsultarModificarTransaccionActionPerformed
 
     private void MI_CrearBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_CrearBoletoActionPerformed
         IB = new IdentificacionBoleto();
@@ -330,6 +351,18 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         TasaUSD = new TasaBsUSD();
         TasaUSD.setVisible(true);
     }//GEN-LAST:event_MI_TasaUSDActionPerformed
+
+    private void MI_GenerarODPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_GenerarODPActionPerformed
+        pantallaSemana = new SemanaODP();
+        pantallaSemana.setVisible(true);
+        pantallaSemana.modo_pantalla = 2;
+    }//GEN-LAST:event_MI_GenerarODPActionPerformed
+
+    private void MI_GenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_GenerarReporteActionPerformed
+        pantallaSemana = new SemanaODP();
+        pantallaSemana.setVisible(true);
+        pantallaSemana.modo_pantalla = 1;
+    }//GEN-LAST:event_MI_GenerarReporteActionPerformed
     
     public void cerrar(){
         try{
@@ -390,16 +423,18 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem ConsultarModificarTransaccion;
-    private javax.swing.JMenuItem CrearTransaccion;
     private javax.swing.JLabel FONDO;
     private javax.swing.JMenuItem MI_Agregar;
     private javax.swing.JMenuItem MI_BuscarModificarT;
     private javax.swing.JMenuItem MI_Cerrar;
     private javax.swing.JMenuItem MI_CerrarTodo;
+    private javax.swing.JMenuItem MI_ConsultarModificarTransaccion;
     private javax.swing.JMenuItem MI_CrearA;
     private javax.swing.JMenuItem MI_CrearBoleto;
     private javax.swing.JMenuItem MI_CrearT;
+    private javax.swing.JMenuItem MI_CrearTransaccion;
+    private javax.swing.JMenuItem MI_GenerarODP;
+    private javax.swing.JMenuItem MI_GenerarReporte;
     private javax.swing.JMenuItem MI_Guardar;
     private javax.swing.JMenuItem MI_ManejoAnticipos;
     private javax.swing.JMenuItem MI_ManejoBoletos;

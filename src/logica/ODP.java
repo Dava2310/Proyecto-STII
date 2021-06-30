@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class ODP {
     
-    conectate con;
+    private conectate con;
     private Tasa_USD tasa_USD = new Tasa_USD();
     public ODP(){
         con = new conectate();
@@ -29,7 +29,7 @@ public class ODP {
                     + " transacciones.Materia_Prima = 'SI' AND "
                     + " transacciones.Estado_Transaccion = 'No Procesada' AND "
                     + " transacciones.Num_Boleto = boleto.Codigo_Boleto "
-                    + " ORDER BY proveedor.Codigo");
+                    + " GROUP BY proveedor.Codigo");
             pstm.setString(1, semana);
             ResultSet res = pstm.executeQuery();
             if(res.next()){
@@ -97,6 +97,26 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
+    public ArrayList<String> semanasTransacciones(){
+        ArrayList<String> semanas = new ArrayList<String>();
+        int cantidad_semanas = 0;
+        String semana = "";
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Semana FROM transacciones GROUP BY Semana");
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                semanas.add(res.getString("Semana"));
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return semanas;
+    }
+    
+    
+    
+    
+    /*
     public static void main(String args[]){
         
         ODP objeto = new ODP();
@@ -107,4 +127,5 @@ public class ODP {
         }
         
     }
+    */
 }

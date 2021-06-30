@@ -224,16 +224,11 @@ public class TasaBsUSD extends javax.swing.JFrame {
 
         DiaTXT.setEditable(false);
         DiaTXT.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                DiaTXTFocusLost(evt);
-            }
             public void focusGained(java.awt.event.FocusEvent evt) {
                 DiaTXTFocusGained(evt);
             }
-        });
-        DiaTXT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DiaTXTActionPerformed(evt);
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                DiaTXTFocusLost(evt);
             }
         });
 
@@ -493,7 +488,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
 
     public void mostrarTodos(){
         Object [][] datatabla;
-        String[] columName = {"Codigo", "fechaI", "semana", "monto"};
+        String[] columName = {"Codigo", "semana", "monto"};
         try{
             datatabla = tasaObjeto.getDatos();
             DefaultTableModel datos = new DefaultTableModel(datatabla,columName);
@@ -504,7 +499,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
     }
     
     private void updateTabla(){
-        String[] columName = {"Codigo", "fechaI", "semana", "monto"};
+        String[] columName = {"Codigo", "semana", "monto"};
         try {
             dataTasas = tasaObjeto.getDatos();
             DefaultTableModel datos = new DefaultTableModel(dataTasas, columName);
@@ -554,14 +549,12 @@ public class TasaBsUSD extends javax.swing.JFrame {
                     } catch (ParseException ex) {
                         Logger.getLogger(TasaBsUSD.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                    System.out.println(dateFinal);
                     String semana = Semanatxt.getText();
                     double monto = Double.parseDouble(Montotxt.getText());
                     monto = (double)Math.round(monto*100d)/100;
                     
                     try{
-                        tasaObjeto.NuevaTasa(dateFinal, semana, monto);
+                        tasaObjeto.NuevaTasa(semana, monto);
                     } catch (Exception ex) {
                         Logger.getLogger(TasaBsUSD.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -583,10 +576,6 @@ public class TasaBsUSD extends javax.swing.JFrame {
     private void LimpiarbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarbtActionPerformed
         reestablecerPagina();
     }//GEN-LAST:event_LimpiarbtActionPerformed
-
-    private void DiaTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiaTXTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DiaTXTActionPerformed
     
     private void reestablecerPagina(){
         CodTazatxt.setText("");

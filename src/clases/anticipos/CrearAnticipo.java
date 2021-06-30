@@ -440,10 +440,10 @@ public class CrearAnticipo extends javax.swing.JFrame {
         try {
             dataTasas = tasas.getDatos();
             for(int i = 0; i <= registros - 1; i++){
-                //10/23/2021 - 3.000.000
-                String item = dataTasas[i][1].toString();
+                //26-2021 - 3.000.000
+                String item = dataTasas[i][1].toString(); // LA SEMANA
                 cod_tasa = Integer.parseInt(dataTasas[i][0].toString());
-                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][3].toString()));
+                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][2].toString())); // EL MONTO
                 Tasa_CB.addItem(item);
             }
         } catch (SQLException ex) {
@@ -588,7 +588,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
     }//GEN-LAST:event_MontoDStxtFocusLost
     
     //SE CREA UNA FUNCION QUE PERMITA OBTENER LA FECHA ACTUAL DEL SISTEMA
-    public static String fechaActual(){
+    private static String fechaActual(){
         //SE CREA UN OBJETO TIPO DATE
         Date fecha = new Date();
         //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
@@ -598,7 +598,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
         return nuevaFecha;
     
     }
-    public void cerrar(){
+    private void cerrar(){
         try{
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
@@ -614,7 +614,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
     }
     
     //CONFIRMAR SALIDA
-    public void confirmarSalida(){
+    private void confirmarSalida(){
         int index = JOptionPane.showConfirmDialog(this, "ESTA SEGURO DE CERRAR LA VENTANA?", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
         if(index==JOptionPane.YES_OPTION){
             this.dispose();

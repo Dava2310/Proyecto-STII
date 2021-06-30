@@ -57,20 +57,20 @@
             <Property name="text" type="java.lang.String" value="Transacci&#xf3;n"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="CrearTransaccion">
+            <MenuItem class="javax.swing.JMenuItem" name="MI_CrearTransaccion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Crear"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CrearTransaccionActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_CrearTransaccionActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="ConsultarModificarTransaccion">
+            <MenuItem class="javax.swing.JMenuItem" name="MI_ConsultarModificarTransaccion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consultar/Modificar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConsultarModificarTransaccionActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_ConsultarModificarTransaccionActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -79,6 +79,24 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="ODP"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="MI_GenerarReporte">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Generar Reporte"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_GenerarReporteActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MI_GenerarODP">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Generar ODP"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_GenerarODPActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="M_Anticipos">
           <Properties>

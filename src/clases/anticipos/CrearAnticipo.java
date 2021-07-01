@@ -550,7 +550,6 @@ public class CrearAnticipo extends javax.swing.JFrame {
         if(MontoBStxt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             double Monto_BS = Double.parseDouble(MontoBStxt.getText());
             double monto_total = Monto_BS / monto;
-            monto_total = (double) Math.round(monto_total * 100d) / 100;
             DecimalFormat df = new DecimalFormat("#");
             df.setMaximumFractionDigits(10);
             MontoDStxt.setText(String.valueOf(df.format(monto_total)));
@@ -578,7 +577,6 @@ public class CrearAnticipo extends javax.swing.JFrame {
         if(MontoDStxt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             double Monto_DS = Double.parseDouble(MontoDStxt.getText());
             double monto_total = Monto_DS * monto;
-            monto_total = (double) Math.round(monto_total * 100d) / 100;
             DecimalFormat df = new DecimalFormat("#");
             df.setMaximumFractionDigits(10);
             MontoBStxt.setText(String.valueOf(df.format(monto_total)));

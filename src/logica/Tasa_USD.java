@@ -42,9 +42,10 @@ public class Tasa_USD {
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Monto FROM Tasa_USD WHERE Semana = ?");
             pstm.setString(1, semana);
             ResultSet res = pstm.executeQuery();
-            res.next();
-            valor = res.getDouble("Monto");
-            res.close();
+            if(res.next()){
+                valor = res.getDouble("Monto");
+                res.close();
+            }
         }catch(SQLException ex){
             Logger.getLogger(Tasa_USD.class.getName()).log(Level.SEVERE, null, ex);
         }

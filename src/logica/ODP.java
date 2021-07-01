@@ -368,14 +368,37 @@ public class ODP {
     public static void main(String args[]){
         
         ODP objeto = new ODP();
-        objeto.plantillaPago("26-2021");
-        /*
-        double[][] matriz = objeto.generarODP_Materia_Prima("26-2021");
-        for(int i = 0; i < 3; i++){
-            System.out.println(matriz[i][0] + " cantidad DS");
-            System.out.println(matriz[i][1] + " cantidad BS");
+        Object[][] matriz = objeto.plantillaPago("26-2021");
+        for(int i = 0; i < 4; i++){
+            System.out.println("===============================================================================");
+            System.out.println("PROVEEDOR Numero: " + (i+1));
+            System.out.println("Semana: " + matriz[i][0]);
+            System.out.println("Fecha: " + matriz[i][1]);
+            System.out.println("Cedula: " + matriz[i][2]);
+            System.out.println("Beneficiario: " + matriz[i][3]);
+            System.out.println("Banco" + matriz[i][4]);
+            System.out.println("Numero de Cuenta: " + matriz[i][5]);
+            System.out.println("Tasa USD semana: " + matriz[i][6]);
+            System.out.println("Kg_Netos: " + matriz[i][7]);
+            System.out.println("Kg_Brutos: " + matriz[i][8]);
+            System.out.println("Viajes: " + matriz[i][9]);
+            System.out.println("Materia Prima BS: " +  matriz[i][10]);
+            System.out.println("Materia Prima DS: "+ matriz[i][11]);
+            System.out.println("Cuadrilla BS: " + matriz[i][12]);
+            System.out.println("Cuadrilla DS: "+ matriz[i][13]);
+            System.out.println("Flete BS: " + matriz[i][14]);
+            System.out.println("Flete DS: " + matriz[i][15]);
+            System.out.println("Peaje BS: " + matriz[i][16]);
+            System.out.println("Peaje DS: " + matriz[i][17]);
+            System.out.println("SubTotal BS: " + matriz[i][18]);
+            System.out.println("SubTotal DS: "+ matriz[i][19]);
+            System.out.println("Anticipos BS: " + matriz[i][20]);
+            System.out.println("Anticipos DS: " + matriz[i][21]);
+            System.out.println("Total a Pagar BS: " + matriz[i][22]);
+            System.out.println("Total a Pagar DS: " + matriz[i][23]);
+            System.out.println("===============================================================================");
         }
-        */
+        
     }
     
     
@@ -397,6 +420,7 @@ public class ODP {
             while(res.next()){
                 registros++;
                 codigo = res.getInt("Codigo_Proveedor");
+                System.out.println("Codigo: " + codigo);
                 codigos_Proveedores.add(codigo);
             }
             System.out.println(registros);
@@ -454,21 +478,21 @@ public class ODP {
             double peaje_BS = peaje[0][1];
             double subTotalBS = materia_primaBS + cuadrilla_BS + flete_BS + peaje_BS;
             //========================================================================\\
-            double materiaPrimaDS = materiaPrima[0][0];
-            double cuadrillaDS = cuadrilla[0][0];
-            double fleteDS = flete[0][0];
-            double peajeDS = flete[0][0];
+            double materiaPrimaDS = materiaPrima[0][0]; //System.out.println("Materia Prima DS C" + materiaPrimaDS);
+            double cuadrillaDS = cuadrilla[0][0];       //System.out.println("Cuadrilla DS C" +cuadrillaDS);
+            double fleteDS = flete[0][0];               //System.out.println("Flete DS C" +fleteDS);
+            double peajeDS = peaje[0][0];               //System.out.println("Peaje DS C" +peajeDS);
             double subTotalDS = materiaPrimaDS + cuadrillaDS + fleteDS + peajeDS;
             DecimalFormat df = new DecimalFormat("#");
             df.setMaximumFractionDigits(10);
-            data[i][10] = df.format(materiaPrima[0][1]); //EN BS
-            data[i][11] = materiaPrima[0][0];            //EN DS
-            data[i][12] = df.format(cuadrilla[0][1]);    //EN BS  
-            data[i][13] = cuadrilla[0][0];               //EN DS
-            data[i][14] = df.format(flete[0][1]);        //EN BS
-            data[i][15] = flete[0][0];                   //EN DS
-            data[i][16] = df.format(peaje[0][1]);        //EN BS
-            data[i][17] = peaje[0][0];                   //EN DS  
+            data[i][10] = df.format(materiaPrima[0][1]);            //EN BS
+            data[i][11] = df.format(materiaPrima[0][0]);            //EN DS
+            data[i][12] = df.format(cuadrilla[0][1]);               //EN BS  
+            data[i][13] = df.format(cuadrilla[0][0]);               //EN DS
+            data[i][14] = df.format(flete[0][1]);                   //EN BS
+            data[i][15] = df.format(flete[0][0]);                   //EN DS
+            data[i][16] = df.format(peaje[0][1]);                   //EN BS
+            data[i][17] = df.format(peaje[0][0]);                   //EN DS  
             //====================================================================================================================\\
             data[i][18] = df.format(subTotalBS);
             data[i][19] = df.format(subTotalDS); 
@@ -478,8 +502,8 @@ public class ODP {
             //====================================================================================================================\\
             double total_BS = subTotalBS - anticipo_BS;
             double total_DS = subTotalDS - anticipo_DS;
-            data[i][22] = total_BS;
-            data[i][23] = total_DS;
+            data[i][22] = df.format(total_BS);
+            data[i][23] = df.format(total_DS);
         }
         return data;
     }

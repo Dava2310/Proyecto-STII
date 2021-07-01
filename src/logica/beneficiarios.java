@@ -193,6 +193,11 @@ public class beneficiarios {
                 data[1] = estName_Beneficiario;
                 data[2] = estBanco;
                 data[3] = estNum_cuenta;
+            } else {
+                data[0] = " ";
+                data[1] = " ";
+                data[2] = " ";
+                data[3] = " ";
             }
         }catch(SQLException ex){
             System.out.println(ex);

@@ -259,6 +259,7 @@ public class anticipos {
                 montos_anticipo[0] += res.getDouble("Monto_BS");
                 montos_anticipo[1] += res.getDouble("Monto_DS");  
             }
+            res.close();
         }catch(SQLException ex){
             System.out.println(ex);
         }

@@ -36,7 +36,20 @@ public class Tasa_USD {
         return valor;
     }
     
-    
+    public double tasaSemana(String semana){
+        double valor = 0;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Monto FROM Tasa_USD WHERE Semana = ?");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            valor = res.getDouble("Monto");
+            res.close();
+        }catch(SQLException ex){
+            Logger.getLogger(Tasa_USD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return valor;
+    }
     
     public void UpdateTasa(double Monto, int Cod_Tasa){
         try {
@@ -54,13 +67,13 @@ public class Tasa_USD {
         int registros = 0;
         //SE OBTIENEN LA CANTIDAD DE REGISTROS (TASAS) EN LA TABLA DE TASAS_USD
         try{
-          PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM Tasa_USD");
-          ResultSet res = pstm.executeQuery();
-          res.next();
-          registros = res.getInt("total");
-          res.close();
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM Tasa_USD");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
         }catch(SQLException ex){
-          Logger.getLogger(Tasa_USD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Tasa_USD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return registros;
     }

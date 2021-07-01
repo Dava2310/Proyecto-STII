@@ -1,6 +1,7 @@
 package logica;
 
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -78,8 +79,10 @@ public class anticipos {
                 data[i][1] = estMotivo_Anticipo;
                 data[i][2] = estFecha;
                 data[i][3] = estSemana;
-                data[i][4] = estMonto_BS;
-                data[i][5] = estMonto_DS;
+                DecimalFormat df = new DecimalFormat("#");
+                df.setMaximumFractionDigits(10);
+                data[i][4] = df.format(estMonto_BS);
+                data[i][5] = df.format(estMonto_DS);
                 data[i][6] = estAprobacion;
                 data[i][7] = estObservaciones;
                 data[i][8] = estDescontarODP;
@@ -236,6 +239,32 @@ public class anticipos {
         }
         return data;
     }
+    
+    
+    public double[] anticipos_Proveedor_Semana(String semana, int codigo_proveedor){
+        double[] montos_anticipo = new double[2];
+        montos_anticipo[0] = 0; //BS
+        montos_anticipo[1] = 0; //DS
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT anticipos.Num_Anticipo, anticipos.Monto_DS, anticipos.Monto_BS, anticipos.Codigo_Proveedor, proveedor.Codigo, anticipos.Semana, anticipos.DescontarODP "
+                    + " from anticipos, proveedor "
+                    + " WHERE anticipos.Codigo_Proveedor = proveedor.Codigo "
+                    + " AND proveedor.Codigo = ? "
+                    + " AND anticipos.Semana = ? "
+                    + " AND anticipos.DescontarODP = 'SI'");
+            pstm.setInt(1, codigo_proveedor);
+            pstm.setString(2, semana);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                montos_anticipo[0] += res.getDouble("Monto_BS");
+                montos_anticipo[1] += res.getDouble("Monto_DS");  
+            }
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        return montos_anticipo;
+    }
+    
     
     public int motivoAnticipo(String motivo){
         int index = 0;

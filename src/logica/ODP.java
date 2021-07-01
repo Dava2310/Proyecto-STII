@@ -1,19 +1,26 @@
 package logica;
 
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 
 public class ODP {
     
     private conectate con;
     private Tasa_USD tasa_USD = new Tasa_USD();
+    private transacciones objetoTransacciones = new transacciones();
+    private Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
+    private beneficiarios objetoBeneficiario = new beneficiarios();
+    private anticipos objetoAnticipo = new anticipos();
     public ODP(){
         con = new conectate();
     }
     
-    
+    /*
     private ArrayList<Integer> proveedoresMateriaPrima(String semana){
         ArrayList<Integer> proveedores = new ArrayList<Integer>();
         int cantidad_veces = 0;
@@ -53,15 +60,15 @@ public class ODP {
         }
         return proveedores;
     }
+    */
     
-    public double[][] generarODP_Materia_Prima(String semana){
-        ArrayList<Integer> codigos = this.proveedoresMateriaPrima(semana);
+    public double[][] generarODP_Materia_Prima(String semana, int codigo){
         float cantidad = 0;
         double cantidad_BS = 0;
-        double valorTasa_USD = tasa_USD.valorUltimaTasa();
-        double[][] cantidad_por_proveedores = new double[codigos.size()][2];
+        double valorTasa_USD = tasa_USD.tasaSemana(semana);
+        double[][] cantidad_por_proveedores = new double[1][2];
         try{
-            for(int i = 0; i < codigos.size(); i++){
+            for(int i = 0; i < 1; i++){
                 cantidad  = 0;
                 cantidad_BS = 0;
                 PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima "
@@ -74,8 +81,7 @@ public class ODP {
                         + " transacciones.Estado_Transaccion = 'No Procesada' AND "
                         + " transacciones.Num_Boleto = boleto.Codigo_Boleto "
                         + " ORDER BY proveedor.Codigo");
-                System.out.println(codigos.get(i));
-                pstm2.setInt(1, codigos.get(i));
+                pstm2.setInt(1, codigo);
                 //System.out.println(codigos.get(i));
                 pstm2.setString(2, semana);
                 ResultSet res2 = pstm2.executeQuery();
@@ -98,6 +104,7 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
+    
     public ArrayList<String> semanasTransacciones(){
         ArrayList<String> semanas = new ArrayList<String>();
         int cantidad_semanas = 0;
@@ -114,6 +121,7 @@ public class ODP {
         return semanas;
     }
     
+    /*
     //CUADRILLA = KG_Netos * CUADRILLA_PROVEEDOR
     private ArrayList<Integer> proveedoresCuadrilla(String semana){
         ArrayList<Integer> proveedores = new ArrayList<Integer>();
@@ -154,15 +162,15 @@ public class ODP {
         }
         return proveedores;
     }
+    */
     
-    public double[][] ODP_Cuadrilla (String semana) {
-        ArrayList<Integer> codigos = this.proveedoresCuadrilla(semana);
+    public double[][] ODP_Cuadrilla (String semana, int codigo) {
         float cantidad = 0;
         double cantidad_BS = 0;
-        double valorTasa_USD = tasa_USD.valorUltimaTasa();
-        double[][] cantidad_por_proveedores = new double[codigos.size()][2];
+        double valorTasa_USD = tasa_USD.tasaSemana(semana);
+        double[][] cantidad_por_proveedores = new double[1][2];
         try{
-            for(int i = 0; i < codigos.size(); i++){
+            for(int i = 0; i <1; i++){
                 cantidad  = 0;
                 cantidad_BS = 0;
                 PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Cuadrilla, boleto.Codigo_Boleto, boleto.Kg_Netos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Cuadrilla as Cuadrilla_Proveedor "
@@ -173,8 +181,7 @@ public class ODP {
                         + " transacciones.Estado_Transaccion = 'No Procesada' AND "
                         + " transacciones.Num_Boleto = boleto.Codigo_Boleto "
                         + " ORDER BY proveedor.Codigo");
-                System.out.println(codigos.get(i));
-                pstm2.setInt(1, codigos.get(i));
+                pstm2.setInt(1, codigo);
                 //System.out.println(codigos.get(i));
                 pstm2.setString(2, semana);
                 ResultSet res2 = pstm2.executeQuery();
@@ -197,6 +204,7 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
+    /*
     private ArrayList<Integer> proveedoresFlete(String semana){
         ArrayList<Integer> proveedores = new ArrayList<Integer>();
         int cantidad_veces = 0;
@@ -236,15 +244,15 @@ public class ODP {
         }
         return proveedores;
     }
+    */
     
-    public double[][] ODP_Flete (String semana) {
-        ArrayList<Integer> codigos = this.proveedoresFlete(semana);
+    public double[][] ODP_Flete (String semana, int codigo) {
         float cantidad = 0;
         double cantidad_BS = 0;
-        double valorTasa_USD = tasa_USD.valorUltimaTasa();
-        double[][] cantidad_por_proveedores = new double[codigos.size()][2];
+        double valorTasa_USD = tasa_USD.tasaSemana(semana);
+        double[][] cantidad_por_proveedores = new double[1][2];
         try{
-            for(int i = 0; i < codigos.size(); i++){
+            for(int i = 0; i < 1; i++){
                 cantidad  = 0;
                 cantidad_BS = 0;
                 PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Flete, boleto.Codigo_Boleto, boleto.Kg_Brutos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Flete as Flete_Proveedor "
@@ -255,8 +263,7 @@ public class ODP {
                         + " transacciones.Estado_Transaccion = 'No Procesada' AND "
                         + " transacciones.Num_Boleto = boleto.Codigo_Boleto "
                         + " ORDER BY proveedor.Codigo");
-                System.out.println(codigos.get(i));
-                pstm2.setInt(1, codigos.get(i));
+                pstm2.setInt(1, codigo);
                 //System.out.println(codigos.get(i));
                 pstm2.setString(2, semana);
                 ResultSet res2 = pstm2.executeQuery();
@@ -279,6 +286,7 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
+    /*
     private ArrayList<Integer> proveedoresPeaje(String semana){
         ArrayList<Integer> proveedores = new ArrayList<Integer>();
         int cantidad_veces = 0;
@@ -316,20 +324,19 @@ public class ODP {
         }
         return proveedores;
     }
+    */
     
-    public double[][] ODP_Peaje(String semana){
-        ArrayList<Integer> codigos = this.proveedoresPeaje(semana);
+    public double[][] ODP_Peaje(String semana, int codigo){
         float cantidad = 0;
         double cantidad_BS = 0;
-        double valorTasa_USD = tasa_USD.valorUltimaTasa();
-        double[][] cantidad_por_proveedores = new double[codigos.size()][2];
+        double valorTasa_USD = tasa_USD.tasaSemana(semana);
+        double[][] cantidad_por_proveedores = new double[1][2];
         try{
-            for(int i = 0; i < codigos.size(); i++){
+            for(int i = 0; i < 1; i++){
                 int peaje = 0;
                 cantidad = 0;
                 cantidad_BS = 0;
                 int cantidad_boletos = 0;
-                System.out.println(codigos.get(i));
                 PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Peaje, boleto.Codigo_Boleto, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Peaje as Peaje_Proveedor " +
                         " FROM proveedor, boleto, transacciones " +
                         " WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND " +
@@ -339,7 +346,7 @@ public class ODP {
                         " transacciones.Num_Boleto = boleto.Codigo_Boleto " +
                         " ORDER BY proveedor.Codigo ASC");
                 pstm.setString(1, semana);
-                pstm.setInt(2, codigos.get(i));
+                pstm.setInt(2, codigo);
                 ResultSet res = pstm.executeQuery();
                 while(res.next()){
                     peaje = res.getInt("Peaje_Proveedor");
@@ -351,6 +358,7 @@ public class ODP {
                 cantidad_por_proveedores[i][1] = cantidad_BS;  
                 
             }
+            
         }catch(SQLException ex){
             Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -360,12 +368,119 @@ public class ODP {
     public static void main(String args[]){
         
         ODP objeto = new ODP();
-        double[][] matriz = objeto.ODP_Peaje("26-2021");
+        objeto.plantillaPago("26-2021");
+        /*
+        double[][] matriz = objeto.generarODP_Materia_Prima("26-2021");
         for(int i = 0; i < 3; i++){
             System.out.println(matriz[i][0] + " cantidad DS");
             System.out.println(matriz[i][1] + " cantidad BS");
         }
-        
+        */
     }
     
+    
+    public Object[][] plantillaPago(String semana){
+        int registros = 0;
+        
+        ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
+        /*
+            PRIMERO, AGRUPAMOS CUANTAS TRANSACCIONES HAY POR CADA PROVEEDOR
+            PERO AL FINAL, NO IMPORTA CUANTAS TENGA CADA UNO
+            LO QUE IMPORTA ES QUE LA CANTIDAD DE REGISTROS SERA IGUAL A CUANTOS PROVEEDORES DISTINTOS 
+            TUVIERON ACCIONES EN CIERTA SEMANA
+        */
+        try{
+            int codigo;
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                registros++;
+                codigo = res.getInt("Codigo_Proveedor");
+                codigos_Proveedores.add(codigo);
+            }
+            System.out.println(registros);
+        }catch(SQLException ex){
+            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Object[][] data = new Object[registros][24];
+        /*
+            AHORA, IREMOS ITERANDO POR CADA PROVEEDOR
+            EL CODIGO LO TENEMOS EN EL ARRAY LIST
+            CALCULAREMOS ENTONCES LA MATERIA PRIMA, CUADRILLA, FLETE Y PEAJE DE ESTE PROVEEDOR
+            Y LOS IREMOS METIENDO EN LAS CASILLAS CORRESPONDIENTES
+        
+            
+        */
+        for(int i = 0; i < registros; i++){
+            double[][] materiaPrima = this.generarODP_Materia_Prima(semana, codigos_Proveedores.get(i));
+            double[][] cuadrilla = this.ODP_Cuadrilla(semana, codigos_Proveedores.get(i));
+            double[][] flete = this.ODP_Flete(semana, codigos_Proveedores.get(i));
+            double[][] peaje = this.ODP_Peaje(semana, codigos_Proveedores.get(i));
+            double tasaUSD = tasa_USD.tasaSemana(semana);
+            float[] montosKg_Brutos_Netos = objetoTransacciones.cantidadKG_Brutos_Netos_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
+            Date fecha_Actual = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fecha_formateada = sdf.format(fecha_Actual);
+            int cantidad_viajes = objetoTransacciones.cantidadViajes_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
+            double[] montos_anticipos = objetoAnticipo.anticipos_Proveedor_Semana(semana, codigos_Proveedores.get(i));
+            double anticipo_BS = montos_anticipos[0];
+            double anticipo_DS = montos_anticipos[1];
+            
+            data[i][0] = semana;                        //LA SEMANA CON LA QUE SE ESTA TRABAJANDO
+            data[i][1] = fecha_formateada;              //FECHA EN DIA/MES/ANIO
+            if(PB.encontrarProveedor(codigos_Proveedores.get(i))){
+                //AQUI COLOCAMOS EN LAS CASILLAS DE BENEFICIARIO, LOS DATOS DE BENEFICIARIO QUE CORRESPONED A ESTE PROVEEDOR
+                Object[] datosBeneficiario = objetoBeneficiario.informacionBeneficiario_ParaODP(codigos_Proveedores.get(i));
+                data[i][2] = datosBeneficiario[0]; //ID_Beneficiario
+                data[i][3] = datosBeneficiario[1]; //Name_Beneficiario
+                data[i][4] = datosBeneficiario[2]; //Banco
+                data[i][5] = datosBeneficiario[3]; //Numero de Cuenta
+            } else {
+                //AQUI COLOCAMOS EN LAS CASILLAS DE BENEFICIARIO, LOS DATOS EN BLANCO
+                data[i][2] = " ";
+                data[i][3] = " ";
+                data[i][4] = " ";
+                data[i][5] = " ";
+            }
+            data[i][6] = tasaUSD;                       //TASA DEL DOLAR EN LA SEMANA DE LA ODP
+            data[i][7] = montosKg_Brutos_Netos[0];      //KG NETOS
+            data[i][8] = montosKg_Brutos_Netos[1];      //KG BRUTOS
+            data[i][9] = cantidad_viajes;
+            //=======================================================================\\
+            double materia_primaBS = materiaPrima[0][1];
+            double cuadrilla_BS = cuadrilla[0][1];
+            double flete_BS = flete[0][1];
+            double peaje_BS = peaje[0][1];
+            double subTotalBS = materia_primaBS + cuadrilla_BS + flete_BS + peaje_BS;
+            //========================================================================\\
+            double materiaPrimaDS = materiaPrima[0][0];
+            double cuadrillaDS = cuadrilla[0][0];
+            double fleteDS = flete[0][0];
+            double peajeDS = flete[0][0];
+            double subTotalDS = materiaPrimaDS + cuadrillaDS + fleteDS + peajeDS;
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(10);
+            data[i][10] = df.format(materiaPrima[0][1]); //EN BS
+            data[i][11] = materiaPrima[0][0];            //EN DS
+            data[i][12] = df.format(cuadrilla[0][1]);    //EN BS  
+            data[i][13] = cuadrilla[0][0];               //EN DS
+            data[i][14] = df.format(flete[0][1]);        //EN BS
+            data[i][15] = flete[0][0];                   //EN DS
+            data[i][16] = df.format(peaje[0][1]);        //EN BS
+            data[i][17] = peaje[0][0];                   //EN DS  
+            //====================================================================================================================\\
+            data[i][18] = df.format(subTotalBS);
+            data[i][19] = df.format(subTotalDS); 
+            //====================================================================================================================\\
+            data[i][20] = df.format(anticipo_BS);
+            data[i][21] = df.format(anticipo_DS);
+            //====================================================================================================================\\
+            double total_BS = subTotalBS - anticipo_BS;
+            double total_DS = subTotalDS - anticipo_DS;
+            data[i][22] = total_BS;
+            data[i][23] = total_DS;
+        }
+        return data;
+    }
 }

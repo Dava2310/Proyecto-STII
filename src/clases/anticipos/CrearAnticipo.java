@@ -562,7 +562,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private void Tasa_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Tasa_CBActionPerformed
         if(!Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             int index = Tasa_CB.getSelectedIndex() - 1;
-            monto = Double.parseDouble(dataTasas[index][3].toString());
+            monto = Double.parseDouble(dataTasas[index][2].toString());
             monto = (double) Math.round(monto * 100d) / 100;
             cod_tasa = Integer.parseInt(dataTasas[index][0].toString());
         }

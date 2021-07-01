@@ -173,4 +173,30 @@ public class beneficiarios {
             System.out.println(ex);
         }
     }
+    
+    public Object[] informacionBeneficiario_ParaODP(int codigo_proveedor){
+        Object[] data = new Object[4];
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT proveedor.Codigo, beneficiarios.Cod_Beneficiario, beneficiarios.ID_Beneficiario, beneficiarios.Name_Beneficiario, beneficiarios.Banco, beneficiarios.Num_cuenta "
+                    + " FROM beneficiarios, Relacion_Proveedor_Beneficiario, proveedor "
+                    + " WHERE beneficiarios.Cod_Beneficiario = Relacion_Proveedor_Beneficario.Cod_Bnf "
+                    + " AND proveedor.Codigo = Relacion_Proveedor_Beneficiario.Cod_Proveedor "
+                    + " AND proveedor.Codigo = ?");
+            pstm.setInt(1, codigo_proveedor);
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                String estID_Beneficiario = res.getString("ID_Beneficiario");
+                String estName_Beneficiario = res.getString("Name_Beneficiario");
+                String estBanco = res.getString("Banco");
+                String estNum_cuenta = res.getString("Num_cuenta");
+                data[0] = estID_Beneficiario;
+                data[1] = estName_Beneficiario;
+                data[2] = estBanco;
+                data[3] = estNum_cuenta;
+            }
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        return data;
+    }
 }

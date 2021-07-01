@@ -311,4 +311,53 @@ public class transacciones {
             Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public float[] cantidadKG_Brutos_Netos_PorProveedor_Semana(int codigo, String semana){
+        float[] montos = new float[2];
+        float Kg_Netos = 0;
+        float Kg_Brutos = 0;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.Num_Boleto, transacciones.ID_Transaccion, transacciones.Codigo_Proveedor, transacciones.Semana, boleto.Codigo_Boleto, boleto.Kg_Brutos, boleto.Kg_Netos, proveedor.Codigo "
+                    + " FROM transacciones, boleto, proveedor "
+                    + " WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto "
+                    + " AND transacciones.Codigo_Proveedor = proveedor.Codigo "
+                    + " AND transacciones.Semana = ? AND "
+                    + " proveedor.Codigo = ?");
+            pstm.setString(1, semana);
+            pstm.setInt(2, codigo);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                Kg_Netos += res.getFloat("Kg_Netos");
+                Kg_Brutos += res.getFloat("Kg_Brutos");
+            }
+            montos[0] = Kg_Netos;
+            montos[1] = Kg_Brutos;
+            res.close();
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return montos;
+    }
+    
+    public int cantidadViajes_PorProveedor_Semana(int codigo, String semana){
+        int cantidad_viajes = 0;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Codigo_Proveedor, transacciones.Semana, transacciones.Peaje, boleto.Codigo_Boleto, proveedor.Codigo "
+                    + " FROM transacciones, boleto, proveedor "
+                    + " WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto "
+                    + " AND transacciones.Codigo_Proveedor = proveedor.Codigo "
+                    + " AND transacciones.Peaje = 'SI' AND "
+                    + " transacciones.Semana = ? "
+                    + " AND proveedor.Codigo = ?");
+            pstm.setString(1, semana);
+            pstm.setInt(2, codigo);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                cantidad_viajes++;
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cantidad_viajes;
+    }
 }

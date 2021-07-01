@@ -18,7 +18,7 @@ INSERT INTO Tarifa_Estandar(Cod_Tarifa, Cuadrilla, Flete, Materia_Prima, Fecha_I
 UPDATE Tarifa_Estandar set Cod_Tarifa = 0 where Cod_Tarifa = 1;
 UPDATE Tarifa_Estandar set Estado = "NO VIGENTE" where Cod_Tarifa = 0;
 INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio) values(1,2,"TABLA",'2021-06-17');
-select * from Tarifa_Estandar;
+-- select * from Tarifa_Estandar;
 
 -- CREACION DE LA TABLA PROVEEDOR
 create table proveedor(
@@ -52,7 +52,7 @@ INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Pe
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(5, 'V7383981', 'Carlos Vetencourt', 78,48,48, 'TABLA');
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(6, 'V7418673', 'Dorys Alvarez', 78,48,48, 'TABLA');
 
-SELECT * from proveedor order by Codigo desc;
+-- SELECT * from proveedor order by Codigo desc;
 -- CREACION DE LA TABLA BENEFICIARIOS
 create table beneficiarios(
 	Cod_Beneficiario int auto_increment NOT NULL,
@@ -68,11 +68,9 @@ create table beneficiarios(
 	PRIMARY KEY(Cod_Beneficiario)
 );
 
+-- SELECT * FROM beneficiarios;
+-- SELECT count(1) as total from beneficiarios;
 
-
-SELECT * FROM beneficiarios;
-SELECT count(1) as total from beneficiarios;
--- CREACION DE LA TABLA ANTICIPO
 
 create table Tasa_USD(
 	Cod_Tasa int auto_increment NOT NULL,
@@ -83,7 +81,7 @@ create table Tasa_USD(
 
 -- DROP TABLE Tasa_USD;
 INSERT INTO Tasa_USD(Semana, Monto) values('25-2021',3182893.37);
-SELECT * from Tasa_USD;
+-- SELECT * from Tasa_USD;
 
 create table anticipos(
 	Num_Anticipo int NOT NULL auto_increment, 
@@ -102,7 +100,7 @@ create table anticipos(
     PRIMARY KEY(Num_Anticipo)
 );
 
-SELECT * from anticipos;
+-- SELECT * from anticipos;
 
 -- CREACION DE LA TABLA BOLETO
 create table boleto(
@@ -118,7 +116,7 @@ create table boleto(
     Observaciones varchar(150),
     primary key(Codigo_Boleto)
 );
-
+-- SELECT * from boleto;
 create table Tasa_Precios(
 	Cod_Tarifa int auto_increment NOT NULL,
     Materia_Seca int not null UNIQUE,
@@ -173,42 +171,68 @@ create table transacciones(
     primary key(ID_Transaccion)
 );
 
-SELECT * FROM transacciones;
-SELECT Semana FROM transacciones GROUP BY Semana;
-SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND (transacciones.Semana = '26-2021' OR transacciones.Semana = '27-2021') AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto ORDER BY proveedor.Codigo;
-SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND (transacciones.Semana = '26-2021' OR transacciones.Semana = '27-2021') AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto GROUP BY proveedor.Codigo;
+-- SELECT * from transacciones;
+
+-- SELECT transacciones.Num_Boleto, transacciones.ID_Transaccion, transacciones.Codigo_Proveedor, transacciones.Semana, boleto.Codigo_Boleto, boleto.Kg_Brutos, boleto.Kg_Netos, proveedor.Codigo FROM transacciones, boleto, proveedor WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto AND transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Semana = '26-2021' AND proveedor.Codigo = 1;
+
+-- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Codigo_Proveedor, transacciones.Semana, transacciones.Peaje, boleto.Codigo_Boleto, proveedor.Codigo FROM transacciones, boleto, proveedor WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto AND transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Peaje = 'SI' AND transacciones.Semana = '26-2021' AND proveedor.Codigo = 1;
 
 
-SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima 
-                         FROM proveedor, boleto, transacciones, Tasa_Precios 
-                        WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND 
-                        proveedor.Codigo = '1' AND transacciones.Semana = '26-2021' AND 
-                        proveedor.Materia_Prima = 'TABLA' AND 
-                        Tasa_Precios.Materia_Seca = boleto.Materia_S AND 
-                        transacciones.Materia_Prima = 'SI' AND 
-                        transacciones.Estado_Transaccion = 'No Procesada' AND 
-                        transacciones.Num_Boleto = boleto.Codigo_Boleto 
-                        ORDER BY proveedor.Codigo;
+-- SELECT Codigo_Proveedor FROM transacciones WHERE Semana = '26-2021' GROUP BY Codigo_Proveedor;
+-- SELECT Semana FROM transacciones GROUP BY Semana;
+-- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND (transacciones.Semana = '26-2021' OR transacciones.Semana = '27-2021') AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto ORDER BY proveedor.Codigo;
+-- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND (transacciones.Semana = '26-2021' OR transacciones.Semana = '27-2021') AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto GROUP BY proveedor.Codigo;
 
-SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Cuadrilla, boleto.Codigo_Boleto, boleto.Kg_Brutos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Cuadrilla as Cuadrilla_Proveedor 
-                        FROM proveedor, boleto, transacciones 
-                        WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND 
-                        proveedor.Codigo = 2 AND transacciones.Semana = '26-2021' AND 
-                        transacciones.Cuadrilla = 'SI' AND 
-                        transacciones.Estado_Transaccion = 'No Procesada' AND 
-                        transacciones.Num_Boleto = boleto.Codigo_Boleto
-                        ORDER BY proveedor.Codigo;
 
-SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Cuadrilla, boleto.Codigo_Boleto, boleto.Kg_Brutos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Cuadrilla as Cuadrilla_Proveedor 
-                        FROM proveedor, boleto, transacciones 
-                        WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND 
-                        transacciones.Semana = '26-2021' AND 
-                        transacciones.Cuadrilla = 'SI' AND 
-                        transacciones.Estado_Transaccion = 'No Procesada' AND 
-                        transacciones.Num_Boleto = boleto.Codigo_Boleto
-                        group BY proveedor.Codigo ASC;
+-- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima 
+--                        FROM proveedor, boleto, transacciones, Tasa_Precios 
+--                        WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND 
+--                        proveedor.Codigo = '1' AND transacciones.Semana = '26-2021' AND 
+--                        proveedor.Materia_Prima = 'TABLA' AND 
+--                        Tasa_Precios.Materia_Seca = boleto.Materia_S AND 
+--                        transacciones.Materia_Prima = 'SI' AND 
+--                        transacciones.Estado_Transaccion = 'No Procesada' AND 
+--                        transacciones.Num_Boleto = boleto.Codigo_Boleto 
+--                        ORDER BY proveedor.Codigo;
 
-select * from Tasa_Precios;
+-- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Cuadrilla, boleto.Codigo_Boleto, boleto.Kg_Netos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Cuadrilla as Cuadrilla_Proveedor 
+--                       FROM proveedor, boleto, transacciones 
+--                        WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND 
+--                        transacciones.Semana = '26-2021' AND 
+--                        transacciones.Cuadrilla = 'SI' AND 
+--                        transacciones.Estado_Transaccion = 'No Procesada' AND 
+--                        transacciones.Num_Boleto = boleto.Codigo_Boleto
+--                        ORDER BY proveedor.Codigo;
+
+-- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Cuadrilla, boleto.Codigo_Boleto, boleto.Kg_Netos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Cuadrilla as Cuadrilla_Proveedor 
+--                        FROM proveedor, boleto, transacciones 
+--                        WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND 
+--                        transacciones.Semana = '26-2021' AND 
+--                        transacciones.Cuadrilla = 'SI' AND 
+--                        transacciones.Estado_Transaccion = 'No Procesada' AND 
+--                        transacciones.Num_Boleto = boleto.Codigo_Boleto
+--                        GROUP BY proveedor.Codigo ORDER BY proveedor.Codigo ASC;
+
+-- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Flete, boleto.Codigo_Boleto, boleto.Kg_Brutos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Flete as Flete_Proveedor 
+--                        FROM proveedor, boleto, transacciones 
+--                        WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND 
+--                        proveedor.Codigo = 5 AND transacciones.Semana = '26-2021' AND 
+--                        transacciones.Flete = 'SI' AND 
+--                        transacciones.Estado_Transaccion = 'No Procesada' AND 
+--                        transacciones.Num_Boleto = boleto.Codigo_Boleto 
+--                        ORDER BY proveedor.Codigo;
+
+-- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Peaje, boleto.Codigo_Boleto, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Peaje as Peaje_Proveedor
+--						  -- FROM proveedor, boleto, transacciones
+--                        WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND
+--                        transacciones.Semana = '26-2021' AND
+--                        transacciones.Peaje = 'SI' AND
+--                        transacciones.Estado_Transaccion = 'No Procesada' AND
+--                        transacciones.Num_Boleto = boleto.Codigo_Boleto
+--                        GROUP BY proveedor.Codigo ORDER BY proveedor.Codigo ASC;
+
+
+-- select * from Tasa_Precios;
 
 
 create table Relacion_Proveedor_Beneficiario(
@@ -218,7 +242,7 @@ create table Relacion_Proveedor_Beneficiario(
     foreign key(Cod_Proveedor) references proveedor(Codigo)
 );
 
-SELECT * from Relacion_Proveedor_Beneficiario;
+-- SELECT * from Relacion_Proveedor_Beneficiario;
 
 create table ODP(
 	Cod_ODP int auto_increment NOT NULL,
@@ -239,6 +263,7 @@ create table Pago_Transacciones(
     foreign key (COD_Trans) references transacciones(ID_Transaccion),
     foreign key (COD_ODP) references ODP(Cod_ODP)
 );
+
 /*
 create table reportes(
 	Cod_Reporte int auto_increment NOT NULL,

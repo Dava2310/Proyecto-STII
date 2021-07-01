@@ -395,13 +395,14 @@ public class TablaAnticipos extends javax.swing.JFrame {
                             .addComponent(Fecha_LB)
                             .addComponent(Fecha_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Moneda_LB)
-                            .addComponent(Moneda_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MontoBS_LB)
-                            .addComponent(MontoBS_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MontoDS_LB)
-                            .addComponent(MontoDS_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(MontoDS_txt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(Moneda_LB)
+                                .addComponent(Moneda_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(MontoBS_LB)
+                                .addComponent(MontoBS_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(MontoDS_LB)))
                         .addGap(18, 18, 18)
                         .addGroup(PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AprobacionLB)
@@ -459,7 +460,7 @@ public class TablaAnticipos extends javax.swing.JFrame {
             for(int i = 0; i <= registros - 1; i++){
                 //21-2021 - Monto
                 String item = dataTasas[i][1].toString();
-                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][3].toString()));
+                item+= "   -   " + String.valueOf(Double.parseDouble(dataTasas[i][2].toString()));
                 Tasa_CB.addItem(item);
             }
         } catch (SQLException ex) {
@@ -485,8 +486,8 @@ public class TablaAnticipos extends javax.swing.JFrame {
             index = anticipo.descontarODP(descontarODP);
             DescontarCB.setSelectedIndex(index);
             CodigoProveedor_txt.setText(String.valueOf(tabla.getValueAt(fila,9)));
-            RazonSocial_txt.setText(String.valueOf(tabla.getValueAt(fila,10)));
-            String identificacion = String.valueOf(tabla.getValueAt(fila,11));
+            RazonSocial_txt.setText(String.valueOf(tabla.getValueAt(fila,11)));
+            String identificacion = String.valueOf(tabla.getValueAt(fila,12));
             char tipo_cedula = identificacion.charAt(0);
             index = p.indexIdentificacion(tipo_cedula);
             IdentificacionProveedor_txt.setText(identificacion.substring(1, identificacion.length()));

@@ -167,7 +167,10 @@ public class PlantillaPago extends javax.swing.JFrame {
     }
     
     private void mostrarODP(){
-        
+        String[] columNames = {"Codigo ODP","Codigo del Proveedor","Fecha","Semana","MP-BS","MP-DS","Cuadrilla-BS","Cuadrilla-DS","Flete-BS","Flete-DS","Peaje-BS","Peaje-DS"};
+        data = objetoODP.getDatos(semana);
+        DefaultTableModel datos = new DefaultTableModel(data, columNames);
+        Tabla.setModel(datos);
     }
     
     private void mostrarTodosDS(){

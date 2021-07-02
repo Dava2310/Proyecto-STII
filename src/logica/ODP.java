@@ -1,5 +1,14 @@
 package logica;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -16,8 +25,143 @@ public class ODP {
     private Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
     private beneficiarios objetoBeneficiario = new beneficiarios();
     private anticipos objetoAnticipo = new anticipos();
+    
+    //CONSTRUCTOR
     public ODP(){
         con = new conectate();
+    }
+    
+    public void generar_ODP_Completa(String semana){
+        
+        int registros = 0;
+        
+        ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
+        /*
+            PRIMERO, AGRUPAMOS CUANTAS TRANSACCIONES HAY POR CADA PROVEEDOR
+            PERO AL FINAL, NO IMPORTA CUANTAS TENGA CADA UNO
+            LO QUE IMPORTA ES QUE LA CANTIDAD DE REGISTROS SERA IGUAL A CUANTOS PROVEEDORES DISTINTOS 
+            TUVIERON ACCIONES EN CIERTA SEMANA
+        */
+        try{
+            int codigo;
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                registros++;
+                codigo = res.getInt("Codigo_Proveedor");
+                codigos_Proveedores.add(codigo);
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*
+            AHORA, IREMOS ITERANDO POR CADA PROVEEDOR
+            EL CODIGO LO TENEMOS EN EL ARRAY LIST
+            CALCULAREMOS ENTONCES LA MATERIA PRIMA, CUADRILLA, FLETE Y PEAJE DE ESTE PROVEEDOR
+            Y LOS IREMOS METIENDO EN LAS CASILLAS CORRESPONDIENTES
+        
+            
+        */
+        for(int i = 0; i < registros; i++){
+            double[][] materiaPrima = this.generarODP_Materia_Prima(semana, codigos_Proveedores.get(i));
+            double[][] cuadrilla = this.ODP_Cuadrilla(semana, codigos_Proveedores.get(i));
+            double[][] flete = this.ODP_Flete(semana, codigos_Proveedores.get(i));
+            double[][] peaje = this.ODP_Peaje(semana, codigos_Proveedores.get(i));
+            double tasaUSD = tasa_USD.tasaSemana(semana);
+            float[] montosKg_Brutos_Netos = objetoTransacciones.cantidadKG_Brutos_Netos_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
+            Date fecha_Actual = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY HH:mm:ss");
+            String fecha_formateada = sdf.format(fecha_Actual);
+            int cantidad_viajes = objetoTransacciones.cantidadViajes_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
+            double[] montos_anticipos = objetoAnticipo.anticipos_Proveedor_Semana(semana, codigos_Proveedores.get(i));
+            double anticipo_BS = montos_anticipos[0];
+            
+
+            try{
+                PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO ODP(Cod_DelProveedor, Fecha, Semana, Acumulado_MP_BS, Acumulado_MP_DS, Acumulado_Cuadrilla_BS, Acumulado_Cuadrilla_DS, Acumulado_Flete_BS, Acumulado_Flete_DS, Acumulado_Peaje_BS, Acumulado_Peaje_DS) "
+                        + " values(?,?,?,?,?,?,?,?,?,?,?)");
+                pstm.setInt(1, codigos_Proveedores.get(i));
+                pstm.setString(2, fecha_formateada);
+                pstm.setString(3, semana);
+                pstm.setDouble(4, materiaPrima[0][1]);  //BS
+                pstm.setDouble(5, materiaPrima[0][0]);  //DS
+                pstm.setDouble(6, cuadrilla[0][1]);     //BS
+                pstm.setDouble(7, cuadrilla[0][0]);     //DS
+                pstm.setDouble(8, flete[0][1]);         //BS
+                pstm.setDouble(9, flete[0][0]);         //DS
+                pstm.setDouble(10, peaje[0][1]);        //BS
+                pstm.setDouble(11, peaje[0][0]);        //DS
+                pstm.execute();
+                pstm.close();
+            }catch(SQLException ex){
+                Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   
+    }
+    
+    public Object[][] getDatos(String semana){
+        int registros = 0;
+        
+        ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
+        /*
+            PRIMERO, AGRUPAMOS CUANTAS TRANSACCIONES HAY POR CADA PROVEEDOR
+            PERO AL FINAL, NO IMPORTA CUANTAS TENGA CADA UNO
+            LO QUE IMPORTA ES QUE LA CANTIDAD DE REGISTROS SERA IGUAL A CUANTOS PROVEEDORES DISTINTOS 
+            TUVIERON ACCIONES EN CIERTA SEMANA
+        */
+        try{
+            int codigo;
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                registros++;
+                codigo = res.getInt("Codigo_Proveedor");
+                codigos_Proveedores.add(codigo);
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Object[][] data = new Object[registros][12];
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * FROM ODP Where Semana = ? ORDER BY Cod_ODP DESC");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            int i = 0;
+            while(res.next()){
+                int estCod_ODP = res.getInt("Cod_ODP");
+                int estCod_DelProveedor = res.getInt("Cod_DelProveedor");
+                String estFecha = res.getString("Fecha");
+                String estSemana = res.getString("Semana");
+                double estAcumulado_MP_BS = res.getDouble("Acumulado_MP_BS");
+                double estAcumulado_MP_DS = res.getDouble("Acumulado_MP_DS");
+                double estAcumulado_Cuadrilla_BS = res.getDouble("Acumulado_Cuadrilla_BS");
+                double estAcumulado_Cuadrilla_DS = res.getDouble("Acumulado_Cuadrilla_DS");
+                double estAcumulado_Flete_BS = res.getDouble("Acumulado_Flete_BS");
+                double estAcumulado_Flete_DS = res.getDouble("Acumulado_Flete_DS");
+                double estAcumulado_Peaje_BS = res.getDouble("Acumulado_Peaje_BS");
+                double estAcumulado_Peaje_DS = res.getDouble("Acumulado_Peaje_DS");
+                DecimalFormat df = new DecimalFormat("#");
+                df.setMaximumFractionDigits(10);
+                data[i][0] = estCod_ODP;
+                data[i][1] = estCod_DelProveedor;
+                data[i][2] = estFecha;
+                data[i][3] = estSemana;
+                data[i][4] = df.format(estAcumulado_MP_BS);
+                data[i][5] = df.format(estAcumulado_MP_DS);
+                data[i][6] = df.format(estAcumulado_Cuadrilla_BS);
+                data[i][7] = df.format(estAcumulado_Cuadrilla_DS);
+                data[i][8] = df.format(estAcumulado_Flete_BS);
+                data[i][9] = df.format(estAcumulado_Flete_DS);
+                data[i][10] = df.format(estAcumulado_Peaje_BS);
+                data[i][11] = df.format(estAcumulado_Peaje_DS);
+                i++;
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
     }
     
     /*
@@ -87,6 +231,7 @@ public class ODP {
                 ResultSet res2 = pstm2.executeQuery();
                 while(res2.next()){
                     float estEn_Planta = res2.getFloat("En_Planta");
+                    estEn_Planta /= 1000;
                     float estKg_Netos = res2.getFloat("Kg_Netos");
                     //System.out.println("En planta: " + estEn_Planta + " Kg_Netos: " + estKg_Netos);
                     cantidad += (estEn_Planta * estKg_Netos);
@@ -365,6 +510,7 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
+    /*
     public static void main(String args[]){
         
         ODP objeto = new ODP();
@@ -400,9 +546,9 @@ public class ODP {
         }
         
     }
+    */
     
-    
-    public Object[][] plantillaPago(String semana){
+    public Object[][] plantillaPagoBS(String semana) throws SQLException{
         int registros = 0;
         
         ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
@@ -420,14 +566,12 @@ public class ODP {
             while(res.next()){
                 registros++;
                 codigo = res.getInt("Codigo_Proveedor");
-                System.out.println("Codigo: " + codigo);
                 codigos_Proveedores.add(codigo);
             }
-            System.out.println(registros);
         }catch(SQLException ex){
             Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Object[][] data = new Object[registros][24];
+        Object[][] data = new Object[registros][17];
         /*
             AHORA, IREMOS ITERANDO POR CADA PROVEEDOR
             EL CODIGO LO TENEMOS EN EL ARRAY LIST
@@ -449,7 +593,6 @@ public class ODP {
             int cantidad_viajes = objetoTransacciones.cantidadViajes_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
             double[] montos_anticipos = objetoAnticipo.anticipos_Proveedor_Semana(semana, codigos_Proveedores.get(i));
             double anticipo_BS = montos_anticipos[0];
-            double anticipo_DS = montos_anticipos[1];
             
             data[i][0] = semana;                        //LA SEMANA CON LA QUE SE ESTA TRABAJANDO
             data[i][1] = fecha_formateada;              //FECHA EN DIA/MES/ANIO
@@ -478,6 +621,91 @@ public class ODP {
             double peaje_BS = peaje[0][1];
             double subTotalBS = materia_primaBS + cuadrilla_BS + flete_BS + peaje_BS;
             //========================================================================\\
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(10);
+            data[i][10] = df.format(materiaPrima[0][1]);            //EN BS
+            data[i][11] = df.format(cuadrilla[0][1]);               //EN BS  
+            data[i][12] = df.format(flete[0][1]);                   //EN BS
+            data[i][13] = df.format(peaje[0][1]);                   //EN BS
+            //====================================================================================================================\\
+            data[i][14] = df.format(subTotalBS);
+            //====================================================================================================================\\
+            data[i][15] = df.format(anticipo_BS);
+            //====================================================================================================================\\
+            double total_BS = subTotalBS - anticipo_BS;
+            data[i][16] = df.format(total_BS);
+        }
+        return data;
+    }
+    
+    public Object[][] plantillaPagoDS(String semana) throws SQLException{
+        int registros = 0;
+        
+        ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
+        /*
+            PRIMERO, AGRUPAMOS CUANTAS TRANSACCIONES HAY POR CADA PROVEEDOR
+            PERO AL FINAL, NO IMPORTA CUANTAS TENGA CADA UNO
+            LO QUE IMPORTA ES QUE LA CANTIDAD DE REGISTROS SERA IGUAL A CUANTOS PROVEEDORES DISTINTOS 
+            TUVIERON ACCIONES EN CIERTA SEMANA
+        */
+        try{
+            int codigo;
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                registros++;
+                codigo = res.getInt("Codigo_Proveedor");
+                codigos_Proveedores.add(codigo);
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Object[][] data = new Object[registros][17];
+        /*
+            AHORA, IREMOS ITERANDO POR CADA PROVEEDOR
+            EL CODIGO LO TENEMOS EN EL ARRAY LIST
+            CALCULAREMOS ENTONCES LA MATERIA PRIMA, CUADRILLA, FLETE Y PEAJE DE ESTE PROVEEDOR
+            Y LOS IREMOS METIENDO EN LAS CASILLAS CORRESPONDIENTES
+        
+            
+        */
+        for(int i = 0; i < registros; i++){
+            double[][] materiaPrima = this.generarODP_Materia_Prima(semana, codigos_Proveedores.get(i));
+            double[][] cuadrilla = this.ODP_Cuadrilla(semana, codigos_Proveedores.get(i));
+            double[][] flete = this.ODP_Flete(semana, codigos_Proveedores.get(i));
+            double[][] peaje = this.ODP_Peaje(semana, codigos_Proveedores.get(i));
+            double tasaUSD = tasa_USD.tasaSemana(semana);
+            float[] montosKg_Brutos_Netos = objetoTransacciones.cantidadKG_Brutos_Netos_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
+            Date fecha_Actual = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fecha_formateada = sdf.format(fecha_Actual);
+            int cantidad_viajes = objetoTransacciones.cantidadViajes_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
+            double[] montos_anticipos = objetoAnticipo.anticipos_Proveedor_Semana(semana, codigos_Proveedores.get(i));
+            double anticipo_DS = montos_anticipos[1];
+            
+            data[i][0] = semana;                        //LA SEMANA CON LA QUE SE ESTA TRABAJANDO
+            data[i][1] = fecha_formateada;              //FECHA EN DIA/MES/ANIO
+            if(PB.encontrarProveedor(codigos_Proveedores.get(i))){
+                //AQUI COLOCAMOS EN LAS CASILLAS DE BENEFICIARIO, LOS DATOS DE BENEFICIARIO QUE CORRESPONED A ESTE PROVEEDOR
+                Object[] datosBeneficiario = objetoBeneficiario.informacionBeneficiario_ParaODP(codigos_Proveedores.get(i));
+                data[i][2] = datosBeneficiario[0]; //ID_Beneficiario
+                data[i][3] = datosBeneficiario[1]; //Name_Beneficiario
+                data[i][4] = datosBeneficiario[2]; //Banco
+                data[i][5] = datosBeneficiario[3]; //Numero de Cuenta
+            } else {
+                //AQUI COLOCAMOS EN LAS CASILLAS DE BENEFICIARIO, LOS DATOS EN BLANCO
+                data[i][2] = " ";
+                data[i][3] = " ";
+                data[i][4] = " ";
+                data[i][5] = " ";
+            }
+            data[i][6] = tasaUSD;                       //TASA DEL DOLAR EN LA SEMANA DE LA ODP
+            data[i][7] = montosKg_Brutos_Netos[0];      //KG NETOS
+            data[i][8] = montosKg_Brutos_Netos[1];      //KG BRUTOS
+            data[i][9] = cantidad_viajes;
+            //=======================================================================\\
+            //========================================================================\\
             double materiaPrimaDS = materiaPrima[0][0]; //System.out.println("Materia Prima DS C" + materiaPrimaDS);
             double cuadrillaDS = cuadrilla[0][0];       //System.out.println("Cuadrilla DS C" +cuadrillaDS);
             double fleteDS = flete[0][0];               //System.out.println("Flete DS C" +fleteDS);
@@ -485,26 +713,169 @@ public class ODP {
             double subTotalDS = materiaPrimaDS + cuadrillaDS + fleteDS + peajeDS;
             DecimalFormat df = new DecimalFormat("#");
             df.setMaximumFractionDigits(10);
-            data[i][10] = df.format(materiaPrima[0][1]);            //EN BS
-            data[i][11] = df.format(materiaPrima[0][0]);            //EN DS
-            data[i][12] = df.format(cuadrilla[0][1]);               //EN BS  
-            data[i][13] = df.format(cuadrilla[0][0]);               //EN DS
-            data[i][14] = df.format(flete[0][1]);                   //EN BS
-            data[i][15] = df.format(flete[0][0]);                   //EN DS
-            data[i][16] = df.format(peaje[0][1]);                   //EN BS
-            data[i][17] = df.format(peaje[0][0]);                   //EN DS  
+            data[i][10] = df.format(materiaPrima[0][0]);            //EN DS
+            data[i][11] = df.format(cuadrilla[0][0]);               //EN DS
+            data[i][12] = df.format(flete[0][0]);                   //EN DS
+            data[i][13] = df.format(peaje[0][0]);                   //EN DS  
             //====================================================================================================================\\
-            data[i][18] = df.format(subTotalBS);
-            data[i][19] = df.format(subTotalDS); 
+            data[i][14] = df.format(subTotalDS); 
             //====================================================================================================================\\
-            data[i][20] = df.format(anticipo_BS);
-            data[i][21] = df.format(anticipo_DS);
+            data[i][15] = df.format(anticipo_DS);
             //====================================================================================================================\\
-            double total_BS = subTotalBS - anticipo_BS;
             double total_DS = subTotalDS - anticipo_DS;
-            data[i][22] = df.format(total_BS);
-            data[i][23] = df.format(total_DS);
+            data[i][16] = df.format(total_DS);
         }
         return data;
+    }
+    
+    public void CrearPDF_PlantillaPagoBS(File fichero, String semana) throws SQLException{
+       Document documento = new Document();
+       
+        try{
+           //SE LE COLOCA LA RUTA AL ARCHIVO
+           PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+           Object[][] datos = this.plantillaPagoBS(semana);
+           Paragraph parrafo = new Paragraph();
+           parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+           parrafo.add("REPORTE DE LA PLANTILLA DE PAGO EN BS \n \n");
+           parrafo.setFont(FontFactory.getFont("Arial", 30, Font.BOLD));
+           
+           //SE LE COLOCA EL TAMAÑO AL DOCUMENTO + ROTATE() QUE HACE COLOCARLO EN HORIZONTAL
+           documento.setPageSize(PageSize.A1.rotate());
+           //SE ABRE EL DOCUMENTO
+           documento.open();
+           documento.add(parrafo);
+           //SE CREA UN OBJETO TABLA DONDE SE PUEDAN GUARDAR LOS DATOS + TAMAÑO
+           PdfPTable tabla = new PdfPTable(17);
+           //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+           tabla.addCell("Semana");
+           tabla.addCell("Fecha");
+           tabla.addCell("Cedula de Identidad");
+           tabla.addCell("Beneficiario");
+           tabla.addCell("Banco");
+           tabla.addCell("Numero de Cuenta");
+           tabla.addCell("Tasa USD Semana");
+           tabla.addCell("KG_Netos");
+           tabla.addCell("KG_Brutos");
+           tabla.addCell("Viajes");
+           tabla.addCell("Materia Prima BS");
+           tabla.addCell("Cuadrilla BS");
+           tabla.addCell("Flete BS");
+           tabla.addCell("Peaje BS");
+           tabla.addCell("SubTotal BS");
+           tabla.addCell("Anticipos BS");
+           tabla.addCell("Total a Pagar BS");
+           int registros = 0;
+           try{
+            int codigo;
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                registros++;
+            }
+                System.out.println(registros);
+            }catch(SQLException ex){
+                Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            }  
+            for(int i = 0; i < registros; i++){
+                tabla.addCell(datos[i][0].toString());
+                tabla.addCell(datos[i][1].toString());
+                tabla.addCell(datos[i][2].toString());
+                tabla.addCell(datos[i][3].toString());
+                tabla.addCell(datos[i][4].toString());
+                tabla.addCell(datos[i][5].toString());
+                tabla.addCell(datos[i][6].toString());
+                tabla.addCell(datos[i][7].toString());
+                tabla.addCell(datos[i][8].toString());
+                tabla.addCell(datos[i][9].toString());
+                tabla.addCell(datos[i][10].toString());
+                tabla.addCell(datos[i][11].toString());
+                tabla.addCell(datos[i][12].toString());
+                tabla.addCell(datos[i][13].toString());
+                tabla.addCell(datos[i][14].toString());
+                tabla.addCell(datos[i][15].toString());
+                tabla.addCell(datos[i][16].toString());            
+            }
+            documento.add(tabla);
+            documento.close();
+        }catch(Exception ex){
+           Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+    
+    public void CrearPDF_PlantillaPagoDS(File fichero, String semana) throws SQLException{
+       Document documento = new Document();
+       
+        try{
+           //SE LE COLOCA LA RUTA AL ARCHIVO
+           PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+           Object[][] datos = this.plantillaPagoDS(semana);
+           Paragraph parrafo = new Paragraph();
+           parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+           parrafo.add("REPORTE DE LA PLANTILLA DE PAGO EN DS \n \n");
+           parrafo.setFont(FontFactory.getFont("Arial", 30, Font.BOLD));
+           
+           //SE LE COLOCA EL TAMAÑO AL DOCUMENTO + ROTATE() QUE HACE COLOCARLO EN HORIZONTAL
+           documento.setPageSize(PageSize.A1.rotate());
+           //SE ABRE EL DOCUMENTO
+           documento.open();
+           documento.add(parrafo);
+           //SE CREA UN OBJETO TABLA DONDE SE PUEDAN GUARDAR LOS DATOS + TAMAÑO
+           PdfPTable tabla = new PdfPTable(17);
+           //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+           tabla.addCell("Semana");
+           tabla.addCell("Fecha");
+           tabla.addCell("Cedula de Identidad");
+           tabla.addCell("Beneficiario");
+           tabla.addCell("Banco");
+           tabla.addCell("Numero de Cuenta");
+           tabla.addCell("Tasa USD Semana");
+           tabla.addCell("KG_Netos");
+           tabla.addCell("KG_Brutos");
+           tabla.addCell("Viajes");
+           tabla.addCell("Materia Prima DS");
+           tabla.addCell("Cuadrilla DS");
+           tabla.addCell("Flete DS");
+           tabla.addCell("Peaje DS");
+           tabla.addCell("SubTotal DS");
+           tabla.addCell("Anticipos DS");
+           tabla.addCell("Total a Pagar DS");
+           int registros = 0;
+           try{
+            int codigo;
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                registros++;
+            }
+            }catch(SQLException ex){
+                Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            }  
+            for(int i = 0; i < registros; i++){
+                tabla.addCell(datos[i][0].toString());
+                tabla.addCell(datos[i][1].toString());
+                tabla.addCell(datos[i][2].toString());
+                tabla.addCell(datos[i][3].toString());
+                tabla.addCell(datos[i][4].toString());
+                tabla.addCell(datos[i][5].toString());
+                tabla.addCell(datos[i][6].toString());
+                tabla.addCell(datos[i][7].toString());
+                tabla.addCell(datos[i][8].toString());
+                tabla.addCell(datos[i][9].toString());
+                tabla.addCell(datos[i][10].toString());
+                tabla.addCell(datos[i][11].toString());
+                tabla.addCell(datos[i][12].toString());
+                tabla.addCell(datos[i][13].toString());
+                tabla.addCell(datos[i][14].toString());
+                tabla.addCell(datos[i][15].toString());
+                tabla.addCell(datos[i][16].toString());            
+            }
+            documento.add(tabla);
+            documento.close();
+        }catch(Exception ex){
+           Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -33,8 +33,19 @@ public class transacciones {
             pstm.setString(9, Codigo_Proveedor);
             pstm.execute();
             pstm.close();
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void cerrarTransacciones(String semana){
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE transacciones set Estado_Transaccion = 'Procesada' WHERE Semana = ?");
+            pstm.setString(1, semana);
+            pstm.execute();
+            pstm.close();
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -83,8 +94,8 @@ public class transacciones {
                 data[i][9] = estCodigo_Proveedor;
                 i++;
             }
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            Logger.getLogger(transacciones.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }

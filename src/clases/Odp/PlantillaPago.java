@@ -5,6 +5,13 @@
  */
 package clases.Odp;
 
+import java.io.File;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import logica.ODP;
 
 /**
@@ -13,7 +20,10 @@ import logica.ODP;
  */
 public class PlantillaPago extends javax.swing.JFrame {
 
+    public String semana;
+    public int modo = 0;
     private ODP objetoODP = new ODP();
+    private Object[][] data;
     public PlantillaPago() {
         initComponents();
     }
@@ -106,13 +116,67 @@ public class PlantillaPago extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Generar_BTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Generar_BTActionPerformed
-        // TODO add your handling code here:
+        int resp = JOptionPane.showConfirmDialog(null, "SE VA A PROCEDER A GENERAR EL REPORTE DE PROVEEDORES\n"+"¿ESTA SEGURO?",
+            "GENERACION DE REPORTE", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE/*El tipo de ventana, en este caso WARNING*/);
+        if(resp == JOptionPane.YES_OPTION){
+            //Creamos el objeto JFileChooser
+            JFileChooser fc = new JFileChooser();
+        
+            //Abrimos la ventana, se guarda la opcion implementada por el usuario
+            int seleccion = fc.showSaveDialog(this);
+        
+            //si el usuario pincha en aceptar
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+
+                //seleccionamos el fichero
+                File fichero = fc.getSelectedFile();
+                try {
+                    if(modo == 1){
+                        objetoODP.CrearPDF_PlantillaPagoBS(fichero, semana);
+                    } else {
+                        objetoODP.CrearPDF_PlantillaPagoDS(fichero, semana);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            } 
+        }
     }//GEN-LAST:event_Generar_BTActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
+        if(modo == 1){
+            mostrarTodosBS();
+        } else {
+            mostrarTodosDS();
+        }
     }//GEN-LAST:event_formWindowOpened
 
+    private void mostrarTodosBS(){
+        String[] columNames = {"Semana","Fecha","Cedula de Identidad","Beneficiario","Banco","Numero de Cuenta","Tasa USD Semana","Kg_Netos","Kg_Brutos",
+                               "Viajes","Materia Prima BS","Cuadrilla BS","Flete BS","Peaje BS",
+                               "SubTotal BS","Anticipos BS","Total a Pagar BS"};
+        try {
+            data = objetoODP.plantillaPagoBS(semana);
+            DefaultTableModel datos = new DefaultTableModel(data, columNames);
+            Tabla.setModel(datos);
+        } catch (SQLException ex) {
+            Logger.getLogger(PlantillaPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void mostrarTodosDS(){
+        String[] columNames = {"Semana","Fecha","Cedula de Identidad","Beneficiario","Banco","Numero de Cuenta","Tasa USD Semana","Kg_Netos","Kg_Brutos",
+                               "Viajes","Materia Prima DS","Cuadrilla DS","Flete Ds","Peaje DS",
+                               "SubTotalDS","Anticipos DS","Total a Pagar DS"};
+        try {
+            data = objetoODP.plantillaPagoDS(semana);
+            DefaultTableModel datos = new DefaultTableModel(data, columNames);
+            Tabla.setModel(datos);
+        } catch (SQLException ex) {
+            Logger.getLogger(PlantillaPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

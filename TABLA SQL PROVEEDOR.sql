@@ -171,14 +171,12 @@ create table transacciones(
     primary key(ID_Transaccion)
 );
 
--- SELECT * from transacciones;
-
--- SELECT transacciones.Num_Boleto, transacciones.ID_Transaccion, transacciones.Codigo_Proveedor, transacciones.Semana, boleto.Codigo_Boleto, boleto.Kg_Brutos, boleto.Kg_Netos, proveedor.Codigo FROM transacciones, boleto, proveedor WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto AND transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Semana = '26-2021' AND proveedor.Codigo = 1;
-
+SELECT transacciones.Num_Boleto, transacciones.ID_Transaccion, transacciones.Codigo_Proveedor, transacciones.Semana, boleto.Codigo_Boleto, boleto.Kg_Brutos, boleto.Kg_Netos, proveedor.Codigo FROM transacciones, boleto, proveedor WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto AND transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Semana = '26-2021';
+SELECT * from transacciones;
 -- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Codigo_Proveedor, transacciones.Semana, transacciones.Peaje, boleto.Codigo_Boleto, proveedor.Codigo FROM transacciones, boleto, proveedor WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto AND transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Peaje = 'SI' AND transacciones.Semana = '26-2021' AND proveedor.Codigo = 1;
 
 
--- SELECT Codigo_Proveedor FROM transacciones WHERE Semana = '26-2021' GROUP BY Codigo_Proveedor;
+SELECT Codigo_Proveedor FROM transacciones WHERE Semana = '26-2021' GROUP BY Codigo_Proveedor;
 -- SELECT Semana FROM transacciones GROUP BY Semana;
 -- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND (transacciones.Semana = '26-2021' OR transacciones.Semana = '27-2021') AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto ORDER BY proveedor.Codigo;
 -- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND (transacciones.Semana = '26-2021' OR transacciones.Semana = '27-2021') AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto GROUP BY proveedor.Codigo;
@@ -246,22 +244,19 @@ create table Relacion_Proveedor_Beneficiario(
 
 create table ODP(
 	Cod_ODP int auto_increment NOT NULL,
+    Cod_DelProveedor int NOT NULL,
     Fecha datetime,
-    Moneda varchar(2), 
-    Observaciones varchar(150),
-    Acumulado_MP float,
-    Acumulado_Cuadrilla float,
-    Acumulado_Flete float,
-    Acumulado_Peaje int,
-    primary key(Cod_ODP)
-);
-
-create table Pago_Transacciones(
-	COD_Trans int NOT NULL,
-    COD_ODP int NOT NULL,
     Semana varchar(10),
-    foreign key (COD_Trans) references transacciones(ID_Transaccion),
-    foreign key (COD_ODP) references ODP(Cod_ODP)
+    Acumulado_MP_BS double,
+    Acumulado_MP_Ds double,
+    Acumulado_Cuadrilla_BS double,
+    Acumulado_Cuadrilla_DS double,
+    Acumulado_Flete_BS double,
+    Acumulado_Flete_DS double,
+    Acumulado_Peaje_BS int,
+    Acumulado_Peaje_DS int,
+    primary key(Cod_ODP),
+    foreign key(Cod_DelProveedor) references proveedor(Codigo)
 );
 
 /*

@@ -138,7 +138,7 @@ public class beneficiarios {
             }
             res.close();
         }catch(SQLException e){
-            System.out.println(e);
+            Logger.getLogger(beneficiarios.class.getName()).log(Level.SEVERE, null, e);
         }
         return codigo;
     }
@@ -170,16 +170,16 @@ public class beneficiarios {
             pstm.execute();
             pstm.close();
         }catch(SQLException ex){
-            System.out.println(ex);
+            Logger.getLogger(beneficiarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public Object[] informacionBeneficiario_ParaODP(int codigo_proveedor){
         Object[] data = new Object[4];
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT proveedor.Codigo, beneficiarios.Cod_Beneficiario, beneficiarios.ID_Beneficiario, beneficiarios.Name_Beneficiario, beneficiarios.Banco, beneficiarios.Num_cuenta "
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT proveedor.Codigo, beneficiarios.Cod_Beneficiario, beneficiarios.ID_Beneficiario, beneficiarios.Name_Beneficiario, beneficiarios.Banco, beneficiarios.Num_cuenta, Relacion_Proveedor_Beneficiario.Cod_Bnf, Relacion_Proveedor_Beneficiario.Cod_Proveedor "
                     + " FROM beneficiarios, Relacion_Proveedor_Beneficiario, proveedor "
-                    + " WHERE beneficiarios.Cod_Beneficiario = Relacion_Proveedor_Beneficario.Cod_Bnf "
+                    + " WHERE Relacion_Proveedor_Beneficiario.Cod_Bnf = beneficiarios.Cod_Beneficiario "
                     + " AND proveedor.Codigo = Relacion_Proveedor_Beneficiario.Cod_Proveedor "
                     + " AND proveedor.Codigo = ?");
             pstm.setInt(1, codigo_proveedor);
@@ -200,7 +200,7 @@ public class beneficiarios {
                 data[3] = " ";
             }
         }catch(SQLException ex){
-            System.out.println(ex);
+            Logger.getLogger(beneficiarios.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }

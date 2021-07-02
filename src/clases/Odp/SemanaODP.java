@@ -16,6 +16,8 @@ public class SemanaODP extends javax.swing.JFrame {
 
     public int modo_pantalla;
     private ODP odpObjeto = new ODP();
+    private String semana;
+    private PlantillaPago PP;
     public SemanaODP() {
         initComponents();
         this.setResizable(false);
@@ -36,6 +38,7 @@ public class SemanaODP extends javax.swing.JFrame {
         IconoPay = new javax.swing.JLabel();
         AceptarBT = new javax.swing.JButton();
         Semanas_CB = new javax.swing.JComboBox<>();
+        Moneda_CB = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -53,9 +56,17 @@ public class SemanaODP extends javax.swing.JFrame {
 
         AceptarBT.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         AceptarBT.setText("ACEPTAR");
+        AceptarBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarBTActionPerformed(evt);
+            }
+        });
 
         Semanas_CB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         Semanas_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
+        Moneda_CB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        Moneda_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BS", "DS" }));
 
         javax.swing.GroupLayout PanelLayout = new javax.swing.GroupLayout(Panel);
         Panel.setLayout(PanelLayout);
@@ -68,16 +79,18 @@ public class SemanaODP extends javax.swing.JFrame {
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelLayout.createSequentialGroup()
                         .addComponent(Semanas_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
-                        .addComponent(AceptarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Moneda_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(AceptarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(IconoPay)
-                .addContainerGap(28, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(36, 36, 36))
+            .addGroup(PanelLayout.createSequentialGroup()
+                .addGap(92, 92, 92)
                 .addComponent(jLabel1)
-                .addGap(63, 63, 63))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelLayout.setVerticalGroup(
             PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,7 +100,9 @@ public class SemanaODP extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(PanelLayout.createSequentialGroup()
-                        .addComponent(Semanas_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Semanas_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Moneda_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(AceptarBT, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(IconoPay)
@@ -115,6 +130,21 @@ public class SemanaODP extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         generarSemanas();
     }//GEN-LAST:event_formWindowOpened
+
+    private void AceptarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarBTActionPerformed
+        if(Semanas_CB.getSelectedIndex() != 0){
+            semana = Semanas_CB.getSelectedItem().toString();
+            PP = new PlantillaPago();
+            if(Moneda_CB.getSelectedIndex() == 0){
+                PP.modo = 1;
+            } else {
+                PP.modo = 2;
+            }
+            PP.semana = this.semana;
+            PP.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_AceptarBTActionPerformed
 
     private void generarSemanas(){
         
@@ -165,6 +195,7 @@ public class SemanaODP extends javax.swing.JFrame {
     private javax.swing.JButton AceptarBT;
     private javax.swing.JLabel IconoCalendar;
     private javax.swing.JLabel IconoPay;
+    private javax.swing.JComboBox<String> Moneda_CB;
     private javax.swing.JPanel Panel;
     private javax.swing.JComboBox<String> Semanas_CB;
     private javax.swing.JLabel jLabel1;

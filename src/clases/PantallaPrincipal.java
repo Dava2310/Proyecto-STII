@@ -12,13 +12,16 @@ import clases.tarifa_estandar.*;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import logica.conectate;
+import logica.proveedor;
 
 public class PantallaPrincipal extends javax.swing.JFrame {
 
@@ -83,9 +86,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         M_Boletos = new javax.swing.JMenu();
         MI_CrearBoleto = new javax.swing.JMenuItem();
         MI_ManejoBoletos = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        M_Tarifa_Estandar = new javax.swing.JMenu();
         MI_CrearT = new javax.swing.JMenuItem();
         MI_BuscarModificarT = new javax.swing.JMenuItem();
+        M_Reportes = new javax.swing.JMenu();
+        MI_ReporteProveedor = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1200, 650));
@@ -160,7 +165,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         M_ODP.setText("ODP");
 
-        MI_GenerarReporte.setText("Generar Reporte");
+        MI_GenerarReporte.setText("Simulacro de Orden de Pago");
         MI_GenerarReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MI_GenerarReporteActionPerformed(evt);
@@ -238,7 +243,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         MenuBar.add(M_Boletos);
 
-        jMenu1.setText("Tarifa_Estandar");
+        M_Tarifa_Estandar.setText("Tarifa_Estandar");
 
         MI_CrearT.setText("Añadir Tarifa");
         MI_CrearT.addActionListener(new java.awt.event.ActionListener() {
@@ -246,7 +251,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 MI_CrearTActionPerformed(evt);
             }
         });
-        jMenu1.add(MI_CrearT);
+        M_Tarifa_Estandar.add(MI_CrearT);
 
         MI_BuscarModificarT.setText("Buscar y Modificar Tarifa");
         MI_BuscarModificarT.addActionListener(new java.awt.event.ActionListener() {
@@ -254,9 +259,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 MI_BuscarModificarTActionPerformed(evt);
             }
         });
-        jMenu1.add(MI_BuscarModificarT);
+        M_Tarifa_Estandar.add(MI_BuscarModificarT);
 
-        MenuBar.add(jMenu1);
+        MenuBar.add(M_Tarifa_Estandar);
+
+        M_Reportes.setText("Reportes");
+
+        MI_ReporteProveedor.setText("Reporte Proveedores ");
+        MI_ReporteProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ReporteProveedorActionPerformed(evt);
+            }
+        });
+        M_Reportes.add(MI_ReporteProveedor);
+
+        MenuBar.add(M_Reportes);
 
         setJMenuBar(MenuBar);
 
@@ -363,6 +380,31 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         pantallaSemana.setVisible(true);
         pantallaSemana.modo_pantalla = 1;
     }//GEN-LAST:event_MI_GenerarReporteActionPerformed
+
+    private void MI_ReporteProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ReporteProveedorActionPerformed
+        int resp = JOptionPane.showConfirmDialog(null, "SE VA A PROCEDER A GENERAR EL REPORTE DE PROVEEDORES\n"+"¿ESTA SEGURO?",
+            "GENERACION DE REPORTE", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE/*El tipo de ventana, en este caso WARNING*/);
+        if(resp == JOptionPane.YES_OPTION){
+            proveedor objetoProveedor = new proveedor();
+            //Creamos el objeto JFileChooser
+            JFileChooser fc = new JFileChooser();
+        
+            //Abrimos la ventana, se guarda la opcion implementada por el usuario
+            int seleccion = fc.showSaveDialog(this);
+        
+            //si el usuario pincha en aceptar
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+
+                //seleccionamos el fichero
+                File fichero = fc.getSelectedFile();
+                try {
+                    objetoProveedor.CrearPDF(fichero);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            } 
+        }
+    }//GEN-LAST:event_MI_ReporteProveedorActionPerformed
     
     public void cerrar(){
         try{
@@ -439,6 +481,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MI_ManejoAnticipos;
     private javax.swing.JMenuItem MI_ManejoBoletos;
     private javax.swing.JMenuItem MI_MostrarProveedores;
+    private javax.swing.JMenuItem MI_ReporteProveedor;
     private javax.swing.JMenuItem MI_TasaDePrecios;
     private javax.swing.JMenuItem MI_TasaUSD;
     private javax.swing.JMenu M_Anticipos;
@@ -446,9 +489,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu M_Boletos;
     private javax.swing.JMenu M_ODP;
     private javax.swing.JMenu M_Proveedor;
+    private javax.swing.JMenu M_Reportes;
+    private javax.swing.JMenu M_Tarifa_Estandar;
     private javax.swing.JMenu M_Transaccion;
     private javax.swing.JMenu M_Valores;
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenu jMenu1;
     // End of variables declaration//GEN-END:variables
 }

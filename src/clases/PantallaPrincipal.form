@@ -82,7 +82,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="MI_GenerarReporte">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Generar Reporte"/>
+                <Property name="text" type="java.lang.String" value="Simulacro de Orden de Pago"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_GenerarReporteActionPerformed"/>
@@ -167,7 +167,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="M_Tarifa_Estandar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tarifa_Estandar"/>
           </Properties>
@@ -186,6 +186,21 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_BuscarModificarTActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="M_Reportes">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reportes"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="MI_ReporteProveedor">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reporte Proveedores "/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_ReporteProveedorActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

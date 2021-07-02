@@ -1,4 +1,14 @@
 package logica;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,6 +75,117 @@ public class proveedor {
             }
         }
         
+    }
+    
+    public void CrearPDF (File fichero) throws SQLException, FileNotFoundException{
+        //SE CREA UN OBJETO TIPO DOCUMENTO
+        Document documento = new Document();
+        
+        
+        try {
+            //SE LE COLOCA RUTA AL ARCHIVO
+            PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+           
+            Paragraph parrafo = new Paragraph();
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("REPORTE DE PROVEEDORES \n\n");
+            parrafo.setFont(FontFactory.getFont("Arial", 30,Font.BOLD ));
+            
+            
+            //SE LE COLOCA TAMAÑO AL DOCUMENTO + ROTATE() QUE HACE COLOCARLO EN HORIZONTAL
+            documento.setPageSize(PageSize.A1.rotate());
+            // SE ABRE EL DOCUMENTO
+            documento.open();
+            documento.add(parrafo);
+            //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
+            PdfPTable tabla = new PdfPTable(23);
+            //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+            tabla.addCell("Codigo");
+            tabla.addCell ("Identificacion");
+            tabla.addCell(("Razon Social"));
+            tabla.addCell("Direccion");
+            tabla.addCell("Municipio");
+            tabla.addCell("Telefono");
+            tabla.addCell("Email");
+            tabla.addCell("Cuadrilla");
+            tabla.addCell("Flete");
+            tabla.addCell("Peaje");
+            tabla.addCell("Materia Prima");
+            tabla.addCell("MP Acordado");
+            tabla.addCell("Cod Tarifa");
+            tabla.addCell("Nombre Beneficiario");
+            tabla.addCell("ID Beneficiario");
+            tabla.addCell("Correo Beneficiario");
+            tabla.addCell("Banco");
+            tabla.addCell("Num Cuenta");
+            tabla.addCell("Tipo Cuenta");
+            tabla.addCell("Modo Cuenta");
+            tabla.addCell("Nombre Aut");
+            tabla.addCell("ID Aut");
+            tabla.addCell("Estado Actividad");
+            
+            try {
+                    PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " + 
+                       " Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado, Cod_Tarifa, Estado_Actividad " + 
+                       " FROM proveedor " +
+                       " ORDER BY Codigo");
+                    ResultSet res = pstm.executeQuery(); 
+                    while(res.next()){         
+                        int estCodigo = res.getInt("Codigo");
+                        //SE AGREGAN LOS DATOS OBTENIDOS A CADA COLUMNA DE LA TABLA
+                        tabla.addCell(res.getString("Codigo"));
+                        tabla.addCell(res.getString("Identificacion"));
+                        tabla.addCell(res.getString("Razon_Social"));
+                        tabla.addCell(res.getString("Direccion"));
+                        tabla.addCell(res.getString("Municipio"));
+                        tabla.addCell(res.getString("Telefono"));
+                        tabla.addCell(res.getString("Email"));
+                        tabla.addCell(res.getString("Cuadrilla"));
+                        tabla.addCell(res.getString("Flete"));
+                        tabla.addCell(res.getString("Peaje"));
+                        tabla.addCell(res.getString("Materia_Prima"));
+                        tabla.addCell(res.getString("MP_acordado"));
+                        tabla.addCell(res.getString("Cod_Tarifa"));
+                        PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT " + 
+                            " beneficiarios.Name_Beneficiario, beneficiarios.ID_Beneficiario, beneficiarios.Mail_Beneficiario, beneficiarios.Banco, beneficiarios.Num_Cuenta, beneficiarios.Tipo_Cuenta, beneficiarios.MOD_Cuenta, beneficiarios.Nombre_Autorizado, beneficiarios.ID_Autorizado " +
+                            " FROM beneficiarios, Relacion_Proveedor_Beneficiario " +
+                            " WHERE Relacion_Proveedor_Beneficiario.Cod_Proveedor = " + estCodigo + 
+                            " AND beneficiarios.Cod_Beneficiario = Relacion_Proveedor_Beneficiario.Cod_Bnf");
+                        ResultSet res2 = pstm2.executeQuery();
+                        if(res2.next()){
+                            tabla.addCell(res2.getString("beneficiarios.Name_Beneficiario"));
+                            tabla.addCell(res2.getString("beneficiarios.ID_Beneficiario"));
+                            tabla.addCell(res2.getString("beneficiarios.Mail_Beneficiario"));
+                            tabla.addCell(res2.getString("beneficiarios.Banco"));
+                            tabla.addCell(res2.getString("beneficiarios.Num_Cuenta"));
+                            tabla.addCell(res2.getString("beneficiarios.Tipo_Cuenta"));
+                            tabla.addCell(res2.getString("beneficiarios.MOD_Cuenta"));
+                            tabla.addCell(res2.getString("beneficiarios.Nombre_Autorizado"));
+                            tabla.addCell(res2.getString("beneficiarios.ID_Autorizado"));
+                        }else{
+                            tabla.addCell("");
+                            tabla.addCell("");
+                            tabla.addCell("");
+                            tabla.addCell("");
+                            tabla.addCell("");
+                            tabla.addCell("");
+                            tabla.addCell("");
+                            tabla.addCell("");
+                            tabla.addCell("");
+                        
+                        }
+                        tabla.addCell(res.getString("Estado_Actividad"));   
+                    }
+                    documento.add(tabla);
+                    
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+            //SE CIERRA EL DOCUMENTO
+            documento.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     
     public int cantidadProveedores() throws SQLException{

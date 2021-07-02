@@ -38,6 +38,20 @@ public class Tasa_Precios {
         }
         
     }
+    public int cantidad_tasas (){
+        int registro = 0;
+        
+        try {
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM Tasa_Precios");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registro = res.getInt("total");
+            res.close();                                
+        } catch (SQLException e) {
+            Logger.getLogger(Tasa_Precios.class.getName()).log(Level.SEVERE,null,e);    
+        }
+        return registro;
+    }
     public Object[][] getDatos() throws SQLException{
         int registro = 0;
         

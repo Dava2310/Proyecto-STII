@@ -36,7 +36,20 @@ public class boleto {
             System.out.println(e);
         }
     }
-    
+    public int cantida_boletos(){
+        int registros = 0;
+        //obtenemos la cantidad de registros existentes en la tabla.
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM boleto");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return registros;
+    }
     //FUNCION PARA BOTENER DATOS DE TODOS LOS BOLETOS
     public Object[][] getDatos() throws SQLException{
         int registros = 0;

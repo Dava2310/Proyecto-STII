@@ -36,6 +36,22 @@ public class anticipos {
             System.out.println(e);
         }
     }
+    
+    public int Cantidad_ANT(){
+        int registros = 0;
+        //SE OBTIENEN LA CANTIDAD DE REGISTROS EXISTENTES EN LA TABLA DE ANTICIPOS
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM anticipos");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return registros = 0;
+    }
+    
     //FUNCION PARA OBTENER DATOS DE TODOS LOS ANTICIPOS REALIZADOS
     public Object[][] getDatos() throws SQLException{
         int registros = 0;

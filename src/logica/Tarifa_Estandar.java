@@ -11,7 +11,19 @@ public class Tarifa_Estandar {
         // CONEXION CON LA BASE DE DATOS
         con = new conectate();
     }
-    
+    public int cantidad_tarifa(){
+         int registros = 0;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM Tarifa_Estandar");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
+        }catch(SQLException ex){
+            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return registros;
+    }
     public Object[][] getDatos() throws SQLException{
         int registros = 0;
         try{

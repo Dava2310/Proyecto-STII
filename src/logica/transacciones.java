@@ -38,6 +38,22 @@ public class transacciones {
         }
     }
     
+    //cantidad de transacciones
+    public int CantidadTrs(){
+        int transacciones = 0;
+                
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM transacciones");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            transacciones = res.getInt("total");
+            res.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return transacciones;
+    }
+    
     public void cerrarTransacciones(String semana){
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE transacciones set Estado_Transaccion = 'Procesada' WHERE Semana = ?");

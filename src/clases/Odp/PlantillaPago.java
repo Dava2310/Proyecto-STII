@@ -146,8 +146,10 @@ public class PlantillaPago extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         if(modo == 1){
             mostrarTodosBS();
-        } else {
+        } else if(modo == 2){
             mostrarTodosDS();
+        } else {
+            mostrarODP();
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -162,6 +164,10 @@ public class PlantillaPago extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(PlantillaPago.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void mostrarODP(){
+        
     }
     
     private void mostrarTodosDS(){

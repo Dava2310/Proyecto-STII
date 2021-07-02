@@ -8,11 +8,20 @@ import clases.anticipos.*;
 import clases.boletos.*;
 import clases.transacciones.*;
 import clases.tarifa_estandar.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -20,8 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import logica.conectate;
-import logica.proveedor;
+import logica.*;
 
 public class PantallaPrincipal extends javax.swing.JFrame {
 
@@ -45,6 +53,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private TasaDePrecios TasaPrecios;
     private TasaBsUSD TasaUSD;
     private SemanaODP pantallaSemana;
+    private proveedor p = new proveedor();
+    private Tasa_USD tUSD = new Tasa_USD();
+    private transacciones trs = new transacciones();
+    private anticipos ant = new anticipos();
+    private boleto b = new boleto();
+    private Tasa_Precios tp = new Tasa_Precios();
+    private Tarifa_Estandar te = new Tarifa_Estandar();
     
     public PantallaPrincipal() {
         initComponents();
@@ -91,6 +106,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         MI_BuscarModificarT = new javax.swing.JMenuItem();
         M_Reportes = new javax.swing.JMenu();
         MI_ReporteProveedor = new javax.swing.JMenuItem();
+        MI_ReporteAnticipo = new javax.swing.JMenuItem();
+        MI_ReporteTransacciones = new javax.swing.JMenuItem();
+        MI_ReporteBoleto = new javax.swing.JMenuItem();
+        MI_ReporteTarifas = new javax.swing.JMenuItem();
+        MI_ReporteTasaDePrecios = new javax.swing.JMenuItem();
+        MI_ReporteTasaUSD = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1200, 650));
@@ -273,6 +294,54 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         });
         M_Reportes.add(MI_ReporteProveedor);
 
+        MI_ReporteAnticipo.setText("Reporte Anticipos");
+        MI_ReporteAnticipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ReporteAnticipoActionPerformed(evt);
+            }
+        });
+        M_Reportes.add(MI_ReporteAnticipo);
+
+        MI_ReporteTransacciones.setText("Reporte Transacciones");
+        MI_ReporteTransacciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ReporteTransaccionesActionPerformed(evt);
+            }
+        });
+        M_Reportes.add(MI_ReporteTransacciones);
+
+        MI_ReporteBoleto.setText("Reporte Boletos");
+        MI_ReporteBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ReporteBoletoActionPerformed(evt);
+            }
+        });
+        M_Reportes.add(MI_ReporteBoleto);
+
+        MI_ReporteTarifas.setText("Reporte Tarifas");
+        MI_ReporteTarifas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ReporteTarifasActionPerformed(evt);
+            }
+        });
+        M_Reportes.add(MI_ReporteTarifas);
+
+        MI_ReporteTasaDePrecios.setText("Reporte Tasa de Precios");
+        MI_ReporteTasaDePrecios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ReporteTasaDePreciosActionPerformed(evt);
+            }
+        });
+        M_Reportes.add(MI_ReporteTasaDePrecios);
+
+        MI_ReporteTasaUSD.setText("Reporte de Tasa USD");
+        MI_ReporteTasaUSD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ReporteTasaUSDActionPerformed(evt);
+            }
+        });
+        M_Reportes.add(MI_ReporteTasaUSD);
+
         MenuBar.add(M_Reportes);
 
         setJMenuBar(MenuBar);
@@ -385,26 +454,608 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         int resp = JOptionPane.showConfirmDialog(null, "SE VA A PROCEDER A GENERAR EL REPORTE DE PROVEEDORES\n"+"¿ESTA SEGURO?",
             "GENERACION DE REPORTE", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE/*El tipo de ventana, en este caso WARNING*/);
         if(resp == JOptionPane.YES_OPTION){
-            proveedor objetoProveedor = new proveedor();
-            //Creamos el objeto JFileChooser
+            // TODO add your handling code here:
             JFileChooser fc = new JFileChooser();
-        
+
             //Abrimos la ventana, se guarda la opcion implementada por el usuario
             int seleccion = fc.showSaveDialog(this);
-        
+
             //si el usuario pincha en aceptar
             if (seleccion == JFileChooser.APPROVE_OPTION) {
 
                 //seleccionamos el fichero
                 File fichero = fc.getSelectedFile();
                 try {
-                    objetoProveedor.CrearPDF(fichero);
+                    Document documento = new Document();
+                    try {
+                            //SE LE COLOCA RUTA AL ARCHIVO + SU NOMBRE.PDF
+                            //String ruta =  System.getProperty("user.home");
+                            PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+
+                            Paragraph parrafo = new Paragraph();
+                            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+                            parrafo.add("REPORTE DE PROVEEDORES \n\n");
+                            parrafo.setFont(FontFactory.getFont("Arial", 30,Font.BOLD ));
+
+
+                            //SE LE COLOCA TAMAÑO AL DOCUMENTO + ROTATE() QUE HACE COLOCARLO EN HORIZONTAL
+                            documento.setPageSize(PageSize.A1.rotate());
+                            // SE ABRE EL DOCUMENTO
+                            documento.open();
+                            documento.add(parrafo);
+                            //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
+                            PdfPTable tabla = new PdfPTable(23);
+                            //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+                            tabla.addCell("Codigo");
+                            tabla.addCell ("Identificacion");
+                            tabla.addCell("Razon Social");
+                            tabla.addCell("Direccion");
+                            tabla.addCell("Municipio");
+                            tabla.addCell("Telefono");
+                            tabla.addCell("Email");
+                            tabla.addCell("Cuadrilla");
+                            tabla.addCell("Flete");
+                            tabla.addCell("Peaje");
+                            tabla.addCell("Materia Prima");
+                            tabla.addCell("MP Acordado");
+                            tabla.addCell("Cod Tarifa");
+                            tabla.addCell("Nombre Beneficiario");
+                            tabla.addCell("ID Beneficiario");
+                            tabla.addCell("Correo Beneficiario");
+                            tabla.addCell("Banco");
+                            tabla.addCell("Num Cuenta");
+                            tabla.addCell("Tipo Cuenta");
+                            tabla.addCell("Modo Cuenta");
+                            tabla.addCell("Nombre Aut");
+                            tabla.addCell("ID Aut");
+                            tabla.addCell("Estado Actividad");
+
+                            try {
+                                Object[][] data;
+                                data = p.getDatos();
+                                int CP = p.cantidadProveedores();
+
+                                for (int i = 0; i < CP; i++) {
+                                    tabla.addCell(data[i][0].toString());
+                                    tabla.addCell(data[i][1].toString());
+                                    tabla.addCell(data[i][2].toString());
+                                    tabla.addCell(data[i][3].toString());
+                                    tabla.addCell(data[i][4].toString());
+                                    tabla.addCell(data[i][5].toString());
+                                    tabla.addCell(data[i][6].toString());
+                                    tabla.addCell(data[i][7].toString());
+                                    tabla.addCell(data[i][8].toString());
+                                    tabla.addCell(data[i][9].toString());
+                                    tabla.addCell(data[i][10].toString());
+                                    tabla.addCell(data[i][11].toString());
+                                    tabla.addCell(data[i][12].toString());
+                                    tabla.addCell(data[i][13].toString());
+                                    tabla.addCell(data[i][14].toString());
+                                    tabla.addCell(data[i][15].toString());
+                                    tabla.addCell(data[i][16].toString());
+                                    tabla.addCell(data[i][17].toString());
+                                    tabla.addCell(data[i][18].toString());
+                                    tabla.addCell(data[i][19].toString());
+                                    tabla.addCell(data[i][20].toString());
+                                    tabla.addCell(data[i][21].toString());
+                                    tabla.addCell(data[i][22].toString());
+                                }
+
+
+                                documento.add(tabla);
+                                } catch (SQLException e) {
+                                    Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                                }
+                                documento.close();
+
+
+                            //SE CIERRA EL DOCUMENTO
+                                    documento.close();
+                        } catch (Exception e) {
+                                    Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                        }
                 } catch (Exception e) {
-                    System.out.println(e);
+                    Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
                 }
-            } 
+            }
         }
     }//GEN-LAST:event_MI_ReporteProveedorActionPerformed
+
+    private void MI_ReporteTasaUSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ReporteTasaUSDActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        
+        //Abrimos la ventana, se guarda la opcion implementada por el usuario
+        int seleccion = fc.showSaveDialog(this);
+        
+        //si el usuario pincha en aceptar
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            
+            //seleccionamos el fichero
+            File fichero = fc.getSelectedFile();
+            try {
+                
+                Document documento = new Document();
+        
+        
+                try {
+                        //SE LE COLOCA RUTA AL ARCHIVO + SU NOMBRE.PDF
+                        //String ruta =  System.getProperty("user.home");
+                        PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+
+                        Paragraph parrafo = new Paragraph();
+                        parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+                        parrafo.add("TASA USD \n\n");
+                        parrafo.setFont(FontFactory.getFont("Arial", 30,Font.BOLD ));
+  
+                        // SE ABRE EL DOCUMENTO
+                        documento.open();
+                        documento.add(parrafo);
+                        //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
+                        PdfPTable tabla = new PdfPTable(4);
+                        //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+                        tabla.addCell("Codigo");
+                        tabla.addCell ("Fecha");
+                        tabla.addCell("Semana");
+                        tabla.addCell("Monto");
+
+                        try {
+                            Object[][] data;
+                            data = tUSD.getDatos();
+                            int CP = tUSD.obtenerRegistros();
+                            
+                            for (int i = 0; i < CP; i++) {
+                                tabla.addCell(data[i][0].toString());
+                                tabla.addCell(data[i][1].toString());
+                                tabla.addCell(data[i][2].toString());
+                                tabla.addCell(data[i][3].toString());
+                            }
+                           
+                            
+                            documento.add(tabla);
+                            } catch (SQLException e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                            }
+                            documento.close();
+                        //SE CIERRA EL DOCUMENTO
+                        documento.close();
+                    } catch (Exception e) {
+                        Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                    }
+            } catch (Exception e) {
+                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }//GEN-LAST:event_MI_ReporteTasaUSDActionPerformed
+
+    private void MI_ReporteTasaDePreciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ReporteTasaDePreciosActionPerformed
+        JFileChooser fc = new JFileChooser();
+        
+        //Abrimos la ventana, se guarda la opcion implementada por el usuario
+        int seleccion = fc.showSaveDialog(this);
+        
+        //si el usuario pincha en aceptar
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            
+            //seleccionamos el fichero
+            File fichero = fc.getSelectedFile();
+            try {
+                
+                Document documento = new Document();
+        
+        
+                try {
+                        //SE LE COLOCA RUTA AL ARCHIVO + SU NOMBRE.PDF
+                        //String ruta =  System.getProperty("user.home");
+                        PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+
+                        Paragraph parrafo = new Paragraph();
+                        parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+                        parrafo.add("TASA DE PRECIO \n\n");
+                        parrafo.setFont(FontFactory.getFont("Arial", 30,Font.BOLD ));
+                        
+
+                        // SE ABRE EL DOCUMENTO
+                        documento.open();
+                        documento.add(parrafo);
+                        //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
+                        PdfPTable tabla = new PdfPTable(3);
+                        //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+                        tabla.addCell("En raices de Yuca % Materia Seca");
+                        tabla.addCell ("En Planta BSF/TM");
+                        tabla.addCell("En el Corte BSF/TM");
+                        
+
+                        try {
+                            Object[][] data;
+                            data = tp.getDatos();
+                            int CT = tp.cantidad_tasas();
+                            
+                            for (int i = 0; i < CT; i++) {
+                                tabla.addCell(data[i][0].toString());
+                                tabla.addCell(data[i][1].toString());
+                                tabla.addCell(data[i][2].toString());
+                                
+                            }
+                           
+                            
+                            documento.add(tabla);
+                            } catch (SQLException e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                            }
+                            documento.close();
+                        
+                        
+                        //SE CIERRA EL DOCUMENTO
+                                documento.close();
+                    } catch (Exception e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                    }
+            } catch (Exception e) {
+                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+            }
+        }
+    }//GEN-LAST:event_MI_ReporteTasaDePreciosActionPerformed
+
+    private void MI_ReporteTarifasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ReporteTarifasActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        
+        //Abrimos la ventana, se guarda la opcion implementada por el usuario
+        int seleccion = fc.showSaveDialog(this);
+        
+        //si el usuario pincha en aceptar
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            
+            //seleccionamos el fichero
+            File fichero = fc.getSelectedFile();
+            try {
+                
+                Document documento = new Document();
+        
+        
+                try {
+                        //SE LE COLOCA RUTA AL ARCHIVO + SU NOMBRE.PDF
+                        //String ruta =  System.getProperty("user.home");
+                        PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+
+                        Paragraph parrafo = new Paragraph();
+                        parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+                        parrafo.add("TARIFAS \n\n");
+                        parrafo.setFont(FontFactory.getFont("Arial", 30,Font.BOLD ));
+                        documento.setPageSize(PageSize.A4.rotate());
+
+                        // SE ABRE EL DOCUMENTO
+                        documento.open();
+                        documento.add(parrafo);
+                        //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
+                        PdfPTable tabla = new PdfPTable(7);
+                        //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+                        tabla.addCell("Codigo Tarifa");
+                        tabla.addCell ("Cuadrilla");
+                        tabla.addCell("Flete");
+                        tabla.addCell("Materia Prima");
+                        tabla.addCell("Fecha Inicio");
+                        tabla.addCell("Fecha Final");
+                        tabla.addCell("Estado");
+                       
+                        try {
+                            Object[][] data;
+                            data = te.getDatos();
+                            int C = te.cantidad_tarifa();
+                            
+                            for (int i = 0; i < C; i++) {
+                                tabla.addCell(data[i][0].toString());
+                                tabla.addCell(data[i][1].toString());
+                                tabla.addCell(data[i][2].toString());
+                                tabla.addCell(data[i][3].toString());
+                                tabla.addCell(data[i][4].toString());
+                                tabla.addCell(data[i][5].toString());
+                                tabla.addCell(data[i][6].toString());
+                            
+                                ;
+                                
+                                
+                            }
+                           
+                            
+                            documento.add(tabla);
+                            } catch (SQLException e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                            }
+                            documento.close();
+                        
+                        
+                        //SE CIERRA EL DOCUMENTO
+                                documento.close();
+                    } catch (Exception e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                    }
+            } catch (Exception e) {
+                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+            }
+        }
+    }//GEN-LAST:event_MI_ReporteTarifasActionPerformed
+
+    private void MI_ReporteTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ReporteTransaccionesActionPerformed
+        // TODO add your handling code here:
+         JFileChooser fc = new JFileChooser();
+        
+        //Abrimos la ventana, se guarda la opcion implementada por el usuario
+        int seleccion = fc.showSaveDialog(this);
+        
+        //si el usuario pincha en aceptar
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            
+            //seleccionamos el fichero
+            File fichero = fc.getSelectedFile();
+            try {
+                
+                Document documento = new Document();
+        
+        
+                try {
+                        //SE LE COLOCA RUTA AL ARCHIVO + SU NOMBRE.PDF
+                        //String ruta =  System.getProperty("user.home");
+                        PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+
+                        Paragraph parrafo = new Paragraph();
+                        parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+                        parrafo.add("TRANSACCIONES \n\n");
+                        parrafo.setFont(FontFactory.getFont("Arial", 30,Font.BOLD ));
+                        documento.setPageSize(PageSize.A4.rotate());
+
+                        // SE ABRE EL DOCUMENTO
+                        documento.open();
+                        documento.add(parrafo);
+                        //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
+                        PdfPTable tabla = new PdfPTable(9);
+                        //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+                        tabla.addCell("# Boleto");
+                        tabla.addCell ("Semana");
+                        tabla.addCell("MP");
+                        tabla.addCell("Cuadrilla");
+                        tabla.addCell("Flete");
+                        tabla.addCell("Peaje");
+                        tabla.addCell("Estatus");
+                        tabla.addCell("Observaciones");
+                        tabla.addCell("Cod.proveedor");
+
+                        try {
+                            Object[][] data;
+                            data = trs.getDatos();
+                            int CT = trs.CantidadTrs();
+                            
+                            for (int i = 0; i < CT; i++) {
+                                tabla.addCell(data[i][0].toString());
+                                tabla.addCell(data[i][1].toString());
+                                tabla.addCell(data[i][2].toString());
+                                tabla.addCell(data[i][3].toString());
+                                tabla.addCell(data[i][4].toString());
+                                tabla.addCell(data[i][5].toString());
+                                tabla.addCell(data[i][6].toString());
+                                tabla.addCell(data[i][7].toString());
+                                tabla.addCell(data[i][8].toString());
+                            }
+                           
+                            
+                            documento.add(tabla);
+                            } catch (SQLException e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                            }
+                            documento.close();
+                        
+                        
+                        //SE CIERRA EL DOCUMENTO
+                                documento.close();
+                    } catch (Exception e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                    }
+            } catch (Exception e) {
+                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+            }
+        } 
+    }//GEN-LAST:event_MI_ReporteTransaccionesActionPerformed
+
+    private void MI_ReporteBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ReporteBoletoActionPerformed
+        JFileChooser fc = new JFileChooser();
+        
+        //Abrimos la ventana, se guarda la opcion implementada por el usuario
+        int seleccion = fc.showSaveDialog(this);
+        
+        //si el usuario pincha en aceptar
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            
+            //seleccionamos el fichero
+            File fichero = fc.getSelectedFile();
+            try {
+                
+                Document documento = new Document();
+        
+        
+                try {
+                        //SE LE COLOCA RUTA AL ARCHIVO + SU NOMBRE.PDF
+                        //String ruta =  System.getProperty("user.home");
+                        PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+
+                        Paragraph parrafo = new Paragraph();
+                        parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+                        parrafo.add("BOLETOS \n\n");
+                        parrafo.setFont(FontFactory.getFont("Arial", 30,Font.BOLD ));
+                        documento.setPageSize(PageSize.A4.rotate());
+
+                        // SE ABRE EL DOCUMENTO
+                        documento.open();
+                        documento.add(parrafo);
+                        //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
+                        PdfPTable tabla = new PdfPTable(10);
+                        //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+                        tabla.addCell("Num Boleto");
+                        tabla.addCell ("Nombre");
+                        tabla.addCell("Fecha");
+                        tabla.addCell("Semana");
+                        tabla.addCell("KG Brutos");
+                        tabla.addCell("KG Netos");
+                        tabla.addCell("Materia S");
+                        tabla.addCell("Impurezas");
+                        tabla.addCell("Cantidad de Transacciones");
+                        tabla.addCell("Observaciones");
+                        
+                        
+                        
+                        
+
+                        try {
+                            Object[][] data;
+                            data = b.getDatos();
+                            int C = b.cantida_boletos();
+                            
+                            for (int i = 0; i < C; i++) {
+                                tabla.addCell(data[i][0].toString());
+                                tabla.addCell(data[i][1].toString());
+                                tabla.addCell(data[i][2].toString());
+                                tabla.addCell(data[i][3].toString());
+                                tabla.addCell(data[i][4].toString());
+                                tabla.addCell(data[i][5].toString());
+                                tabla.addCell(data[i][6].toString());
+                                tabla.addCell(data[i][7].toString());
+                                tabla.addCell(data[i][8].toString());
+                                tabla.addCell(data[i][9].toString());
+                                ;
+                                
+                                
+                            }
+                           
+                            
+                            documento.add(tabla);
+                            } catch (SQLException e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                            }
+                            documento.close();
+                        
+                        
+                        //SE CIERRA EL DOCUMENTO
+                                documento.close();
+                    } catch (Exception e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                    }
+            } catch (Exception e) {
+                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+            }
+        }
+    }//GEN-LAST:event_MI_ReporteBoletoActionPerformed
+
+    private void MI_ReporteAnticipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ReporteAnticipoActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        
+        //Abrimos la ventana, se guarda la opcion implementada por el usuario
+        int seleccion = fc.showSaveDialog(this);
+        
+        //si el usuario pincha en aceptar
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            
+            //seleccionamos el fichero
+            File fichero = fc.getSelectedFile();
+            try {
+                
+                Document documento = new Document();
+        
+        
+                try {
+                        //SE LE COLOCA RUTA AL ARCHIVO + SU NOMBRE.PDF
+                        //String ruta =  System.getProperty("user.home");
+                        PdfWriter.getInstance(documento, new FileOutputStream(fichero));
+
+                        Paragraph parrafo = new Paragraph();
+                        parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+                        parrafo.add("ANTICIPOS \n\n");
+                        parrafo.setFont(FontFactory.getFont("Arial", 30,Font.BOLD ));
+                        documento.setPageSize(PageSize.A4.rotate());
+
+                        // SE ABRE EL DOCUMENTO
+                        documento.open();
+                        documento.add(parrafo);
+                        //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
+                        PdfPTable tabla = new PdfPTable(13);
+                        //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
+                        tabla.addCell("Numero");
+                        tabla.addCell ("Motivo");
+                        tabla.addCell("Fecha");
+                        tabla.addCell("Semana");
+                        tabla.addCell("Monto_BS");
+                        tabla.addCell("Monto_DS");
+                        tabla.addCell("Aprovado por");
+                        tabla.addCell("Observaciones");
+                        tabla.addCell("Descontar en ODP");
+                        tabla.addCell("Codigo Provedor");
+                        tabla.addCell("Codigo Tasa");
+                        tabla.addCell("Nombre Proveedor");
+                        tabla.addCell("ID Proveedor");
+                        
+                        
+                        
+
+                        try {
+                            Object[][] data;
+                            data = ant.getDatos();
+                            int CA = ant.Cantidad_ANT();
+                            
+                            for (int i = 0; i < CA; i++) {
+                                tabla.addCell(data[i][0].toString());
+                                tabla.addCell(data[i][1].toString());
+                                tabla.addCell(data[i][2].toString());
+                                tabla.addCell(data[i][3].toString());
+                                tabla.addCell(data[i][4].toString());
+                                tabla.addCell(data[i][5].toString());
+                                tabla.addCell(data[i][6].toString());
+                                tabla.addCell(data[i][7].toString());
+                                tabla.addCell(data[i][8].toString());
+                                tabla.addCell(data[i][9].toString());
+                                tabla.addCell(data[i][10].toString());
+                                tabla.addCell(data[i][11].toString());
+                                tabla.addCell(data[i][12].toString());
+                                
+                                
+                            }
+                           
+                            
+                            documento.add(tabla);
+                            } catch (SQLException e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                            }
+                            documento.close();
+                        
+                        
+                        //SE CIERRA EL DOCUMENTO
+                                documento.close();
+                    } catch (Exception e) {
+                                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+                    }
+            } catch (Exception e) {
+                Logger.getLogger(PantallaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+
+            }
+        }
+    }//GEN-LAST:event_MI_ReporteAnticipoActionPerformed
     
     public void cerrar(){
         try{
@@ -481,7 +1132,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MI_ManejoAnticipos;
     private javax.swing.JMenuItem MI_ManejoBoletos;
     private javax.swing.JMenuItem MI_MostrarProveedores;
+    private javax.swing.JMenuItem MI_ReporteAnticipo;
+    private javax.swing.JMenuItem MI_ReporteBoleto;
     private javax.swing.JMenuItem MI_ReporteProveedor;
+    private javax.swing.JMenuItem MI_ReporteTarifas;
+    private javax.swing.JMenuItem MI_ReporteTasaDePrecios;
+    private javax.swing.JMenuItem MI_ReporteTasaUSD;
+    private javax.swing.JMenuItem MI_ReporteTransacciones;
     private javax.swing.JMenuItem MI_TasaDePrecios;
     private javax.swing.JMenuItem MI_TasaUSD;
     private javax.swing.JMenu M_Anticipos;

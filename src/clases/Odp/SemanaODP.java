@@ -129,20 +129,32 @@ public class SemanaODP extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         generarSemanas();
+        if(modo_pantalla == 2){
+            Moneda_CB.setEnabled(false);
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void AceptarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarBTActionPerformed
         if(Semanas_CB.getSelectedIndex() != 0){
-            semana = Semanas_CB.getSelectedItem().toString();
-            PP = new PlantillaPago();
-            if(Moneda_CB.getSelectedIndex() == 0){
-                PP.modo = 1;
-            } else {
-                PP.modo = 2;
+            if(modo_pantalla == 1){
+                semana = Semanas_CB.getSelectedItem().toString();
+                PP = new PlantillaPago();
+                if(Moneda_CB.getSelectedIndex() == 0){
+                    PP.modo = 1;
+                } else {
+                    PP.modo = 2;
+                }
+                PP.semana = this.semana;
+                PP.setVisible(true);
+                this.dispose();
+            } else {          
+                semana = Semanas_CB.getSelectedItem().toString();
+                PP = new PlantillaPago();
+                PP.modo = 3;
+                PP.semana = this.semana;
+                PP.setVisible(true);
+                this.dispose();
             }
-            PP.semana = this.semana;
-            PP.setVisible(true);
-            this.dispose();
         }
     }//GEN-LAST:event_AceptarBTActionPerformed
 

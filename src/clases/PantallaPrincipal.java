@@ -595,10 +595,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                         documento.open();
                         documento.add(parrafo);
                         //SE CREA UN OBJETO TABLA DONDE GUARDAR LOS DATOS + TAMAÑO
-                        PdfPTable tabla = new PdfPTable(4);
+                        PdfPTable tabla = new PdfPTable(3);
                         //SE LE COLOCAN TITULO A CADA UNA DE LAS COLUMNAS
                         tabla.addCell("Codigo");
-                        tabla.addCell ("Fecha");
                         tabla.addCell("Semana");
                         tabla.addCell("Monto");
 
@@ -611,7 +610,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                                 tabla.addCell(data[i][0].toString());
                                 tabla.addCell(data[i][1].toString());
                                 tabla.addCell(data[i][2].toString());
-                                tabla.addCell(data[i][3].toString());
                             }
                            
                             

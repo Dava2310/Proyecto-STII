@@ -44,14 +44,14 @@ create table proveedor(
 );
 
 -- UPDATE proveedor set Cod_Tarifa = 5;
-
+/*
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(1, 'V29517648', 'Daniel Vetencourt', 78,48,48, 'TABLA');
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(2, 'V28216052', 'Gabriel Antuarez', 78,48,48, 'TABLA');
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(3, 'V27578138', 'Jennifer Sucre', 78,48,48, 'TABLA');
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(4, 'V22111589', 'MasterGAP', 78,48,48, 'TABLA');
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(5, 'V7383981', 'Carlos Vetencourt', 78,48,48, 'TABLA');
 INSERT INTO proveedor(Codigo, Identificacion, Razon_Social, Cuadrilla, Flete, Peaje, Materia_Prima) values(6, 'V7418673', 'Dorys Alvarez', 78,48,48, 'TABLA');
-
+*/
 -- SELECT * from proveedor order by Codigo desc;
 -- CREACION DE LA TABLA BENEFICIARIOS
 create table beneficiarios(
@@ -171,12 +171,12 @@ create table transacciones(
     primary key(ID_Transaccion)
 );
 
-SELECT transacciones.Num_Boleto, transacciones.ID_Transaccion, transacciones.Codigo_Proveedor, transacciones.Semana, boleto.Codigo_Boleto, boleto.Kg_Brutos, boleto.Kg_Netos, proveedor.Codigo FROM transacciones, boleto, proveedor WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto AND transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Semana = '26-2021';
-SELECT * from transacciones;
+-- SELECT transacciones.Num_Boleto, transacciones.ID_Transaccion, transacciones.Codigo_Proveedor, transacciones.Semana, boleto.Codigo_Boleto, boleto.Kg_Brutos, boleto.Kg_Netos, proveedor.Codigo FROM transacciones, boleto, proveedor WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto AND transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Semana = '26-2021';
+-- SELECT * from transacciones;
 -- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Codigo_Proveedor, transacciones.Semana, transacciones.Peaje, boleto.Codigo_Boleto, proveedor.Codigo FROM transacciones, boleto, proveedor WHERE transacciones.Num_Boleto = boleto.Codigo_Boleto AND transacciones.Codigo_Proveedor = proveedor.Codigo AND transacciones.Peaje = 'SI' AND transacciones.Semana = '26-2021' AND proveedor.Codigo = 1;
 
 
-SELECT Codigo_Proveedor FROM transacciones WHERE Semana = '26-2021' GROUP BY Codigo_Proveedor;
+-- SELECT Codigo_Proveedor FROM transacciones WHERE Semana = '26-2021' GROUP BY Codigo_Proveedor;
 -- SELECT Semana FROM transacciones GROUP BY Semana;
 -- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND (transacciones.Semana = '26-2021' OR transacciones.Semana = '27-2021') AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto ORDER BY proveedor.Codigo;
 -- SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima FROM proveedor, boleto, transacciones, Tasa_Precios WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND (transacciones.Semana = '26-2021' OR transacciones.Semana = '27-2021') AND proveedor.Materia_Prima = 'TABLA' AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND transacciones.Materia_Prima = 'SI' AND transacciones.Estado_Transaccion = 'No Procesada' AND transacciones.Num_Boleto = boleto.Codigo_Boleto GROUP BY proveedor.Codigo;

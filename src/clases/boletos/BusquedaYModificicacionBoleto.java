@@ -375,7 +375,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
                 String Observaciones = ObservacionestTXT.getText();
                 try {
                     //DE AQUI YA TENEMOS TODOS LOS NECESARIOS PARA UN UPDATE DE BOLETO
-                    boleto.updateBoleto(num_boleto, nombre, fecha, semana, KgBrutos, KgNetos, MS, Impurezas, Observaciones);
+                    boleto.updateBoleto(num_boleto, fecha, nombre, semana, KgBrutos, KgNetos, MS, Impurezas, Observaciones);
                     JOptionPane.showMessageDialog(null, "SE PUDO REALIZAR LA MODIFICACION DEL BOLETO CON EXITO", "EXITO", JOptionPane.PLAIN_MESSAGE);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "NO SE PUDO REALIZAR LA MODIFICACION DEL BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -388,6 +388,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         } else{
             JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DE BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+        reestablecerPagina();
     }//GEN-LAST:event_GuardarBTActionPerformed
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed

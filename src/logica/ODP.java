@@ -71,7 +71,7 @@ public class ODP {
             double tasaUSD = tasa_USD.tasaSemana(semana);
             float[] montosKg_Brutos_Netos = objetoTransacciones.cantidadKG_Brutos_Netos_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
             Date fecha_Actual = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dddd HH:mm:ss");
             String fecha_formateada = sdf.format(fecha_Actual);
             int cantidad_viajes = objetoTransacciones.cantidadViajes_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
             double[] montos_anticipos = objetoAnticipo.anticipos_Proveedor_Semana(semana, codigos_Proveedores.get(i));
@@ -231,7 +231,7 @@ public class ODP {
                 ResultSet res2 = pstm2.executeQuery();
                 while(res2.next()){
                     float estEn_Planta = res2.getFloat("En_Planta");
-                    estEn_Planta /= 1000;
+                    //estEn_Planta /= 1000;
                     float estKg_Netos = res2.getFloat("Kg_Netos");
                     //System.out.println("En planta: " + estEn_Planta + " Kg_Netos: " + estKg_Netos);
                     cantidad += (estEn_Planta * estKg_Netos);

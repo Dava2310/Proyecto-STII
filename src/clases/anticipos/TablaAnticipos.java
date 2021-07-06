@@ -6,6 +6,7 @@
 package clases.anticipos;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -612,8 +613,11 @@ public class TablaAnticipos extends javax.swing.JFrame {
         if(MontoBS_txt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             double Monto_BS = Double.parseDouble(MontoBS_txt.getText());
             double monto_total = Monto_BS / monto;
-            monto_total = (double) Math.round(monto_total * 100d) / 100;
-            MontoDS_txt.setText(String.valueOf(monto_total));
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(10);
+            monto_total = (double) Math.round(monto_total * 1000d) / 1000;
+            String monto_formateado = df.format(monto_total);
+            MontoDS_txt.setText(monto_formateado);
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA") && MontoBS_txt.isEditable()){
             MontoDS_txt.setText("Seleccionar una tasa");
         }
@@ -628,8 +632,11 @@ public class TablaAnticipos extends javax.swing.JFrame {
         if(MontoDS_txt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             double Monto_DS = Double.parseDouble(MontoDS_txt.getText());
             double monto_total = Monto_DS * monto;
-            monto_total = (double) Math.round(monto_total * 100d) / 100;
-            MontoBS_txt.setText(String.valueOf(monto_total));
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(10);
+            monto_total = (double) Math.round(monto_total * 1000d) / 1000;
+            String monto_formateado = df.format(monto_total);
+            MontoBS_txt.setText(monto_formateado);
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA") && MontoDS_txt.isEditable()){
             MontoBS_txt.setText("Seleccionar una tasa");
         }
@@ -638,19 +645,23 @@ public class TablaAnticipos extends javax.swing.JFrame {
     private void Tasa_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Tasa_CBActionPerformed
         if(!Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             int index = Tasa_CB.getSelectedIndex() - 1;
-            monto = Double.parseDouble(dataTasas[index][3].toString());
+            monto = Double.parseDouble(dataTasas[index][2].toString());
             monto = (double) Math.round(monto * 100d) / 100;
             cod_tasa = Integer.parseInt(dataTasas[index][0].toString());
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(10);
             if(MontoBS_txt.isEditable() && !MontoBS_txt.getText().isEmpty()){
                 double Monto_BS = Double.parseDouble(MontoBS_txt.getText());
                 double monto_total = Monto_BS / monto;
                 monto_total = (double) Math.round(monto_total * 100d) / 100;
-                MontoDS_txt.setText(String.valueOf(monto_total));
+                String monto_formateado = df.format(monto_total);
+                MontoDS_txt.setText(monto_formateado);
             }else if(MontoDS_txt.isEditable() && !MontoDS_txt.getText().isEmpty()){
                 double Monto_DS = Double.parseDouble(MontoDS_txt.getText());
                 double monto_total = Monto_DS * monto;
                 monto_total = (double) Math.round(monto_total * 100d) / 100;
-                MontoBS_txt.setText(String.valueOf(monto_total));
+                String monto_formateado = df.format(monto_total);
+                MontoBS_txt.setText(monto_formateado);
             }
         }
     }//GEN-LAST:event_Tasa_CBActionPerformed

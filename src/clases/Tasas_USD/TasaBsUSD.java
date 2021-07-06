@@ -370,17 +370,16 @@ public class TasaBsUSD extends javax.swing.JFrame {
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         fila = tabla.rowAtPoint(evt.getPoint());
-        if(fila > -1 && seleccionado == false){
+        if(fila > -1 && !SeleccionarBT.isSelected()){
            CodTazatxt.setText(String.valueOf(tabla.getValueAt(fila, 0)));
-           DiaTXT.setText(String.valueOf(tabla.getValueAt(fila, 1)));
-           Semanatxt.setText(String.valueOf(tabla.getValueAt(fila, 2)));
-           Montotxt.setText(String.valueOf(tabla.getValueAt(fila, 3)));
+           Semanatxt.setText(String.valueOf(tabla.getValueAt(fila, 1)));
+           Montotxt.setText(String.valueOf(tabla.getValueAt(fila, 2)));
 
         }
     }//GEN-LAST:event_tablaMouseClicked
 
     private void CambiatMontoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiatMontoBTActionPerformed
-        if(seleccionado){
+        if(SeleccionarBT.isSelected()){
          AgregarBT.setEnabled(true);
          NuevaTazaBT.setEnabled(false);
          Montotxt.setEditable(true);
@@ -521,6 +520,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
                    int codigo = Integer.parseInt(CodTazatxt.getText());
                    double monto = Double.parseDouble(Montotxt.getText());
                    tasaObjeto.UpdateTasa(monto,codigo);
+                   reestablecerPagina();
                    //System.out.println(monto);
                    //System.out.println(codigo);
                 }else{
@@ -585,7 +585,7 @@ public class TasaBsUSD extends javax.swing.JFrame {
         SeleccionarBT.setEnabled(true);
         AgregarBT.setEnabled(false);
         SeleccionarBT.setSelected(false);
-        CambiatMontoBT.setSelected(false);
+        CambiatMontoBT.setSelected(false); CambiatMontoBT.setEnabled(false);
         AgregarBT.setSelected(false);
         NuevaTazaBT.setSelected(false);
         NuevaTazaBT.setEnabled(true);

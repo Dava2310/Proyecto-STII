@@ -49,7 +49,7 @@ public class anticipos {
         }catch(SQLException e){
             System.out.println(e);
         }
-        return registros = 0;
+        return registros;
     }
     
     //FUNCION PARA OBTENER DATOS DE TODOS LOS ANTICIPOS REALIZADOS

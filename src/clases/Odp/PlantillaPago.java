@@ -133,7 +133,7 @@ public class PlantillaPago extends javax.swing.JFrame {
                 try {
                     if(modo == 1){
                         objetoODP.CrearPDF_PlantillaPagoBS(fichero, semana);
-                    } else {
+                    } else if(modo == 2){
                         objetoODP.CrearPDF_PlantillaPagoDS(fichero, semana);
                     }
                 } catch (Exception e) {
@@ -167,6 +167,7 @@ public class PlantillaPago extends javax.swing.JFrame {
     }
     
     private void mostrarODP(){
+        objetoODP.generar_ODP_Completa(semana);
         String[] columNames = {"Codigo ODP","Codigo del Proveedor","Fecha","Semana","MP-BS","MP-DS","Cuadrilla-BS","Cuadrilla-DS","Flete-BS","Flete-DS","Peaje-BS","Peaje-DS"};
         data = objetoODP.getDatos(semana);
         DefaultTableModel datos = new DefaultTableModel(data, columNames);

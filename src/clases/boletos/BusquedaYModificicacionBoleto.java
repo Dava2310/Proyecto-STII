@@ -388,7 +388,6 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         } else{
             JOptionPane.showMessageDialog(null, "INGRESE EL NUMERO DE BOLETO", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        reestablecerPagina();
     }//GEN-LAST:event_GuardarBTActionPerformed
 
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
@@ -515,7 +514,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
     }
     
     private void updateTabla(){
-        String[] columName = {"Num Boleto, Nombre, Fecha, Semana, Kg. Brutos, Kg. Netos, Materia S, Impuresas, Cantidad Transacciones","Observaciones"};
+        String[] columName = {"Num Boleto", "Nombre", "Fecha", "Semana", "KgBrutos", "KgNetos", "Materia S", "Impuresas", "Cantidad Transacciones","Observaciones"};
         try {
             datos = boleto.getDatos();
             DefaultTableModel dato = new DefaultTableModel(datos,columName);

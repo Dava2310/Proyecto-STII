@@ -693,6 +693,8 @@ public class TablaAnticipos extends javax.swing.JFrame {
     }
     
     private void reestablecerPagina(){
+        tabla.setVisible(true);
+        
         CodigoProveedor_txt.setText("");
         CodigoProveedor_txt.setEditable(false);
         

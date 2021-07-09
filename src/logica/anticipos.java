@@ -150,8 +150,8 @@ public class anticipos {
     throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos" +
-                    " set anticipos(Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Codigo_Tasa)" + 
-                    " values(?,?,?,?,?,?,?,?,?,?,?)" + " where Num_anticipo = ?");
+                    " set Motivo_Anticipo = ?, Fecha = ?, Semana = ?, Monto_BS = ?, Monto_DS = ?, Aprobacion = ?, Observaciones = ?, DescontarODP = ?, Codigo_Proveedor = ?, Codigo_Tasa = ? "  
+                    + " where Num_Anticipo = ?");
             pstm.setString(1, motivo_anticipo);
             pstm.setString(2, fecha);
             pstm.setString(3, semana);

@@ -182,7 +182,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MI_BuscarModificarT">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar y Modificar Tarifa"/>
+                <Property name="text" type="java.lang.String" value="Consultar Tarifa"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MI_BuscarModificarTActionPerformed"/>

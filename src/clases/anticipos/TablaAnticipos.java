@@ -452,6 +452,8 @@ public class TablaAnticipos extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         mostrarTodos();
         ActualizarTasas();
+        Edicion_BT.setEnabled(false);
+        Guardar_BT.setEnabled(false);
     }//GEN-LAST:event_formWindowOpened
 
     private void ActualizarTasas(){
@@ -503,6 +505,8 @@ public class TablaAnticipos extends javax.swing.JFrame {
     private void Seleccionar_BTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccionar_BTActionPerformed
         if(!CodigoProveedor_txt.getText().isEmpty() && Seleccionar_BT.isSelected()){
             tabla.setVisible(false);
+            Edicion_BT.setEnabled(true);
+            
         } else if(!CodigoProveedor_txt.getText().isEmpty() && !Seleccionar_BT.isSelected()){
             tabla.setVisible(true);
         } else if(Edicion_BT.isSelected() && !CodigoProveedor_txt.getText().isEmpty()){
@@ -514,7 +518,13 @@ public class TablaAnticipos extends javax.swing.JFrame {
             }
         } else if(CodigoProveedor_txt.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "DEBE PRESIONAR EN LA TABLA PARA MOSTRAR A UN ANTICIPO ANTES DE SELECCIONAR", "ERROR", JOptionPane.ERROR_MESSAGE);
+            Seleccionar_BT.setSelected(false);
         }
+        if(!Seleccionar_BT.isSelected()){
+            Edicion_BT.setEnabled(false);
+            
+        }
+        
     }//GEN-LAST:event_Seleccionar_BTActionPerformed
 
     private void Edicion_BTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edicion_BTActionPerformed
@@ -532,6 +542,7 @@ public class TablaAnticipos extends javax.swing.JFrame {
             Aprobacion_txt.setEditable(true);
             DescontarCB.setEnabled(true);
             Moneda_CB.setEnabled(true);
+            Guardar_BT.setEnabled(true);
             if(Moneda_CB.getSelectedItem().toString().equals("BS")){
                 MontoBS_txt.setEditable(true);
             } else {
@@ -546,6 +557,7 @@ public class TablaAnticipos extends javax.swing.JFrame {
             MontoBS_txt.setEditable(false);
             MontoBS_txt.setEditable(false);
             Tasa_CB.setEnabled(false);
+            Guardar_BT.setEnabled(false);
         }
     }//GEN-LAST:event_Edicion_BTActionPerformed
 

@@ -274,7 +274,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         });
         M_Tarifa_Estandar.add(MI_CrearT);
 
-        MI_BuscarModificarT.setText("Buscar y Modificar Tarifa");
+        MI_BuscarModificarT.setText("Consultar Tarifa");
         MI_BuscarModificarT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MI_BuscarModificarTActionPerformed(evt);

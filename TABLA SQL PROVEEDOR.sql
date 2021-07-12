@@ -151,15 +151,15 @@ insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(42,67.20,52.
 
 -- CREACION DE LA TABLA TRANSACCIONES
 create table transacciones(
-	ID_Transaccion int auto_increment,
+	ID_Transaccion int auto_increment NOT NULL,
     -- ESTA ES LA INFORMACION DEL BOLETO
 	Num_Boleto varchar(10) not null,
     Semana varchar(10) not null,
     -- ESTAS SON LOS TIPOS DE TRANSACCIONES
-    Materia_Prima varchar(3),
-    Cuadrilla varchar(3),
-    Flete varchar(3),
-    Peaje varchar(3),
+    Materia_Prima varchar(3) NOT NULL,
+    Cuadrilla varchar(3) NOT NULL,
+    Flete varchar(3) NOT NULL,
+    Peaje varchar(3) NOT NULL,
     -- Estado de la transaccion.
     Estado_Transaccion varchar(15),
 	-- Informacion adicional de la transaccion
@@ -255,10 +255,19 @@ create table ODP(
     Acumulado_Flete_DS double,
     Acumulado_Peaje_BS int,
     Acumulado_Peaje_DS int,
+    Total_BS double,
+    Total_DS double,
     primary key(Cod_ODP),
     foreign key(Cod_DelProveedor) references proveedor(Codigo)
 );
 
+
+create table Pago_Transaccion(
+	Codigo_ODP int NOT NULL,
+    Codigo_Transaccion int NOT NULL,
+    foreign key(Codigo_ODP) references ODP(Cod_ODP),
+    foreign key(Codigo_Transaccion) references transacciones(ID_Transaccion)
+);
 /*
 create table reportes(
 	Cod_Reporte int auto_increment NOT NULL,

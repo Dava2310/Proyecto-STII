@@ -97,7 +97,24 @@ public class ODP {
             }catch(SQLException ex){
                 Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }   
+        }
+        objetoTransacciones.cerrarTransacciones(semana);
+    }
+    
+    public boolean verificarODP(String semana){
+        boolean condicion = false;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Semana from ODP group by Semana");
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                if(semana.equals(res.getString("Semana"))){
+                    condicion = true;
+                }
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return condicion;
     }
     
     public Object[][] getDatos(String semana){
@@ -119,6 +136,7 @@ public class ODP {
                 registros++;
                 codigo = res.getInt("Codigo_Proveedor");
                 codigos_Proveedores.add(codigo);
+                System.out.println(codigo);
             }
         }catch(SQLException ex){
             Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
@@ -129,7 +147,7 @@ public class ODP {
             pstm.setString(1, semana);
             ResultSet res = pstm.executeQuery();
             int i = 0;
-            while(res.next()){
+            while(res.next() && i < registros){
                 int estCod_ODP = res.getInt("Cod_ODP");
                 int estCod_DelProveedor = res.getInt("Cod_DelProveedor");
                 String estFecha = res.getString("Fecha");

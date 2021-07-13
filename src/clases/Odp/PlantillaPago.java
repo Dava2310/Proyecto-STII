@@ -167,11 +167,18 @@ public class PlantillaPago extends javax.swing.JFrame {
     }
     
     private void mostrarODP(){
-        objetoODP.generar_ODP_Completa(semana);
         String[] columNames = {"Codigo ODP","Codigo del Proveedor","Fecha","Semana","MP-BS","MP-DS","Cuadrilla-BS","Cuadrilla-DS","Flete-BS","Flete-DS","Peaje-BS","Peaje-DS"};
-        data = objetoODP.getDatos(semana);
-        DefaultTableModel datos = new DefaultTableModel(data, columNames);
-        Tabla.setModel(datos);
+        if(objetoODP.verificarODP(semana)){
+            System.out.println("aqui");
+            data = objetoODP.getDatos(semana);
+            DefaultTableModel datos = new DefaultTableModel(data, columNames);
+            Tabla.setModel(datos);
+        } else if(!objetoODP.verificarODP(semana)){
+            objetoODP.generar_ODP_Completa(semana);
+            data = objetoODP.getDatos(semana);
+            DefaultTableModel datos = new DefaultTableModel(data, columNames);
+            Tabla.setModel(datos);
+        }
     }
     
     private void mostrarTodosDS(){

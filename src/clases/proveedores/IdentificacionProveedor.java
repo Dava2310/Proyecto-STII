@@ -2,11 +2,15 @@ package clases.proveedores;
 
 import clases.anticipos.CrearAnticipo;
 import clases.proveedores.CreacionProveedor;
+import java.awt.Color;
+import java.awt.Toolkit;
 import logica.conectate;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import logica.proveedor;
 
 public class IdentificacionProveedor extends javax.swing.JFrame {
@@ -22,12 +26,14 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
     public String identificacion;
     public int tipoIdentificacion;
     public proveedor p;
-
+    private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
+    private Border borde_default;
     public IdentificacionProveedor() {
         initComponents();
         con = new conectate();
         setResizable(false);
         p = new proveedor();
+        borde_default = Cedulatxt.getBorder();
     }
 
     /**
@@ -81,6 +87,11 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
         Cedulatxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CedulatxtActionPerformed(evt);
+            }
+        });
+        Cedulatxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                CedulatxtKeyTyped(evt);
             }
         });
 
@@ -156,6 +167,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
         //EN EL CASO DE QUE HAYA INGRESADO UNA CEDULA, SE VERIFICA QUE SEA DE LA CANTIDAD DE DIGITOS NECESARIOS (7 u 8)
         if (identificacion.equals("") || identificacion.length() < 7 || identificacion.length() > 8) {
             JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION VALIDA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+            Cedulatxt.setBorder(borde_rojo);
         } else {
             //PROCEDEMOS A HACER UNA VERIFICACION DE QUE SEA UNA CEDULA DE PUROS DIGITOS
             boolean digitos = p.comprobacionIdentificacion(identificacion);
@@ -165,6 +177,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                     //SIGNIFICANDO QUE NO HAY NADIE REGISTRADO POR AHORA CON ESA IDENTIFICACION
                     //PARA DAR PASO A LA CREACION DE UN NUEVO PROVEEDOR SIN QUE SE REPITA LA CEDULA
                     if (!(p.buscarIdentificacion(identificacion_completa))) {
+                        Cedulatxt.setBorder(borde_default);
                         CP = new CreacionProveedor();
                         CP.identificacion = this.identificacion;
                         CP.tipoIdentificacion = this.tipoIdentificacion;
@@ -172,6 +185,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                         procedio = true;
                     } else if(p.buscarIdentificacion(identificacion_completa)){
                         JOptionPane.showMessageDialog(null, "YA EXISTE UN PROVEEDOR CON ESTA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
+                        Cedulatxt.setBorder(borde_rojo);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(IdentificacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,6 +196,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                     //DE ESTA MANERA EL ANTICIPO TRABAJA CON UN CODIGO DE PROVEEDOR VALIDO
                     //PARA DAR PASO A LA CREACION DE UN NUEVO ANTICIPO
                     if (p.buscarProveedorActivo(identificacion_completa)) {
+                        Cedulatxt.setBorder(borde_default);
                         CA = new CrearAnticipo();
                         CA.identificacion = this.identificacion;
                         CA.identificacion_completa = identificacion_completa;
@@ -190,8 +205,10 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                         procedio = true;
                     } else if (!p.buscarProveedorActivo(identificacion_completa) && p.buscarIdentificacion(identificacion_completa)){
                         JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO ESTA ACTIVO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
+                        Cedulatxt.setBorder(borde_rojo);
                     } else if (!p.buscarIdentificacion(identificacion_completa)){
                         JOptionPane.showMessageDialog(null, "EL PROVEEDOR NO SE ENCUENTRA REGISTRADO EN EL SISTEMA", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
+                        Cedulatxt.setBorder(borde_rojo);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(IdentificacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
@@ -201,6 +218,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                 this.dispose();
             } else if (!digitos) {
                 JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DE LA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
+                Cedulatxt.setBorder(borde_rojo);
             }
         }
 
@@ -215,6 +233,13 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
         Cedulatxt.setText("");
         TipoCedula.setSelectedIndex(0);
     }//GEN-LAST:event_formWindowClosed
+
+    private void CedulatxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CedulatxtKeyTyped
+        if(Cedulatxt.getText().length() >= 8){
+            evt.consume();
+            Toolkit.getDefaultToolkit().beep();
+        }
+    }//GEN-LAST:event_CedulatxtKeyTyped
 
     /**
      * @param args the command line arguments

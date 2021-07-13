@@ -261,6 +261,10 @@ create table ODP(
     foreign key(Cod_DelProveedor) references proveedor(Codigo)
 );
 
+SELECT Semana from ODP group by Semana;
+SELECT * FROM ODP Where Semana = '26-2021' ORDER BY Cod_ODP DESC;
+SELECT Codigo_Proveedor FROM transacciones WHERE Semana = '26-2021' GROUP BY Codigo_Proveedor;
+SELECT * from ODP;
 
 create table Pago_Transaccion(
 	Codigo_ODP int NOT NULL,

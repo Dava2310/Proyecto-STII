@@ -68,7 +68,7 @@ create table beneficiarios(
 	PRIMARY KEY(Cod_Beneficiario)
 );
 
--- SELECT * FROM beneficiarios;
+SELECT * FROM beneficiarios;
 -- SELECT count(1) as total from beneficiarios;
 
 

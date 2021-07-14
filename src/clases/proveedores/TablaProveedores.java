@@ -5,12 +5,15 @@
  */
 package clases.proveedores;
 
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import logica.Proveedor_Beneficiario;
 import logica.Tarifa_Estandar;
@@ -36,9 +39,15 @@ public class TablaProveedores extends javax.swing.JFrame {
     private Object[][] dataBeneficiarios;
     private String[] cedulaBeneficiarios;
     Object[][] data;
+    private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
+    private Border borde_default;
     int fila = -1;
+    private String identificacion;
+    private String identificacionBNF;
     public TablaProveedores() {
         initComponents();
+        AlertaNumCuenta.setVisible(false);
+        borde_default = RazonSocialtxt.getBorder();
     }
 
     /**
@@ -102,6 +111,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         InformacionBancaria_BT = new javax.swing.JToggleButton();
         NuevoBeneficiario_BT = new javax.swing.JToggleButton();
         ListarBeneficiariosBT = new javax.swing.JComboBox<>();
+        AlertaNumCuenta = new javax.swing.JLabel();
         JPanelPagos = new javax.swing.JPanel();
         MP_AcordadoLB = new javax.swing.JLabel();
         MP_Acordadotxt = new javax.swing.JTextField();
@@ -349,19 +359,53 @@ public class TablaProveedores extends javax.swing.JFrame {
             }
         });
 
+        AlertaNumCuenta.setForeground(new java.awt.Color(255, 0, 0));
+        AlertaNumCuenta.setText("Deben ser 20 carácteres numericos obligatoriamente.");
+
         javax.swing.GroupLayout JPanelBancarioLayout = new javax.swing.GroupLayout(JPanelBancario);
         JPanelBancario.setLayout(JPanelBancarioLayout);
         JPanelBancarioLayout.setHorizontalGroup(
             JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPanelBancarioLayout.createSequentialGroup()
-                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(JPanelBancarioLayout.createSequentialGroup()
                         .addGap(158, 158, 158)
-                        .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(JPanelBancarioLayout.createSequentialGroup()
-                                .addComponent(NameAutL6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(NombreAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                                    .addComponent(NameAutL6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(NombreAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                                    .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                                            .addComponent(BancoL6)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(Banco_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(13, 13, 13)
+                                            .addComponent(NumCuentaL6))
+                                        .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                                            .addComponent(IDL6)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(IDBNF_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(IDBNF_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(MailBnfL6)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(NumCuenta_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                                        .addComponent(CorreoBNF_txt)))
+                                .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                                    .addComponent(IDAutL6)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(IDAUT_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(IDAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                                    .addComponent(NameBnfL6)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(NombreBNF_txt)))
                             .addGroup(JPanelBancarioLayout.createSequentialGroup()
                                 .addComponent(TCuentaL6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -369,45 +413,17 @@ public class TablaProveedores extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(MODL6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(MOD_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(JPanelBancarioLayout.createSequentialGroup()
-                                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
-                                        .addComponent(BancoL6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(Banco_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(13, 13, 13)
-                                        .addComponent(NumCuentaL6))
-                                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
-                                        .addComponent(IDL6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(IDBNF_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(IDBNF_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(MailBnfL6)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(NumCuenta_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                                    .addComponent(CorreoBNF_txt)))
-                            .addGroup(JPanelBancarioLayout.createSequentialGroup()
-                                .addComponent(IDAutL6)
-                                .addGap(18, 18, 18)
-                                .addComponent(IDAUT_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(IDAUT_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(JPanelBancarioLayout.createSequentialGroup()
-                                .addComponent(NameBnfL6)
-                                .addGap(18, 18, 18)
-                                .addComponent(NombreBNF_txt))))
+                                .addComponent(MOD_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(AlertaNumCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(JPanelBancarioLayout.createSequentialGroup()
                         .addGap(177, 177, 177)
                         .addComponent(InformacionBancaria_BT)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ListarBeneficiariosBT, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPanelBancarioLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(591, 591, 591)
                 .addComponent(NuevoBeneficiario_BT)
                 .addGap(84, 84, 84))
             .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,7 +432,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                     .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(LogoInformacionBancaria6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(InformacionBancariaL6))
-                    .addContainerGap(796, Short.MAX_VALUE)))
+                    .addContainerGap(803, Short.MAX_VALUE)))
         );
         JPanelBancarioLayout.setVerticalGroup(
             JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,12 +459,17 @@ public class TablaProveedores extends javax.swing.JFrame {
                     .addComponent(NumCuentaL6)
                     .addComponent(BancoL6)
                     .addComponent(Banco_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TCuentaL6)
-                    .addComponent(TCuenta_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MODL6)
-                    .addComponent(MOD_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TCuentaL6)
+                            .addComponent(TCuenta_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MODL6)
+                            .addComponent(MOD_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(JPanelBancarioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(AlertaNumCuenta)))
                 .addGroup(JPanelBancarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(JPanelBancarioLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
@@ -677,11 +698,11 @@ public class TablaProveedores extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(ActividadCB, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(IdentificacionProveedor))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(48, 48, 48))
             .addComponent(JPanelBancario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(JPanelPagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDeIdentificacionLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(84, 84, 84)
                 .addComponent(DesactivarBT)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ActivarBT)
@@ -945,6 +966,272 @@ public class TablaProveedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MOD_CBActionPerformed
 
+    private boolean verificacionCorreo(String email){
+        boolean condicion = false;
+        boolean arroba = false;
+        boolean punto = false;
+        for(int i = 0; i < email.length(); i++){
+            char caracter = email.charAt(i);
+            if(!arroba){
+                if(caracter == '@'){
+                    arroba = true;
+                    continue;
+                }
+            }
+            if(arroba && !punto){
+                if(caracter == '.'){
+                    punto = true;
+                    break;
+                }
+            }
+        }
+        if(arroba && punto){
+            condicion = true;
+        }
+        return condicion;
+    }
+    
+    private boolean verificacionCompleta(){
+        boolean condicion = true;
+        boolean tipoTlf = false;
+        String texto;
+        /*
+            SE PROCEDERÁ A VERIFICAR TODOS LOS CAMPOS POSIBLES
+            0- Que la identificacion de proveedor nueva no se encuentre en el sistema.
+            1- Razon Social no este vacia
+            2- Que ambos textos del telefono sean unicamente digitos numéricos
+            3- Que el email tenga un @ y un .
+            4- Verificacion de los campos de pagos sean flotantes.
+            5- Si está activada la información bancaria:
+                5.1- Verificar Nombre no vacio
+                5.2- Identificacion no vacia y meramente numerica
+                5.3- Si el correo no esta vacio, que sea valido
+                5.4- Que el numero de cuenta sea meramente numerico y obligatoriamente 20 digitos
+                5.5- Si esta en modo autorizado:
+                    5.5.1- Que el nombre no este vacio
+                    5.5.2- Que la identificacion sea valida
+        */
+        //0- IDENTIFICACION DE PROVEEDOR
+        texto = IdentificacionCB.getSelectedItem().toString() + Identificaciontxt.getText();
+        if(!texto.equals(this.identificacion)){
+            //SI LA IDENTIFICACION NO SE PARECE A LA QUE SE HA VENIDO CAMBIANDO
+            //QUIERE DECIR QUE LA CAMBIO
+            if(Identificaciontxt.getText().isEmpty()){
+                Identificaciontxt.setBorder(borde_rojo);
+                condicion = false;
+            } else {
+                /*
+                    SI NO ESTÁ VACÍA, HAY QUE HACER LAS MISMAS COMPROBACIONES PRIMERO DE QUE SEA VALIDA
+                    DESPUÉS COMRPROBRAMOS SI ES VALIDA QUE NO SE ENCUENTRE EN EL SISTEM
+                */
+                if((Identificaciontxt.getText().length() < 7)){
+                   Identificaciontxt.setBorder(borde_rojo);
+                   condicion = false;
+                } else if(!(Identificaciontxt.getText().length() < 7)){
+                    if(!p.comprobacionIdentificacion(Identificaciontxt.getText())){
+                        Identificaciontxt.setBorder(borde_rojo);
+                        condicion = false;
+                    } else if(p.comprobacionIdentificacion(Identificaciontxt.getText())){
+                        try {
+                            /*
+                            AQUI YA TENEMOS UNA IDENTIFICACION VALIDA
+                            NOS QUEDARA SABER SI ESTA EN EL SISTEMA
+                            */
+                            if(p.buscarIdentificacion2(texto)){
+                                JOptionPane.showMessageDialog(null, "LA CEDULA NUEVA QUE ESTA MODIFICANDO SE ENCUENTRA YA EN EL SISTEMA", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                Identificaciontxt.setBorder(borde_rojo);
+                                condicion = false;
+                            } else if(!p.buscarIdentificacion2(texto)){
+                                Identificaciontxt.setBorder(borde_default);
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+        }
+        //1- RAZON SOCIAL
+        if(RazonSocialtxt.getText().isEmpty()){
+            condicion = false;
+            RazonSocialtxt.setBorder(borde_rojo);
+        } else {
+            RazonSocialtxt.setBorder(borde_default);
+        }
+        //2.1- PRIMEROS 4 DIGITOS DEL TELEFONO
+        if(!TipoTlftxt.getText().isEmpty() && !p.comprobacionIdentificacion(TipoTlftxt.getText())){
+            TipoTlftxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!TipoTlftxt.getText().isEmpty() && p.comprobacionIdentificacion(TipoTlftxt.getText())){
+            if(TipoTlftxt.getText().length() != 4){
+                TipoTlftxt.setBorder(borde_rojo);
+                condicion = false;
+            } else {
+                TipoTlftxt.setBorder(borde_default);
+                tipoTlf = true;
+            }
+        }
+        //2.2- ULTIMOS 7 DIGITOS DEL TELEFONO
+        if(!Tlftxt.getText().isEmpty() && !p.comprobacionIdentificacion(Tlftxt.getText()) && tipoTlf){
+            Tlftxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Tlftxt.getText().isEmpty() && p.comprobacionIdentificacion(Tlftxt.getText()) && tipoTlf){
+            if(Tlftxt.getText().length() != 7){
+                Tlftxt.setBorder(borde_rojo);
+                condicion = false;
+            } else {
+                Tlftxt.setBorder(borde_default);
+            }
+        } else if(Tlftxt.getText().isEmpty()){
+            Tlftxt.setBorder(borde_rojo);
+            condicion = false;
+        }
+        //3- COMPROBACION DE CORREO
+        if(!Mailtxt.getText().isEmpty() && !verificacionCorreo(Mailtxt.getText())){
+            Mailtxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Mailtxt.getText().isEmpty() && verificacionCorreo(Mailtxt.getText())){
+            Mailtxt.setBorder(borde_default);
+        }
+        //4.1- COMPROBACION DE MATERIA PRIMA ACORDADA
+        if(MPCB.getSelectedIndex() != 0){
+            if(MP_Acordadotxt.getText().isEmpty()){
+                MP_Acordadotxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(!MP_Acordadotxt.getText().isEmpty()){    
+                if(!p.comprobacionFlotante(MP_Acordadotxt.getText())){
+                    condicion = false;
+                    MP_Acordadotxt.setBorder(borde_rojo);
+                } else {
+                    MP_Acordadotxt.setBorder(borde_default);
+                }
+            }
+        } else {
+            MP_Acordadotxt.setBorder(borde_default);
+        }
+        //4.2- COMPROBACION DE CUADRILLA
+        if(Cuadrillatxt.getText().isEmpty()){
+            Cuadrillatxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Cuadrillatxt.getText().isEmpty()){
+            if(!p.comprobacionFlotante(Cuadrillatxt.getText())){
+                condicion = false;
+                Cuadrillatxt.setBorder(borde_rojo);
+            } else {
+                Cuadrillatxt.setBorder(borde_default);
+            }
+        }
+        //4.3- COMPROBACION DE FLETE
+        if(Fletetxt.getText().isEmpty()){
+            Fletetxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Fletetxt.getText().isEmpty()){
+            if(!p.comprobacionFlotante(Fletetxt.getText())){
+                condicion = false;
+                Fletetxt.setBorder(borde_rojo);
+            } else {
+                Fletetxt.setBorder(borde_default);
+            }
+        }
+        //4.4- COMPROBACION DE PEAJE
+        if(Peajetxt.getText().isEmpty()){
+            Peajetxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Peajetxt.getText().isEmpty()){
+            if(!p.comprobacionEntero(Peajetxt.getText())){
+                condicion = false;
+                Peajetxt.setBorder(borde_rojo);
+            } else{
+                Peajetxt.setBorder(borde_default);
+            }
+        }
+        //COMPROBACION BANCARIA
+        if(NuevoBeneficiario_BT.isSelected() || InformacionBancaria_BT.isSelected()){
+            //5.1- Nombre no vacio
+            if(NombreBNF_txt.getText().isEmpty()){
+                NombreBNF_txt.setBorder(borde_rojo);
+                condicion = false;
+            } else {
+                NombreBNF_txt.setBorder(borde_default);
+            }
+            //5.2- Identificacion no vacia y meramente numerica 
+            if(IDBNF_txt.getText().isEmpty()){
+                IDBNF_txt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(!IDBNF_txt.getText().isEmpty() && (IDBNF_txt.getText().length() < 7)){
+                IDBNF_txt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(!IDBNF_txt.getText().isEmpty() && !(IDBNF_txt.getText().length() < 7)){
+                if(!p.comprobacionIdentificacion(IDBNF_txt.getText())){
+                    IDBNF_txt.setBorder(borde_rojo);
+                    condicion = false;
+                } else if(p.comprobacionIdentificacion(IDBNF_txt.getText())){
+                    texto = IDBNF_CB.getSelectedItem().toString() + IDBNF_txt.getText();
+                    if(!b.buscarBeneficiario(texto)){
+                        IDBNF_txt.setBorder(borde_default);
+                    } else {
+                       JOptionPane.showMessageDialog(null, "LA CEDULA NUEVA QUE ESTA MODIFICANDO SE ENCUENTRA YA EN EL SISTEMA", "ERROR", JOptionPane.ERROR_MESSAGE);
+                       condicion = false;
+                       IDBNF_txt.setBorder(borde_rojo);
+                    }
+                }
+            }
+            //5.3- Si el correo no esta vacio, que sea valido
+            if(!CorreoBNF_txt.getText().isEmpty() && !verificacionCorreo(CorreoBNF_txt.getText())){
+                CorreoBNF_txt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(!CorreoBNF_txt.getText().isEmpty() && verificacionCorreo(CorreoBNF_txt.getText())){
+                CorreoBNF_txt.setBorder(borde_default);
+            }
+            //5.4- Numero de cuenta no vacio, numerico y 20 digitos
+            if(NumCuenta_txt.getText().isEmpty()){
+                NumCuenta_txt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(!NumCuenta_txt.getText().isEmpty()){
+                if(NumCuenta_txt.getText().length() != 20){
+                    NumCuenta_txt.setBorder(borde_rojo);
+                    AlertaNumCuenta.setVisible(true);
+                    condicion = false;
+                } else if(NumCuenta_txt.getText().length() == 20){
+                    if(!p.comprobacionIdentificacion(NumCuenta_txt.getText())){
+                        AlertaNumCuenta.setVisible(true);
+                        NumCuenta_txt.setBorder(borde_rojo);
+                        condicion = false;
+                    } else if(p.comprobacionIdentificacion(NumCuenta_txt.getText())){
+                        AlertaNumCuenta.setVisible(false);
+                        NumCuenta_txt.setBorder(borde_default);
+                    }
+                }
+            }
+            //5.5- Si el modo de cuenta es autorizado
+            if(MOD_CB.getSelectedIndex() == 2){
+                //5.5.1- Que el nombre no este vacio
+                if(NombreAUT_txt.getText().isEmpty()){
+                    NombreAUT_txt.setBorder(borde_rojo);
+                    condicion = false;
+                } else {
+                    NombreAUT_txt.setBorder(borde_default);
+                }
+                //5.5.2- Que la identificacion sea valida
+                if(IDAUT_txt.getText().isEmpty()){
+                    IDAUT_txt.setBorder(borde_rojo);
+                    condicion = false;
+                } else if(!IDAUT_txt.getText().isEmpty() && (IDAUT_txt.getText().length() < 7)){
+                    IDAUT_txt.setBorder(borde_rojo);
+                    condicion = false;
+                } else if(!IDAUT_txt.getText().isEmpty() && !(IDAUT_txt.getText().length() < 7)){
+                    if(!p.comprobacionIdentificacion(IDAUT_txt.getText())){
+                        IDAUT_txt.setBorder(borde_rojo);
+                        condicion = false;
+                    } else if(p.comprobacionIdentificacion(IDAUT_txt.getText())){
+                        IDAUT_txt.setBorder(borde_default);
+                    }
+                }
+            }
+        }    
+        return condicion;
+    }
+    
     private void GuardarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarBTActionPerformed
         /*
             1- GUARDAR LOS CAMBIOS DE PROVEEDOR
@@ -953,7 +1240,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         */
         
         //=======================GUARDANDO LOS CAMBIOS DE PROVEEDOR=============================\\
-        if(HabilitarCambiosBT.isSelected()){
+        if(HabilitarCambiosBT.isSelected() && verificacionCompleta()){
             int codigo = Integer.parseInt(Codigotxt.getText());
             String identificacion = IdentificacionCB.getSelectedItem().toString();
             identificacion += Identificaciontxt.getText();
@@ -998,50 +1285,25 @@ public class TablaProveedores extends javax.swing.JFrame {
                 String name_autorizado = "";
                 String ID_autorizado = "";
                 int codigo_bnf = 0;
-                System.out.println(NombreBNF_txt.getText());
-                System.out.println(IDBNF_txt.getText());
-                System.out.println(NumCuenta_txt.getText());
                 if(!NombreBNF_txt.getText().isEmpty() && !IDBNF_txt.getText().isEmpty() && !NumCuenta_txt.getText().isEmpty()){
-
-                            nombre_beneficiario = NombreBNF_txt.getText();
-                            mail_bnf = CorreoBNF_txt.getText();
-                            banco = Banco_CB.getSelectedItem().toString();
-                            num_cuenta = NumCuenta_txt.getText();
-                            if(!IDBNF_txt.getText().isEmpty()){
-                                if(IDBNF_txt.getText().length() < 7 || IDBNF_txt.getText().length() > 8){
-                                    JOptionPane.showMessageDialog(null, "DEBE COLOCAR UN BUEN FORMATO DE LA CEDULA", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                } else {
-                                    id_beneficiario = IDBNF_CB.getSelectedItem().toString();
-                                    id_beneficiario += IDBNF_txt.getText();
-                                } 
-                            }
-                            codigo_bnf = b.retornaCodigo(id_beneficiario);
-                            Tipo_cuenta = TCuenta_CB.getSelectedItem().toString();
-                            mod_cuenta = MOD_CB.getSelectedItem().toString();
-                            //PRIMERO VERIFICAMOS SI LA CUENTA ESTA EN MODO AUTORIZADA
-                            if(MOD_CB.getSelectedItem().toString().equals("Cuenta Autorizada")){
-                                //DESPUES SI QUEREMOS RECOGER ESTOS DATOS, AJURO AMBOS CAMPOS NO PUEDEN ESTAR VACIOS
-                                if(!NombreAUT_txt.getText().isEmpty() && !IDAUT_txt.getText().isEmpty()){
-                                    //Y ADEMAS DE ESO, DEBEMO VERIFICAR QUE LA CEDULA SEA CORRECTA
-                                    if(IDAUT_txt.getText().length() < 7 || IDAUT_txt.getText().length() > 8){
-                                    } else {
-                                        name_autorizado = NombreAUT_txt.getText();
-                                        ID_autorizado = IDAUT_CB.getSelectedItem().toString();
-                                        ID_autorizado += IDAUT_txt.getText();
-                                    }
-                                } else {
-                                    //SI EL CAMPO DE CUENTA AUTORIZADA ESTA SELECCIONADO PERO LOS CAMPOS VACIOS
-                                    JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS DE AUTORIZADO", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
+                    nombre_beneficiario = NombreBNF_txt.getText();
+                    mail_bnf = CorreoBNF_txt.getText();
+                    banco = Banco_CB.getSelectedItem().toString();
+                    num_cuenta = NumCuenta_txt.getText();
+                    id_beneficiario = IDBNF_CB.getSelectedItem().toString();
+                    id_beneficiario += IDBNF_txt.getText();
+                    codigo_bnf = b.retornaCodigo(this.identificacionBNF);
+                    Tipo_cuenta = TCuenta_CB.getSelectedItem().toString();
+                    mod_cuenta = MOD_CB.getSelectedItem().toString();
+                    name_autorizado = NombreAUT_txt.getText();
+                    ID_autorizado = IDAUT_CB.getSelectedItem().toString();
+                    ID_autorizado += IDAUT_txt.getText();
                 } else {
-                        System.out.println("hola");
                         JOptionPane.showMessageDialog(null, "DEBE RELLENAR LOS CAMPOS OBLIGATORIOS DE BANCO Y EN SU DEBIDO FORMATO", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 if(InformacionBancaria_BT.isSelected() && !NuevoBeneficiario_BT.isSelected()){
                     //CAMBIAR LOS DATOS AL BENEFICIARIO
                     b.updateBeneficiario(codigo_bnf, nombre_beneficiario, id_beneficiario, mail_bnf, banco, num_cuenta, Tipo_cuenta, mod_cuenta, name_autorizado, ID_autorizado);
-
                 } else if (NuevoBeneficiario_BT.isSelected() && !InformacionBancaria_BT.isSelected()){
                     try {
                         //GUARDAR TODOS LOS DATOS EN VARIABLES
@@ -1075,7 +1337,7 @@ public class TablaProveedores extends javax.swing.JFrame {
                         Logger.getLogger(TablaProveedores.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else if(!NuevoBeneficiario_BT.isSelected() && !InformacionBancaria_BT.isSelected()){
-                    JOptionPane.showMessageDialog(null, "NO SE CAMBIO LA INFORMACION DE BENEFICIARIO, PORQUE NINGUNA DE LAS OPCIONES SE HABILITARON", "ERROR", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "NO SE CAMBIO LA INFORMACION DE BENEFICIARIO, PORQUE NINGUNA DE LAS OPCIONES SE HABILITARON", "AVISO", JOptionPane.PLAIN_MESSAGE);
                 }
                 updateTabla();
                 seleccionado = false;
@@ -1085,6 +1347,8 @@ public class TablaProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_GuardarBTActionPerformed
 
     private void HabilitarCambiosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarCambiosBTActionPerformed
+        this.identificacion = IdentificacionCB.getSelectedItem().toString() + Identificaciontxt.getText();
+        this.identificacionBNF = IDBNF_CB.getSelectedItem().toString() + IDBNF_txt.getText();
         /*
             AQUI PRIMERO DEBERIA VERIFICAR SI SE HA HECHO UNA BUSQUEDA
             DESPUES PEDIMOS ADEMAS QUE SE HAYA SELECCIONADO UNA PERSONA DE LA TABLA
@@ -1280,6 +1544,7 @@ public class TablaProveedores extends javax.swing.JFrame {
         GuardarBT.setEnabled(false);
         DesactivarBT.setEnabled(false);
         ActivarBT.setEnabled(false);
+        cargarDatosBeneficiarios();
     }
     
     /*
@@ -1438,7 +1703,6 @@ public class TablaProveedores extends javax.swing.JFrame {
     }
     
     private void cargarDatosBeneficiarios(){
-        
         registros = b.cantidadRegistros();
         cedulaBeneficiarios = new String[registros];
         dataBeneficiarios = b.getDatos();
@@ -1452,47 +1716,47 @@ public class TablaProveedores extends javax.swing.JFrame {
     
     private void desHabilitarCamposBancarios(){
         NombreBNF_txt.setEditable(false);
-                IDBNF_txt.setEditable(false);
-                IDBNF_CB.setEnabled(false);
-                CorreoBNF_txt.setEditable(false);
-                Banco_CB.setEnabled(false);
-                NumCuenta_txt.setEditable(false);
-                TCuenta_CB.setEnabled(false);
-                MOD_CB.setEnabled(false);
-                NombreAUT_txt.setEditable(false);
-                IDAUT_CB.setEnabled(false);
-                IDAUT_txt.setEditable(false);
-                ListarBeneficiariosBT.setEnabled(false);
+        IDBNF_txt.setEditable(false);
+        IDBNF_CB.setEnabled(false);
+        CorreoBNF_txt.setEditable(false);
+        Banco_CB.setEnabled(false);
+        NumCuenta_txt.setEditable(false);
+        TCuenta_CB.setEnabled(false);
+        MOD_CB.setEnabled(false);
+        NombreAUT_txt.setEditable(false);
+        IDAUT_CB.setEnabled(false);
+        IDAUT_txt.setEditable(false);
+        ListarBeneficiariosBT.setEnabled(false);
     }
     
     private void habilitarCamposBancarios(){
-                NombreBNF_txt.setEditable(true);
-                IDBNF_txt.setEditable(true);
-                IDBNF_CB.setEnabled(true);
-                CorreoBNF_txt.setEditable(true);
-                Banco_CB.setEnabled(true);
-                NumCuenta_txt.setEditable(true);
-                TCuenta_CB.setEnabled(true);
-                MOD_CB.setEnabled(true);
-                NombreAUT_txt.setEditable(true);
-                IDAUT_CB.setEnabled(true);
-                IDAUT_txt.setEditable(true);
+        NombreBNF_txt.setEditable(true);
+        IDBNF_txt.setEditable(true);
+        IDBNF_CB.setEnabled(true);
+        CorreoBNF_txt.setEditable(true);
+        Banco_CB.setEnabled(true);
+        NumCuenta_txt.setEditable(true);
+        TCuenta_CB.setEnabled(true);
+        MOD_CB.setEnabled(true);
+        NombreAUT_txt.setEditable(true);
+        IDAUT_CB.setEnabled(true);
+        IDAUT_txt.setEditable(true);
     }
     
     private void limpiarDatosBeneficiario(){
         InformacionBancaria_BT.setSelected(false);
-                NombreBNF_txt.setText("");
-                IDBNF_txt.setText("");
-                IDBNF_CB.setSelectedIndex(0); 
-                CorreoBNF_txt.setText("");
-                Banco_CB.setSelectedIndex(0);
-                NumCuenta_txt.setText("");
-                TCuenta_CB.setSelectedIndex(0);
-                MOD_CB.setSelectedIndex(0);
-                NombreAUT_txt.setText("");
-                IDAUT_CB.setSelectedIndex(0);
-                IDAUT_txt.setText("");
-                ListarBeneficiariosBT.setSelectedIndex(0);
+        NombreBNF_txt.setText("");
+        IDBNF_txt.setText("");
+        IDBNF_CB.setSelectedIndex(0); 
+        CorreoBNF_txt.setText("");
+        Banco_CB.setSelectedIndex(0);
+        NumCuenta_txt.setText("");
+        TCuenta_CB.setSelectedIndex(0);
+        MOD_CB.setSelectedIndex(0);
+        NombreAUT_txt.setText("");
+        IDAUT_CB.setSelectedIndex(0);
+        IDAUT_txt.setText("");
+        ListarBeneficiariosBT.setSelectedIndex(0);
                 
     }
     
@@ -1583,6 +1847,7 @@ public class TablaProveedores extends javax.swing.JFrame {
     private javax.swing.JButton ActivarBT;
     private javax.swing.JComboBox<String> ActividadCB;
     private javax.swing.JLabel ActividadL;
+    private javax.swing.JLabel AlertaNumCuenta;
     private javax.swing.JLabel BancoL6;
     private javax.swing.JComboBox<String> Banco_CB;
     private javax.swing.JButton CerrarBT;

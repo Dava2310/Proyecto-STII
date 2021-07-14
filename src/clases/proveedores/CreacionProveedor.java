@@ -125,9 +125,6 @@ public class CreacionProveedor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -147,11 +144,6 @@ public class CreacionProveedor extends javax.swing.JFrame {
         Codigotxt.setEditable(false);
         Codigotxt.setBackground(new java.awt.Color(255, 255, 255));
         Codigotxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        Codigotxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CodigotxtActionPerformed(evt);
-            }
-        });
 
         IdentificacionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IdentificacionL.setText("Identificación (*)");
@@ -167,11 +159,6 @@ public class CreacionProveedor extends javax.swing.JFrame {
         RazonSocialL.setText("Razón Social (*)");
 
         RazonSocialtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        RazonSocialtxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RazonSocialtxtActionPerformed(evt);
-            }
-        });
 
         DireccionL.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         DireccionL.setText("Dirección");
@@ -677,14 +664,6 @@ public class CreacionProveedor extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CodigotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CodigotxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CodigotxtActionPerformed
-
-    private void RazonSocialtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RazonSocialtxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RazonSocialtxtActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         /*if(identificacion.length() == 8){
             codigo += identificacion;
@@ -721,10 +700,6 @@ public class CreacionProveedor extends javax.swing.JFrame {
         MPCB.setEnabled(false);
     }
     
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-
-    }//GEN-LAST:event_formWindowClosed
-
     private boolean verificacionCompleta(){
         boolean condicion = true;
         boolean tipoTlf = false;
@@ -765,19 +740,28 @@ public class CreacionProveedor extends javax.swing.JFrame {
             }
         }
         //2.2- ULTIMOS 7 DIGITOS DEL TELEFONO
-        if(!Tlftxt.getText().isEmpty() && !p.comprobacionIdentificacion(Tlftxt.getText()) && tipoTlf){
-            Tlftxt.setBorder(borde_rojo);
-            condicion = false;
-        } else if(!Tlftxt.getText().isEmpty() && p.comprobacionIdentificacion(Tlftxt.getText()) && tipoTlf){
-            if(Tlftxt.getText().length() != 7){
+        if(!TipoTlftxt.getText().isEmpty()){
+            if(!Tlftxt.getText().isEmpty() && !p.comprobacionIdentificacion(Tlftxt.getText()) && tipoTlf){
                 Tlftxt.setBorder(borde_rojo);
                 condicion = false;
-            } else {
-                Tlftxt.setBorder(borde_default);
+            } else if(!Tlftxt.getText().isEmpty() && p.comprobacionIdentificacion(Tlftxt.getText()) && tipoTlf){
+                if(Tlftxt.getText().length() != 7){
+                    Tlftxt.setBorder(borde_rojo);
+                    condicion = false;
+                } else {
+                    Tlftxt.setBorder(borde_default);
+                }
+            } else if(Tlftxt.getText().isEmpty()){
+                Tlftxt.setBorder(borde_rojo);
+                condicion = false;
             }
-        } else if(Tlftxt.getText().isEmpty()){
+        } else if(TipoTlftxt.getText().isEmpty() && !Tlftxt.getText().isEmpty()){
+            TipoTlftxt.setBorder(borde_rojo);
             Tlftxt.setBorder(borde_rojo);
             condicion = false;
+        } else if(TipoTlftxt.getText().isEmpty() && Tlftxt.getText().isEmpty()){
+            TipoTlftxt.setBorder(borde_default);
+            Tlftxt.setBorder(borde_default);
         }
         //3- COMPROBACION DE CORREO
         if(!Mailtxt.getText().isEmpty() && !verificacionCorreo(Mailtxt.getText())){

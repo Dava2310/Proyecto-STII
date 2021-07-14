@@ -104,6 +104,7 @@ public class beneficiarios {
             ResultSet res = pstm.executeQuery();
             if(res.next()){
                 encontrado = true;
+                //System.out.println("lo encontro");
             }
             res.close();
         }catch(SQLException e){

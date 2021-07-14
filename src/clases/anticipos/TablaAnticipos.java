@@ -5,11 +5,17 @@
  */
 package clases.anticipos;
 
+import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import logica.Tasa_USD;
 import logica.anticipos;
@@ -32,8 +38,11 @@ public class TablaAnticipos extends javax.swing.JFrame {
     private Object[][] dataTasas;
     private int cod_tasa = 0;
     private Tasa_USD tasas = new Tasa_USD();
+    private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
+    private Border borde_default;
     public TablaAnticipos() {
         initComponents();
+        borde_default = RazonSocial_txt.getBorder();
     }
 
     /**
@@ -471,6 +480,45 @@ public class TablaAnticipos extends javax.swing.JFrame {
         }
     }
     
+    private boolean verificacionCompleta(){
+        boolean condicion = true;
+        /*
+            1- Verificar que ninguno de los montos esten vacios.
+            2- Que los montos no tengan letras.
+            3- Que haya una tasa escogida.
+            4- Que las aprobaciones no esten vacias.
+        */
+        //1- Verificar que los montos no esten vacios
+        if(MontoBS_txt.getText().isEmpty()){
+            MontoBS_txt.setBorder(borde_rojo);
+            condicion = false;
+        } else {
+            if(!p.comprobacionFlotante(MontoBS_txt.getText())){
+                MontoBS_txt.setBorder(borde_rojo);
+                condicion = false;
+            } else {
+                MontoBS_txt.setBorder(borde_default);
+            }
+        }
+        
+        if(MontoDS_txt.getText().isEmpty()){
+            MontoDS_txt.setBorder(borde_rojo);
+            condicion = false;
+        } else {
+            if(!p.comprobacionFlotante(MontoDS_txt.getText())){
+                MontoDS_txt.setBorder(borde_rojo);
+                condicion = false;
+            } else {
+                MontoDS_txt.setBorder(borde_default);
+            }
+        }
+        
+        if(Tasa_CB.getSelectedIndex() == 0){
+            condicion = false;
+        }
+        return condicion;
+    }
+    
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         int index;
         fila = tabla.rowAtPoint(evt.getPoint());
@@ -583,9 +631,8 @@ public class TablaAnticipos extends javax.swing.JFrame {
     }//GEN-LAST:event_Moneda_CBActionPerformed
 
     private void Guardar_BTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Guardar_BTActionPerformed
-        int index = Tasa_CB.getSelectedIndex();
-        
-        if(Edicion_BT.isSelected() && index != 0 ){
+        int index = Tasa_CB.getSelectedIndex();        
+        if(verificacionCompleta()){
             String motivo_anticipo = MotivoCB.getSelectedItem().toString();
             String fecha = Fecha_txt.getText();
             String semana = Semana_txt.getText();
@@ -623,13 +670,17 @@ public class TablaAnticipos extends javax.swing.JFrame {
             E IMPRIMIRLO EN EL MONTODSTXT
         */
         if(MontoBS_txt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
-            double Monto_BS = Double.parseDouble(MontoBS_txt.getText());
-            double monto_total = Monto_BS / monto;
-            DecimalFormat df = new DecimalFormat("#");
-            df.setMaximumFractionDigits(10);
-            monto_total = (double) Math.round(monto_total * 1000d) / 1000;
-            String monto_formateado = df.format(monto_total);
-            MontoDS_txt.setText(monto_formateado);
+            if(p.comprobacionFlotante(MontoBS_txt.getText())){
+                double Monto_BS = Double.parseDouble(MontoBS_txt.getText());
+                double monto_total = Monto_BS / monto;
+                DecimalFormat df = new DecimalFormat("#");
+                df.setMaximumFractionDigits(10);
+                monto_total = (double) Math.round(monto_total * 1000d) / 1000;
+                String monto_formateado = df.format(monto_total);
+                MontoDS_txt.setText(monto_formateado);
+            } else {
+                JOptionPane.showMessageDialog(null, "LOS MONTOS NO PUEDEN TENER LETRAS, EXCEPTO DE LOS PUNTOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA") && MontoBS_txt.isEditable()){
             MontoDS_txt.setText("Seleccionar una tasa");
         }
@@ -642,13 +693,18 @@ public class TablaAnticipos extends javax.swing.JFrame {
             E IMPRIMIRLO EN EL MONTOBSTXT
         */
         if(MontoDS_txt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
-            double Monto_DS = Double.parseDouble(MontoDS_txt.getText());
-            double monto_total = Monto_DS * monto;
-            DecimalFormat df = new DecimalFormat("#");
-            df.setMaximumFractionDigits(10);
-            monto_total = (double) Math.round(monto_total * 1000d) / 1000;
-            String monto_formateado = df.format(monto_total);
-            MontoBS_txt.setText(monto_formateado);
+            if(p.comprobacionFlotante(MontoDS_txt.getText())){
+                double Monto_DS = Double.parseDouble(MontoDS_txt.getText());
+                double monto_total = Monto_DS * monto;
+                DecimalFormat df = new DecimalFormat("#");
+                df.setMaximumFractionDigits(10);
+                monto_total = (double) Math.round(monto_total * 1000d) / 1000;
+                String monto_formateado = df.format(monto_total);
+                MontoBS_txt.setText(monto_formateado);
+            } else {
+                JOptionPane.showMessageDialog(null, "LOS MONTOS NO PUEDEN TENER LETRAS, EXCEPTO DE LOS PUNTOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA") && MontoDS_txt.isEditable()){
             MontoBS_txt.setText("Seleccionar una tasa");
         }
@@ -754,6 +810,30 @@ public class TablaAnticipos extends javax.swing.JFrame {
         
         
     }
+    
+    private void cerrar(){
+        try{
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e){
+                   confirmarSalida();
+                }
+            });
+            this.setVisible(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    //CONFIRMAR SALIDA
+    private void confirmarSalida(){
+        int index = JOptionPane.showConfirmDialog(this, "¿ESTA SEGURO DE CERRAR LA VENTANA?", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
+        if(index==JOptionPane.YES_OPTION){
+            this.dispose();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

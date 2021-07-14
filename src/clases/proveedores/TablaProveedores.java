@@ -6,10 +6,13 @@
 package clases.proveedores;
 
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -1806,6 +1809,29 @@ public class TablaProveedores extends javax.swing.JFrame {
         NombreAUT_txt.setText("");
         IDAUT_CB.setSelectedIndex(0);
         IDAUT_txt.setText("");
+    }
+    
+    private void cerrar(){
+        try{
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e){
+                   confirmarSalida();
+                }
+            });
+            this.setVisible(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    //CONFIRMAR SALIDA
+    private void confirmarSalida(){
+        int index = JOptionPane.showConfirmDialog(this, "¿ESTA SEGURO DE CERRAR LA VENTANA?", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
+        if(index==JOptionPane.YES_OPTION){
+            this.dispose();
+        }
     }
     
     /**

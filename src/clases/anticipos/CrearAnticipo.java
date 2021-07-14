@@ -7,6 +7,7 @@ package clases.anticipos;
 
 import clases.proveedores.IdentificacionProveedor;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -18,8 +19,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import logica.Tasa_USD;
 import logica.anticipos;
 import logica.proveedor;
@@ -44,9 +47,12 @@ public class CrearAnticipo extends javax.swing.JFrame {
     public IdentificacionProveedor IP;
     private Tasa_USD tasas = new Tasa_USD();
     private Object[][] dataTasas;
+    private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
+    private Border borde_default;
     public CrearAnticipo() {
         initComponents();
         cerrar();
+        borde_default = RazonSocialtxt.getBorder();
     }
 
     /**
@@ -468,6 +474,52 @@ public class CrearAnticipo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CancelarBTActionPerformed
 
+    private boolean verificacionCompleta(){
+        boolean condicion = true;
+        /*
+            1- Verificar que ninguno de los montos esten vacios.
+            2- Que los montos no tengan letras.
+            3- Que haya una tasa escogida.
+            4- Que las aprobaciones no esten vacias.
+        */
+        //1- Verificar que los montos no esten vacios
+        if(MontoBStxt.getText().isEmpty()){
+            MontoBStxt.setBorder(borde_rojo);
+            condicion = false;
+        } else {
+            if(!p.comprobacionFlotante(MontoBStxt.getText())){
+                MontoBStxt.setBorder(borde_rojo);
+                condicion = false;
+            } else {
+                MontoBStxt.setBorder(borde_default);
+            }
+        }
+        
+        if(MontoDStxt.getText().isEmpty()){
+            MontoDStxt.setBorder(borde_rojo);
+            condicion = false;
+        } else {
+            if(!p.comprobacionFlotante(MontoDStxt.getText())){
+                MontoDStxt.setBorder(borde_rojo);
+                condicion = false;
+            } else {
+                MontoDStxt.setBorder(borde_default);
+            }
+        }
+        
+        if(Tasa_CB.getSelectedIndex() == 0){
+            condicion = false;
+        }
+        
+        if(Aprobaciontxt.getText().isEmpty()){
+            Aprobaciontxt.setBorder(borde_rojo);
+            condicion = false;
+        } else {
+            Aprobaciontxt.setBorder(borde_default);
+        }
+        return condicion;
+    }
+    
     //CUANDO SE ABRIO LA VENTANA, YA SABEMOS QUE LA IDENTIFICACION DEL PROVEEDOR ESTA EN PANTALLA
     //SIMPLEMENTE, RECOGEMOS TODOS LOS DATOS DE LA INTERFAZ Y CREAMOS EL ANTICIPO
     //DESPUES DE ESO, DESHABILITAMOS EL BOTON DE CREAR
@@ -477,8 +529,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
     private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
         //HAY QUE HACER UNA VALIDACION DE QUE SE INGRESEN LOS DATOS NECESARIOS
         //MOTIVO DEL ANTICIPO, FECHA, MONTOBS, MONTODS
-        if (!(MotivoCB.getSelectedItem().toString().isEmpty()) && !(Fechatxt.getText().isEmpty())
-                && !(MontoBStxt.getText().isEmpty()) && !(MontoDStxt.getText().isEmpty()) && Tasa_CB.getSelectedIndex() != 0) {
+        if (verificacionCompleta()) {
             //RECOGIDA DE DATOS:
             String motivo_anticipo = MotivoCB.getSelectedItem().toString();
             String fecha = Fechatxt.getText();
@@ -505,7 +556,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
                 a.NuevoAnticipo(motivo_anticipo, dateFinal, semana, monto_bs, monto_ds, aprobacion, observaciones, descontarODP, codigo_proveedor, cod_tasa);
                 creado = true;
                 String[] botones_confirmacionHabilitar = {"ACEPTAR", "CANCELAR"};
-                int index = JOptionPane.showOptionDialog(null, "¿DESEA CREAR UN NUEVO ANTICIPO?", "CONFIRMACION DE CAMBIO DE ESTADO", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionHabilitar, botones_confirmacionHabilitar[0]);
+                int index = JOptionPane.showOptionDialog(null, "¿DESEA CREAR UN NUEVO ANTICIPO?", "CONFIRMACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionHabilitar, botones_confirmacionHabilitar[0]);
                 if(index == 0){
                     IP = new IdentificacionProveedor();
                     IP.modo = 2;
@@ -518,7 +569,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
                 Logger.getLogger(ConsultarAnticipo.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "INGRESE POR FAVOR LOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "INGRESE POR FAVOR LOS DATOS NECESARIOS Y EN SU CORRECTO FORMATO \n DE SER NECESARIO AYUDESE CON EL MANUAL DE USUARIO", "ERROR", JOptionPane.ERROR_MESSAGE);
         }  
     }//GEN-LAST:event_CrearBTActionPerformed
 
@@ -548,11 +599,16 @@ public class CrearAnticipo extends javax.swing.JFrame {
             E IMPRIMIRLO EN EL MONTODSTXT
         */
         if(MontoBStxt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
-            double Monto_BS = Double.parseDouble(MontoBStxt.getText());
-            double monto_total = Monto_BS / monto;
-            DecimalFormat df = new DecimalFormat("#");
-            df.setMaximumFractionDigits(10);
-            MontoDStxt.setText(String.valueOf(df.format(monto_total)));
+            if(p.comprobacionFlotante(MontoBStxt.getText())){
+                double Monto_BS = Double.parseDouble(MontoBStxt.getText());
+                double monto_total = Monto_BS / monto;
+                DecimalFormat df = new DecimalFormat("#");
+                df.setMaximumFractionDigits(10);
+                MontoDStxt.setText(String.valueOf(df.format(monto_total)));
+            } else {
+                JOptionPane.showMessageDialog(null, "LOS MONTOS NO PUEDEN TENER LETRAS, EXCEPTO DE LOS PUNTOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -575,27 +631,20 @@ public class CrearAnticipo extends javax.swing.JFrame {
             E IMPRIMIRLO EN EL MONTOBSTXT
         */
         if(MontoDStxt.isEditable() && !Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
-            double Monto_DS = Double.parseDouble(MontoDStxt.getText());
-            double monto_total = Monto_DS * monto;
-            DecimalFormat df = new DecimalFormat("#");
-            df.setMaximumFractionDigits(10);
-            MontoBStxt.setText(String.valueOf(df.format(monto_total)));
+            if(p.comprobacionFlotante(MontoDStxt.getText())){
+                double Monto_DS = Double.parseDouble(MontoDStxt.getText());
+                double monto_total = Monto_DS * monto;
+                DecimalFormat df = new DecimalFormat("#");
+                df.setMaximumFractionDigits(10);
+                MontoBStxt.setText(String.valueOf(df.format(monto_total)));
+            } else {
+                JOptionPane.showMessageDialog(null, "LOS MONTOS NO PUEDEN TENER LETRAS, EXCEPTO DE LOS PUNTOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         } else if(Tasa_CB.getSelectedItem().toString().equals("SIN TASA")){
             JOptionPane.showMessageDialog(null, "PARA QUE LOS MONTOS SE ACTUALICEN, ESCOJA UNA TASA", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_MontoDStxtFocusLost
     
-    //SE CREA UNA FUNCION QUE PERMITA OBTENER LA FECHA ACTUAL DEL SISTEMA
-    private static String fechaActual(){
-        //SE CREA UN OBJETO TIPO DATE
-        Date fecha = new Date();
-        //SE HACE USO DE LA CLASE SIMPLEDATEFORMAT QUE PERMITE DARLE FORMATO QUE QUERAMOS A LA FECHA
-        //ADEMAS PERMITE CONVERTIR DE DATE A STRING
-        SimpleDateFormat formatoFecha=new SimpleDateFormat("MM/DD/YYYY");
-        String nuevaFecha = formatoFecha.format(fecha);
-        return nuevaFecha;
-    
-    }
     private void cerrar(){
         try{
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -613,7 +662,7 @@ public class CrearAnticipo extends javax.swing.JFrame {
     
     //CONFIRMAR SALIDA
     private void confirmarSalida(){
-        int index = JOptionPane.showConfirmDialog(this, "ESTA SEGURO DE CERRAR LA VENTANA?", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
+        int index = JOptionPane.showConfirmDialog(this, "¿ESTA SEGURO DE CERRAR LA VENTANA?", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
         if(index==JOptionPane.YES_OPTION){
             this.dispose();
         }

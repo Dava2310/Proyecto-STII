@@ -2,10 +2,13 @@ package clases.proveedores;
 
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
@@ -31,7 +34,6 @@ public class CreacionProveedor extends javax.swing.JFrame {
     public int cod_tarifa;
     public Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
     private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
-    //private Border borde_rojo = BorderFactory.
     private Border borde_default;
     
     public CreacionProveedor() {
@@ -1246,6 +1248,29 @@ public class CreacionProveedor extends javax.swing.JFrame {
         IDAuttxt.setText("");
     }
 
+    private void cerrar(){
+        try{
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e){
+                   confirmarSalida();
+                }
+            });
+            this.setVisible(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    //CONFIRMAR SALIDA
+    private void confirmarSalida(){
+        int index = JOptionPane.showConfirmDialog(this, "¿ESTA SEGURO DE CERRAR LA VENTANA?", "ADVERTENCIA", JOptionPane.YES_NO_OPTION);
+        if(index==JOptionPane.YES_OPTION){
+            this.dispose();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

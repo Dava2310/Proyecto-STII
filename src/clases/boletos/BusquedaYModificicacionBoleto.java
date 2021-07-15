@@ -5,6 +5,7 @@
  */
 package clases.boletos;
 
+import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,8 +14,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import logica.Tasa_Precios;
 import logica.boleto;
 
 /**
@@ -31,8 +35,12 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
     public boleto boleto = new boleto();
     private Object[][] datos;
     private int fila = -1;
+    private Tasa_Precios TP = new Tasa_Precios();
+    private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
+    private Border borde_default;
     public BusquedaYModificicacionBoleto() {
         initComponents();
+        borde_default = NumBoletotxt.getBorder();
     }
 
     /**
@@ -88,12 +96,6 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         jLabel2.setText("Informacion del Boleto");
 
         NumBoletotxt.setEditable(false);
-        NumBoletotxt.setBackground(new java.awt.Color(240, 240, 240));
-        NumBoletotxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NumBoletotxtActionPerformed(evt);
-            }
-        });
 
         NumBoletoLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         NumBoletoLB.setText("Num. Boleto");
@@ -346,16 +348,91 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void NumBoletotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumBoletotxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NumBoletotxtActionPerformed
     
     /*
         FUNCION PARA ESCRIBIR LOS DATOS POR PANTALLA DEL BOLETO
         EXCEPTO POR EL NUMERO DE BOLETO
     */
 
+    private boolean verificacionCompleta(){
+        boolean condicion = true;
+        /*
+            AQUI SE TIENEN QUE VERIFICAR LAS SIGUIENTES COSAS:
+            1- Nombre no vacio.
+            2- Fecha no vacia. (La validacion del formato ya se encuentra a parte)
+            3- Todos los montos ingresados y en su correspondiente formato.
+        */
+        //1- Nombre no vacio.
+        if(Nombretxt.getText().isEmpty()){
+            Nombretxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Nombretxt.getText().isEmpty()){
+            Nombretxt.setBorder(borde_default);
+        }
+        //2- Fecha no vacia.
+        if(Fechatxt.getText().isEmpty()){
+            Fechatxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Fechatxt.getText().isEmpty()){
+            Fechatxt.setBorder(borde_default);
+        }
+        //3- Todos los montos ingresados y en su correspondiente formato.
+        //3.1- Kg. Brutos
+        if(KgBrutostxt.getText().isEmpty()){
+            KgBrutostxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!KgBrutostxt.getText().isEmpty()){
+            if(!boleto.comprobacionFlotante(KgBrutostxt.getText())){
+                KgBrutostxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(boleto.comprobacionFlotante(KgBrutostxt.getText())){
+                KgBrutostxt.setBorder(borde_default);
+            }
+        }
+        //3.2- Kg. Netos
+        if(KgNetostxt.getText().isEmpty()){
+            KgNetostxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!KgNetostxt.getText().isEmpty()){
+            if(!boleto.comprobacionFlotante(KgNetostxt.getText())){
+                KgNetostxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(boleto.comprobacionFlotante(KgNetostxt.getText())){
+                KgNetostxt.setBorder(borde_default);
+            }
+        }
+        //3.3- Materia Seca
+        if(MStxt.getText().isEmpty()){
+            MStxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!MStxt.getText().isEmpty()){
+            if(!boleto.comprobacionEntero(MStxt.getText())){
+                MStxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(boleto.comprobacionEntero(MStxt.getText())){
+                if(TP.encontrarMS(Integer.parseInt(MStxt.getText()))){
+                    MStxt.setBorder(borde_default);
+                } else if(!TP.encontrarMS(Integer.parseInt(MStxt.getText()))){
+                    MStxt.setBorder(borde_rojo);
+                    condicion = false;
+                    JOptionPane.showMessageDialog(null, "LA MATERIA SECA QUE USTED INGRESÓ NO SE ENCUENTRA EN LA TASA DE PRECIOS DEL SISTEMA", "MATERIA SECA NO ENCONTRADA", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        //3.4- Impurezas
+        if(Impurezastxt.getText().isEmpty()){
+            Impurezastxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Impurezastxt.getText().isEmpty()){
+            if(!boleto.comprobacionEntero(Impurezastxt.getText())){
+                Impurezastxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(boleto.comprobacionEntero(Impurezastxt.getText())){
+                Impurezastxt.setBorder(borde_default);
+            }
+        }
+        return condicion;
+    }
     
     private void GuardarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarBTActionPerformed
         if(!NumBoletotxt.getText().isEmpty()){
@@ -413,6 +490,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
     
     private void reestablecerPagina(){
         updateTabla();
+        Tabla.setVisible(true);
         Fechatxt.setEditable(false);
         KgBrutostxt.setEditable(false);
         KgNetostxt.setEditable(false);

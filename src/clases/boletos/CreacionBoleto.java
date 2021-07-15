@@ -5,6 +5,7 @@
  */
 package clases.boletos;
 
+import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +14,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+import logica.Tasa_Precios;
 import logica.boleto;
 
 /**
@@ -29,8 +33,12 @@ public class CreacionBoleto extends javax.swing.JFrame {
     public String[] botones_confirmacionCrear = {"SI", "NO"};
     public boleto boleto = new boleto();
     public IdentificacionBoleto IB = new IdentificacionBoleto();
+    private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
+    private Border borde_default;
+    private Tasa_Precios TP = new Tasa_Precios();
     public CreacionBoleto() {
         initComponents();
+        borde_default = NumBoletotxt.getBorder();
     }
 
     /**
@@ -80,11 +88,6 @@ public class CreacionBoleto extends javax.swing.JFrame {
         jLabel2.setText("Informacion del Boleto");
 
         NumBoletotxt.setEditable(false);
-        NumBoletotxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NumBoletotxtActionPerformed(evt);
-            }
-        });
 
         NumBoletoLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         NumBoletoLB.setText("Num. Boleto");
@@ -258,10 +261,86 @@ public class CreacionBoleto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void NumBoletotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumBoletotxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NumBoletotxtActionPerformed
-
+    private boolean verificacionCompleta(){
+        boolean condicion = true;
+        /*
+            AQUI SE TIENEN QUE VERIFICAR LAS SIGUIENTES COSAS:
+            1- Nombre no vacio.
+            2- Fecha no vacia. (La validacion del formato ya se encuentra a parte)
+            3- Todos los montos ingresados y en su correspondiente formato.
+        */
+        //1- Nombre no vacio.
+        if(Nombretxt.getText().isEmpty()){
+            Nombretxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Nombretxt.getText().isEmpty()){
+            Nombretxt.setBorder(borde_default);
+        }
+        //2- Fecha no vacia.
+        if(Fechatxt.getText().isEmpty()){
+            Fechatxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Fechatxt.getText().isEmpty()){
+            Fechatxt.setBorder(borde_default);
+        }
+        //3- Todos los montos ingresados y en su correspondiente formato.
+        //3.1- Kg. Brutos
+        if(KgBrutostxt.getText().isEmpty()){
+            KgBrutostxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!KgBrutostxt.getText().isEmpty()){
+            if(!boleto.comprobacionFlotante(KgBrutostxt.getText())){
+                KgBrutostxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(boleto.comprobacionFlotante(KgBrutostxt.getText())){
+                KgBrutostxt.setBorder(borde_default);
+            }
+        }
+        //3.2- Kg. Netos
+        if(KgNetostxt.getText().isEmpty()){
+            KgNetostxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!KgNetostxt.getText().isEmpty()){
+            if(!boleto.comprobacionFlotante(KgNetostxt.getText())){
+                KgNetostxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(boleto.comprobacionFlotante(KgNetostxt.getText())){
+                KgNetostxt.setBorder(borde_default);
+            }
+        }
+        //3.3- Materia Seca
+        if(MStxt.getText().isEmpty()){
+            MStxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!MStxt.getText().isEmpty()){
+            if(!boleto.comprobacionEntero(MStxt.getText())){
+                MStxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(boleto.comprobacionEntero(MStxt.getText())){
+                if(TP.encontrarMS(Integer.parseInt(MStxt.getText()))){
+                    MStxt.setBorder(borde_default);
+                } else if(!TP.encontrarMS(Integer.parseInt(MStxt.getText()))){
+                    MStxt.setBorder(borde_rojo);
+                    condicion = false;
+                    JOptionPane.showMessageDialog(null, "LA MATERIA SECA QUE USTED INGRESÓ NO SE ENCUENTRA EN LA TASA DE PRECIOS DEL SISTEMA", "MATERIA SECA NO ENCONTRADA", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        //3.4- Impurezas
+        if(Impurezastxt.getText().isEmpty()){
+            Impurezastxt.setBorder(borde_rojo);
+            condicion = false;
+        } else if(!Impurezastxt.getText().isEmpty()){
+            if(!boleto.comprobacionEntero(Impurezastxt.getText())){
+                Impurezastxt.setBorder(borde_rojo);
+                condicion = false;
+            } else if(boleto.comprobacionEntero(Impurezastxt.getText())){
+                Impurezastxt.setBorder(borde_default);
+            }
+        }
+        return condicion;
+    }
+    
     private void CancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBTActionPerformed
         String[] botones_confirmacionCancelar = {"NO, NO DESEO CANCELAR", "SI, SI DESEO CANCELAR"};
         int index = JOptionPane.showOptionDialog(null, "DESEA CANCELAR LA CREACION DE TRANSACCION?", "CONFIRMACION DE CANCELACION", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCancelar, botones_confirmacionCancelar[0]);
@@ -277,54 +356,58 @@ public class CreacionBoleto extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarBTActionPerformed
 
     private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
-        /*
-            TENEMOS QUE IDENTIFICAR PRIMERO QUE TODOS LOS DATOS HAYAN SIDO COMPLETADOS (excepto las observaciones)
-            GUARDAMOS EN VARIAS VARIABLES LOS DATOS
-        */
-        String num_boleto = NumBoletotxt.getText();
-        String nombre = Nombretxt.getText();
-        String Fecha = Fechatxt.getText();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date data;
-        String dateFinal = "";
-        try {
-            data = sdf.parse(Fecha);
-            dateFinal = output.format(data);
-        } catch (ParseException ex) {
-            Logger.getLogger(CreacionBoleto.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String Semana = Semanatxt.getText();
-        float Kg_Brutos = Float.parseFloat(KgBrutostxt.getText());
-        float Kg_Netos = Float.parseFloat(KgNetostxt.getText());
-        int MS = Integer.parseInt(MStxt.getText());
-        int impurezas = Integer.parseInt(Impurezastxt.getText());
-        String observaciones = ObservacionestTXT.getText();
-        
-        if(!num_boleto.isEmpty() && !Fecha.isEmpty() && !nombre.isEmpty() && !Semana.isEmpty() && !KgBrutostxt.getText().isEmpty() 
-                && !KgNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()){
-            
+        if(verificacionCompleta()){
+            /*
+                TENEMOS QUE IDENTIFICAR PRIMERO QUE TODOS LOS DATOS HAYAN SIDO COMPLETADOS (excepto las observaciones)
+                GUARDAMOS EN VARIAS VARIABLES LOS DATOS
+            */
+            String num_boleto = NumBoletotxt.getText();
+            String nombre = Nombretxt.getText();
+            String Fecha = Fechatxt.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date data;
+            String dateFinal = "";
             try {
-                /*
-                ESTO SIGNIFICA QUE TODOS Y ABSOLUTAMENTE TODOS ESTAN LLENOS
-                COMO YA TENEMOS LOS DATOS AQUI, SOLAMENTE PROCEDEMOS A LLAMAR A LA FUNCION CON LAS VARIABLES
-                */
-                boleto.NuevoBoleto(num_boleto, nombre, dateFinal, Semana, Kg_Brutos, Kg_Netos, MS, impurezas, 0, observaciones);
-                // EL ULTIMO DATO DEL BOLETO ES 0, QUE SIGNIFICA LA CANTIDAD DE TRANSACCIONES
-                // COMO ESTE BOLETO, ESTA CREANDOSE A PENAS, NO TIENE NIGUNA TRANSACCION
-                int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
-                if(index == 0){
-                    IB.setVisible(true);
-                    this.dispose();
-                } else {
-                    this.dispose();
-                }
-            } catch (SQLException ex) {
+                data = sdf.parse(Fecha);
+                dateFinal = output.format(data);
+            } catch (ParseException ex) {
                 Logger.getLogger(CreacionBoleto.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            String Semana = Semanatxt.getText();
+            float Kg_Brutos = Float.parseFloat(KgBrutostxt.getText());
+            float Kg_Netos = Float.parseFloat(KgNetostxt.getText());
+            int MS = Integer.parseInt(MStxt.getText());
+            int impurezas = Integer.parseInt(Impurezastxt.getText());
+            String observaciones = ObservacionestTXT.getText();
+
+            if(!num_boleto.isEmpty() && !Fecha.isEmpty() && !nombre.isEmpty() && !Semana.isEmpty() && !KgBrutostxt.getText().isEmpty() 
+                    && !KgNetostxt.getText().isEmpty() && !MStxt.getText().isEmpty() && !Impurezastxt.getText().isEmpty()){
+
+                try {
+                    /*
+                    ESTO SIGNIFICA QUE TODOS Y ABSOLUTAMENTE TODOS ESTAN LLENOS
+                    COMO YA TENEMOS LOS DATOS AQUI, SOLAMENTE PROCEDEMOS A LLAMAR A LA FUNCION CON LAS VARIABLES
+                    */
+                    boleto.NuevoBoleto(num_boleto, nombre, dateFinal, Semana, Kg_Brutos, Kg_Netos, MS, impurezas, 0, observaciones);
+                    // EL ULTIMO DATO DEL BOLETO ES 0, QUE SIGNIFICA LA CANTIDAD DE TRANSACCIONES
+                    // COMO ESTE BOLETO, ESTA CREANDOSE A PENAS, NO TIENE NIGUNA TRANSACCION
+                    int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA CREAR UN NUEVO BOLETO?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                    if(index == 0){
+                        IB.setVisible(true);
+                        this.dispose();
+                    } else {
+                        this.dispose();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreacionBoleto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "INGRESE TODOS LOS CAMPOS NECESARIOS EN EL FORMATO CORRESPONDIENTE \nDE SER NECESARIO AYUDESE DEL MANUAL DE USUARIO", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "INGRESE TODOS LOS CAMPOS (las observaciones NO)", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "INGRESE TODOS LOS CAMPOS NECESARIOS EN EL FORMATO CORRESPONDIENTE \nDE SER NECESARIO AYUDESE DEL MANUAL DE USUARIO", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_CrearBTActionPerformed
 
@@ -339,10 +422,13 @@ public class CreacionBoleto extends javax.swing.JFrame {
                 Calendar calendar = new GregorianCalendar();
                 calendar.setTime(date1);
                 Semanatxt.setText((calendar.get(Calendar.WEEK_OF_YEAR) - 1) + "-" + anioActual);
+                Fechatxt.setBorder(borde_default);
             } catch (ParseException ex) {
+                Fechatxt.setBorder(borde_rojo);
                 JOptionPane.showMessageDialog(null, "INGRESE LA FECHA EN EL FORMATO CORRESPONDIENTE: DD/MM/YYYY", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
+            Fechatxt.setBorder(borde_rojo);
             JOptionPane.showMessageDialog(null, "INGRESE LA FECHA EN EL FORMATO CORRESPONDIENTE: DD/MM/YYYY", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_FechatxtFocusLost
@@ -350,9 +436,7 @@ public class CreacionBoleto extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         NumBoletotxt.setText(Num_Boleto);
     }//GEN-LAST:event_formWindowOpened
-
-    
-    
+  
     /**
      * @param args the command line arguments
      */

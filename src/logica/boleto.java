@@ -243,4 +243,32 @@ public class boleto {
         }
         return data;
     }
+    
+    public boolean comprobacionFlotante(String F){
+        boolean valido = true;
+        String numero = F;
+        for(int i = 0, cantidad_caracteres = numero.length(); i < cantidad_caracteres && valido; i++){
+                //En cada iteracion preguntamos si es un digito numerico
+                //En el momento que no lo sea, el ciclo terminara y no dejara pasar a los demas procedimientos
+                char caracter = numero.charAt(i);
+                if(!Character.isDigit(caracter) && caracter != '.'){
+                    valido = false;
+                }
+        }
+        return valido;
+    }
+    
+    public boolean comprobacionEntero(String I){
+        boolean valido = true;
+        String numero = I;
+        for(int i = 0, cantidad_caracteres = numero.length(); i < cantidad_caracteres && valido; i++){
+                //En cada iteracion preguntamos si es un digito numerico
+                //En el momento que no lo sea, el ciclo terminara y no dejara pasar a los demas procedimientos
+                char caracter = numero.charAt(i);
+                if(!Character.isDigit(caracter)){
+                    valido = false;
+                }
+        }
+        return valido;
+    }
 }

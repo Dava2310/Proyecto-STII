@@ -89,4 +89,19 @@ public class Tasa_Precios {
         return data;
     }
     
+    public boolean encontrarMS(int Materia_Seca){
+        boolean encontrado = false;
+        try{
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Materia_Seca FROM Tasa_Precios WHERE Materia_Seca = ?");
+            pstm.setInt(1, Materia_Seca);
+            ResultSet res = pstm.executeQuery();
+            if(res.next()){
+                encontrado = true;
+            }
+        }catch(SQLException e){
+            Logger.getLogger(Tasa_Precios.class.getName()).log(Level.SEVERE,null,e);
+        }
+        return encontrado;
+    }
+    
 }

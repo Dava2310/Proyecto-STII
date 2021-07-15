@@ -5,10 +5,13 @@
  */
 package clases.transacciones;
 
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import logica.boleto;
 import logica.proveedor;
@@ -28,8 +31,11 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
     private proveedor Proveedor = new proveedor();
     private boleto B = new boleto();
     private int registros = 0;
+    private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
+    private Border borde_default;
     public TransaccionesConsultarModificar1() {
         initComponents();
+        borde_default = MPCB.getBorder();
     }
 
     /**
@@ -465,6 +471,79 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
         cargarInformacionBeneficiarios();
     }//GEN-LAST:event_formWindowOpened
 
+    private boolean verificacionCompleta(){
+        boolean condicion = false;
+        /*
+            LOS DATOS DE PROVEEDOR Y BOLETO DE POR SI SON INGRESADOS POR AUTOMATICO
+            POR TANTO, LAS UNICAS VERIFICACIONES RESTANTES QUE QUEDAN ES VER SI SE HAN SELECCIONADO 
+            LOS CHECKBOX, AL MENOS UNO ENTRE LOS QUE ESTEN HABILITADOS
+        
+            1- Primero se verifica que esten habilitados (porque obviamente no buscamos si estan seleccionados los deshabilitados)
+            
+            2- Unicamente en ese caso comprobamos si esta seleccionado o no, y directamente hacemos la condicion true en este caso
+               Ya que la condicion estará por defecto como false
+            
+            3- Si la condicion casi al final del return, sigue en false
+               Remarcamos todos los checkbox de rojo
+               Y enviamos una alerta
+        */
+        //1- Checkbox Materia Prima
+        if(MPCB.isEnabled()){
+            if(MPCB.isSelected()){
+                condicion = true;
+            }
+        }
+        //2- Checkbox Cuadrilla
+        if(CuadrillaCB.isEnabled()){
+            if(CuadrillaCB.isSelected()){
+                condicion = true;
+            }
+        }
+        //3- Checkbox Peaje
+        if(PeajeCB.isEnabled()){
+            if(PeajeCB.isSelected()){
+                condicion = true;
+            }
+        }
+        //4- Checkbox Flete
+        if(FleteCB.isEnabled()){
+            if(FleteCB.isSelected()){
+                condicion = true;
+            }
+        }
+        //Ya revisamos todos los checkbox, ahora si la condicion es false, remarcamos todos los checkbox de rojo
+        //En caso de ser true, los devolvemos cada uno a su borde inicial
+        if(!condicion){
+            //En el caso de que la condicion sea falsa
+            if(MPCB.isEnabled()){
+                MPCB.setBorder(borde_rojo);
+            }
+            if(CuadrillaCB.isEnabled()){
+                CuadrillaCB.setBorder(borde_rojo);
+            }
+            if(PeajeCB.isEnabled()){
+                PeajeCB.setBorder(borde_rojo);
+            }
+            if(FleteCB.isEnabled()){
+                FleteCB.setBorder(borde_rojo);
+            }
+        } else if(condicion){
+            //En el caso de que la condicion sea verdadera
+            if(MPCB.isEnabled()){
+                MPCB.setBorder(borde_default);
+            }
+            if(CuadrillaCB.isEnabled()){
+                CuadrillaCB.setBorder(borde_default);
+            }
+            if(PeajeCB.isEnabled()){
+                PeajeCB.setBorder(borde_default);
+            }
+            if(FleteCB.isEnabled()){
+                FleteCB.setBorder(borde_default);
+            }
+        }
+        return condicion;
+    }
    
     private void cargarInformacionBeneficiarios(){
         try {
@@ -588,7 +667,7 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarBTActionPerformed
 
     private void GuardarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarBTActionPerformed
-        if(HabilitarcambiosBT.isSelected() && EstadoCB.getSelectedItem().toString().equals("No Procesadas")){
+        if(verificacionCompleta()){
             //PROCEDEMOS PRIMERO A GUARDAR TODOS LOS CAMPOS
             /*
                 LOS CAMPOS QUE PUEDO GUARDAR PARA CAMBIAR SON:
@@ -655,8 +734,7 @@ public class TransaccionesConsultarModificar1 extends javax.swing.JFrame {
             SeleccionarBT.setSelected(false);
         } else if(!SeleccionarBT.isSelected()){
             Tabla.setVisible(true);
-            HabilitarcambiosBT.setEnabled(false);
-            
+            HabilitarcambiosBT.setEnabled(false);         
         }
     }//GEN-LAST:event_SeleccionarBTActionPerformed
 

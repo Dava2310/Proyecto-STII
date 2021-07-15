@@ -6,6 +6,7 @@
 package clases.transacciones;
 
 import clases.transacciones.IdentificacionProveedorTransacciones;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,7 +17,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import logica.boleto;
 import logica.transacciones;
 
@@ -45,9 +48,12 @@ public class TransaccionesCrear extends javax.swing.JFrame {
     private transacciones t = new transacciones();
     private boleto b = new boleto();
     IdentificacionProveedorTransacciones IPT = new IdentificacionProveedorTransacciones();
+    private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
+    private Border borde_default;
 
     public TransaccionesCrear() {
         initComponents();
+        borde_default = MPCB.getBorder();
     }
 
     /**
@@ -120,11 +126,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         tipoIDProveedorCB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         tipoIDProveedorCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
         tipoIDProveedorCB.setEnabled(false);
-        tipoIDProveedorCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoIDProveedorCBActionPerformed(evt);
-            }
-        });
 
         IDtxt.setEditable(false);
         IDtxt.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
@@ -191,11 +192,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
 
         PeajeCB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         PeajeCB.setText("Peaje");
-        PeajeCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PeajeCBActionPerformed(evt);
-            }
-        });
 
         USDdiaL1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         USDdiaL1.setText("Observaciones");
@@ -225,21 +221,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         });
 
         Fechatxt.setEditable(false);
-        Fechatxt.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FechatxtFocusLost(evt);
-            }
-        });
-        Fechatxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FechatxtActionPerformed(evt);
-            }
-        });
-        Fechatxt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                FechatxtKeyTyped(evt);
-            }
-        });
 
         EstadoLB.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         EstadoLB.setText("Estado de la Transaccion");
@@ -247,11 +228,6 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         EstadoCB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         EstadoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Procesada", "Procesada" }));
         EstadoCB.setEnabled(false);
-        EstadoCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EstadoCBActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -435,14 +411,80 @@ public class TransaccionesCrear extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tipoIDProveedorCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoIDProveedorCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipoIDProveedorCBActionPerformed
-
-    private void PeajeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PeajeCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PeajeCBActionPerformed
-
+    private boolean verificacionCompleta(){
+        boolean condicion = false;
+        /*
+            LOS DATOS DE PROVEEDOR Y BOLETO DE POR SI SON INGRESADOS POR AUTOMATICO
+            POR TANTO, LAS UNICAS VERIFICACIONES RESTANTES QUE QUEDAN ES VER SI SE HAN SELECCIONADO 
+            LOS CHECKBOX, AL MENOS UNO ENTRE LOS QUE ESTEN HABILITADOS
+        
+            1- Primero se verifica que esten habilitados (porque obviamente no buscamos si estan seleccionados los deshabilitados)
+            
+            2- Unicamente en ese caso comprobamos si esta seleccionado o no, y directamente hacemos la condicion true en este caso
+               Ya que la condicion estará por defecto como false
+            
+            3- Si la condicion casi al final del return, sigue en false
+               Remarcamos todos los checkbox de rojo
+               Y enviamos una alerta
+        */
+        //1- Checkbox Materia Prima
+        if(MPCB.isEnabled()){
+            if(MPCB.isSelected()){
+                condicion = true;
+            }
+        }
+        //2- Checkbox Cuadrilla
+        if(CuadrillaCB.isEnabled()){
+            if(CuadrillaCB.isSelected()){
+                condicion = true;
+            }
+        }
+        //3- Checkbox Peaje
+        if(PeajeCB.isEnabled()){
+            if(PeajeCB.isSelected()){
+                condicion = true;
+            }
+        }
+        //4- Checkbox Flete
+        if(FleteCB.isEnabled()){
+            if(FleteCB.isSelected()){
+                condicion = true;
+            }
+        }
+        //Ya revisamos todos los checkbox, ahora si la condicion es false, remarcamos todos los checkbox de rojo
+        //En caso de ser true, los devolvemos cada uno a su borde inicial
+        if(!condicion){
+            //En el caso de que la condicion sea falsa
+            if(MPCB.isEnabled()){
+                MPCB.setBorder(borde_rojo);
+            }
+            if(CuadrillaCB.isEnabled()){
+                CuadrillaCB.setBorder(borde_rojo);
+            }
+            if(PeajeCB.isEnabled()){
+                PeajeCB.setBorder(borde_rojo);
+            }
+            if(FleteCB.isEnabled()){
+                FleteCB.setBorder(borde_rojo);
+            }
+        } else if(condicion){
+            //En el caso de que la condicion sea verdadera
+            if(MPCB.isEnabled()){
+                MPCB.setBorder(borde_default);
+            }
+            if(CuadrillaCB.isEnabled()){
+                CuadrillaCB.setBorder(borde_default);
+            }
+            if(PeajeCB.isEnabled()){
+                PeajeCB.setBorder(borde_default);
+            }
+            if(FleteCB.isEnabled()){
+                FleteCB.setBorder(borde_default);
+            }
+        }
+        return condicion;
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // LA FASE NORMAL DE CREACION DE TRANSACCION    
         if(boletoCreado) {
@@ -521,7 +563,8 @@ public class TransaccionesCrear extends javax.swing.JFrame {
 
     private void CrearBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTActionPerformed
         if(boletoCreado) {
-            if (MPCB.isSelected() || CuadrillaCB.isSelected() || PeajeCB.isSelected() || FleteCB.isSelected()) {
+            
+            if (verificacionCompleta()) {
                 /*
                     A PARTIR DE AQUI, YA TENEMOS TODO LO SUFICIENTE COMO PARAR CREAR UNA TRANSACCION
                 */
@@ -628,7 +671,7 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                         //PRIMER ESCENARIO
                         if (cantidad_transacciones == 4) {
                             String[] botones_confirmacionCrear = {"SI", "NO"};
-                            int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA INGRESAR UN NUEVO BOLETON?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
+                            int index = JOptionPane.showOptionDialog(null, "CREACION EXITOSA \n \n ¿DESEA INGRESAR UNA NUEVA TRANSACCIÓN?", "CONFIRMACION DE CREAR", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones_confirmacionCrear, botones_confirmacionCrear[0]);
                             /*
                                 EN ESTE MOMENTO, ESTAMOS ENVIANDO UNA ALERTA A VER SI DESEA CREAR UNA NUEVA TRANSACCION
                                 SI DICE QUE SI, PRIMERO MOSTRAMOS POR PANTALLA LA VENTANA QUE NOS PERMITE PRIMERO PONER LOS DATOS INICIALES
@@ -674,28 +717,13 @@ public class TransaccionesCrear extends javax.swing.JFrame {
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(TransaccionesCrear.class.getName()).log(Level.SEVERE, null, ex);                  
-                    }
-                    
+                    }  
                 //====================================FINAL DE CREACION DE TRANSACCION==============================\\
-            }//CIERRE DE CONDICIONAL DE LOS TIPOS DE TRANSACCION
+            } else { //CIERRE DE CONDICIONAL DE LOS TIPOS DE TRANSACCION
+                JOptionPane.showMessageDialog(null, "USTED NO HA INGRESADO AL MENOS UNA TRANSACCION ENTRE LAS DISPONIBLES \nAYUDESE CON EL MANUAL DE USUARIO DE SER NECESARIO", "FALLO DE INGRESO DE DATOS", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_CrearBTActionPerformed
-
-    private void FechatxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FechatxtKeyTyped
-        
-    }//GEN-LAST:event_FechatxtKeyTyped
-
-    private void FechatxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FechatxtFocusLost
-    
-    }//GEN-LAST:event_FechatxtFocusLost
-
-    private void FechatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechatxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FechatxtActionPerformed
-
-    private void EstadoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstadoCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EstadoCBActionPerformed
 
     /**
      * @param args the command line arguments

@@ -296,9 +296,6 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tipoIDProveedorCBActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -478,9 +475,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Peaje"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PeajeCBActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="USDdiaL1">
           <Properties>
@@ -545,11 +539,6 @@
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
-          <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="FechatxtFocusLost"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FechatxtActionPerformed"/>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="FechatxtKeyTyped"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="EstadoLB">
           <Properties>
@@ -572,9 +561,6 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EstadoCBActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

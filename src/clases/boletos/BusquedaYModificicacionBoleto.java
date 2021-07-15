@@ -435,7 +435,7 @@ public class BusquedaYModificicacionBoleto extends javax.swing.JFrame {
     }
     
     private void GuardarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarBTActionPerformed
-        if(!NumBoletotxt.getText().isEmpty()){
+        if(verificacionCompleta()){
             if(CambiosBT.isSelected()){
                 /*
                     AQUI YA DE SEGURO TENEMOS UNA MODIFICACION SEGURA

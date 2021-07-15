@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import logica.ConversionesVerificaciones;
 import logica.proveedor;
 
 public class IdentificacionProveedor extends javax.swing.JFrame {
@@ -28,6 +29,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
     public proveedor p;
     private Border borde_rojo = BorderFactory.createLineBorder(Color.RED, 1);
     private Border borde_default;
+    private ConversionesVerificaciones objetoVerificador = new ConversionesVerificaciones();
     public IdentificacionProveedor() {
         initComponents();
         con = new conectate();
@@ -71,11 +73,6 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
         LabelIdentificacion.setOpaque(true);
 
         TipoCedula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E", "J", "P", "G" }));
-        TipoCedula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TipoCedulaActionPerformed(evt);
-            }
-        });
 
         BotonEnter.setText("ENTER");
         BotonEnter.addActionListener(new java.awt.event.ActionListener() {
@@ -84,11 +81,6 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
             }
         });
 
-        Cedulatxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CedulatxtActionPerformed(evt);
-            }
-        });
         Cedulatxt.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 CedulatxtKeyTyped(evt);
@@ -148,14 +140,35 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TipoCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoCedulaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TipoCedulaActionPerformed
-
-    private void CedulatxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CedulatxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CedulatxtActionPerformed
-
+    private boolean verificacionCompleta(){
+        boolean condicion = true;
+        String identificacion = objetoVerificador.quitarEspacios(Cedulatxt.getText());
+        /*
+            AQUI HACEMOS TODAS LAS VERIFICACIONES CORRESPONDIENTES AL CAMPO DE CEDULA 
+            QUE TIENE QUE INGRESAR EL USUARIO
+        
+            1- Si esta vacio.
+            2- Si no esta vacio, que cumpla con el rango de digitos.
+            3- Si cumple con el rango de digitos, que todos sean numericos.
+            4- Si cumple todo lo anterior, que no se encuentre en el sistema.
+        */
+        if(Cedulatxt.getText().isEmpty()){
+            Cedulatxt.setBorder(borde_rojo);
+            JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION VALIDA", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
+            condicion = false;
+        } else if(!Cedulatxt.getText().isEmpty()){
+            if(identificacion.length() < 7){
+                condicion = false;
+                Cedulatxt.setBorder(borde_rojo);
+                JOptionPane.showMessageDialog(null, "LA IDENTIFICACION DEL PROVEEDOR DEBE ESTAR ENTRE 7 Y 8 DIGITOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else if(!(identificacion.length() < 7)){
+                
+            }
+        }
+            
+        return condicion;
+    }
+    
     private void BotonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEnterActionPerformed
         boolean procedio = false;
         tipoIdentificacion = TipoCedula.getSelectedIndex();

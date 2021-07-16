@@ -126,28 +126,28 @@ create table Tasa_Precios(
 );
 
 insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(0,0,0);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(21,38.40,23.40);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(22,41.60,26.60);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(23,44.80,29.80);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(24,48.00,33.00);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(25,51.20,36.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(26,54.40,39.40);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(27,57.60,42.60);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(28,60.80,45.80);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(29,64.00,49.00);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(30,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(31,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(32,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(33,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(34,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(35,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(36,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(37,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(38,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(39,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(40,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(41,67.20,52.20);
-insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(42,67.20,52.20);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(21,0.03840,0.02340);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(22,0.04160,0.02660);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(23,0.04480,0.02980);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(24,0.04800,0.03300);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(25,0.05120,0.03620);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(26,0.05440,0.03940);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(27,0.05760,0.04260);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(28,0.06080,0.04580);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(29,0.06400,0.04900);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(30,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(31,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(32,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(33,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(34,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(35,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(36,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(37,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(38,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(39,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(40,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(41,0.06720,0.05220);
+insert into Tasa_Precios (Materia_Seca, En_Planta, En_Corte) values(42,0.06720,0.05220);
 
 -- CREACION DE LA TABLA TRANSACCIONES
 create table transacciones(
@@ -253,8 +253,10 @@ create table ODP(
     Acumulado_Cuadrilla_DS double,
     Acumulado_Flete_BS double,
     Acumulado_Flete_DS double,
-    Acumulado_Peaje_BS int,
-    Acumulado_Peaje_DS int,
+    Acumulado_Peaje_BS double,
+    Acumulado_Peaje_DS double,
+    Acumulado_Anticipo_BS double,
+    Acumulado_Anticipo_DS double,
     Total_BS double,
     Total_DS double,
     primary key(Cod_ODP),

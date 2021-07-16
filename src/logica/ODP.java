@@ -76,11 +76,14 @@ public class ODP {
             int cantidad_viajes = objetoTransacciones.cantidadViajes_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
             double[] montos_anticipos = objetoAnticipo.anticipos_Proveedor_Semana(semana, codigos_Proveedores.get(i));
             double anticipo_BS = montos_anticipos[0];
-            
+            double anticipo_DS = montos_anticipos[1];
 
+            double total_BS = (materiaPrima[0][1] + cuadrilla[0][1] + flete[0][1] + peaje[0][1]) - anticipo_BS;
+            double total_DS = (materiaPrima[0][0] + cuadrilla[0][0] + flete[0][0] + peaje[0][0]) - anticipo_DS;
+            
             try{
-                PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO ODP(Cod_DelProveedor, Fecha, Semana, Acumulado_MP_BS, Acumulado_MP_DS, Acumulado_Cuadrilla_BS, Acumulado_Cuadrilla_DS, Acumulado_Flete_BS, Acumulado_Flete_DS, Acumulado_Peaje_BS, Acumulado_Peaje_DS) "
-                        + " values(?,?,?,?,?,?,?,?,?,?,?)");
+                PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO ODP(Cod_DelProveedor, Fecha, Semana, Acumulado_MP_BS, Acumulado_MP_DS, Acumulado_Cuadrilla_BS, Acumulado_Cuadrilla_DS, Acumulado_Flete_BS, Acumulado_Flete_DS, Acumulado_Peaje_BS, Acumulado_Peaje_DS, Acumulado_Anticipo_BS, Acumulado_Anticipo_DS, Total_BS, Total_DS) "
+                        + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 pstm.setInt(1, codigos_Proveedores.get(i));
                 pstm.setString(2, fecha_formateada);
                 pstm.setString(3, semana);
@@ -92,13 +95,17 @@ public class ODP {
                 pstm.setDouble(9, flete[0][0]);         //DS
                 pstm.setDouble(10, peaje[0][1]);        //BS
                 pstm.setDouble(11, peaje[0][0]);        //DS
+                pstm.setDouble(12, anticipo_BS);        //BS
+                pstm.setDouble(13, anticipo_DS);        //DS
+                pstm.setDouble(14, total_BS);
+                pstm.setDouble(15, total_DS);
                 pstm.execute();
                 pstm.close();
+                objetoTransacciones.cerrarTransacciones(semana);
             }catch(SQLException ex){
                 Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        objetoTransacciones.cerrarTransacciones(semana);
+        } 
     }
     
     public boolean verificarODP(String semana){
@@ -141,7 +148,7 @@ public class ODP {
         }catch(SQLException ex){
             Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Object[][] data = new Object[registros][12];
+        Object[][] data = new Object[registros][16];
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * FROM ODP Where Semana = ? ORDER BY Cod_ODP DESC");
             pstm.setString(1, semana);
@@ -160,6 +167,10 @@ public class ODP {
                 double estAcumulado_Flete_DS = res.getDouble("Acumulado_Flete_DS");
                 double estAcumulado_Peaje_BS = res.getDouble("Acumulado_Peaje_BS");
                 double estAcumulado_Peaje_DS = res.getDouble("Acumulado_Peaje_DS");
+                double estAcumulado_Anticipo_BS = res.getDouble("Acumulado_Anticipo_BS");
+                double estAcumulado_Anticipo_DS = res.getDouble("Acumulado_Anticipo_DS");
+                double estTotal_BS = res.getDouble("Total_BS");
+                double estTotal_DS = res.getDouble("Total_DS");
                 DecimalFormat df = new DecimalFormat("#");
                 df.setMaximumFractionDigits(10);
                 data[i][0] = estCod_ODP;
@@ -174,6 +185,10 @@ public class ODP {
                 data[i][9] = df.format(estAcumulado_Flete_DS);
                 data[i][10] = df.format(estAcumulado_Peaje_BS);
                 data[i][11] = df.format(estAcumulado_Peaje_DS);
+                data[i][12] = df.format(estAcumulado_Anticipo_BS);
+                data[i][13] = df.format(estAcumulado_Anticipo_DS);
+                data[i][14] = df.format(estTotal_BS);
+                data[i][15] = df.format(estTotal_DS);
                 i++;
             }
         }catch(SQLException ex){
@@ -490,7 +505,7 @@ public class ODP {
     */
     
     public double[][] ODP_Peaje(String semana, int codigo){
-        float cantidad = 0;
+        double cantidad = 0;
         double cantidad_BS = 0;
         double valorTasa_USD = tasa_USD.tasaSemana(semana);
         double[][] cantidad_por_proveedores = new double[1][2];
@@ -515,8 +530,8 @@ public class ODP {
                     peaje = res.getInt("Peaje_Proveedor");
                     cantidad_boletos++;
                 }
-                cantidad = cantidad_boletos * peaje;
-                cantidad_BS = cantidad * valorTasa_USD;
+                cantidad_BS = cantidad_boletos * peaje;
+                cantidad = cantidad_BS / valorTasa_USD;
                 cantidad_por_proveedores[i][0] = cantidad;
                 cantidad_por_proveedores[i][1] = cantidad_BS;  
                 

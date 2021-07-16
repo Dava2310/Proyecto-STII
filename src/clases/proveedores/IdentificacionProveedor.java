@@ -154,7 +154,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
         */
         if(Cedulatxt.getText().isEmpty()){
             Cedulatxt.setBorder(borde_rojo);
-            JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION VALIDA", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION", "ERROR", JOptionPane.ERROR_MESSAGE);
             condicion = false;
         } else if(!Cedulatxt.getText().isEmpty()){
             if(identificacion.length() < 7){
@@ -162,10 +162,29 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                 Cedulatxt.setBorder(borde_rojo);
                 JOptionPane.showMessageDialog(null, "LA IDENTIFICACION DEL PROVEEDOR DEBE ESTAR ENTRE 7 Y 8 DIGITOS", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else if(!(identificacion.length() < 7)){
-                
+                if(!p.comprobacionIdentificacion(identificacion)){
+                    condicion = false;
+                    Cedulatxt.setBorder(borde_rojo);
+                    JOptionPane.showMessageDialog(null, "TODOS LOS DIGITOS DEBEN SER NUMERICOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else if(p.comprobacionIdentificacion(identificacion)){
+                    //Ahora hay que buscar que no se encuentre en el sistema
+                    String tipoIdentificacion = TipoCedula.getSelectedItem().toString();
+                    String identificacion_completa = tipoIdentificacion + identificacion;
+                    try {
+                        if(p.buscarIdentificacion2(identificacion_completa)){
+                            condicion = false;
+                            Cedulatxt.setBorder(borde_rojo);
+                            JOptionPane.showMessageDialog(null, "YA HAY UN PROVEEDOR REGISTRADO CON ESTA IDENTIFICACION", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        } else if(!p.buscarIdentificacion2(identificacion_completa)){
+                            Cedulatxt.setBorder(borde_default);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(IdentificacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         }
-            
+        Cedulatxt.setText(identificacion);
         return condicion;
     }
     
@@ -173,18 +192,13 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
         boolean procedio = false;
         tipoIdentificacion = TipoCedula.getSelectedIndex();
         String t_identificacion = TipoCedula.getSelectedItem().toString();
-        identificacion = Cedulatxt.getText();
+        identificacion = objetoVerificador.quitarEspacios(Cedulatxt.getText());
         String identificacion_completa = t_identificacion + identificacion;
 
         //SE TIENE QUE PRIMERO VERIFICAR QUE HAYA INGRESADO EL USUARIO UNA CEDULA
         //EN EL CASO DE QUE HAYA INGRESADO UNA CEDULA, SE VERIFICA QUE SEA DE LA CANTIDAD DE DIGITOS NECESARIOS (7 u 8)
-        if (identificacion.equals("") || identificacion.length() < 7 || identificacion.length() > 8) {
-            JOptionPane.showMessageDialog(null, "INGRESE UNA IDENTIFICACION VALIDA", "BUSQUEDA DE PROVEEDOR", JOptionPane.PLAIN_MESSAGE);
-            Cedulatxt.setBorder(borde_rojo);
-        } else {
-            //PROCEDEMOS A HACER UNA VERIFICACION DE QUE SEA UNA CEDULA DE PUROS DIGITOS
-            boolean digitos = p.comprobacionIdentificacion(identificacion);
-            if (modo == 1 && digitos) {
+        if (verificacionCompleta()) {
+            if (modo == 1) {
                 try {
                     //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN FALSE
                     //SIGNIFICANDO QUE NO HAY NADIE REGISTRADO POR AHORA CON ESA IDENTIFICACION
@@ -203,7 +217,7 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(IdentificacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else if (modo == 2 && digitos) {
+            } else if (modo == 2) {
                 try {
                     //SE VERIFICA QUE LA BUSQUEDA DE LA IDENTIFICACION RETORNE UN TRUE
                     //DE ESTA MANERA EL ANTICIPO TRABAJA CON UN CODIGO DE PROVEEDOR VALIDO
@@ -229,11 +243,8 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
             }
             if (procedio) {
                 this.dispose();
-            } else if (!digitos) {
-                JOptionPane.showMessageDialog(null, "NO INGRESE LETRAS DENTRO DE LA IDENTIFICACION", "BUSQUEDA DE PROVEEDOR", JOptionPane.ERROR_MESSAGE);
-                Cedulatxt.setBorder(borde_rojo);
             }
-        }
+        } 
 
     }//GEN-LAST:event_BotonEnterActionPerformed
 

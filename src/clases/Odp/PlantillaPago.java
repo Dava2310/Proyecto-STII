@@ -18,7 +18,7 @@ import logica.ODP;
  *
  * @author DANIEL
  */
-public class PlantillaPago extends javax.swing.JFrame {
+ public class PlantillaPago extends javax.swing.JFrame {
 
     public String semana;
     public int modo = 0;
@@ -167,7 +167,8 @@ public class PlantillaPago extends javax.swing.JFrame {
     }
     
     private void mostrarODP(){
-        String[] columNames = {"Codigo ODP","Codigo del Proveedor","Fecha","Semana","MP-BS","MP-DS","Cuadrilla-BS","Cuadrilla-DS","Flete-BS","Flete-DS","Peaje-BS","Peaje-DS"};
+        String[] columNames = {"Codigo ODP","Codigo del Proveedor","Fecha","Semana","MP-BS","MP-DS","Cuadrilla-BS","Cuadrilla-DS","Flete-BS","Flete-DS","Peaje-BS","Peaje-DS","Anticipo_BS","Anticipo_DS","Total_BS","Total_DS"};
+        
         if(objetoODP.verificarODP(semana)){
             System.out.println("aqui");
             data = objetoODP.getDatos(semana);

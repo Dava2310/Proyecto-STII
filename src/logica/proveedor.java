@@ -13,20 +13,48 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Esta clase contiene todos las consultas SQL y otros metodos que ayudan a manejar la informacion de proveedor.
+ * @author Proyecto STII - SARP
+ * @version 16/07/2021
+ */
+
 public class proveedor {
-    conectate con;
+    /**
+     * El objeto conectate nos permite tener una conexión con la base de datos.
+     */
+    public conectate con;
     
+    /**
+     * Constructor de la clase proveedor. Únicamente inicializamos el objeto de conexión con la base de datos.
+     */
     public proveedor(){
         //CONEXION CON LA BASE DE DATOS
         con = new conectate();
     }
     
+    /**
+     * Este método permite crear en la BD un nuevo proveedor con todos los datos ingresados por parámetros.
+     * @param codigo. Parámetro del Codigo del proveedor.
+     * @param identificacion. Parámetro de la Identificación o cédula.
+     * @param razon_social. Parámetro de la Razón Social o nombre.
+     * @param direccion. Parámetro de la dirección.
+     * @param municipio. Parámetro del municipio.
+     * @param telefono. Parámetro del teléfono.
+     * @param email. Parámetro del email.
+     * @param materia_prima. Parámetro para definir si la Materia Prima se basa en la Tabla de Precios o es acordada.
+     * @param MP_acordado. Parámetro para guardar el monto de la Materia Prima acordada.
+     * @param cuadrilla. Parámetro para guardar el monto de cuadrilla.
+     * @param flete. Parámetro para guardar el monto de flete.
+     * @param peaje. Parámetro para guardar el monto de peaje.
+     * @param Cod_Tarifa. Parámetro para guardar el código de la Tarifa Estándar si es que pertenece a alguna. Si es distinto de 0, significa que pertenece a una tarifa.
+     * @param tarifa. Parámetro <b>booleano</b> para saber si es que pertenece o no a una tarifa.
+     * @throws SQLException 
+     */
     //ESTA FUNCION NOS PERMITE CREAR UN NUEVO PROVEEDOR EN LA BASE DE DATOS
     public void NuevoProveedor(int codigo, String identificacion, String razon_social, String direccion, String municipio, String telefono, String email, String materia_prima, float MP_acordado, float cuadrilla, float flete, int peaje, int Cod_Tarifa, boolean tarifa) 
             throws SQLException{
-        System.out.println(codigo);
-        System.out.println(identificacion);
-        System.out.println(razon_social);
+        //En caso de tener una tarifa, llamamos en la SQL a ingresar un codigo de tarifa.
         if(tarifa){
             try{
                 PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
@@ -51,6 +79,7 @@ public class proveedor {
                 Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
             }
         } else {
+            //En caso de no pertenecer a una tarifa, mandamos a colocar 0 en el codigo de la tarifa.
             try{
                 PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
                         " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado, Cod_Tarifa)" + 
@@ -74,9 +103,13 @@ public class proveedor {
                 Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
             }
         }
-        
-    }
+    }//Cierre del metodo de nuevo proveedor.
     
+    /**
+     * 
+     * @return Devuelve la cantidad de registros de proveedores existentes en toda la BD.
+     * @throws SQLException 
+     */
     public int cantidadProveedores() throws SQLException{
         int registros = 0;
         //OBTENEMOS LA CANTIDAD DE REGISTROS EXISTENTES EN TODA LA TABLA
@@ -90,13 +123,18 @@ public class proveedor {
             System.out.println(ex);
         }
         return registros;
-    }
+    }//Cierre del método cantidadProveedores()
     
+    /**
+     * 
+     * @return Devuelve en una <i>matriz</i> de tipo <b>Objeto</b>, todos los datos de todos los registros de proveedores más los beneficiarios que tenga cada proveedor.
+     * @throws SQLException 
+     */
     //FUNCION PARA OBTENER DATOS DE TODOS LOS PROVEEDORES
     public Object[][] getDatos() throws SQLException{
         int registros = 0;
         int codigo;
-        //obtenemos la cantidad de registros existentes en la tabla
+        //Obtenemos la cantidad de registros existentes en la tabla
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM proveedor");
             ResultSet res = pstm.executeQuery();
@@ -106,14 +144,16 @@ public class proveedor {
         } catch(SQLException e){
             System.out.println(e);
         }
-        Object[][] data = new Object[registros][23];
+        Object[][] data = new Object[registros][23]; //Declaramos la matriz objeto segun los registros obtenidos. (23 significa la cantidad de columnas de toda la tabla)
         try{
+            //Buscamos los datos de todos los proveedores.
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT " + 
                     " Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado, Cod_Tarifa, Estado_Actividad " + 
                     " FROM proveedor " +
                     " ORDER BY Codigo");
             ResultSet res = pstm.executeQuery();
             int i = 0;
+            //Realizamos un ciclo en donde por cada proveedor, recogemos los datos, y despues los ingresamos en la matriz.
             while(res.next()){
                 int estCodigo = res.getInt("Codigo");
                 String estIdentificacion = res.getString("Identificacion");
@@ -129,13 +169,15 @@ public class proveedor {
                 float estMP_acordado = res.getFloat("MP_acordado");
                 int estCodigo_Tarifa = res.getInt("Cod_Tarifa");
                 String estActividad = res.getString("Estado_Actividad");
+                //Para este mismo proveedor, buscamos según la tabla de Relacion_Proveedor_Beneficiario, que Beneficiario tiene asignado
+                //Para después si tiene Beneficiario, recoger todos los datos del beneficiario e ingresarlos en la matriz, en la misma línea del proveedor actual.
                 PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT " + 
                         " beneficiarios.Name_Beneficiario, beneficiarios.ID_Beneficiario, beneficiarios.Mail_Beneficiario, beneficiarios.Banco, beneficiarios.Num_Cuenta, beneficiarios.Tipo_Cuenta, beneficiarios.MOD_Cuenta, beneficiarios.Nombre_Autorizado, beneficiarios.ID_Autorizado " +
                         " FROM beneficiarios, Relacion_Proveedor_Beneficiario " +
                         " WHERE Relacion_Proveedor_Beneficiario.Cod_Proveedor = " + estCodigo + 
                         " AND beneficiarios.Cod_Beneficiario = Relacion_Proveedor_Beneficiario.Cod_Bnf");
                 ResultSet res2 = pstm2.executeQuery();
-                //Ingresando todos los datos
+                //Ingresando todos los datos del proveedor.
                 data[i][0] = estCodigo;
                 data[i][1] = estIdentificacion;
                 data[i][2] = estRazon_Social;
@@ -150,6 +192,7 @@ public class proveedor {
                 data[i][11] = estMP_acordado;
                 data[i][12] = estCodigo_Tarifa;
                 if(res2.next()){
+                    //Ingresando todos los datos del beneficiario asignado a este proveedor.
                     String estName_Beneficiario = res2.getString("Name_Beneficiario");
                     String estID_Beneficiario = res2.getString("ID_Beneficiario");
                     String estMail_Beneficiario = res2.getString("Mail_Beneficiario");
@@ -175,13 +218,18 @@ public class proveedor {
         }catch(SQLException e){
             System.out.println(e);
         }
-        return data;
-    }
+        return data; //Se retorna la matriz al final.
+    }//Cierre del metodo getDatos()
     
+    /**
+     * Esta matriz tiene tres valores en su <i>segunda dimension </i>: <b>Codigo [][0], Identifacion[][1], Razon Social[][2]</b>
+     * Y la primera dimension sera cada registro encontrado en la BD en la tabla de proveedores.
+     * @return Devuelve una <i>matriz</i> de tipo <b>Objeto</b> con todos los proveedores, con sus datos principales.
+     */
     public Object[][] conseguirDatosPrincipales_Total(){
         int registros = 0;
         int codigo;
-        //obtenemos la cantidad de registros existentes en la tabla
+        //Obtenemos la cantidad de registros existentes en la tabla
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM proveedor");
             ResultSet res = pstm.executeQuery();
@@ -191,12 +239,15 @@ public class proveedor {
         } catch(SQLException e){
             System.out.println(e);
         }
+        //Definimos una matriz, el tamaño de la primera dimensión es la cantidad de proveedores encontrados, la segunda es la cantidad de columnas.
         Object[][] data = new Object[registros][3];
         try{
+            //Mandamos una Query únicamente pidiendo el Código, Razon Social e Identificación
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo, Razon_Social, Identificacion FROM proveedor");
             ResultSet res = pstm.executeQuery();
             int i = 0;
             while(res.next()){
+                //En cada iteracion, recojemos la informacion de este registro.
                 int estCodido = res.getInt("Codigo");
                 String estIdentificacion = res.getString("Identificacion");
                 String estRazon_Social = res.getString("Razon_Social");
@@ -209,9 +260,13 @@ public class proveedor {
             System.out.println(e);
         }
         return data;
-    }
+    }//Cierre del metodo conseguirDatosPrincipales.
     
-    //FUNCION PARA INHABILITAR AL PROVEEDOR
+    /**
+     * Función que permite <b>deshabilitar</b> al proveedor en la BD únicamente llamado desde la tabla de proveedores, si el proveedor está <b>activo</b>.
+     * @param cod. Parámetro que guarda el código del proveedor.
+     * @throws SQLException 
+     */
     public void deleteProveedor(int cod) throws SQLException{       
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Estado_Actividad = ? where Codigo = ?");
@@ -222,8 +277,13 @@ public class proveedor {
         }catch(SQLException e){
             System.out.println(e);
         }
-    }
+    }//Cierre del metodo deleteProveedor.
     
+    /**
+     * Función que permite <b>habilitar</b> al proveedor en la BD únicamente llamado desde la tabla de proveedores, si el proveedor está <b>inactivo</b>.
+     * @param cod. Parámetro que guarda el código del proveedor.
+     * @throws SQLException 
+     */
     public void habilitarProveedor(int cod) throws SQLException{
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Estado_Actividad = ? where Codigo = ?");
@@ -234,14 +294,31 @@ public class proveedor {
         }catch(SQLException e){
             System.out.println(e);
         }
-    }
+    }//Cierre del metodo habilitarProveedor.
     
-    //FUNCION PARA ACTUALIZAR LOS DATOS DE UN PROVEEDOR
+    /**
+     * Este método permite <b>actualizar</b> los datos de un proveedor, con todos los parámetros ingresados al método.
+     * @param codigo. Parámetro importante para guardar a que proveedor se le hará la modificación.
+     * @param identificacion
+     * @param razon_social
+     * @param direccion
+     * @param municipio
+     * @param telefono
+     * @param email
+     * @param materia_prima
+     * @param MP_acordado
+     * @param Cuadrilla
+     * @param Flete
+     * @param Peaje
+     * @param cod_tarifa
+     * @param tarifa. Parámetro <i>booleano</i> que permite saber si el proveedor en este momento pertenece o no a la Tárifa Estándar.
+     * @throws SQLException 
+     */
     public void updateProveedorCodigo(int codigo, String identificacion, String razon_social, String direccion, String municipio, String telefono, String email, String materia_prima, float MP_acordado, float Cuadrilla, float Flete, int Peaje, int cod_tarifa, boolean tarifa)
     throws SQLException{
-        
         //SE REALIZA LA QUERY EN SQL PARA ACTUALIZAR LOS DATOS DEL PROVEEDOR
         try{
+            //Se hace la misma pregunta si tiene existente una tarifa. En caso de ahora tenerla, se modifica el dato. Si ahora no pertenece, se le coloca 0.
             if(tarifa){
                 PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
                 " set Identificacion = ? ," +
@@ -306,11 +383,16 @@ public class proveedor {
         }catch(SQLException e){
              Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
         }
-    }
+    }//Cierre del metodo updateProveedorCodigo.
     
-    //FUNCION PARA ENCONTRAR A UN PROVEEDOR SEGUN SU CEDULA
-    //MANDA UN MENSAJE DE ERROR SI LOGRA ENCONTRAR A UN PROVEEDOR CON DICHA IDENTIFICACION
-    //SIRVE UNICAMENTE PARA AGREGAR A UN PROVEEDOR
+    /**
+     * Funcion para encontrar a un proveedor segun su <b>cedula</b>.
+     * Usada <i>únicamente</i> desde la sección de creación de proveedor.
+     * @param identificacion
+     * @return Devuelve true si la función encontró al proveedor, devuelve false si no lo encontró.
+     * @throws SQLException 
+     */
+    
     public boolean buscarIdentificacion(String identificacion) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
@@ -328,29 +410,12 @@ public class proveedor {
         return encontrado;
     }
     
-    //FUNCION PARA BUSCAR A UN PROVEEDOR SEGUN SU IDENTIFICACION
-    //SI NO LO ENCONTRO DEVUELVE FALSE
-    //DEVUELVE TRUE SI LO ENCONTRO
-    //SIRVE PARA HACER BUSQUEDAS, MODIFICAR O ELIMINAR
-    public boolean buscarIdentificacion2(String identificacion) throws SQLException{
-        boolean encontrado = false;
-        PreparedStatement pstm;
-        try {
-            pstm = con.getConnection().prepareStatement("SELECT * FROM proveedor where Identificacion = ?");
-            pstm.setString(1,identificacion);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                encontrado = true;
-            } else {
-                encontrado = false;
-            }
-            res.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return encontrado;
-    }
-    
+    /**
+     * Función para buscar si un proveedor con una identificación o cédula está activo en la BD.
+     * @param identificacion. Cédula o Identificación del proveedor.
+     * @return Devuelve true si hay un proveedor activo registrado en la BD con esta identificación. Devuelve false si no lo encontró o no está activo.
+     * @throws SQLException 
+     */
     public boolean buscarProveedorActivo(String identificacion) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
@@ -373,10 +438,12 @@ public class proveedor {
         }
         return encontrado;
     }
-    
-    //FUNCION PARA BUSCAR A UN PROVEEDOR SEGUN SU CODIGO
-    //MANDA UN MENSAJE DE ERROR SI NO LO ENCUENTRA
-    //FUNCIONA TANTO PARA LA PANTALLA DE BUSQUEDA, COMO MODIFICAR Y ELIMINAR
+    /**
+     * Función para buscar a un proveedor según su código de proveedor.
+     * @param codigo. Código del proveedor.
+     * @return Devuelve true si encontró al proveedor con ese código, devuelve false si no lo encontró.
+     * @throws SQLException 
+     */
     public boolean buscarCodigo(int codigo) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
@@ -396,8 +463,12 @@ public class proveedor {
         return encontrado;
     }
     
-    //FUNCION PARA BUSCAR A UN PROVEEDOR SEGUN SU RAZON SOCIAL
-    //FUNCIONA TANTO PARA LAS PANTALLAS DE BUSQUEDA, COMO DE MODIFICAR Y ELIMINAR
+    /**
+     * Función para buscar a un proveedor en la BD según su razón social.
+     * @param RS. Parámetro de la razón social para hacer la búsqueda.
+     * @return Devuelve true si encontró al proveedor, devuelve false si no lo encontró.
+     * @throws SQLException 
+     */
     public boolean buscarRazonSocial(String RS) throws SQLException{
         boolean encontrado = false;
         PreparedStatement pstm;
@@ -417,13 +488,15 @@ public class proveedor {
         return encontrado;
     }
     
-    //FUNCION PARA CONSEGUIR LOS DATOS DE UN ÚNICO PROVEEDOR
-    /*
-        LOS MODOS PARA ESTA FUNCION SON LOS SIGUIENTES
-        1- ENCONTRAR LOS DATOS GRACIAS AL CODIGO DEL PROVEEDOR
-        2- ENCONTRAR LOS DATOS GRACIAS A LA IDENTIFICACION
-        3- ENCONTRAR LOS DATOS GRACIAS A LA RAZON SOCIAL
-    */
+    /**
+     * Esta función permite hacer una búsqueda de un único proveedor según su código, identificación o razón social (dependiendo del modo), para después devolver en un vector de tipo Objeto todos sus datos.
+     * @param codigo. Código del proveedor.
+     * @param identificacion. Identificación del proveedor.
+     * @param Razon_Social. Razon Social o Nombre del proveedr.
+     * @param modo. Este modo será: 1- Buscar con el código. 2- Buscar con la identificación. 3- Buscar con la razón social.
+     * @return Devuelve un vector Objeto con toda la información del proveedor más su beneficiario.
+     * @throws SQLException 
+     */
     public Object[] conseguirDatos(int codigo, String identificacion, String Razon_Social, int modo) throws SQLException{
         Object[] data = new Object[23];
         Object[] data2 = new Object[23];
@@ -458,12 +531,13 @@ public class proveedor {
         return data2;
     }
     
-    /*
-        FUNCION QUE LE SIRVE a conseguirDatos() PARA DEVOLVER CADA UNO DE LOS DATOS
-        SE LE INGRESA EL OBJETO VECTOR DATA PARA GUARDAR ALLÍ LOS DATOS
-        Y LA RESULTSET QUE ES DONDE SE GUARDA EL RESULTADO DE LA QUERY DE SQL
-    */
-    public Object[] informacion(ResultSet res, Object[] data){
+    /**
+     * Esta función es llamada desde conseguirDatos() para devolver todos los datos del proveedor.
+     * @param res. Se le ingresa el resultSet donde se encuentra el registro del proveedor en la BD.
+     * @param data. Se le ingresa un vector de tipo objeto para alojar los datos.
+     * @return 
+     */
+    private Object[] informacion(ResultSet res, Object[] data){
         try {
             while(res.next()){
                 int estCodigo = res.getInt("Codigo");
@@ -486,7 +560,7 @@ public class proveedor {
                         " WHERE Relacion_Proveedor_Beneficiario.Cod_Proveedor = " + estCodigo + 
                         " AND beneficiarios.Cod_Beneficiario = Relacion_Proveedor_Beneficiario.Cod_Bnf");
                 ResultSet res2 = pstm2.executeQuery();
-                //Ingresando todos los datos
+                //Ingresando todos los datos del proveedor.
                 data[0] = estCodigo;
                 data[1] = estIdentificacion;
                 data[2] = estRazon_Social;
@@ -501,6 +575,7 @@ public class proveedor {
                 data[11] = estMP_acordado;
                 data[12] = estCod_Tarifa;
                 if(res2.next()){
+                    //Ingresando todos los datos del beneficiario asignado a este proveedor.
                     String estName_Beneficiario = res2.getString("Name_Beneficiario");
                     String estID_Beneficiario = res2.getString("ID_Beneficiario");
                     String estMail_Beneficiario = res2.getString("Mail_Beneficiario");
@@ -529,13 +604,15 @@ public class proveedor {
         return data;
     }
     
-    /*
-        FUNCION PARA OBTENER UNICAMENTE LOS DATOS PRINCIPALES DEL PROVEEDOR (CODIGO, IDENTIFICACION, RAZON_SOCIAL)
-        LOS MODOS PARA ESTA FUNCION SON LOS SIGUIENTES
-        1- ENCONTRAR LOS DATOS GRACIAS AL CODIGO DEL PROVEEDOR
-        2- ENCONTRAR LOS DATOS GRACIAS A LA IDENTIFICACION
-        3- ENCONTRAR LOS DATOS GRACIAS A LA RAZON SOCIAL
-    */
+    /**
+     * Función para obtener únicamente los datos principales (Código[0], Identificación[1], Razón Social[2]) de un único proveedor.
+     * @param codigo. Código del Proveedor.
+     * @param identificacion. Identificación o Cédula del proveedor.
+     * @param razon_social. Razón Social o nombre del proveedor.
+     * @param modo. Este modo será: 1- Buscar con el código. 2- Buscar con la identificación. 3- Buscar con la razón social.
+     * @return Devuelve un vector de tipo objeto donde se alojan los datos principales del proveedor.
+     * @throws SQLException 
+     */
     public Object[] conseguirDatosPrincipales(int codigo, String identificacion, String razon_social, int modo) throws SQLException{
         Object[] data = new Object[3];
         Object[] data2 = new Object[3];
@@ -571,6 +648,11 @@ public class proveedor {
         return data2;
     }
     
+    /**
+     * Permite devolver el código del siguiente proveedor que se puede crear, de manera que el código de proveedor es auto incrementable.
+     * @return Devuelve el próximo código disponible.
+     * @throws SQLException 
+     */
     public int codigoSiguiente() throws SQLException{
         int codigo = 1;
         try{
@@ -586,9 +668,12 @@ public class proveedor {
         return codigo;
     }
     
-    //--------------------------------------------------------------------------
-    //--------------------------------------------------------------------------
-    //SE BUSCA INFO PRINCIAL A PARTIR DEL CODIGO
+    /**
+     * Función para obtener la información principal únicamente gracias al Código del proveedor.
+     * @param codigo. Código del proveedor.
+     * @return Devuelve un vector de tipo objeto con los datos principales. Codigo[0], Identificación[1], Razon Social[2]
+     * @throws SQLException 
+     */
     public Object[] InfoPrincipalXcodigo(int codigo) throws SQLException{
         Object[] data = new Object[3];
         Object[] data2 = new Object[3];
@@ -610,13 +695,15 @@ public class proveedor {
         }
         return data2;
     }
-    //--------------------------------------------------------------------------
-    //--------------------------------------------------------------------------
     
-    /*  FUNCION QUE LE SIRVE a conseguirDatosPrincipales() PARA DEVOVLER CADA UNO DE LOS DATOS
-        SE LE INGRESA EL OBJETO VECTOR DATA PARA GUARDAR ALLÍ LOS DATOS
-        Y LA RESULTSET QUE ES DONDE SE GUARDA EL RESULTADO DE LA QUERY DE SQL
-    */
+    /**
+     * Función llamada desde conseguirDatosPrincipales() y InfoPrincipalXcodigo, para devolver los datos principales de un único proveedor.
+     * @see <b>conseguirDatosPrincipales()</b>
+     * @param res. Aquí guardamos en específico el registro encontrado del proveedor.
+     * @param data. Este es un vector de tipo <b>objeto</b> para alojar los datos.
+     * @return Devuelve el <i>vector objeto</i> con la información del proveedor.
+     * @throws SQLException 
+     */
     public Object[] informacionPrincipal(ResultSet res, Object[] data) throws SQLException{
         try {
             while(res.next()){
@@ -627,15 +714,18 @@ public class proveedor {
                 data[0] = estCodigo;
                 data[1] = estIdentificacion;
                 data[2] = estRazon_Social;
-            }
-            
+            }   
         } catch (SQLException ex) {
             Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }
     
-    //FUNCION PARA IDENTIFICAR EL MODO_CUENTA DE USUARIO
+    /**
+     * Función que permite a través del modo de cuenta, determinar en que ítem del ComboBox se debe posicionar el registro.
+     * @param mod. Módo de cuenta del proveedor (beneficiario).
+     * @return Devuelve el índex (int) del ComboBox para el modo de cuenta.
+     */
     public int indexmod_Cuenta(String mod){
         int index = 0;
         if(mod.equals("Cuenta Propia")){
@@ -649,7 +739,11 @@ public class proveedor {
     }
     
     
-    //FUNCION PARA CAPTURAR EL TIPO DE CUENTA DE BANCO
+    /**
+     * Función que permite a través del tipo de cuenta, determinar en que ítem del ComboBox se debe posicionar el registro.
+     * @param tipo. Tipo de cuenta del proveedor (beneficiario).
+     * @return Devuelve el índex (int) del ComboBox para el Tipo de Cuenta.
+     */
     public int indexTipoCuenta(String tipo){
         int index = 0;
         if(tipo.equals("Cuenta Ahorros")){
@@ -664,7 +758,11 @@ public class proveedor {
         return index;
     }
     
-    //FUNCION PARA CAPTURAR EL TIPO DE IDENTIFICACION
+    /**
+     * Función que permite a través del tipo de Identificación o Documento legar, determinar en que ítem del ComboBox se debe posicionar el registro.
+     * @param tipo. Tipo de Identificación del proveedor. (V,E,J,P,G)
+     * @return Devuelve el índex (int) del ComboBox para el tipo de identificación.
+     */
     public int indexIdentificacion(char tipo) {
         int index = 0;
         if ('V' == tipo) {
@@ -681,7 +779,11 @@ public class proveedor {
         return index;
     }
     
-    //FUNCION PARA CAPTURAR EL INDEX DEL BANCO EN EL COMBOBOX
+    /**
+     * Función que permite a través del banco, determinar en que ítem del registro se debe posicionar.
+     * @param banco. Banco del proveedor (beneficiario).
+     * @return Devuelve el índex (int) del ComboBox para el banco.
+     */
     public int getindexBanco(String banco) {
         int index = 0;
         //VIENDO CUAL ES EL BANCO
@@ -737,6 +839,11 @@ public class proveedor {
         return index;
     }
    
+    /**
+     * Función que permite identificar si la identificación es válida, es decir, que únicamente sean dígitos numéricos.
+     * @param identificacion. Identificación del proveedor.
+     * @return Devuelve 
+     */
     public boolean comprobacionIdentificacion(String identificacion){
         boolean valido = true;
         for(int i = 0, cantidad_caracteres = identificacion.length(); i < cantidad_caracteres && valido; i++){

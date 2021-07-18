@@ -25,7 +25,7 @@ public class ODP {
     private Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
     private beneficiarios objetoBeneficiario = new beneficiarios();
     private anticipos objetoAnticipo = new anticipos();
-    
+    private Pago_Transaccion objetoPago_Transaccion = new Pago_Transaccion();
     //CONSTRUCTOR
     public ODP(){
         con = new conectate();
@@ -107,6 +107,59 @@ public class ODP {
             }
         } 
     }
+    
+    private void vincularTransacciones(String semana){
+        ArrayList<Integer> codigosODP = new ArrayList<Integer>();
+        int registros = 0;
+        try{
+            /*
+                Debo hacer este proceso por cada ODP generada
+                Busco el codigo de las ODP agrupada por el mismo codigo.
+            */
+            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_ODP FROM ODP WHERE Semana =  ? Group By Cod_ODP");
+            pstm.setString(1, semana);
+            ResultSet res = pstm.executeQuery();
+            while(res.next()){
+                //En donde haya encontrado un registro, guardo ese codigo en el ArrayList
+                //Y ademas, sumo que hay un registro mas
+                int codigo = res.getInt("Cod_ODP");
+                codigosODP.add(codigo);
+                registros++;
+            }
+            res.close();
+            //Culminado el proceso, realizo un for desde el primer registro hasta el ultimo que se haya realizado
+            for(int i = 0; i < registros; i++){
+                /*
+                    En cada orden de pago, debo buscar primero a quien le pertenece esa ODP
+                    Seleccionamos el codigo del proveedor donde el codigo de ODP sea igual al que se encuentra en el ArrayList en esta posicion
+                */
+                PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT Cod_DelProveedor FROM ODP WHERE Cod_ODP = ?");
+                pstm2.setInt(1, codigosODP.get(i));
+                ResultSet res2 = pstm2.executeQuery();
+                //Despues guardamos en una variable cual es el codigo de proveedor de esta ODP
+                res2.next();
+                int cod_Proveedor = res2.getInt("Cod_DelProveedor");
+                res2.close();
+                //Una vez realizado esto, buscamos todas las transacciones que se han hecho por este proveedor en la semana de la ODP
+                PreparedStatement pstm3 = con.getConnection().prepareStatement(
+                        " SELECT ID_Transaccion, Codigo_Proveedor FROM transacciones " + 
+                        " WHERE transacciones.Codigo_Proveedor = ? AND transacciones.Semana = ?");
+                pstm3.setInt(1, cod_Proveedor);
+                pstm3.setString(2, semana);
+                ResultSet res3 = pstm3.executeQuery();
+                while(res3.next()){
+                    //Por cada transaccion donde sea a ese proveedor y en esa semana de la ODP
+                    //Debemos mandar a hacer una relacion en la tabla de Pago_Transaccion
+                    //Le mandamos dos parametros, el codigo de ODP y el ID de la transaccion 
+                    objetoPago_Transaccion.crearRelacion(codigosODP.get(i), res3.getInt("ID_Transaccion"));
+                }
+                res3.close();
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
     public boolean verificarODP(String semana){
         boolean condicion = false;
@@ -197,48 +250,6 @@ public class ODP {
         return data;
     }
     
-    /*
-    private ArrayList<Integer> proveedoresMateriaPrima(String semana){
-        ArrayList<Integer> proveedores = new ArrayList<Integer>();
-        int cantidad_veces = 0;
-        int codigo = 0;
-        boolean existen = false;
-        try {
-            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima "
-                    + " FROM proveedor, boleto, transacciones, Tasa_Precios "
-                    + " WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND "
-                    + " transacciones.Semana = ? AND "
-                    + " proveedor.Materia_Prima = 'TABLA' "
-                    + " AND Tasa_Precios.Materia_Seca = boleto.Materia_S AND "
-                    + " transacciones.Materia_Prima = 'SI' AND "
-                    + " transacciones.Estado_Transaccion = 'No Procesada' AND "
-                    + " transacciones.Num_Boleto = boleto.Codigo_Boleto "
-                    + " GROUP BY proveedor.Codigo ORDER BY proveedor.Codigo ASC");
-            pstm.setString(1, semana);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                codigo = res.getInt("Codigo");
-                System.out.println(codigo);
-                existen = true;
-                cantidad_veces++;
-                proveedores.add(codigo);
-            }
-            while(res.next() && existen){
-                int codigo2 = res.getInt("Codigo");
-                if(codigo2 != codigo){
-                    codigo = codigo2;
-                    cantidad_veces++;
-                    proveedores.add(codigo2);
-                    System.out.println("Nuevo codigo: " + codigo2);
-                }
-            }
-        }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return proveedores;
-    }
-    */
-    
     public double[][] generarODP_Materia_Prima(String semana, int codigo){
         float cantidad = 0;
         double cantidad_BS = 0;
@@ -299,49 +310,6 @@ public class ODP {
         return semanas;
     }
     
-    /*
-    //CUADRILLA = KG_Netos * CUADRILLA_PROVEEDOR
-    private ArrayList<Integer> proveedoresCuadrilla(String semana){
-        ArrayList<Integer> proveedores = new ArrayList<Integer>();
-        int cantidad_veces = 0;
-        int codigo = 0;
-        boolean existen = false;
-        try {
-
-                PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Cuadrilla, boleto.Codigo_Boleto, boleto.Kg_Netos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Cuadrilla "
-                        + " FROM proveedor, boleto, transacciones "
-                        + " WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND "
-                        + " transacciones.Semana = ? AND "
-                        + " transacciones.Cuadrilla = 'SI' AND "
-                        + " transacciones.Estado_Transaccion = 'No Procesada' AND "
-                        + " transacciones.Num_Boleto = boleto.Codigo_Boleto "
-                        + " GROUP BY proveedor.Codigo ORDER BY proveedor.Codigo ASC");
-            pstm.setString(1, semana);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                codigo = res.getInt("Codigo");
-                System.out.println(codigo);
-                existen = true;
-                cantidad_veces++;
-                proveedores.add(codigo);
-            }
-            while(res.next() && existen){
-                int codigo2 = res.getInt("Codigo");
-                if(codigo2 != codigo){
-                    codigo = codigo2;
-                    cantidad_veces++;
-                    proveedores.add(codigo2);
-                    System.out.println("Nuevo codigo: " + codigo2);
-                }
-            }
-            
-        } catch (SQLException e) {
-                Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return proveedores;
-    }
-    */
-    
     public double[][] ODP_Cuadrilla (String semana, int codigo) {
         float cantidad = 0;
         double cantidad_BS = 0;
@@ -382,48 +350,6 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
-    /*
-    private ArrayList<Integer> proveedoresFlete(String semana){
-        ArrayList<Integer> proveedores = new ArrayList<Integer>();
-        int cantidad_veces = 0;
-        int codigo = 0;
-        boolean existen = false;
-        try {
-
-                PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Flete, boleto.Codigo_Boleto, boleto.Kg_Brutos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Flete "
-                        + " FROM proveedor, boleto, transacciones "
-                        + " WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND "
-                        + " transacciones.Semana = ? AND "
-                        + " transacciones.Flete = 'SI' AND "
-                        + " transacciones.Estado_Transaccion = 'No Procesada' AND "
-                        + " transacciones.Num_Boleto = boleto.Codigo_Boleto "
-                        + " GROUP BY proveedor.Codigo ORDER BY proveedor.Codigo ASC");
-            pstm.setString(1, semana);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                codigo = res.getInt("Codigo");
-                System.out.println(codigo);
-                existen = true;
-                cantidad_veces++;
-                proveedores.add(codigo);
-            }
-            while(res.next() && existen){
-                int codigo2 = res.getInt("Codigo");
-                if(codigo2 != codigo){
-                    codigo = codigo2;
-                    cantidad_veces++;
-                    proveedores.add(codigo2);
-                    System.out.println("Nuevo codigo: " + codigo2);
-                }
-            }
-            
-        } catch (SQLException e) {
-                Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return proveedores;
-    }
-    */
-    
     public double[][] ODP_Flete (String semana, int codigo) {
         float cantidad = 0;
         double cantidad_BS = 0;
@@ -463,46 +389,6 @@ public class ODP {
         }
         return cantidad_por_proveedores;
     }
-    
-    /*
-    private ArrayList<Integer> proveedoresPeaje(String semana){
-        ArrayList<Integer> proveedores = new ArrayList<Integer>();
-        int cantidad_veces = 0;
-        int codigo = 0;
-        boolean existen = false;
-        try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Peaje, boleto.Codigo_Boleto, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Peaje as Peaje_Proveedor " +
-                        " FROM proveedor, boleto, transacciones " +
-                        " WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND " +
-                        " transacciones.Semana = ? AND " +
-                        " transacciones.Peaje = 'SI' AND " +
-                        " transacciones.Estado_Transaccion = 'No Procesada' AND" +
-                        " transacciones.Num_Boleto = boleto.Codigo_Boleto " +
-                        " GROUP BY proveedor.Codigo ORDER BY proveedor.Codigo ASC");
-            pstm.setString(1, semana);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                codigo = res.getInt("Codigo");
-                System.out.println(codigo);
-                existen = true;
-                cantidad_veces++;
-                proveedores.add(codigo);
-            }
-            while(res.next() && existen){
-                int codigo2 = res.getInt("Codigo");
-                if(codigo2 != codigo){
-                    codigo = codigo2;
-                    cantidad_veces++;
-                    proveedores.add(codigo2);
-                    System.out.println("Nuevo codigo: " + codigo2);
-                }
-            }
-        }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return proveedores;
-    }
-    */
     
     public double[][] ODP_Peaje(String semana, int codigo){
         double cantidad = 0;
@@ -580,7 +466,6 @@ public class ODP {
         
     }
     */
-    
     public Object[][] plantillaPagoBS(String semana) throws SQLException{
         int registros = 0;
         

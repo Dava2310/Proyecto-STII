@@ -1040,11 +1040,11 @@ public class TablaProveedores extends javax.swing.JFrame {
                             AQUI YA TENEMOS UNA IDENTIFICACION VALIDA
                             NOS QUEDARA SABER SI ESTA EN EL SISTEMA
                             */
-                            if(p.buscarIdentificacion2(texto)){
+                            if(p.buscarIdentificacion(texto)){
                                 JOptionPane.showMessageDialog(null, "LA CEDULA NUEVA QUE ESTA MODIFICANDO SE ENCUENTRA YA EN EL SISTEMA", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 Identificaciontxt.setBorder(borde_rojo);
                                 condicion = false;
-                            } else if(!p.buscarIdentificacion2(texto)){
+                            } else if(!p.buscarIdentificacion(texto)){
                                 Identificaciontxt.setBorder(borde_default);
                             }
                         } catch (SQLException ex) {

@@ -171,11 +171,11 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                     String tipoIdentificacion = TipoCedula.getSelectedItem().toString();
                     String identificacion_completa = tipoIdentificacion + identificacion;
                     try {
-                        if(p.buscarIdentificacion2(identificacion_completa)){
+                        if(p.buscarIdentificacion(identificacion_completa)){
                             condicion = false;
                             Cedulatxt.setBorder(borde_rojo);
                             JOptionPane.showMessageDialog(null, "YA HAY UN PROVEEDOR REGISTRADO CON ESTA IDENTIFICACION", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        } else if(!p.buscarIdentificacion2(identificacion_completa)){
+                        } else if(!p.buscarIdentificacion(identificacion_completa)){
                             Cedulatxt.setBorder(borde_default);
                         }
                     } catch (SQLException ex) {

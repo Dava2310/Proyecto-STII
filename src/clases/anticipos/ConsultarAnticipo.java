@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.anticipos;
 import logica.proveedor;
-import sun.reflect.misc.ReflectUtil;
 
 public class ConsultarAnticipo extends javax.swing.JFrame {
 

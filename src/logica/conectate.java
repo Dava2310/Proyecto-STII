@@ -1,6 +1,5 @@
 package logica;
 
-import com.sun.istack.internal.logging.Logger;
 import java.sql.*;
 import java.util.logging.Level;
 

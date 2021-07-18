@@ -6,7 +6,6 @@
 package clases.anticipos;
 
 import clases.proveedores.IdentificacionProveedor;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

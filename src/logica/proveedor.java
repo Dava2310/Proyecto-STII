@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Esta clase contiene todos las consultas SQL y otros metodos que ayudan a manejar la informacion de proveedor.
@@ -23,7 +24,7 @@ public class proveedor {
     /**
      * El objeto conectate nos permite tener una conexión con la base de datos.
      */
-    public conectate con;
+    private conectate con;
     
     /**
      * Constructor de la clase proveedor. Únicamente inicializamos el objeto de conexión con la base de datos.
@@ -76,7 +77,8 @@ public class proveedor {
                 pstm.execute();
                 pstm.close();
             }catch(SQLException e){
-                Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+                //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+                JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             //En caso de no pertenecer a una tarifa, mandamos a colocar 0 en el codigo de la tarifa.
@@ -99,8 +101,9 @@ public class proveedor {
                 pstm.setInt(13,0);
                 pstm.execute();
                 pstm.close();
-            }catch(SQLException e){
-                Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+            }catch(SQLException ex){
+                //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//Cierre del metodo de nuevo proveedor.
@@ -120,17 +123,17 @@ public class proveedor {
             registros = res.getInt("total");
             res.close();
         }catch(SQLException ex){
-            System.out.println(ex);
+            //System.out.println(ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return registros;
     }//Cierre del método cantidadProveedores()
     
     /**
-     * 
+     * Permite buscar los datos de toda la tabla de proveedores en la base de datos.
      * @return Devuelve en una <i>matriz</i> de tipo <b>Objeto</b>, todos los datos de todos los registros de proveedores más los beneficiarios que tenga cada proveedor.
      * @throws SQLException 
      */
-    //FUNCION PARA OBTENER DATOS DE TODOS LOS PROVEEDORES
     public Object[][] getDatos() throws SQLException{
         int registros = 0;
         int codigo;
@@ -141,8 +144,8 @@ public class proveedor {
             res.next();
             registros = res.getInt("total");
             res.close();
-        } catch(SQLException e){
-            System.out.println(e);
+        } catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         Object[][] data = new Object[registros][23]; //Declaramos la matriz objeto segun los registros obtenidos. (23 significa la cantidad de columnas de toda la tabla)
         try{
@@ -215,8 +218,8 @@ public class proveedor {
                 data[i][22] = estActividad;
                 i++;        
             }
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data; //Se retorna la matriz al final.
     }//Cierre del metodo getDatos()
@@ -236,8 +239,8 @@ public class proveedor {
             res.next();
             registros = res.getInt("total");
             res.close();
-        } catch(SQLException e){
-            System.out.println(e);
+        } catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         //Definimos una matriz, el tamaño de la primera dimensión es la cantidad de proveedores encontrados, la segunda es la cantidad de columnas.
         Object[][] data = new Object[registros][3];
@@ -256,8 +259,8 @@ public class proveedor {
                 data[i][2] = estRazon_Social;
                 i++;
             }
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }//Cierre del metodo conseguirDatosPrincipales.
@@ -274,8 +277,8 @@ public class proveedor {
             pstm.setInt(2, cod);
             pstm.execute();
             pstm.close();
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//Cierre del metodo deleteProveedor.
     
@@ -291,8 +294,8 @@ public class proveedor {
             pstm.setInt(2, cod);
             pstm.execute();
             pstm.close();
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//Cierre del metodo habilitarProveedor.
     
@@ -380,8 +383,9 @@ public class proveedor {
                 pstm.execute();
                 pstm.close();
             }
-        }catch(SQLException e){
-             Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+        }catch(SQLException ex){
+            //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//Cierre del metodo updateProveedorCodigo.
     
@@ -405,7 +409,8 @@ public class proveedor {
             }
             res.close();
         } catch (SQLException ex) {
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return encontrado;
     }
@@ -433,8 +438,8 @@ public class proveedor {
                 encontrado = false;
             }
             res.close();
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return encontrado;
     }
@@ -457,8 +462,9 @@ public class proveedor {
                 encontrado = false;
             }
             res.close();
-        }catch(SQLException e){
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+        }catch(SQLException ex){
+            //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return encontrado;
     }
@@ -482,8 +488,9 @@ public class proveedor {
                 encontrado = false;
             }
             res.close();
-        }catch(SQLException e){
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+        }catch(SQLException ex){
+            //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return encontrado;
     }
@@ -525,8 +532,8 @@ public class proveedor {
                 data2 = informacion(res, data);
                 res.close();
             }   
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data2;
     }
@@ -599,7 +606,8 @@ public class proveedor {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }
@@ -642,8 +650,8 @@ public class proveedor {
                 data2 = informacionPrincipal(res, data);
                 res.close();
             }   
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data2;
     }
@@ -663,7 +671,8 @@ public class proveedor {
                 codigo++;
             }
         }catch(SQLException ex){
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return codigo;
     }
@@ -690,8 +699,9 @@ public class proveedor {
             data2 = informacionPrincipal(res, data);
             res.close();
             
-        } catch (SQLException e) {
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data2;
     }
@@ -716,7 +726,8 @@ public class proveedor {
                 data[2] = estRazon_Social;
             }   
         } catch (SQLException ex) {
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }
@@ -842,7 +853,7 @@ public class proveedor {
     /**
      * Función que permite identificar si la identificación es válida, es decir, que únicamente sean dígitos numéricos.
      * @param identificacion. Identificación del proveedor.
-     * @return Devuelve 
+     * @return Devuelve <i>true</i> si la identificación no tiene ningún caracter entre medias o <i>false</i> si la identificación tiene algún caracter no numérico
      */
     public boolean comprobacionIdentificacion(String identificacion){
         boolean valido = true;
@@ -857,6 +868,11 @@ public class proveedor {
         return valido;
     }
     
+    /**
+     * Función que permite verificar si un String es un formato válido de número de coma flotante.
+     * @param F. Cantidad en formato de cantidad flotante para hacerle la comprobación.
+     * @return Devuelve <i>true</i> si la cadena no tiene carácteres no numéricos (exceptuando el .) <i>false</i> si la cadena tiene algún caracter no numérico (exceptuando el .)
+     */
     public boolean comprobacionFlotante(String F){
         boolean valido = true;
         String numero = F;
@@ -871,6 +887,11 @@ public class proveedor {
         return valido;
     }
     
+    /**
+     * Función que permite verificar si un String es un formato válido de número entero.
+     * @param I. Cantidad en formato de cantidad entera para hacerle la comprobación.
+     * @return Devuelve <i>true</i> si la cadena no tiene carácteres no numéricos <i>false</i> si la cadena tiene algún caracter no numérico
+     */
     public boolean comprobacionEntero(String I){
         boolean valido = true;
         String numero = I;

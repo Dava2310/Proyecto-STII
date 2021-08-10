@@ -4,13 +4,31 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ * Esta clase contiene todos las consultas SQL y otros metodos que ayudan a manejar la informacion de la Tarifa Estandar.
+ * @author Proyecto STII - SARP
+ * @version 16/07/2021
+ */
 public class Tarifa_Estandar {
-    conectate con;
+    /**
+     * El objeto conectate nos permite tener una conexión con la base de datos.
+     */
+    private conectate con;
     
+    /**
+     * Constructor de la clase Tarifa_Estandar. Únicamente inicializamos el objeto de conexión con la base de datos.
+     */
     public Tarifa_Estandar(){
         // CONEXION CON LA BASE DE DATOS
         con = new conectate();
     }
+    
+    /**
+     * Esta función permite saber cuántas tarifas existen en la base de datos.
+     * @return Devuelve un <i>Entero</i>, que representa la cantidad de registros en la tabla de Tarifa_Estandar.
+     */
     public int cantidad_tarifa(){
          int registros = 0;
         try{
@@ -20,10 +38,17 @@ public class Tarifa_Estandar {
             registros = res.getInt("total");
             res.close();
         }catch(SQLException ex){
-            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+            //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
         }
         return registros;
     }
+    
+    /**
+     * Esta función permite buscar todos los datos de la tabla de Tarifa_Estandar en la base de datos.
+     * @return Devuelve en una <i>matriz</i> de tipo <b>Objeto</b>, todos los datos de la tabla de Tarifa_Estandar
+     * @throws SQLException 
+     */
     public Object[][] getDatos() throws SQLException{
         int registros = 0;
         try{
@@ -33,7 +58,8 @@ public class Tarifa_Estandar {
             registros = res.getInt("total");
             res.close();
         }catch(SQLException ex){
-            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         Object[][] data = new Object[registros][7];
         try{
@@ -62,11 +88,21 @@ public class Tarifa_Estandar {
                 i++;
             }
         }catch(SQLException ex){
-            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }
     
+    /**
+     * Este método permite crear en la base de datos un nuevo registro en la tabla de Tarifa_Estandar.
+     * @param Cuadrilla. Parámetro del monto de cuadrilla.
+     * @param Flete. Parámetro del monto de flete.
+     * @param Materia_Prima. Parámetro del monto de materia prima.
+     * @param Fecha_I. Parámetro de la fecha de inicio cuándo se creó la tarifa.
+     * @param Fecha_F. Parámetro de la fecha final dónde termina la validez de esta tarifa. Por default, la asigna en 00:00:00.
+     * @throws SQLException 
+     */
     public void crearTarifa(float Cuadrilla, float Flete, String Materia_Prima, String Fecha_I, String Fecha_F) throws SQLException{
         try {
             PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio, Fecha_Final) values(?,?,?,?,?)");
@@ -79,10 +115,14 @@ public class Tarifa_Estandar {
             pstm.close();
             actualizarTarifas_Proveedores();
         } catch (SQLException ex) {
-            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
     
+    /**
+     * Este método permite actualizar la tarifa estandar a todos aquellos proveedores que estén asignados a la tarifa estándar.
+     */
     private void actualizarTarifas_Proveedores(){
         float Cuadrilla, Flete;
         Object[] data = new Object[3];
@@ -96,10 +136,16 @@ public class Tarifa_Estandar {
             pstm.execute();
             pstm.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
     
+    /**
+     * Este método permite hacer que la última tarifa estándar vigente ya no sea vigente, al momento de haber creado una nueva.
+     * @param fecha. Parámetro de la fecha final.
+     * @throws SQLException 
+     */
     public void deshacerVigencia(String fecha) throws SQLException{
         try {
             PreparedStatement pstm_busqueda = con.getConnection().prepareStatement("SELECT Estado FROM Tarifa_Estandar where Estado = ?");
@@ -114,10 +160,15 @@ public class Tarifa_Estandar {
                 pstm.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
     
+    /**
+     * Esta función permite obtener los datos de la ultima tarifa estándar creada y vigente en el sistema.
+     * @return Devuelve en un <i>vector</i> de tipo <i>Objeto</i>, los datos de la última tarifa vigente, únicamente los montos y su código.
+     */
     public Object[] obtenerUltimaTarifa(){
         Object[] data = new Object[3];
         try{
@@ -131,20 +182,11 @@ public class Tarifa_Estandar {
             }
             res.close();
         }catch(SQLException ex){
-            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }
     
-    public void updateTarifa(float Cuadrilla, float Flete){
-        try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Tarifa_Estandar set Cuadrilla = ?, Flete = ? where Cod_Tarifa = ?");
-            pstm.setFloat(1, Cuadrilla);
-            pstm.setFloat(2, Flete);
-            pstm.execute();
-            pstm.close();
-        }catch(SQLException ex){
-            Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 }

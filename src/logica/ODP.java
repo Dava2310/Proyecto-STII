@@ -17,23 +17,39 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
 
+
+/**
+ * Esta clase contiene todos las consultas SQL y otros metodos que ayudan a manejar la informacion de las ODP (órdenes de pago).
+ * @author Proyecto STII - SARP
+ * @version 16/07/2021
+ */
 public class ODP {
-    
+    /**
+     * El objeto conectate nos permite tener una conexión con la base de datos.
+     */
     private conectate con;
+    //=========================================================================
     private Tasa_USD tasa_USD = new Tasa_USD();
     private transacciones objetoTransacciones = new transacciones();
     private Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
     private beneficiarios objetoBeneficiario = new beneficiarios();
     private anticipos objetoAnticipo = new anticipos();
     private Pago_Transaccion objetoPago_Transaccion = new Pago_Transaccion();
-    //CONSTRUCTOR
+    
+    /**
+     * Constructor de la clase ODP. Únicamente inicializamos el objeto de conexión con la base de datos.
+     */
     public ODP(){
         con = new conectate();
     }
     
+    /**
+     * Este método permite generar todas las ODP en una específica semana. 
+     * @param semana. Parámetro que define la semana en la cuál estará asignada las ODP.
+     */
     public void generar_ODP_Completa(String semana){
         
-        int registros = 0;
+        int registros = 0; //CANTIDAD DE REGISTROS
         
         ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
         /*
@@ -64,6 +80,17 @@ public class ODP {
             
         */
         for(int i = 0; i < registros; i++){
+            /*
+                TODOS LOS SIGUIENTES DATOS SE TIENEN QUE BUSCAR POR BS Y DS
+                1- Guardamos la materia primera del proveedor alojado en esta posición del arreglo
+                2- Guardamos la cuadrilla del proveedor alojado en esta posición del arreglo
+                3- Guardamos el flete del proveedor alojado en esta posición del arreglo
+                4- Guardamos el peaje primera del proveedor alojado en esta posición del arreglo
+                5- Guardamos la tasa en USD de esta semana en específico.
+                6- Guardamos los montos de los KgBrutos y KgNetos de esta semana y este proveedor alojado en esta posición del arreglo.
+                7- Guardamos la cantidad de viajes que ha realizado el proveedor en esta específica semana.
+                8- Guardamos los montos de los anticipos de este específico proveedor alojado en esta posición del arreglo.
+            */
             double[][] materiaPrima = this.generarODP_Materia_Prima(semana, codigos_Proveedores.get(i));
             double[][] cuadrilla = this.ODP_Cuadrilla(semana, codigos_Proveedores.get(i));
             double[][] flete = this.ODP_Flete(semana, codigos_Proveedores.get(i));
@@ -77,10 +104,12 @@ public class ODP {
             double[] montos_anticipos = objetoAnticipo.anticipos_Proveedor_Semana(semana, codigos_Proveedores.get(i));
             double anticipo_BS = montos_anticipos[0];
             double anticipo_DS = montos_anticipos[1];
-
+            
+            //CALCULAMOS EL TOTAL A PAGAR DE ESTE PROVEEDOR TANTO EN BS COMO EN DS
             double total_BS = (materiaPrima[0][1] + cuadrilla[0][1] + flete[0][1] + peaje[0][1]) - anticipo_BS;
             double total_DS = (materiaPrima[0][0] + cuadrilla[0][0] + flete[0][0] + peaje[0][0]) - anticipo_DS;
             
+            //DESPUES DE HABER CALCULADO TODO, CREAMOS ESTE REGISTRO EN LA SEMANA
             try{
                 PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO ODP(Cod_DelProveedor, Fecha, Semana, Acumulado_MP_BS, Acumulado_MP_DS, Acumulado_Cuadrilla_BS, Acumulado_Cuadrilla_DS, Acumulado_Flete_BS, Acumulado_Flete_DS, Acumulado_Peaje_BS, Acumulado_Peaje_DS, Acumulado_Anticipo_BS, Acumulado_Anticipo_DS, Total_BS, Total_DS) "
                         + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -108,6 +137,10 @@ public class ODP {
         } 
     }
     
+    /**
+     * Este método permite vincular las transacciones de una semana con la ODP que le corresponda.
+     * @param semana. La semana de las transacciones y la ODP.
+     */
     private void vincularTransacciones(String semana){
         ArrayList<Integer> codigosODP = new ArrayList<Integer>();
         int registros = 0;
@@ -160,7 +193,11 @@ public class ODP {
         }
     }
     
-    
+    /**
+     * Verifica si las ODP de una semana han sido ya generadas.
+     * @param semana
+     * @return Devuelve <i>false</i> si no encuentra ninguna ODP con la semana ingeresada, devuelve <i>true</i> si encuentra alguna ODP con esta semana.
+     */
     public boolean verificarODP(String semana){
         boolean condicion = false;
         try{
@@ -177,6 +214,11 @@ public class ODP {
         return condicion;
     }
     
+    /**
+     * Permite buscar los datos de toda la tabla de ODP en la base de datos.
+     * @param semana
+     * @return Devuelve en una <i>matriz</i> de tipo <b>Objeto</b>, todos los datos de todas las ODP en esta semana.
+     */
     public Object[][] getDatos(String semana){
         int registros = 0;
         
@@ -250,6 +292,13 @@ public class ODP {
         return data;
     }
     
+    /**
+     * Permite generar o calcular el monto de Materia Prima que le corresponda al proveedor en una semana.
+     * Matriz[0][0] = DS, Matriz[0][1] = BS.
+     * @param semana. Semana específica en donde se han realizado los movimientos.
+     * @param codigo. Código del proveedor al que corresponderán los movimientos.
+     * @return Devuelve en una <i>matriz</i> de tipo <i>double</i>, los montos de Materia Prima en BS y DS que tenga este proveedor en una cierta semana.
+     */
     public double[][] generarODP_Materia_Prima(String semana, int codigo){
         float cantidad = 0;
         double cantidad_BS = 0;
@@ -293,7 +342,10 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
-    
+    /**
+     * Permite saber cuáles son las semanas en las que ha habido transacciones para el sistema.
+     * @return Devuelve un <i>ArrayList</i> de tipo <i>String</i> que aloja todas semanas en las que ha habido transacciones.
+     */
     public ArrayList<String> semanasTransacciones(){
         ArrayList<String> semanas = new ArrayList<String>();
         int cantidad_semanas = 0;
@@ -310,6 +362,13 @@ public class ODP {
         return semanas;
     }
     
+    /**
+     * Permite generar o calcular el monto de Cuadrilla que le corresponda al proveedor en una semana.
+     * Matriz[0][0] = DS, Matriz[0][1] = BS.
+     * @param semana. Semana específica en donde se han realizado los movimientos.
+     * @param codigo. Código del proveedor al que corresponderán los movimientos.
+     * @return Devuelve en una <i>matriz</i> de tipo <i>double</i>, los montos de Cuadrilla en BS y DS que tenga este proveedor en una cierta semana.
+     */
     public double[][] ODP_Cuadrilla (String semana, int codigo) {
         float cantidad = 0;
         double cantidad_BS = 0;
@@ -350,6 +409,13 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
+    /**
+     * Permite generar o calcular el monto de Flete que le corresponda al proveedor en una semana.
+     * Matriz[0][0] = DS, Matriz[0][1] = BS.
+     * @param semana. Semana específica en donde se han realizado los movimientos.
+     * @param codigo. Código del proveedor al que corresponderán los movimientos.
+     * @return Devuelve en una <i>matriz</i> de tipo <i>double</i>, los montos de Flete en BS y DS que tenga este proveedor en una cierta semana.
+     */
     public double[][] ODP_Flete (String semana, int codigo) {
         float cantidad = 0;
         double cantidad_BS = 0;
@@ -390,6 +456,13 @@ public class ODP {
         return cantidad_por_proveedores;
     }
     
+    /**
+     * Permite generar o calcular el monto de Peaje que le corresponda al proveedor en una semana.
+     * Matriz[0][0] = DS, Matriz[0][1] = BS.
+     * @param semana. Semana específica en donde se han realizado los movimientos.
+     * @param codigo. Código del proveedor al que corresponderán los movimientos.
+     * @return Devuelve en una <i>matriz</i> de tipo <i>double</i>, los montos de Peaje en BS y DS que tenga este proveedor en una cierta semana.
+     */
     public double[][] ODP_Peaje(String semana, int codigo){
         double cantidad = 0;
         double cantidad_BS = 0;
@@ -466,6 +539,13 @@ public class ODP {
         
     }
     */
+    
+    /**
+     * Permite generar la plantilla de pago en la moneda de BS de toda una semana.
+     * @param semana. Parámetro de la semana en dónde se desea generar la plantilla de pago.
+     * @return. Devuelve toda una <i>matriz</i> de tipo <i>Objeto</i>, en la cual se alojan todos los datos de la plantilla de pago.
+     * @throws SQLException 
+     */
     public Object[][] plantillaPagoBS(String semana) throws SQLException{
         int registros = 0;
         
@@ -556,6 +636,12 @@ public class ODP {
         return data;
     }
     
+    /**
+     * Permite generar la plantilla de pago en la moneda de DS de toda una semana.
+     * @param semana. Parámetro de la semana en dónde se desea generar la plantilla de pago.
+     * @return. Devuelve toda una <i>matriz</i> de tipo <i>Objeto</i>, en la cual se alojan todos los datos de la plantilla de pago.
+     * @throws SQLException 
+     */
     public Object[][] plantillaPagoDS(String semana) throws SQLException{
         int registros = 0;
         
@@ -646,6 +732,12 @@ public class ODP {
         return data;
     }
     
+    /**
+     * Permite crear un documento PDF para mostrar la plantilla de pago en BS.
+     * @param fichero. Ruta del archivo en la cuál se alojará el documento PDF.
+     * @param semana. Semana perteneciente a la plantilla de pago.
+     * @throws SQLException 
+     */
     public void CrearPDF_PlantillaPagoBS(File fichero, String semana) throws SQLException{
        Document documento = new Document();
        
@@ -722,6 +814,12 @@ public class ODP {
         }
     } 
     
+    /**
+     * Permite crear un documento PDF para mostrar la plantilla de pago en DS.
+     * @param fichero. Ruta del archivo en la cuál se alojará el documento PDF.
+     * @param semana. Semana perteneciente a la plantilla de pago.
+     * @throws SQLException 
+     */
     public void CrearPDF_PlantillaPagoDS(File fichero, String semana) throws SQLException{
        Document documento = new Document();
        

@@ -8,6 +8,11 @@ import java.util.Date;
 
 public class ConversionesVerificaciones {
     
+    /**
+     * Esta función permite quitarle los espacios en blanco de antes, entre medias, y después de la cadena.
+     * @param cadena. Cadena para quitarle los espacios.
+     * @return Devuelve un String (la cadena de texto) sin espacios en blanco.
+     */
     public String quitarEspacios(String cadena){
         String cadenaBuena = "";
         for (int i = 0; i < cadena.length(); i++) {

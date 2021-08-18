@@ -2,68 +2,99 @@ package logica;
 
 import java.sql.*;
 import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
+/**
+ * Esta clase contiene todos las consultas SQL y otros metodos que ayudan a manejar la informacion de la tabla de Anticipos.
+ * @author Proyecto STII - SARP
+ * @version 16/07/2021
+ */
 public class anticipos {
-    conectate con;
     
+    /**
+     * El objeto conectate nos permite tener una conexión con la base de datos.
+     */
+    private final conectate con;
+    
+    /**
+     * Constructor de la clase Anticipos. Únicamente inicializamos el objeto de conexión con la base de datos.
+     */
     public anticipos(){
         con = new conectate();
     }
     
-    //
+    /**
+     * Este método permite ingresar un nuevo registro en la tabla Anticipos dentro de la Base de Datos.
+     * @param motivo_anticipo
+     * @param fecha
+     * @param semana
+     * @param monto_bs
+     * @param monto_ds
+     * @param aprobacion
+     * @param observaciones
+     * @param DescontarODP
+     * @param codigo_proveedor
+     * @param cod_tasa
+     * @throws SQLException 
+     */
     public void NuevoAnticipo(String motivo_anticipo, String fecha, String semana, double monto_bs, double monto_ds, String aprobacion, String observaciones, String DescontarODP, int codigo_proveedor, int cod_tasa)
     throws SQLException{
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                    " anticipos(Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Codigo_Tasa)" + 
-                    " values(?,?,?,?,?,?,?,?,?,?)");
-            pstm.setString(1, motivo_anticipo);
-            pstm.setString(2, fecha);
-            pstm.setString(3, semana);
-            pstm.setDouble(4, monto_bs);
-            pstm.setDouble(5, monto_ds);
-            pstm.setString(6, aprobacion);
-            pstm.setString(7, observaciones);
-            pstm.setString(8, DescontarODP);
-            pstm.setInt(9, codigo_proveedor);
-            pstm.setInt(10, cod_tasa);
-            pstm.execute();
-            pstm.close();
-        }catch(SQLException e){
-            System.out.println(e);
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
+                    " anticipos(Motivo_Anticipo, Fecha, Semana, Monto_BS, Monto_DS, Aprobacion, Observaciones, DescontarODP, Codigo_Proveedor, Codigo_Tasa)" +
+                    " values(?,?,?,?,?,?,?,?,?,?)")) {
+                pstm.setString(1, motivo_anticipo);
+                pstm.setString(2, fecha);
+                pstm.setString(3, semana);
+                pstm.setDouble(4, monto_bs);
+                pstm.setDouble(5, monto_ds);
+                pstm.setString(6, aprobacion);
+                pstm.setString(7, observaciones);
+                pstm.setString(8, DescontarODP);
+                pstm.setInt(9, codigo_proveedor);
+                pstm.setInt(10, cod_tasa);
+                pstm.execute();
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
     
+    /**
+     * Esta función permite saber cuántos registros existen en la base de datos dentro de la tabla Anticipos.
+     * @return Devuelve un <i>Entero</i> que aloja la cantidad de registros.
+     */
     public int Cantidad_ANT(){
         int registros = 0;
         //SE OBTIENEN LA CANTIDAD DE REGISTROS EXISTENTES EN LA TABLA DE ANTICIPOS
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM anticipos");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registros = res.getInt("total");
-            res.close();
-        }catch(SQLException e){
-            System.out.println(e);
+            try (ResultSet res = pstm.executeQuery()) {
+                res.next();
+                registros = res.getInt("total");
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return registros;
     }
     
-    //FUNCION PARA OBTENER DATOS DE TODOS LOS ANTICIPOS REALIZADOS
+    /**
+     * Función para obtener datos de todos los anticipos realizados en la Base de Datos.
+     * @return Devuelve una <i>Matriz</i> de tipo <i>Objeto</i> donde se alojan todos los datos de los registros de anticipos.
+     * @throws SQLException 
+     */
     public Object[][] getDatos() throws SQLException{
         int registros = 0;
         //SE OBTIENEN LA CANTIDAD DE REGISTROS EXISTENTES EN LA TABLA DE ANTICIPOS
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM anticipos");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registros = res.getInt("total");
-            res.close();
-        }catch(SQLException e){
-            System.out.println(e);
+            try (ResultSet res = pstm.executeQuery()) {
+                res.next();
+                registros = res.getInt("total");
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         Object[][] data = new Object[registros][13];
         try{
@@ -112,12 +143,17 @@ public class anticipos {
                 }
                 i++;
             }
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }
     
+    /**
+     * Esta función nos permite saber cuál es el próximo código disponible para los anticipos en la base de datos, que se colocará a un nuevo registro.
+     * @return Devuelve un <i>Entero</i>, dónde se aloja el código.
+     * @throws SQLException 
+     */
     public int codigoSiguiente() throws SQLException{
         int codigo = 1;
         try{
@@ -128,70 +164,96 @@ public class anticipos {
                 codigo++;
             }
         }catch(SQLException ex){
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return codigo;
     }
     
-    
+    /**
+     * Este método nos permite eliminar éxitosamente un registro en la tabla anticipos, según su código.
+     * @param num_anticipo.
+     * @throws SQLException 
+     */
     public void deleteAnticipo(String num_anticipo) throws SQLException{
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("delete from anticipos where Num_Anticipo = ?");
-            pstm.setString(1, num_anticipo);
-            pstm.execute();
-            pstm.close();
-        }catch(SQLException e){
-            System.out.println(e);
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("delete from anticipos where Num_Anticipo = ?")) {
+                pstm.setString(1, num_anticipo);
+                pstm.execute();
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    //FUNCION PARA ACTUALIZAR DATOS DE ANTICIPO
+    /**
+     * Esta función nos permite hacer una actualización de todos los datos de un anticipo en específico.
+     * @param motivo_anticipo
+     * @param fecha
+     * @param semana
+     * @param monto_bs
+     * @param monto_ds
+     * @param aprobacion
+     * @param observaciones
+     * @param DescontarODP
+     * @param codigo_proveedor
+     * @param cod_tasa
+     * @param num_anticipo. Código del anticipo al cuál se le hará la actualización de datos.
+     * @throws SQLException 
+     */
     public void updateAnticipo (String motivo_anticipo, String fecha, String semana, double monto_bs, double monto_ds, String aprobacion, String observaciones, String DescontarODP, int codigo_proveedor, int cod_tasa, int num_anticipo)
     throws SQLException{
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos" +
-                    " set Motivo_Anticipo = ?, Fecha = ?, Semana = ?, Monto_BS = ?, Monto_DS = ?, Aprobacion = ?, Observaciones = ?, DescontarODP = ?, Codigo_Proveedor = ?, Codigo_Tasa = ? "  
-                    + " where Num_Anticipo = ?");
-            pstm.setString(1, motivo_anticipo);
-            pstm.setString(2, fecha);
-            pstm.setString(3, semana);
-            pstm.setDouble(4, monto_bs);
-            pstm.setDouble(5, monto_ds);
-            pstm.setString(6, aprobacion);
-            pstm.setString(7, observaciones);
-            pstm.setString(8, DescontarODP);
-            pstm.setInt(9, codigo_proveedor);
-            pstm.setInt(10, cod_tasa);
-            pstm.setInt(11, num_anticipo);
-            pstm.execute();
-            pstm.close();
-        }catch(SQLException e){
-            System.out.println(e);
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE anticipos" +
+                    " set Motivo_Anticipo = ?, Fecha = ?, Semana = ?, Monto_BS = ?, Monto_DS = ?, Aprobacion = ?, Observaciones = ?, DescontarODP = ?, Codigo_Proveedor = ?, Codigo_Tasa = ? "
+                    + " where Num_Anticipo = ?")) {
+                pstm.setString(1, motivo_anticipo);
+                pstm.setString(2, fecha);
+                pstm.setString(3, semana);
+                pstm.setDouble(4, monto_bs);
+                pstm.setDouble(5, monto_ds);
+                pstm.setString(6, aprobacion);
+                pstm.setString(7, observaciones);
+                pstm.setString(8, DescontarODP);
+                pstm.setInt(9, codigo_proveedor);
+                pstm.setInt(10, cod_tasa);
+                pstm.setInt(11, num_anticipo);
+                pstm.execute();
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    //FUNCION PARA REALIZAR UNA BUSQUEDA DEL ANTICIPO
-    //UNICAMENTE DEVUELVE UN TRUE O FALSE DEPENDIENDO SI CONSIGUIO EL ANTICIPO
+    /**
+     * Función para realizar una busqueda de un anticipo. 
+     * @param num_anticipo
+     * @return Únicamente devuelve <i>true</i> si encontró el anticipo con el parámetro ingresado, de lo contrario devuelve <i>false</i>.
+     * @throws SQLException 
+     */
     public boolean buscarAnticipo(int num_anticipo) throws SQLException{
         boolean encontrado = false;
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * FROM anticipos where Num_Anticipo = ?");
-            pstm.setInt(1, num_anticipo);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                encontrado = true;
-            } else {
-                encontrado = false;
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("SELECT * FROM anticipos where Num_Anticipo = ?")) {
+                pstm.setInt(1, num_anticipo);
+                try (ResultSet res = pstm.executeQuery()) {
+                    if(res.next()){
+                        encontrado = true;
+                    }
+                }
             }
-            res.close();
-            pstm.close();
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return encontrado;
     }
     
-    //ESTA FUNCION ES PARA RETORNAR LOS DATOS DEL ANTICIPO EN ESPECIFICO
+    /**
+     * Esta función es para retornar los datos del anticipo en específico.
+     * @param num_anticipo. Código del anticipo.
+     * @return Devuelve un <i>vector</i> de tipo <i>Objeto</i>, en el cual se alojan todos los datos del anticipo que se haya encontrado.
+     * @throws SQLException 
+     */
+    //
     public Object[] conseguirDatos(int num_anticipo) throws SQLException{
         Object[] data = new Object[13];
         Object[] data2 = new Object[13];
@@ -207,13 +269,19 @@ public class anticipos {
             res = pstm.executeQuery();
             data2 = informacion(res, data);
             res.close();
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data2;
     }
     
-    public Object[] informacion(ResultSet res, Object[] data){
+    /**
+     * Función que le sirve a conseguirDatos para alojar en un vector todos los datos de la coincidencia de búsqueda en la base de datos.
+     * @param res. ResultSet dónde se guarda el registro buscado.
+     * @param data. El vector dónde se guardarán los datos. 
+     * @return Devuelve el vector con los datos.
+     */
+    private Object[] informacion(ResultSet res, Object[] data){
         try{
             while(res.next()){
                 int estNum_Anticipo = res.getInt("Num_Anticipo");
@@ -250,13 +318,18 @@ public class anticipos {
                     data[12] = estIdentificacion;
                 }
             }
-        }catch(SQLException e){
-            System.out.println(e);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }
     
-    
+    /**
+     * Esta función nos permite guardar el monto tanto en BS como DS de un cierto proveedor y en una cierta semana.
+     * @param semana
+     * @param codigo_proveedor
+     * @return Devuelve un <i>vector</i> de tipo <i>Dobule</i> en dónde se encuentran los datos. Posición 0: BS, Posición 1: DS.
+     */
     public double[] anticipos_Proveedor_Semana(String semana, int codigo_proveedor){
         double[] montos_anticipo = new double[2];
         montos_anticipo[0] = 0; //BS
@@ -270,33 +343,49 @@ public class anticipos {
                     + " AND anticipos.DescontarODP = 'SI'");
             pstm.setInt(1, codigo_proveedor);
             pstm.setString(2, semana);
-            ResultSet res = pstm.executeQuery();
-            while(res.next()){
-                montos_anticipo[0] += res.getDouble("Monto_BS");
-                montos_anticipo[1] += res.getDouble("Monto_DS");  
+            try (ResultSet res = pstm.executeQuery()) {
+                while(res.next()){
+                    montos_anticipo[0] += res.getDouble("Monto_BS");
+                    montos_anticipo[1] += res.getDouble("Monto_DS");  
+                }
             }
-            res.close();
         }catch(SQLException ex){
-            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return montos_anticipo;
     }
     
-    
+    /**
+     * Nos permite saber en que index debemos colocar un ComboBox según el motivo del anticipo.
+     * @param motivo
+     * @return Devuelve un <i>Entero</i> en este caso el index del ComboBox correspondiente al motivo del anticipo ingreasado.
+     */
     public int motivoAnticipo(String motivo){
         int index = 0;
-        if(motivo.equals("Materia Prima")){
-            index = 0;
-        } else if(motivo.equals("Adicional")){
-            index = 1;
-        } else if(motivo.equals("Peaje")){
-            index = 2;
-        } else if(motivo.equals("Otros")){
-            index = 3;
+        switch (motivo) {
+            case "Materia Prima":
+                index = 0;
+                break;
+            case "Adicional":
+                index = 1;
+                break;
+            case "Peaje":
+                index = 2;
+                break;
+            case "Otros":
+                index = 3;
+                break;
+            default:
+                break;
         }
         return index;
     }
     
+    /**
+     * Nos permite saber en que index debemos colocar un ComboBox según el dato DescontarODP.
+     * @param ODP
+     * @return Devuelve un <i>Entero</i> en este caso el index del ComboBox correspondiente al dato DescontarODP
+     */
     public int descontarODP(String ODP){
         int index = 0;
         if(ODP.equals("SI")){

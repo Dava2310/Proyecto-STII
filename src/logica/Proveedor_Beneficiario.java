@@ -1,5 +1,6 @@
 package logica;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  * Esta clase contiene todos las consultas SQL y otros metodos que ayudan a manejar la informacion de la tabla de proveedor y beneficiario juntas.
@@ -26,13 +27,13 @@ public class Proveedor_Beneficiario {
      */
     public void crear_relacion(int codigo_proveedor, int cod_beneficiario){
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO Relacion_Proveedor_Beneficiario(Cod_Bnf, Cod_Proveedor) values(?,?)");
-            pstm.setInt(1, cod_beneficiario);
-            pstm.setInt(2, codigo_proveedor);
-            pstm.execute();
-            pstm.close();
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO Relacion_Proveedor_Beneficiario(Cod_Bnf, Cod_Proveedor) values(?,?)")) {
+                pstm.setInt(1, cod_beneficiario);
+                pstm.setInt(2, codigo_proveedor);
+                pstm.execute();
+            }
         }catch(SQLException ex){
-            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -46,13 +47,13 @@ public class Proveedor_Beneficiario {
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_Proveedor from Relacion_Proveedor_Beneficiario where Cod_Proveedor = ?");
             pstm.setInt(1, codigo);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                encontrado = true;
+            try (ResultSet res = pstm.executeQuery()) {
+                if(res.next()){
+                    encontrado = true;
+                }
             }
-            res.close();
         }catch(SQLException ex){
-            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return encontrado;
     }
@@ -64,13 +65,13 @@ public class Proveedor_Beneficiario {
      */
     public void updateRelacion(int codigo_proveedor, int cod_beneficiario){
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Relacion_Proveedor_Beneficiario set Cod_Bnf = ? where Cod_Proveedor = ?");
-            pstm.setInt(1, cod_beneficiario);
-            pstm.setInt(2, codigo_proveedor);
-            pstm.execute();
-            pstm.close();
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Relacion_Proveedor_Beneficiario set Cod_Bnf = ? where Cod_Proveedor = ?")) {
+                pstm.setInt(1, cod_beneficiario);
+                pstm.setInt(2, codigo_proveedor);
+                pstm.execute();
+            }
         }catch(SQLException ex){
-            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

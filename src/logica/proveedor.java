@@ -1,17 +1,5 @@
 package logica;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,12 +7,11 @@ import javax.swing.JOptionPane;
  * @author Proyecto STII - SARP
  * @version 16/07/2021
  */
-
 public class proveedor {
     /**
      * El objeto conectate nos permite tener una conexión con la base de datos.
      */
-    private conectate con;
+    private final conectate con;
     
     /**
      * Constructor de la clase proveedor. Únicamente inicializamos el objeto de conexión con la base de datos.
@@ -57,10 +44,10 @@ public class proveedor {
             throws SQLException{
         //En caso de tener una tarifa, llamamos en la SQL a ingresar un codigo de tarifa.
         if(tarifa){
-            try{
-                PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                        " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado, Cod_Tarifa)" + 
-                        " values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
+                    " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado, Cod_Tarifa)" +
+                    " values(?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
                 pstm.setInt(1, codigo);
                 pstm.setString(2, identificacion);
                 pstm.setString(3, razon_social);
@@ -75,17 +62,16 @@ public class proveedor {
                 pstm.setFloat(12, MP_acordado);
                 pstm.setInt(13, Cod_Tarifa);
                 pstm.execute();
-                pstm.close();
-            }catch(SQLException e){
+            }
+            catch(SQLException e){
                 //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
                 JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             //En caso de no pertenecer a una tarifa, mandamos a colocar 0 en el codigo de la tarifa.
-            try{
-                PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
-                        " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado, Cod_Tarifa)" + 
-                        " values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("insert into" +
+                    " proveedor(Codigo, Identificacion, Razon_Social, Direccion, Municipio, Telefono, Email, Cuadrilla, Flete, Peaje, Materia_Prima, MP_acordado, Cod_Tarifa)" +
+                    " values(?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
                 pstm.setInt(1, codigo);
                 pstm.setString(2, identificacion);
                 pstm.setString(3, razon_social);
@@ -100,7 +86,7 @@ public class proveedor {
                 pstm.setFloat(12, MP_acordado);
                 pstm.setInt(13,0);
                 pstm.execute();
-                pstm.close();
+                
             }catch(SQLException ex){
                 //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -118,10 +104,10 @@ public class proveedor {
         //OBTENEMOS LA CANTIDAD DE REGISTROS EXISTENTES EN TODA LA TABLA
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM proveedor");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registros = res.getInt("total");
-            res.close();
+            try (ResultSet res = pstm.executeQuery()) {
+                res.next();
+                registros = res.getInt("total");
+            }
         }catch(SQLException ex){
             //System.out.println(ex);
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -136,14 +122,13 @@ public class proveedor {
      */
     public Object[][] getDatos() throws SQLException{
         int registros = 0;
-        int codigo;
         //Obtenemos la cantidad de registros existentes en la tabla
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM proveedor");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registros = res.getInt("total");
-            res.close();
+            try (ResultSet res = pstm.executeQuery()) {
+                res.next();
+                registros = res.getInt("total");
+            }
         } catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -231,14 +216,13 @@ public class proveedor {
      */
     public Object[][] conseguirDatosPrincipales_Total(){
         int registros = 0;
-        int codigo;
         //Obtenemos la cantidad de registros existentes en la tabla
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM proveedor");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registros = res.getInt("total");
-            res.close();
+            try (ResultSet res = pstm.executeQuery()) {
+                res.next();
+                registros = res.getInt("total");
+            }
         } catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -272,11 +256,11 @@ public class proveedor {
      */
     public void deleteProveedor(int cod) throws SQLException{       
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Estado_Actividad = ? where Codigo = ?");
-            pstm.setString(1, "Inactivo");
-            pstm.setInt(2, cod);
-            pstm.execute();
-            pstm.close();
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Estado_Actividad = ? where Codigo = ?")) {
+                pstm.setString(1, "Inactivo");
+                pstm.setInt(2, cod);
+                pstm.execute();
+            }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -289,11 +273,11 @@ public class proveedor {
      */
     public void habilitarProveedor(int cod) throws SQLException{
         try{
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Estado_Actividad = ? where Codigo = ?");
-            pstm.setString(1, "Activo");
-            pstm.setInt(2, cod);
-            pstm.execute();
-            pstm.close();
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Estado_Actividad = ? where Codigo = ?")) {
+                pstm.setString(1, "Activo");
+                pstm.setInt(2, cod);
+                pstm.execute();
+            }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -323,65 +307,65 @@ public class proveedor {
         try{
             //Se hace la misma pregunta si tiene existente una tarifa. En caso de ahora tenerla, se modifica el dato. Si ahora no pertenece, se le coloca 0.
             if(tarifa){
-                PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
-                " set Identificacion = ? ," +
-                " Razon_Social = ? , " + 
-                " Direccion = ? , " + 
-                " Municipio = ? , " +
-                " Telefono = ? , " +
-                " Email = ? , " + 
-                " Cuadrilla = ? , " +
-                " Flete = ? , " +
-                " Peaje = ? , " +   
-                " Materia_Prima = ? , " +
-                " MP_acordado = ? , " +   
-                " Cod_Tarifa = ?  " +        
-                " where Codigo = ?");
-                pstm.setString(1, identificacion);
-                pstm.setString(2, razon_social);
-                pstm.setString(3, direccion);
-                pstm.setString(4, municipio);
-                pstm.setString(5, telefono);
-                pstm.setString(6, email);
-                pstm.setFloat(7, Cuadrilla);
-                pstm.setFloat(8, Flete);
-                pstm.setInt(9, Peaje);
-                pstm.setString(10, materia_prima);
-                pstm.setFloat(11, MP_acordado);
-                pstm.setInt(12, cod_tarifa);
-                pstm.setInt(13, codigo);
-                pstm.execute();
-                pstm.close();
+                try (PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
+                        " set Identificacion = ? ," +
+                        " Razon_Social = ? , " +
+                        " Direccion = ? , " +
+                        " Municipio = ? , " +
+                        " Telefono = ? , " +
+                        " Email = ? , " +
+                        " Cuadrilla = ? , " +
+                        " Flete = ? , " +
+                        " Peaje = ? , " +
+                        " Materia_Prima = ? , " +
+                        " MP_acordado = ? , " +
+                        " Cod_Tarifa = ?  " +
+                        " where Codigo = ?")) {
+                    pstm.setString(1, identificacion);
+                    pstm.setString(2, razon_social);
+                    pstm.setString(3, direccion);
+                    pstm.setString(4, municipio);
+                    pstm.setString(5, telefono);
+                    pstm.setString(6, email);
+                    pstm.setFloat(7, Cuadrilla);
+                    pstm.setFloat(8, Flete);
+                    pstm.setInt(9, Peaje);
+                    pstm.setString(10, materia_prima);
+                    pstm.setFloat(11, MP_acordado);
+                    pstm.setInt(12, cod_tarifa);
+                    pstm.setInt(13, codigo);
+                    pstm.execute();
+                }
             } else if(!tarifa){
-                PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
-                " set Identificacion = ? ," +
-                " Razon_Social = ? , " + 
-                " Direccion = ? , " + 
-                " Municipio = ? , " +
-                " Telefono = ? , " +
-                " Email = ? , " + 
-                " Cuadrilla = ? , " +
-                " Flete = ? , " +
-                " Peaje = ? , " +   
-                " Materia_Prima = ? , " +
-                " MP_acordado = ? , " +   
-                " Cod_Tarifa = ?  " +        
-                " where Codigo = ?");
-                pstm.setString(1, identificacion);
-                pstm.setString(2, razon_social);
-                pstm.setString(3, direccion);
-                pstm.setString(4, municipio);
-                pstm.setString(5, telefono);
-                pstm.setString(6, email);
-                pstm.setFloat(7, Cuadrilla);
-                pstm.setFloat(8, Flete);
-                pstm.setInt(9, Peaje);
-                pstm.setString(10, materia_prima);
-                pstm.setFloat(11, MP_acordado);
-                pstm.setInt(12, 0);
-                pstm.setInt(13, codigo);
-                pstm.execute();
-                pstm.close();
+                try (PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor " + 
+                        " set Identificacion = ? ," +
+                        " Razon_Social = ? , " +
+                        " Direccion = ? , " +
+                        " Municipio = ? , " +
+                        " Telefono = ? , " +
+                        " Email = ? , " +
+                        " Cuadrilla = ? , " +
+                        " Flete = ? , " +
+                        " Peaje = ? , " +
+                        " Materia_Prima = ? , " +
+                        " MP_acordado = ? , " +
+                        " Cod_Tarifa = ?  " +
+                        " where Codigo = ?")) {
+                    pstm.setString(1, identificacion);
+                    pstm.setString(2, razon_social);
+                    pstm.setString(3, direccion);
+                    pstm.setString(4, municipio);
+                    pstm.setString(5, telefono);
+                    pstm.setString(6, email);
+                    pstm.setFloat(7, Cuadrilla);
+                    pstm.setFloat(8, Flete);
+                    pstm.setInt(9, Peaje);
+                    pstm.setString(10, materia_prima);
+                    pstm.setFloat(11, MP_acordado);
+                    pstm.setInt(12, 0);
+                    pstm.setInt(13, codigo);
+                    pstm.execute();
+                }
             }
         }catch(SQLException ex){
             //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
@@ -403,11 +387,11 @@ public class proveedor {
         try {
             pstm = con.getConnection().prepareStatement("SELECT * FROM proveedor where Identificacion = ?");
             pstm.setString(1,identificacion);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){ 
-                encontrado = true;
+            try (ResultSet res = pstm.executeQuery()) {
+                if(res.next()){
+                    encontrado = true;
+                }
             }
-            res.close();
         } catch (SQLException ex) {
             //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -427,17 +411,17 @@ public class proveedor {
         try{
             pstm = con.getConnection().prepareStatement("SELECT Estado_Actividad FROM proveedor where Identificacion = ?");
             pstm.setString(1,identificacion);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                //HAY QUE BUSCAR SU ESTADO ACTIVIDAD
-                String actividad = res.getString("Estado_Actividad");
-                if(actividad.equals("Activo")){
-                    encontrado = true;
+            try (ResultSet res = pstm.executeQuery()) {
+                if(res.next()){
+                    //HAY QUE BUSCAR SU ESTADO ACTIVIDAD
+                    String actividad = res.getString("Estado_Actividad");
+                    if(actividad.equals("Activo")){
+                        encontrado = true;
+                    }
+                } else{
+                    encontrado = false;
                 }
-            } else{
-                encontrado = false;
             }
-            res.close();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -455,13 +439,11 @@ public class proveedor {
         try{
             pstm = con.getConnection().prepareStatement("SELECT * FROM proveedor where Codigo = ?");
             pstm.setInt(1, codigo);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                encontrado = true;
-            } else{
-                encontrado = false;
+            try (ResultSet res = pstm.executeQuery()) {
+                if(res.next()){
+                    encontrado = true;
+                }
             }
-            res.close();
         }catch(SQLException ex){
             //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -481,13 +463,11 @@ public class proveedor {
         try{
             pstm = con.getConnection().prepareStatement("SELECT * FROM proveedor where Razon_Social = ?");
             pstm.setString(1, RS);
-            ResultSet res = pstm.executeQuery();
-            if(res.next()){
-                encontrado = true;
-            } else {  
-                encontrado = false;
+            try (ResultSet res = pstm.executeQuery()) {
+                if(res.next()){
+                    encontrado = true;
+                }
             }
-            res.close();
         }catch(SQLException ex){
             //Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -739,12 +719,18 @@ public class proveedor {
      */
     public int indexmod_Cuenta(String mod){
         int index = 0;
-        if(mod.equals("Cuenta Propia")){
-            index = 0;
-        }else if(mod.equals("Cuenta Nueva")){
-            index = 1;
-        }else if(mod.equals("Cuenta Autorizada")){
-            index = 2;
+        switch (mod) {
+            case "Cuenta Propia":
+                index = 0;
+                break;
+            case "Cuenta Nueva":
+                index = 1;
+                break;
+            case "Cuenta Autorizada":
+                index = 2;
+                break;
+            default:
+                break;
         }
         return index;
     }
@@ -757,14 +743,21 @@ public class proveedor {
      */
     public int indexTipoCuenta(String tipo){
         int index = 0;
-        if(tipo.equals("Cuenta Ahorros")){
-            index = 0;
-        }else if(tipo.equals("Cuenta Corriente")){
-            index = 1;
-        }else if(tipo.equals("Cuenta Maxima")){
-            index = 2;
-        }else if(tipo.equals("Cuenta Moneda Extranjera")){
-            index = 3;
+        switch (tipo) {
+            case "Cuenta Ahorros":
+                index = 0;
+                break;
+            case "Cuenta Corriente":
+                index = 1;
+                break;
+            case "Cuenta Maxima":
+                index = 2;
+                break;
+            case "Cuenta Moneda Extranjera":
+                index = 3;
+                break;
+            default:
+                break;
         }
         return index;
     }
@@ -776,16 +769,24 @@ public class proveedor {
      */
     public int indexIdentificacion(char tipo) {
         int index = 0;
-        if ('V' == tipo) {
-            index = 0;
-        } else if ('E' == tipo) {
-            index = 1;
-        } else if ('J' == tipo) {
-            index = 2;
-        } else if ('P' == tipo) {
-            index = 3;
-        } else if ('G' == tipo) {
-            index = 4;
+        switch (tipo) {
+            case 'V':
+                index = 0;
+                break;
+            case 'E':
+                index = 1;
+                break;
+            case 'J':
+                index = 2;
+                break;
+            case 'P':
+                index = 3;
+                break;
+            case 'G':
+                index = 4;
+                break;
+            default:
+                break;
         }
         return index;
     }
@@ -798,54 +799,81 @@ public class proveedor {
     public int getindexBanco(String banco) {
         int index = 0;
         //VIENDO CUAL ES EL BANCO
-        if (banco.equals("MERCANTIL BANCO UNIVERSAL")) {
-            index = 0;
-        } else if (banco.equals("BANCO DE VENEZUELA S.A BANCO UNIVERSAL")) {
-            index = 1;
-        } else if (banco.equals("VENEZOLANO DE CREDITO S.A BANCO UNIVERSAL")) {
-            index = 2;
-        } else if (banco.equals("BANCO PROVINCIAL S.A BANCO UNIVERSAL")) {
-            index = 3;
-        } else if (banco.equals("BANCO DEL CARIBE S.A C.A")) {
-            index = 4;
-        } else if (banco.equals("BANCO EXTERIOR S.A")) {
-            index = 5;
-        } else if (banco.equals("BANCO OCCIDENTAL DE DESCUENTO S.A C.A")) {
-            index = 6;
-        } else if (banco.equals("BANCO CARONI C.A BANCO UNIVERSAL")) {
-            index = 7;
-        } else if (banco.equals("BANESCO BANCO UNIVERSAL")) {
-            index = 8;
-        } else if (banco.equals("BANCO SOFITASA")) {
-            index = 9;
-        } else if (banco.equals("BANCO PLAZA")) {
-            index = 10;
-        } else if (banco.equals("BANCO DE COMERCIO EXTERIOR")) {
-            index = 11;
-        } else if (banco.equals("FONDO COMUN C.A BANCO UNIVERSAL")) {
-            index = 12;
-        } else if (banco.equals("100% BANCO, BANCO UNIVERSAL C.A")) {
-            index = 13;
-        } else if (banco.equals("DEL SUR BANCO UNIVERSAL, C.A")) {
-            index = 14;
-        } else if (banco.equals("BANCO DEL TESORO")) {
-            index = 15;
-        } else if (banco.equals("BANCO AGRICOLA DE VENEZUELA C.A")) {
-            index = 16;
-        } else if (banco.equals("BANCRECER S.A BANCO MICROFINANCIERO")) {
-            index = 17;
-        } else if (banco.equals("MIBANCO BANCO DE DESARROLLO")) {
-            index = 18;
-        } else if (banco.equals("BANCO ACTIVO C.A")) {
-            index = 19;
-        } else if (banco.equals("BANCA AMIGA BANCO MICROFINANCIERO")) {
-            index = 20;
-        } else if (banco.equals("BANCO BICENTENARIO BANCO UNIVERSAL C.A")) {
-            index = 21;
-        } else if (banco.equals("BANCO DE LA FUERZA ARMADA NACIONAL BOLIVARIANA")) {
-            index = 22;
-        } else if (banco.equals("BANCO NACIONAL DE CREDITO ")) {
-            index = 23;
+        switch (banco) {
+            case "MERCANTIL BANCO UNIVERSAL":
+                index = 0;
+                break;
+            case "BANCO DE VENEZUELA S.A BANCO UNIVERSAL":
+                index = 1;
+                break;
+            case "VENEZOLANO DE CREDITO S.A BANCO UNIVERSAL":
+                index = 2;
+                break;
+            case "BANCO PROVINCIAL S.A BANCO UNIVERSAL":
+                index = 3;
+                break;
+            case "BANCO DEL CARIBE S.A C.A":
+                index = 4;
+                break;
+            case "BANCO EXTERIOR S.A":
+                index = 5;
+                break;
+            case "BANCO OCCIDENTAL DE DESCUENTO S.A C.A":
+                index = 6;
+                break;
+            case "BANCO CARONI C.A BANCO UNIVERSAL":
+                index = 7;
+                break;
+            case "BANESCO BANCO UNIVERSAL":
+                index = 8;
+                break;
+            case "BANCO SOFITASA":
+                index = 9;
+                break;
+            case "BANCO PLAZA":
+                index = 10;
+                break;
+            case "BANCO DE COMERCIO EXTERIOR":
+                index = 11;
+                break;
+            case "FONDO COMUN C.A BANCO UNIVERSAL":
+                index = 12;
+                break;
+            case "100% BANCO, BANCO UNIVERSAL C.A":
+                index = 13;
+                break;
+            case "DEL SUR BANCO UNIVERSAL, C.A":
+                index = 14;
+                break;
+            case "BANCO DEL TESORO":
+                index = 15;
+                break;
+            case "BANCO AGRICOLA DE VENEZUELA C.A":
+                index = 16;
+                break;
+            case "BANCRECER S.A BANCO MICROFINANCIERO":
+                index = 17;
+                break;
+            case "MIBANCO BANCO DE DESARROLLO":
+                index = 18;
+                break;
+            case "BANCO ACTIVO C.A":
+                index = 19;
+                break;
+            case "BANCA AMIGA BANCO MICROFINANCIERO":
+                index = 20;
+                break;
+            case "BANCO BICENTENARIO BANCO UNIVERSAL C.A":
+                index = 21;
+                break;
+            case "BANCO DE LA FUERZA ARMADA NACIONAL BOLIVARIANA":
+                index = 22;
+                break;
+            case "BANCO NACIONAL DE CREDITO ":
+                index = 23;
+                break;
+            default:
+                break;
         }
         return index;
     }

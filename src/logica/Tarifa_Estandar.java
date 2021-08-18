@@ -1,9 +1,5 @@
 package logica;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,7 +11,7 @@ public class Tarifa_Estandar {
     /**
      * El objeto conectate nos permite tener una conexión con la base de datos.
      */
-    private conectate con;
+    private final conectate con;
     
     /**
      * Constructor de la clase Tarifa_Estandar. Únicamente inicializamos el objeto de conexión con la base de datos.
@@ -33,10 +29,10 @@ public class Tarifa_Estandar {
          int registros = 0;
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM Tarifa_Estandar");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registros = res.getInt("total");
-            res.close();
+             try (ResultSet res = pstm.executeQuery()) {
+                 res.next();
+                 registros = res.getInt("total");
+             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
             //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,10 +49,10 @@ public class Tarifa_Estandar {
         int registros = 0;
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT count(1) as total FROM Tarifa_Estandar");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registros = res.getInt("total");
-            res.close();
+            try (ResultSet res = pstm.executeQuery()) {
+                res.next();
+                registros = res.getInt("total");
+            }
         }catch(SQLException ex){
             //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -105,14 +101,14 @@ public class Tarifa_Estandar {
      */
     public void crearTarifa(float Cuadrilla, float Flete, String Materia_Prima, String Fecha_I, String Fecha_F) throws SQLException{
         try {
-            PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio, Fecha_Final) values(?,?,?,?,?)");
-            pstm.setFloat(1, Cuadrilla);
-            pstm.setFloat(2, Flete);
-            pstm.setString(3, Materia_Prima);
-            pstm.setString(4, Fecha_I);
-            pstm.setString(5, Fecha_F);
-            pstm.execute();
-            pstm.close();
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO Tarifa_Estandar(Cuadrilla, Flete, Materia_Prima, Fecha_Inicio, Fecha_Final) values(?,?,?,?,?)")) {
+                pstm.setFloat(1, Cuadrilla);
+                pstm.setFloat(2, Flete);
+                pstm.setString(3, Materia_Prima);
+                pstm.setString(4, Fecha_I);
+                pstm.setString(5, Fecha_F);
+                pstm.execute();
+            }
             actualizarTarifas_Proveedores();
         } catch (SQLException ex) {
             //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,17 +120,16 @@ public class Tarifa_Estandar {
      * Este método permite actualizar la tarifa estandar a todos aquellos proveedores que estén asignados a la tarifa estándar.
      */
     private void actualizarTarifas_Proveedores(){
-        float Cuadrilla, Flete;
-        Object[] data = new Object[3];
+        Object[] data;
         try {
             data = obtenerUltimaTarifa();
-            PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Cuadrilla = ?, Flete = ?, Cod_Tarifa = ? where Cod_Tarifa != ?");
-            pstm.setFloat(1, Float.parseFloat(data[1].toString()));
-            pstm.setFloat(2, Float.parseFloat(data[2].toString()));
-            pstm.setInt(3, Integer.parseInt(data[0].toString()));
-            pstm.setInt(4, 0);
-            pstm.execute();
-            pstm.close();
+            try (PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE proveedor set Cuadrilla = ?, Flete = ?, Cod_Tarifa = ? where Cod_Tarifa != ?")) {
+                pstm.setFloat(1, Float.parseFloat(data[1].toString()));
+                pstm.setFloat(2, Float.parseFloat(data[2].toString()));
+                pstm.setInt(3, Integer.parseInt(data[0].toString()));
+                pstm.setInt(4, 0);
+                pstm.execute();
+            }
         } catch (SQLException ex) {
             //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -152,12 +147,12 @@ public class Tarifa_Estandar {
             pstm_busqueda.setString(1, "VIGENTE");
             ResultSet res = pstm_busqueda.executeQuery();
             if(res.next()){
-                PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Tarifa_Estandar set Estado = ?, Fecha_Final = ? where Estado = ?");
-                pstm.setString(1, "NO VIGENTE");
-                pstm.setString(2, fecha);
-                pstm.setString(3, "VIGENTE");
-                pstm.execute();
-                pstm.close();
+                try (PreparedStatement pstm = con.getConnection().prepareStatement("UPDATE Tarifa_Estandar set Estado = ?, Fecha_Final = ? where Estado = ?")) {
+                    pstm.setString(1, "NO VIGENTE");
+                    pstm.setString(2, fecha);
+                    pstm.setString(3, "VIGENTE");
+                    pstm.execute();
+                }
             }
         } catch (SQLException ex) {
             //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,13 +169,13 @@ public class Tarifa_Estandar {
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_Tarifa, Cuadrilla, Flete FROM Tarifa_Estandar where Estado = ?");
             pstm.setString(1, "VIGENTE");
-            ResultSet res = pstm.executeQuery();
-            while(res.next()){
-                data[0] = res.getInt("Cod_Tarifa");
-                data[1] = res.getFloat("Cuadrilla");
-                data[2] = res.getFloat("Flete");
+            try (ResultSet res = pstm.executeQuery()) {
+                while(res.next()){
+                    data[0] = res.getInt("Cod_Tarifa");
+                    data[1] = res.getFloat("Cuadrilla");
+                    data[2] = res.getFloat("Flete");
+                }
             }
-            res.close();
         }catch(SQLException ex){
             //Logger.getLogger(Tarifa_Estandar.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);

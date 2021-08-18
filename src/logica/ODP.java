@@ -1,21 +1,23 @@
 package logica;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.HeadlessException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -27,19 +29,25 @@ public class ODP {
     /**
      * El objeto conectate nos permite tener una conexión con la base de datos.
      */
-    private conectate con;
+    private final conectate con;
     //=========================================================================
-    private Tasa_USD tasa_USD = new Tasa_USD();
-    private transacciones objetoTransacciones = new transacciones();
-    private Proveedor_Beneficiario PB = new Proveedor_Beneficiario();
-    private beneficiarios objetoBeneficiario = new beneficiarios();
-    private anticipos objetoAnticipo = new anticipos();
-    private Pago_Transaccion objetoPago_Transaccion = new Pago_Transaccion();
+    private final Tasa_USD tasa_USD;
+    private final transacciones objetoTransacciones;
+    private final Proveedor_Beneficiario PB;
+    private final beneficiarios objetoBeneficiario;
+    private final anticipos objetoAnticipo;
+    //private final Pago_Transaccion objetoPago_Transaccion;
     
     /**
      * Constructor de la clase ODP. Únicamente inicializamos el objeto de conexión con la base de datos.
      */
     public ODP(){
+        this.tasa_USD = new Tasa_USD();
+        this.objetoTransacciones = new transacciones();
+        this.objetoBeneficiario = new beneficiarios();
+        this.PB = new Proveedor_Beneficiario();
+        this.objetoAnticipo = new anticipos();
+        //this.objetoPago_Transaccion = new Pago_Transaccion();
         con = new conectate();
     }
     
@@ -51,7 +59,7 @@ public class ODP {
         
         int registros = 0; //CANTIDAD DE REGISTROS
         
-        ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
+        ArrayList<Integer> codigos_Proveedores = new ArrayList<>();
         /*
             PRIMERO, AGRUPAMOS CUANTAS TRANSACCIONES HAY POR CADA PROVEEDOR
             PERO AL FINAL, NO IMPORTA CUANTAS TENGA CADA UNO
@@ -69,7 +77,7 @@ public class ODP {
                 codigos_Proveedores.add(codigo);
             }
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         /*
             AHORA, IREMOS ITERANDO POR CADA PROVEEDOR
@@ -95,12 +103,11 @@ public class ODP {
             double[][] cuadrilla = this.ODP_Cuadrilla(semana, codigos_Proveedores.get(i));
             double[][] flete = this.ODP_Flete(semana, codigos_Proveedores.get(i));
             double[][] peaje = this.ODP_Peaje(semana, codigos_Proveedores.get(i));
-            double tasaUSD = tasa_USD.tasaSemana(semana);
-            float[] montosKg_Brutos_Netos = objetoTransacciones.cantidadKG_Brutos_Netos_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
+            //float[] montosKg_Brutos_Netos = objetoTransacciones.cantidadKG_Brutos_Netos_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
             Date fecha_Actual = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dddd HH:mm:ss");
             String fecha_formateada = sdf.format(fecha_Actual);
-            int cantidad_viajes = objetoTransacciones.cantidadViajes_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
+            //int cantidad_viajes = objetoTransacciones.cantidadViajes_PorProveedor_Semana(codigos_Proveedores.get(i), semana);
             double[] montos_anticipos = objetoAnticipo.anticipos_Proveedor_Semana(semana, codigos_Proveedores.get(i));
             double anticipo_BS = montos_anticipos[0];
             double anticipo_DS = montos_anticipos[1];
@@ -111,87 +118,92 @@ public class ODP {
             
             //DESPUES DE HABER CALCULADO TODO, CREAMOS ESTE REGISTRO EN LA SEMANA
             try{
-                PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO ODP(Cod_DelProveedor, Fecha, Semana, Acumulado_MP_BS, Acumulado_MP_DS, Acumulado_Cuadrilla_BS, Acumulado_Cuadrilla_DS, Acumulado_Flete_BS, Acumulado_Flete_DS, Acumulado_Peaje_BS, Acumulado_Peaje_DS, Acumulado_Anticipo_BS, Acumulado_Anticipo_DS, Total_BS, Total_DS) "
-                        + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                pstm.setInt(1, codigos_Proveedores.get(i));
-                pstm.setString(2, fecha_formateada);
-                pstm.setString(3, semana);
-                pstm.setDouble(4, materiaPrima[0][1]);  //BS
-                pstm.setDouble(5, materiaPrima[0][0]);  //DS
-                pstm.setDouble(6, cuadrilla[0][1]);     //BS
-                pstm.setDouble(7, cuadrilla[0][0]);     //DS
-                pstm.setDouble(8, flete[0][1]);         //BS
-                pstm.setDouble(9, flete[0][0]);         //DS
-                pstm.setDouble(10, peaje[0][1]);        //BS
-                pstm.setDouble(11, peaje[0][0]);        //DS
-                pstm.setDouble(12, anticipo_BS);        //BS
-                pstm.setDouble(13, anticipo_DS);        //DS
-                pstm.setDouble(14, total_BS);
-                pstm.setDouble(15, total_DS);
-                pstm.execute();
-                pstm.close();
+                try (PreparedStatement pstm = con.getConnection().prepareStatement("INSERT INTO ODP(Cod_DelProveedor, Fecha, Semana, Acumulado_MP_BS, Acumulado_MP_DS, Acumulado_Cuadrilla_BS, Acumulado_Cuadrilla_DS, Acumulado_Flete_BS, Acumulado_Flete_DS, Acumulado_Peaje_BS, Acumulado_Peaje_DS, Acumulado_Anticipo_BS, Acumulado_Anticipo_DS, Total_BS, Total_DS) "
+                        + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
+                    pstm.setInt(1, codigos_Proveedores.get(i));
+                    pstm.setString(2, fecha_formateada);
+                    pstm.setString(3, semana);
+                    pstm.setDouble(4, materiaPrima[0][1]);  //BS
+                    pstm.setDouble(5, materiaPrima[0][0]);  //DS
+                    pstm.setDouble(6, cuadrilla[0][1]);     //BS
+                    pstm.setDouble(7, cuadrilla[0][0]);     //DS
+                    pstm.setDouble(8, flete[0][1]);         //BS
+                    pstm.setDouble(9, flete[0][0]);         //DS
+                    pstm.setDouble(10, peaje[0][1]);        //BS
+                    pstm.setDouble(11, peaje[0][0]);        //DS
+                    pstm.setDouble(12, anticipo_BS);        //BS
+                    pstm.setDouble(13, anticipo_DS);        //DS
+                    pstm.setDouble(14, total_BS);
+                    pstm.setDouble(15, total_DS);
+                    pstm.execute();
+                }
                 objetoTransacciones.cerrarTransacciones(semana);
             }catch(SQLException ex){
-                Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } 
     }
+    
     
     /**
      * Este método permite vincular las transacciones de una semana con la ODP que le corresponda.
      * @param semana. La semana de las transacciones y la ODP.
      */
+    /*
     private void vincularTransacciones(String semana){
-        ArrayList<Integer> codigosODP = new ArrayList<Integer>();
+        ArrayList<Integer> codigosODP = new ArrayList<>();
         int registros = 0;
         try{
-            /*
-                Debo hacer este proceso por cada ODP generada
-                Busco el codigo de las ODP agrupada por el mismo codigo.
-            */
+            
+                //Debo hacer este proceso por cada ODP generada
+                //Busco el codigo de las ODP agrupada por el mismo codigo.
+            
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Cod_ODP FROM ODP WHERE Semana =  ? Group By Cod_ODP");
             pstm.setString(1, semana);
-            ResultSet res = pstm.executeQuery();
-            while(res.next()){
-                //En donde haya encontrado un registro, guardo ese codigo en el ArrayList
-                //Y ademas, sumo que hay un registro mas
-                int codigo = res.getInt("Cod_ODP");
-                codigosODP.add(codigo);
-                registros++;
+            try (ResultSet res = pstm.executeQuery()) {
+                while(res.next()){
+                    //En donde haya encontrado un registro, guardo ese codigo en el ArrayList
+                    //Y ademas, sumo que hay un registro mas
+                    int codigo = res.getInt("Cod_ODP");
+                    codigosODP.add(codigo);
+                    registros++;
+                }
             }
-            res.close();
             //Culminado el proceso, realizo un for desde el primer registro hasta el ultimo que se haya realizado
             for(int i = 0; i < registros; i++){
-                /*
-                    En cada orden de pago, debo buscar primero a quien le pertenece esa ODP
-                    Seleccionamos el codigo del proveedor donde el codigo de ODP sea igual al que se encuentra en el ArrayList en esta posicion
-                */
+                
+                //En cada orden de pago, debo buscar primero a quien le pertenece esa ODP
+                //Seleccionamos el codigo del proveedor donde el codigo de ODP sea igual al que se encuentra en el ArrayList en esta posicion
+                
                 PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT Cod_DelProveedor FROM ODP WHERE Cod_ODP = ?");
                 pstm2.setInt(1, codigosODP.get(i));
-                ResultSet res2 = pstm2.executeQuery();
+                int cod_Proveedor;
                 //Despues guardamos en una variable cual es el codigo de proveedor de esta ODP
-                res2.next();
-                int cod_Proveedor = res2.getInt("Cod_DelProveedor");
-                res2.close();
+                try (ResultSet res2 = pstm2.executeQuery()) {
+                    //Despues guardamos en una variable cual es el codigo de proveedor de esta ODP
+                    res2.next();
+                    cod_Proveedor = res2.getInt("Cod_DelProveedor");
+                }
                 //Una vez realizado esto, buscamos todas las transacciones que se han hecho por este proveedor en la semana de la ODP
                 PreparedStatement pstm3 = con.getConnection().prepareStatement(
                         " SELECT ID_Transaccion, Codigo_Proveedor FROM transacciones " + 
                         " WHERE transacciones.Codigo_Proveedor = ? AND transacciones.Semana = ?");
                 pstm3.setInt(1, cod_Proveedor);
                 pstm3.setString(2, semana);
-                ResultSet res3 = pstm3.executeQuery();
-                while(res3.next()){
-                    //Por cada transaccion donde sea a ese proveedor y en esa semana de la ODP
-                    //Debemos mandar a hacer una relacion en la tabla de Pago_Transaccion
-                    //Le mandamos dos parametros, el codigo de ODP y el ID de la transaccion 
-                    objetoPago_Transaccion.crearRelacion(codigosODP.get(i), res3.getInt("ID_Transaccion"));
+                try (ResultSet res3 = pstm3.executeQuery()) {
+                    while(res3.next()){
+                        //Por cada transaccion donde sea a ese proveedor y en esa semana de la ODP
+                        //Debemos mandar a hacer una relacion en la tabla de Pago_Transaccion
+                        //Le mandamos dos parametros, el codigo de ODP y el ID de la transaccion
+                        objetoPago_Transaccion.crearRelacion(codigosODP.get(i), res3.getInt("ID_Transaccion"));
+                    }
                 }
-                res3.close();
             }
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
+    */
     
     /**
      * Verifica si las ODP de una semana han sido ya generadas.
@@ -209,7 +221,7 @@ public class ODP {
                 }
             }
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return condicion;
     }
@@ -222,7 +234,7 @@ public class ODP {
     public Object[][] getDatos(String semana){
         int registros = 0;
         
-        ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
+        //ArrayList<Integer> codigos_Proveedores = new ArrayList<>();
         /*
             PRIMERO, AGRUPAMOS CUANTAS TRANSACCIONES HAY POR CADA PROVEEDOR
             PERO AL FINAL, NO IMPORTA CUANTAS TENGA CADA UNO
@@ -230,18 +242,14 @@ public class ODP {
             TUVIERON ACCIONES EN CIERTA SEMANA
         */
         try{
-            int codigo;
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
             pstm.setString(1, semana);
             ResultSet res = pstm.executeQuery();
             while(res.next()){
-                registros++;
-                codigo = res.getInt("Codigo_Proveedor");
-                codigos_Proveedores.add(codigo);
-                System.out.println(codigo);
+                registros++;  
             }
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         Object[][] data = new Object[registros][16];
         try{
@@ -287,7 +295,7 @@ public class ODP {
                 i++;
             }
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }
@@ -300,14 +308,13 @@ public class ODP {
      * @return Devuelve en una <i>matriz</i> de tipo <i>double</i>, los montos de Materia Prima en BS y DS que tenga este proveedor en una cierta semana.
      */
     public double[][] generarODP_Materia_Prima(String semana, int codigo){
-        float cantidad = 0;
-        double cantidad_BS = 0;
+        float cantidad;
+        double cantidad_BS;
         double valorTasa_USD = tasa_USD.tasaSemana(semana);
         double[][] cantidad_por_proveedores = new double[1][2];
         try{
             for(int i = 0; i < 1; i++){
-                cantidad  = 0;
-                cantidad_BS = 0;
+                cantidad = 0;
                 PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Materia_Prima, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, boleto.Kg_Netos, boleto.Materia_S, Tasa_Precios.En_Planta, Tasa_Precios.Materia_Seca, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Materia_Prima "
                         + " FROM proveedor, boleto, transacciones, Tasa_Precios "
                         + " WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND "
@@ -337,7 +344,7 @@ public class ODP {
                 //System.out.println(cantidad_por_proveedores[i][0]);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return cantidad_por_proveedores;
     }
@@ -347,9 +354,7 @@ public class ODP {
      * @return Devuelve un <i>ArrayList</i> de tipo <i>String</i> que aloja todas semanas en las que ha habido transacciones.
      */
     public ArrayList<String> semanasTransacciones(){
-        ArrayList<String> semanas = new ArrayList<String>();
-        int cantidad_semanas = 0;
-        String semana = "";
+        ArrayList<String> semanas = new ArrayList<>();
         try{
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Semana FROM transacciones GROUP BY Semana");
             ResultSet res = pstm.executeQuery();
@@ -357,7 +362,7 @@ public class ODP {
                 semanas.add(res.getString("Semana"));
             }
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return semanas;
     }
@@ -370,14 +375,13 @@ public class ODP {
      * @return Devuelve en una <i>matriz</i> de tipo <i>double</i>, los montos de Cuadrilla en BS y DS que tenga este proveedor en una cierta semana.
      */
     public double[][] ODP_Cuadrilla (String semana, int codigo) {
-        float cantidad = 0;
-        double cantidad_BS = 0;
+        float cantidad;
+        double cantidad_BS;
         double valorTasa_USD = tasa_USD.tasaSemana(semana);
         double[][] cantidad_por_proveedores = new double[1][2];
         try{
             for(int i = 0; i <1; i++){
                 cantidad  = 0;
-                cantidad_BS = 0;
                 PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Cuadrilla, boleto.Codigo_Boleto, boleto.Kg_Netos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Cuadrilla as Cuadrilla_Proveedor "
                         + " FROM proveedor, boleto, transacciones "
                         + " WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND "
@@ -404,7 +408,7 @@ public class ODP {
                 //System.out.println(cantidad_por_proveedores[i][0]);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return cantidad_por_proveedores;
     }
@@ -417,14 +421,13 @@ public class ODP {
      * @return Devuelve en una <i>matriz</i> de tipo <i>double</i>, los montos de Flete en BS y DS que tenga este proveedor en una cierta semana.
      */
     public double[][] ODP_Flete (String semana, int codigo) {
-        float cantidad = 0;
-        double cantidad_BS = 0;
+        float cantidad;
+        double cantidad_BS;
         double valorTasa_USD = tasa_USD.tasaSemana(semana);
         double[][] cantidad_por_proveedores = new double[1][2];
         try{
             for(int i = 0; i < 1; i++){
                 cantidad  = 0;
-                cantidad_BS = 0;
                 PreparedStatement pstm2 = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Flete, boleto.Codigo_Boleto, boleto.Kg_Brutos, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Flete as Flete_Proveedor "
                         + " FROM proveedor, boleto, transacciones "
                         + " WHERE transacciones.Codigo_Proveedor = proveedor.Codigo AND "
@@ -451,7 +454,7 @@ public class ODP {
                 //System.out.println(cantidad_por_proveedores[i][0]);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return cantidad_por_proveedores;
     }
@@ -464,15 +467,13 @@ public class ODP {
      * @return Devuelve en una <i>matriz</i> de tipo <i>double</i>, los montos de Peaje en BS y DS que tenga este proveedor en una cierta semana.
      */
     public double[][] ODP_Peaje(String semana, int codigo){
-        double cantidad = 0;
-        double cantidad_BS = 0;
+        double cantidad;
+        double cantidad_BS;
         double valorTasa_USD = tasa_USD.tasaSemana(semana);
         double[][] cantidad_por_proveedores = new double[1][2];
         try{
             for(int i = 0; i < 1; i++){
                 int peaje = 0;
-                cantidad = 0;
-                cantidad_BS = 0;
                 int cantidad_boletos = 0;
                 PreparedStatement pstm = con.getConnection().prepareStatement("SELECT transacciones.ID_Transaccion, transacciones.Num_Boleto, transacciones.Semana, transacciones.Estado_Transaccion, transacciones.Codigo_Proveedor, transacciones.Peaje, boleto.Codigo_Boleto, proveedor.Codigo, proveedor.Razon_Social, proveedor.Identificacion, proveedor.Peaje as Peaje_Proveedor " +
                         " FROM proveedor, boleto, transacciones " +
@@ -497,7 +498,7 @@ public class ODP {
             }
             
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return cantidad_por_proveedores;
     }
@@ -543,13 +544,13 @@ public class ODP {
     /**
      * Permite generar la plantilla de pago en la moneda de BS de toda una semana.
      * @param semana. Parámetro de la semana en dónde se desea generar la plantilla de pago.
-     * @return. Devuelve toda una <i>matriz</i> de tipo <i>Objeto</i>, en la cual se alojan todos los datos de la plantilla de pago.
+     * @return Devuelve toda una <i>matriz</i> de tipo <i>Objeto</i>, en la cual se alojan todos los datos de la plantilla de pago.
      * @throws SQLException 
      */
     public Object[][] plantillaPagoBS(String semana) throws SQLException{
         int registros = 0;
         
-        ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
+        ArrayList<Integer> codigos_Proveedores = new ArrayList<>();
         /*
             PRIMERO, AGRUPAMOS CUANTAS TRANSACCIONES HAY POR CADA PROVEEDOR
             PERO AL FINAL, NO IMPORTA CUANTAS TENGA CADA UNO
@@ -567,7 +568,7 @@ public class ODP {
                 codigos_Proveedores.add(codigo);
             }
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         Object[][] data = new Object[registros][17];
         /*
@@ -639,13 +640,13 @@ public class ODP {
     /**
      * Permite generar la plantilla de pago en la moneda de DS de toda una semana.
      * @param semana. Parámetro de la semana en dónde se desea generar la plantilla de pago.
-     * @return. Devuelve toda una <i>matriz</i> de tipo <i>Objeto</i>, en la cual se alojan todos los datos de la plantilla de pago.
+     * @return Devuelve toda una <i>matriz</i> de tipo <i>Objeto</i>, en la cual se alojan todos los datos de la plantilla de pago.
      * @throws SQLException 
      */
     public Object[][] plantillaPagoDS(String semana) throws SQLException{
         int registros = 0;
         
-        ArrayList<Integer> codigos_Proveedores = new ArrayList<Integer>();
+        ArrayList<Integer> codigos_Proveedores = new ArrayList<>();
         /*
             PRIMERO, AGRUPAMOS CUANTAS TRANSACCIONES HAY POR CADA PROVEEDOR
             PERO AL FINAL, NO IMPORTA CUANTAS TENGA CADA UNO
@@ -663,7 +664,7 @@ public class ODP {
                 codigos_Proveedores.add(codigo);
             }
         }catch(SQLException ex){
-            Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         Object[][] data = new Object[registros][17];
         /*
@@ -777,7 +778,6 @@ public class ODP {
            tabla.addCell("Total a Pagar BS");
            int registros = 0;
            try{
-            int codigo;
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
             pstm.setString(1, semana);
             ResultSet res = pstm.executeQuery();
@@ -786,7 +786,7 @@ public class ODP {
             }
                 System.out.println(registros);
             }catch(SQLException ex){
-                Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
             }  
             for(int i = 0; i < registros; i++){
                 tabla.addCell(datos[i][0].toString());
@@ -809,8 +809,8 @@ public class ODP {
             }
             documento.add(tabla);
             documento.close();
-        }catch(Exception ex){
-           Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(DocumentException | HeadlessException | FileNotFoundException | SQLException ex){
+           JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     } 
     
@@ -859,7 +859,6 @@ public class ODP {
            tabla.addCell("Total a Pagar DS");
            int registros = 0;
            try{
-            int codigo;
             PreparedStatement pstm = con.getConnection().prepareStatement("SELECT Codigo_Proveedor FROM transacciones WHERE Semana = ? GROUP BY Codigo_Proveedor");
             pstm.setString(1, semana);
             ResultSet res = pstm.executeQuery();
@@ -867,7 +866,7 @@ public class ODP {
                 registros++;
             }
             }catch(SQLException ex){
-                Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
             }  
             for(int i = 0; i < registros; i++){
                 tabla.addCell(datos[i][0].toString());
@@ -890,8 +889,8 @@ public class ODP {
             }
             documento.add(tabla);
             documento.close();
-        }catch(Exception ex){
-           Logger.getLogger(ODP.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(DocumentException | HeadlessException | FileNotFoundException | SQLException ex){
+           JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

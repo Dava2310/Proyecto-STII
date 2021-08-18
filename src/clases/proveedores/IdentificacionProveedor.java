@@ -171,12 +171,22 @@ public class IdentificacionProveedor extends javax.swing.JFrame {
                     String tipoIdentificacion = TipoCedula.getSelectedItem().toString();
                     String identificacion_completa = tipoIdentificacion + identificacion;
                     try {
-                        if(p.buscarIdentificacion(identificacion_completa)){
-                            condicion = false;
-                            Cedulatxt.setBorder(borde_rojo);
-                            JOptionPane.showMessageDialog(null, "YA HAY UN PROVEEDOR REGISTRADO CON ESTA IDENTIFICACION", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        } else if(!p.buscarIdentificacion(identificacion_completa)){
-                            Cedulatxt.setBorder(borde_default);
+                        if(modo == 1){
+                            if(p.buscarIdentificacion(identificacion_completa)){ 
+                                condicion = false;
+                                Cedulatxt.setBorder(borde_rojo);
+                                JOptionPane.showMessageDialog(null, "YA HAY UN PROVEEDOR REGISTRADO CON ESTA IDENTIFICACION", "ERROR", JOptionPane.ERROR_MESSAGE); 
+                            } else if(!p.buscarIdentificacion(identificacion_completa)){
+                                Cedulatxt.setBorder(borde_default);
+                            }
+                        } else if(modo == 2){
+                            if(p.buscarProveedorActivo(identificacion_completa)){
+                                Cedulatxt.setBorder(borde_default);
+                            } else if(!p.buscarProveedorActivo(identificacion_completa) || !p.buscarIdentificacion(identificacion_completa)){
+                                condicion = false;
+                                Cedulatxt.setBorder(borde_rojo);
+                                JOptionPane.showMessageDialog(null, "ESTE PROVEEDOR NO ESTA REGISTRADO O ACTIVO EN EL SISTEMA", "ERROR", JOptionPane.ERROR_MESSAGE); 
+                            }
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(IdentificacionProveedor.class.getName()).log(Level.SEVERE, null, ex);
